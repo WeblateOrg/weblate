@@ -114,6 +114,7 @@ Weblate 2026.12
 * Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
 * Isolated Git merges and rebases in temporary worktrees so conflicts leave the live checkout available for :ref:`repository operations <repository-maintenance>`.
+* Retry initial repository clones and Git default branch detection after :ref:`adding a first-seen SSH host key <verify-ssh>`.
 * Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.

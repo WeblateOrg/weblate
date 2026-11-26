@@ -49,7 +49,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.outbound import get_environment_proxy
-from weblate.vcs.ssh import SSH_WRAPPER
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable, Iterator
@@ -860,6 +860,26 @@ def should_auto_add_ssh_host_key(errormessage: str) -> bool:
     ) and not is_ssh_host_key_mismatch_error(errormessage)
 
 
+def try_add_ssh_host_key(
+    target: ResolvedRepositoryURL | None, error: RepositoryError
+) -> bool:
+    """Scan the validated SSH destination after a first-use failure."""
+    if (
+        target is None
+        or target.scheme != "ssh"
+        or not should_auto_add_ssh_host_key(error.get_message())
+    ):
+        return False
+    add_host_key(
+        None,
+        target.hostname,
+        target.port,
+        restrict_private=target.requires_pinning,
+        validated_addresses=target.addresses if target.requires_pinning else None,
+    )
+    return True
+
+
 class Repository:
     """Basic repository object."""
 
@@ -1488,7 +1508,12 @@ class Repository:
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
         target = self.validate_pull_url(source)
-        self._clone_resolved(source, self.path, self.branch, target)
+        try:
+            self._clone_resolved(source, self.path, self.branch, target)
+        except RepositoryCommandError as error:
+            if not try_add_ssh_host_key(target, error):
+                raise
+            self._clone_resolved(source, self.path, self.branch, target)
 
     @classmethod
     def clone(
