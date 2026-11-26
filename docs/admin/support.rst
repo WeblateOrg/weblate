@@ -148,16 +148,19 @@ subscription, but it registers the Discover Weblate listing; activating a
 purchased support package is handled by :ref:`activate-support`.
 Unlinking the support package disables the Discover Weblate listing.
 
-All steps for listing a server manually, for example from older Weblate
-versions:
+You can also start from **Add yours** on the Discover page and follow the link
+to your instance's management interface.
 
-1. Register yourself at https://weblate.org/user/
-2. Register your Weblate site at https://weblate.org/subscription/discovery/
-3. Copy the activation token into your Weblate management interface.
-4. Confirm you want your Weblate listed by clicking
-   :guilabel:`Enable discovery` from the :guilabel:`Discover Weblate` panel:
+.. versionchanged:: 2026.12
 
-.. image:: /screenshots/support-discovery.webp
+   Upgrade to Weblate 2026.12 or later to register a new listing. Existing
+   listings can continue reporting from their current Weblate version at
+   the same URL.
+
+After you enable discovery, weblate.org checks a verification endpoint on your
+instance over HTTPS. Make sure your public HTTPS address and the
+``.well-known/weblate-discovery/`` path under your Weblate installation are
+reachable.
 
 .. _customize-discover:
 
