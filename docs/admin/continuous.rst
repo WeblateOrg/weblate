@@ -336,6 +336,20 @@ language synchronization and cleanup are described in
      - Removes obsolete strings from one PO translation file.
      - Run a one-time PO cleanup without enabling automatic obsolete string removal.
 
+Before merging or rebasing, Weblate attempts to commit pending translations if
+upstream changes affect configured translation files. Git merges and rebases
+run in a temporary worktree. If they conflict, the current translations
+stay available and the component alert shows the conflict. The live checkout
+must have a clean index and working tree for tracked files. If the update
+reports remaining changes, review the listed files and commit or restore them
+before retrying. An untracked or ignored file that would be overwritten also
+blocks the update. Git-SVN updates use Git-SVN's own rebase workflow.
+
+If Git is interrupted while installing the result, Weblate verifies that the
+new commit is fully checked out. If verification fails, preserve any local
+files you need, then use
+:guilabel:`Reset and reapply translations` to repair the checkout.
+
 For Git repositories, both reset actions affect only the configured
 :ref:`component-branch`. They do not reset or remove other local branches.
 :guilabel:`Cleanup` deletes all other local branches, including any commits

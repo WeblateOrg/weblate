@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if pagination.page.has_other_pages %}
+  <nav aria-label="{{ label }}" class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    {% if pagination.previous %}
+      <a class="btn btn-outline-secondary" href="{{ pagination.previous }}">{% translate "Previous page" %}</a>
+    {% endif %}
+    {% blocktranslate with number=pagination.page.number total=pagination.page.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}
+    {% if pagination.next %}
+      <a class="btn btn-outline-secondary" href="{{ pagination.next }}">{% translate "Next page" %}</a>
+    {% endif %}
+  </nav>
+{% endif %}

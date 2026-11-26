@@ -36,6 +36,7 @@ Weblate 2026.12
 * Reduced :ref:`Sentry trace sampling <sentry-integration>` for routine requests and statistics updates.
 * Upgraded the :ref:`Sentry integration <sentry-integration>` to Python SDK 3 with streamed spans and trace-linked profiling.
 
+* Added :ref:`GitHub App migration tools <code-hosting-github-app-migrate>` for site administrators, project administrators, and workspace owners. Paginated connection and repository listings.
 * Select components directly in the :ref:`GitHub App migration table <code-hosting-github-app-migrate>` and return to them after migration.
 * Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
 
@@ -84,6 +85,7 @@ Weblate 2026.12
 .. rubric:: Security fixes
 
 * Protected translation file operations, :ref:`downloads <download>`, and :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` extraction against races with concurrent repository updates.
+* Prevented :ref:`Mercurial <vcs-mercurial>` from using metadata in leftover Git checkouts and cleaned up remote checkouts created by failed API component validation.
 * Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
@@ -102,6 +104,7 @@ Weblate 2026.12
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
+* Fixed a regular expression denial of service in :ref:`Azure Repos webhooks <code-hosting-azure-repos-notifications>`.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 * Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
@@ -109,7 +112,10 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
+* Isolated Git merges and rebases in temporary worktrees so conflicts leave the live checkout available for :ref:`repository operations <repository-maintenance>`.
+* Retry initial repository clones and Git default branch detection after :ref:`adding a first-seen SSH host key <verify-ssh>`.
 * Report invalid SMTP recipient addresses in :setting:`ADMINS` during :ref:`deployment checks <production-admins>`.
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.

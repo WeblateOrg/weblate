@@ -84,7 +84,9 @@ from weblate.utils.state import (
 )
 from weblate.utils.tests.network import mock_dns
 from weblate.vcs.base import (
+    RepositoryCommandError,
     RepositoryError,
+    RepositoryInternalError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
     RepositoryTemplateError,
@@ -92,6 +94,7 @@ from weblate.vcs.base import (
 from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.worktree import GitUpdateWorktree, Publication
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -1842,6 +1845,54 @@ class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
         self.assertNotIn("disk_state", unit.details)
 
 
+class ComponentBranchUpdateTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.clone_test_repos()
+
+    def test_pull_can_fetch_fix_for_invalid_published_template(self) -> None:
+        component = self.create_json_mono()
+        actor = get_test_actor(self)
+        self.assertTrue(connection.get_autocommit())
+        initial_revision = component.processed_revision
+        with TemporaryDirectory() as workdir, acting_user_context(actor):
+            upstream = GitRepository.clone(
+                self.format_test_repo_url(self.git_repo_path), workdir, component.branch
+            )
+            template = pathlib.Path(workdir, component.template)
+            with upstream.lock:
+                template.write_text("{", encoding="utf-8")
+                upstream.commit("Break template", files=[component.template])
+                broken_revision = upstream.get_last_revision()
+                upstream.push("")
+            component = Component.objects.get(pk=component.pk)
+            with self.assertRaises(FileParseError):
+                component.do_update()
+            component.refresh_from_db()
+            self.assertEqual(component.local_revision, broken_revision)
+            self.assertEqual(component.processed_revision, initial_revision)
+
+            with upstream.lock:
+                template.write_text(
+                    '{"recovered": "Recovered source"}', encoding="utf-8"
+                )
+                upstream.commit("Fix template", files=[component.template])
+                fixed_revision = upstream.get_last_revision()
+                upstream.push("")
+            component = Component.objects.get(pk=component.pk)
+            self.assertTrue(component.do_update())
+        component.refresh_from_db()
+        self.assertEqual(component.local_revision, fixed_revision)
+        self.assertEqual(
+            component.processed_revision, component.versioned_revision(fixed_revision)
+        )
+        self.assertTrue(
+            component.source_translation.unit_set.filter(
+                source="Recovered source"
+            ).exists()
+        )
+
+
 class ComponentHistoryMoveTest(RepoTestMixin, TransactionTestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -2761,8 +2812,18 @@ class ComponentPushOnUpdateTest(RepoTestCase):
 
     def test_pushes_by_default(self) -> None:
         self.add_upstream_commit(translation=False)
-        self.assertTrue(self.component.do_update())
+        previous_head = self.component.repository.last_revision
+        actor = get_test_actor(self)
+        with acting_user_context(actor), self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(self.component.do_update())
         self.assertFalse(self.component.repo_needs_push())
+        merge = self.component.change_set.get(
+            action=ActionEvents.MERGE,
+            details__previous_head=previous_head,
+        )
+        self.assertEqual(merge.user, actor)
+        self.assertEqual(merge.author, actor)
+        self.assertEqual(merge.details["new_head"], self.component.local_revision)
 
     def test_upstream_change_does_not_push(self) -> None:
         self.disable_push_on_update()
@@ -4424,6 +4485,140 @@ class LastCommitLookupTest(ComponentTestCase):
 
 
 class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_worktree_conflicts_leave_live_translation_downloadable(self) -> None:
+        repo = self.component.repository
+        root = pathlib.Path(repo.path)
+        conflict = root / "worktree-conflict.txt"
+        script = root / "worktree-script.bat"
+        attributes = root / ".gitattributes"
+        with repo.lock:
+            branch = repo.get_current_branch()
+            conflict.write_text("Base\n")
+            script.write_bytes(b"Base script\r\n")
+            with attributes.open("a", encoding="utf-8") as handle:
+                handle.write(f"\n/{script.name} -text\n")
+            repo.commit(
+                "Common base", files=[conflict.name, script.name, attributes.name]
+            )
+            repo.execute(["checkout", "--detach"], remote_op="none")
+            conflict.write_text("Upstream\n")
+            repo.commit("Upstream change", files=[conflict.name])
+            repo.execute(
+                ["update-ref", f"refs/remotes/{repo.get_remote_branch_name()}", "HEAD"],
+                remote_op="none",
+            )
+            repo.execute(["checkout", branch], remote_op="none")
+            conflict.write_text("Local\n")
+            script.write_bytes(b"Local script\r\n")
+            repo.commit("Local changes", files=[conflict.name, script.name])
+            original = repo.get_last_revision()
+
+        execute = GitUpdateWorktree.execute
+
+        def reproduce_abort_failure(worktree, args):
+            try:
+                return execute(worktree, args)
+            except RepositoryCommandError:
+                if args[0] == "merge":
+                    with (worktree.checkout / attributes.name).open(
+                        "a", encoding="utf-8"
+                    ) as handle:
+                        handle.write(f"/{script.name} text eol=crlf\n")
+                    scratch_script = worktree.checkout / script.name
+                    scratch_script.write_bytes(scratch_script.read_bytes())
+                    with self.assertRaisesRegex(
+                        RepositoryCommandError,
+                        "Entry 'worktree-script.bat' not uptodate",  # codespell:ignore uptodate
+                    ):
+                        execute(worktree, ["merge", "--abort"])
+                raise
+
+        self.client.force_login(self.user)
+        for method, action in (
+            ("merge", ActionEvents.FAILED_MERGE),
+            ("rebase", ActionEvents.FAILED_REBASE),
+        ):
+            with (
+                self.subTest(method=method),
+                patch.object(GitUpdateWorktree, "execute", reproduce_abort_failure),
+            ):
+                self.assertIsNone(
+                    self.component.update_branch(
+                        method=method, user=self.user, raise_update_errors=False
+                    )
+                )
+                change = self.component.change_set.get(action=action, user=self.user)
+                self.assertIn(conflict.name, change.details["status"])
+                alert = self.component.alert_set.get(name="MergeFailure")
+                self.assertIn(conflict.name, alert.details["error"])
+                self.assertEqual(repo.get_last_revision(), original)
+                self.assertIsNone(repo.get_interrupted_operation())
+                self.assertFalse(GitUpdateWorktree(repo).directory.exists())
+                response = self.client.get(
+                    reverse("download", kwargs=self.kw_translation)
+                )
+                self.addCleanup(response.close)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    b"".join(response.streaming_content),
+                    (root / self.translation.filename).read_bytes(),
+                )
+
+    def test_pull_imports_checkout_that_was_published_before_interruption(self) -> None:
+        repo = self.component.repository
+        worktree = GitUpdateWorktree(repo)
+        root = pathlib.Path(repo.path)
+        with repo.lock:
+            branch = repo.get_current_branch()
+            original = repo.get_last_revision()
+            repo.execute(["checkout", "--detach"], remote_op="none")
+            filename = self.translation.filename
+            with (root / filename).open("a", encoding="utf-8") as handle:
+                handle.write('\nmsgid "Recovered source"\nmsgstr "Recovered target"\n')
+            repo.commit("Upstream change", files=[filename])
+            result = repo.get_last_revision()
+            repo.execute(
+                ["update-ref", f"refs/remotes/{repo.get_remote_branch_name()}", result],
+                remote_op="none",
+            )
+            repo.execute(["checkout", branch], remote_op="none")
+            repo.merge()
+            # Simulate a worker stopping just after Git installed the result.
+            worktree.directory.mkdir(parents=True)
+            worktree.record_publication(Publication(branch, result))
+            self.assertEqual(self.component.local_revision, original)
+        with (
+            patch.object(self.component, "update_remote_branch", return_value=True),
+            patch.object(self.component, "push_if_needed") as push,
+        ):
+            self.assertTrue(self.component.do_update())
+        push.assert_not_called()
+        self.assertFalse(worktree.directory.exists())
+        self.assertEqual(self.component.local_revision, result)
+        self.assertEqual(
+            self.component.processed_revision, self.component.versioned_revision(result)
+        )
+        self.assertEqual(
+            self.translation.unit_set.get(source="Recovered source").target,
+            "Recovered target",
+        )
+
+    def test_branch_update_failure_history_uses_untranslated_message(self) -> None:
+        error = RepositoryInternalError(
+            1, "repository_branch_update_dirty", params={"paths": "README.md"}
+        )
+        with patch(
+            "weblate.trans.models.component.gettext",
+            side_effect=lambda message: f"Localized {message}",
+        ):
+            self.assertTrue(self.component.error_text(error).startswith("Localized "))
+            self.component.record_failed_branch_update(
+                ActionEvents.FAILED_MERGE, error, "previous", self.user
+            )
+        change = self.component.change_set.get(action=ActionEvents.FAILED_MERGE)
+        self.assertEqual(change.target, error.get_message())
+        self.assertEqual(change.details["error"], error.get_message())
+
     def test_invalid_merge_message_does_not_start_or_abort_merge(self) -> None:
         self.component.merge_message = "{% invalid %}"
         self.component.inherit_merge_message = False

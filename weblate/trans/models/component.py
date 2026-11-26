@@ -213,6 +213,7 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
     RepositorySymlinkError,
     RepositoryTemplateError,
+    RepositoryWorktreeError,
     get_repository_error_diagnoses,
     is_possible_checkout_error,
     is_ssh_host_key_mismatch_error,
@@ -1879,7 +1880,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @contextmanager
     def locked_for_update(
-        self, *, queryset: ComponentQuerySet | None = None
+        self,
+        *,
+        queryset: ComponentQuerySet | None = None,
+        lock_project_boundary: bool = False,
     ) -> Generator[Component]:
         """
         Lock repository and database row in a consistent order for component writes.
@@ -1887,12 +1891,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         Some write paths validate or save through repository-backed operations,
         while background revision updates already lock in repository -> row order.
         Reuse the same ordering here to avoid deadlocks while still validating on a
-        freshly loaded component instance.
+        freshly loaded component instance. Operations scoped to the project's
+        workspace can lock that boundary before taking the row lock.
         """
         if queryset is None:
             queryset = Component.objects.all()
         repository = self.repository
         with repository.lock, transaction.atomic():
+            if lock_project_boundary:
+                from weblate.checks.locks import (  # ruff: ignore[import-outside-top-level]
+                    lock_check_projects,
+                )
+
+                lock_check_projects({self.project_id}, exclusive=False)
+                queryset = queryset.select_related("project__workspace")
             locked_component = queryset.get_for_update(pk=self.pk)
             locked_component.__dict__["repository"] = locked_component.build_repository(
                 lock_override=repository.lock
@@ -3029,10 +3041,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         return None
 
-    def error_text(self, error: RepositoryError) -> str:
+    def error_text(self, error: RepositoryError, *, localize: bool = True) -> str:
         """Return text message for a RepositoryError."""
         return sanitize_backend_error_message(
-            error.get_message(gettext),
+            error.get_message(gettext if localize else None),
             repo_urls=(self.repo, self.push),
             extra_paths=(self.full_path,),
         )
@@ -3420,29 +3432,36 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if not needs_merge and method != "rebase":
                 self.delete_alert("MergeFailure")
                 self.delete_alert("RepositoryOutdated")
-                return True
+                if not self.needs_branch_update_scan():
+                    return True
+                result = scan = True
+                push = False
+            else:
+                # Commit possible pending changes before updating the branch.
+                committed = False
+                if self.needs_commit_upstream():
+                    previous_head = self.repository.get_last_revision()
+                    self.commit_pending("update", user, skip_push=True)
+                    committed = self.repository.get_last_revision() != previous_head
+                push = committed or self.effective_push_on_update
 
-            # commit possible pending changes if needed
-            committed = False
-            if self.needs_commit_upstream():
-                previous_head = self.repository.get_last_revision()
-                self.commit_pending("update", user, skip_push=True)
-                committed = self.repository.get_last_revision() != previous_head
-            push = committed or self.effective_push_on_update
+                try:
+                    result = self.update_branch(
+                        request,
+                        method=method,
+                        skip_push=True,
+                        parse_after_update=True,
+                        user=user,
+                    )
+                except RepositoryError:
+                    result = scan = False
+                else:
+                    scan = bool(result)
+                    if result is False and self.needs_branch_update_scan():
+                        scan = True
+                        push = False
 
-            # update local branch
-            try:
-                result = self.update_branch(
-                    request,
-                    method=method,
-                    skip_push=True,
-                    parse_after_update=True,
-                    user=user,
-                )
-            except RepositoryError:
-                result = False
-
-        if result:
+        if scan:
             try:
                 self.finish_update(request, user, push=push)
             except WeblateLockTimeoutError as error:
@@ -3460,6 +3479,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         return result
 
+    def needs_branch_update_scan(self) -> bool:
+        """Check if the current Git checkout has been imported."""
+        if not self.repository.isolates_branch_updates:
+            return False
+        if self.local_revision != self.repository.last_revision:
+            self.store_local_revision()
+        return bool(
+            self.local_revision
+            and self.processed_revision != self.versioned_revision(self.local_revision)
+        )
+
     def finish_update(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -3470,9 +3500,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """
         Parse and push a repository after a successful pull.
 
-        ``push`` is decided by :meth:`do_update`: it is off when
-        :attr:`push_on_update` is turned off and the update committed no
-        translations.
+        ``push`` is decided by :meth:`do_update`. A scan catching up with an
+        already-published update skips the push.
         """
         parse_error = None
         try:
@@ -3483,7 +3512,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if push:
             self.push_if_needed(do_update=False)
         else:
-            self.log_info("skipped push: push on update disabled")
+            self.log_info("skipped automatic push after update")
         if parse_error is not None:
             raise parse_error
 
@@ -4747,6 +4776,57 @@ class Component(  # ruff: ignore[too-many-public-methods]
             kwargs["no_ff"] = True
         return kwargs
 
+    def record_failed_branch_update(
+        self,
+        action: ActionEvents,
+        error: RepositoryError,
+        previous_head: str,
+        user: User,
+    ) -> None:
+        if not self.pk:
+            return
+        if isinstance(error, RepositoryWorktreeError):
+            status, status_error = (
+                sanitize_backend_error_message(
+                    text,
+                    repo_urls=(self.repo, self.push),
+                    extra_paths=(self.full_path,),
+                    url_placeholder="...",
+                )
+                for text in (error.status, error.status_error)
+            )
+        else:
+            try:
+                status = self.repository.status()
+                status_error = ""
+            except RepositoryError as status_exception:
+                status = ""
+                status_error = self.error_text(status_exception, localize=False)
+        error_text = self.error_text(error, localize=False)
+        details = {
+            "error": error_text,
+            "previous_head": previous_head,
+            "status": status,
+        }
+        if status_error:
+            details["status_error"] = status_error
+        self.change_set.create(
+            action=action, target=error_text, user=user, author=user, details=details
+        )
+        alert = self.get_repository_alert_details(error)
+        if (
+            status
+            and isinstance(error, RepositoryWorktreeError)
+            and isinstance(alert["error"], str)
+        ):
+            alert["error"] += "\n\n" + status
+        self.add_alert("MergeFailure", **alert)
+
+    def versioned_revision(self, revision: str) -> str:
+        if version := self.file_format_cls.parse_version:
+            return f"{revision}:{version}"
+        return revision
+
     @perform_on_link
     def update_branch(
         self,
@@ -4781,6 +4861,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         with self.track_local_head_change() as head_change:
             previous_head = head_change.previous_head or "N/A"
+            repository = self.repository
             try:
                 kwargs = self.get_branch_update_kwargs(method)
                 # Try to merge it
@@ -4801,37 +4882,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     or isinstance(error, RepositoryTemplateError),
                 )
 
-                # In case merge has failure recover
-                error_text = self.error_text(error)
-                try:
-                    status = self.repository.status()
-                    status_error = ""
-                except RepositoryError as status_exception:
-                    status = ""
-                    status_error = self.error_text(status_exception)
-
-                # Log error
-                if self.id:
-                    details = {
-                        "error": error_text,
-                        "previous_head": previous_head,
-                        "status": status,
-                    }
-                    if status_error:
-                        details["status_error"] = status_error
-                    self.change_set.create(
-                        action=action_failed,
-                        target=error_text,
-                        user=user,
-                        author=user,
-                        details=details,
-                    )
-                    self.add_alert(
-                        "MergeFailure", **self.get_repository_alert_details(error)
-                    )
+                self.record_failed_branch_update(
+                    action_failed, error, previous_head, user
+                )
 
                 # Reset repo back
-                if not isinstance(error, RepositoryTemplateError):
+                if not repository.isolates_branch_updates and not isinstance(
+                    error, RepositoryTemplateError
+                ):
                     method_func(abort=True)
 
                 # Tell user (if there is any)
@@ -5381,9 +5439,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.store_background_task()
 
         # Store the revision as add-ons might update it later
-        current_revision = self.local_revision
-        if version := self.file_format_cls.parse_version:
-            current_revision = f"{current_revision}:{version}"
+        current_revision = self.versioned_revision(self.local_revision)
 
         if (
             self.processed_revision == current_revision
@@ -5799,6 +5855,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if self.repository_class.component_requires_branch:
                 return
             self.branch = self.repository_class.get_remote_branch(self.repo)
+            self.drop_repository_cache()
 
     def clean_category(self) -> None:
         if self.category and self.category.project != self.project:
