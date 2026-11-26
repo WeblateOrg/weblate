@@ -275,9 +275,11 @@ Reachability preconditions:
   boundary. *(documented)* (source: :doc:`/admin/access`)
 * A webhook finding is in model only when a request can reach an enabled hook
   endpoint and affect repository update scheduling, task volume, or information
-  returned to the caller beyond the documented matching diagnostics.
+  returned to the caller beyond the documented matching diagnostics, or cause
+  disproportionate resource consumption while handling a delivery. This
+  includes parsing before repository matching.
   *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`,
-  :ref:`hooks-target-matching`)
+  :ref:`hooks-target-matching`) *(maintainer)*
 * A VCS finding is in model only when attacker-controlled or less-trusted
   repository data, branch names, URLs, file names, commit metadata, or project
   configuration can influence Weblate's VCS operations. *(maintainer)*

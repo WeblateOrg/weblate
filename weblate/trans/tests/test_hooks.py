@@ -941,7 +941,7 @@ AZURE_PAYLOAD_OLD = """
           "date": "2015-02-25T19:01:00Z"
         },
         "comment": "Fixed bug in web.config file",
-        "url": "https://f.visualstudio.com/c/_git/ATEST/commit/33b55f7cb7e7e2453239"
+        "url": "https://My-Org2.visualstudio.com/c/_git/ATEST/commit/33b55f7cb7e7e2453239"
       }
     ],
     "refUpdates": [
@@ -954,17 +954,17 @@ AZURE_PAYLOAD_OLD = """
     "repository": {
       "id": "278d5cd2-584d-4b63-824a-2ba458937249",
       "name": "ATEST",
-      "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63",
+      "url": "https://My-Org2.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63",
       "project": {
         "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f",
         "name": "c",
-        "url": "https://f.visualstudio.com/c/_apis/projects/6ce954b1-ce1f-45d1",
+        "url": "https://My-Org2.visualstudio.com/c/_apis/projects/6ce954b1-ce1f-45d1",
         "state": "wellFormed",
         "visibility": "unchanged",
         "lastUpdateTime": "0001-01-01T00:00:00"
       },
       "defaultBranch": "refs/heads/main",
-      "remoteUrl": "https://f.visualstudio.com/c/_git/ATEST"
+      "remoteUrl": "https://My-Org2.visualstudio.com/c/_git/ATEST"
     },
     "pushedBy": {
       "displayName": "Jamal Hartnett",
@@ -973,7 +973,7 @@ AZURE_PAYLOAD_OLD = """
     },
     "pushId": 14,
     "date": "2014-05-02T19:17:13.3309587Z",
-    "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2/pushes/14"
+    "url": "https://My-Org2.visualstudio.com/c/_apis/git/repositories/278d5cd2/pushes/14"
   },
   "resourceVersion": "1.0",
   "resourceContainers": {
@@ -2229,7 +2229,7 @@ class AzureBackendTest(HookBackendTestCase):
         self.assert_hook('{"diagnostics": "ping"}', None)
 
     def test_git_old(self) -> None:
-        url = "https://f.visualstudio.com/c/_git/ATEST"
+        url = "https://My-Org2.visualstudio.com/c/_git/ATEST"
         self.assert_hook(
             AZURE_PAYLOAD_OLD,
             {
@@ -2237,14 +2237,14 @@ class AzureBackendTest(HookBackendTestCase):
                 "full_name": "ATEST",
                 "repo_url": url,
                 "repos": [
-                    "https://dev.azure.com/f/c/_git/ATEST",
+                    "https://dev.azure.com/My-Org2/c/_git/ATEST",
                     (
-                        "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                        "https://dev.azure.com/My-Org2/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
                         "_git/278d5cd2-584d-4b63-824a-2ba458937249"
                     ),
-                    "git@ssh.dev.azure.com:v3/f/c/ATEST",
-                    "https://f.visualstudio.com/c/_git/ATEST",
-                    "f@vs-ssh.visualstudio.com:v3/f/c/ATEST",
+                    "git@ssh.dev.azure.com:v3/My-Org2/c/ATEST",
+                    url,
+                    "My-Org2@vs-ssh.visualstudio.com:v3/My-Org2/c/ATEST",
                 ],
                 "service_long_name": "Azure",
             },

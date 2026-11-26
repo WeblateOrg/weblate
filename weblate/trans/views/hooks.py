@@ -1147,15 +1147,15 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
 
     match = re.match(
         r"^https?:\/\/dev\.azure\.com\/"
-        r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)",
+        r"(?P<organization>[A-Za-z0-9][A-Za-z0-9-]*)",
         http_url,
     )
 
-    # Fallback to support old url structure {organization}.visualstudio.com
+    # Keep the organization scan linear when checking the legacy domain suffix.
     if match is None:
         match = re.match(
             r"^https?:\/\/"
-            r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)"
+            r"(?P<organization>[A-Za-z0-9][A-Za-z0-9-]*)"
             r"\.visualstudio\.com",
             http_url,
         )

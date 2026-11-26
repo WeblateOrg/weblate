@@ -101,6 +101,7 @@ Weblate 2026.12
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
+* Fixed a regular expression denial of service in :ref:`Azure Repos webhooks <code-hosting-azure-repos-notifications>`.
 * Required repository access to set a path for a :ref:`repository-linked screenshot <screenshots>`.
 * Kept backend errors out of :ref:`task status results <api-tasks>` when cached task metadata is removed during a request.
 * Prevented disclosure of private user fields in :ref:`REST API <api>` forms and of inaccessible workspace UUIDs in project create and update requests.
