@@ -832,7 +832,7 @@ Security properties Weblate provides
        to the current password authentication state, and repeated rejected
        second-factor submissions lock password sign-in according to
        :setting:`AUTH_LOCK_ATTEMPTS`. Password and second-factor verification
-       for the same account is serialized so concurrent requests cannot
+       for the same account are serialized so concurrent requests cannot
        continue verifying against credentials or pending sessions invalidated
        by the lockout. Access to personal API tokens and
        changes to authentication credentials, access permissions, project
