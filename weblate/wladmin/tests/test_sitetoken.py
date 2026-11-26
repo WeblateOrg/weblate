@@ -464,6 +464,21 @@ class SiteWideTokenTest(FixtureTestCase):
             User.objects.filter(is_bot=True, full_name="Past Token").exists()
         )
 
+    def test_expired_site_token_rejected_before_cleanup(self) -> None:
+        # cleanup can take up to 1 hour, but we can reject the token immediately
+        token = self.create_token()
+        token_user = self.get_token_user(token)
+        token_user.date_expires = timezone.now() - timedelta(seconds=1)
+        token_user.save(update_fields=["date_expires"])
+
+        response = self.token_api_client().get(
+            reverse("api:metrics"),
+            headers={"authorization": f"Token {token}"},
+        )
+        self.assertEqual(response.status_code, 401)
+        self.assertTrue(token_user.is_active)
+        self.assertTrue(Token.objects.filter(key=token).exists())
+
     def test_expired_site_token_removed_by_disable_expired(self) -> None:
         token = self.create_token()
         token_user = self.get_token_user(token)
