@@ -28,6 +28,7 @@ from django.db.models import F
 from django.template import TemplateSyntaxError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
+from django.urls import reverse
 from django.utils import timezone
 from translate.storage.base import ParseError
 
@@ -3290,6 +3291,135 @@ class ExistingIntermediateLanguageFileTest(ComponentTestCase):
     def create_component(self) -> Component:
         return self.create_po_mono(new_lang="add")
 
+    def test_create_missing_template_holds_checkout_lock(self) -> None:
+        owner = self.component
+        linked = Component(
+            project=self.project,
+            repo=owner.get_repo_link_url(),
+            linked_component=owner,
+            source_language=owner.source_language,
+            file_format="po-mono",
+        )
+        for component in (owner, linked):
+            with self.subTest(saved=bool(component.pk)):
+                component.new_base = "po-mono/en.po"
+                component.intermediate = "po-mono/cs.po"
+                component.template = "po-mono/missing.po"
+
+                def check_path(filename, validate=component.check_file_is_valid):
+                    self.assertTrue(owner.repository.lock.is_locked)
+                    return validate(filename)
+
+                def check_write(*args, **kwargs):
+                    self.assertTrue(owner.repository.lock.is_locked)
+
+                def check_commit(**kwargs):
+                    self.assertTrue(owner.repository.lock.is_locked)
+
+                with (
+                    patch.object(
+                        component, "check_file_is_valid", side_effect=check_path
+                    ) as check,
+                    patch.object(
+                        component.file_format_cls,
+                        "add_language",
+                        side_effect=check_write,
+                    ) as add,
+                    patch.object(
+                        component, "commit_files", side_effect=check_commit
+                    ) as commit,
+                ):
+                    component.create_template_if_missing()
+
+                self.assertCountEqual(
+                    [pathlib.Path(args[0]).name for args, _ in check.call_args_list],
+                    ["missing.po", "en.po", "cs.po", "en.po"],
+                )
+                add.assert_called_once()
+                self.assertEqual(commit.call_count, int(bool(component.pk)))
+                self.assertFalse(owner.repository.lock.is_locked)
+
+    def test_eligibility_parses_template_and_base_under_read_lock(self) -> None:
+        component = self.component
+        component.new_base = "po-mono/en.po"
+        load_template = component.load_template_store
+        validate_base = component.file_format_cls.is_valid_base_for_new
+
+        def check_template():
+            self.assertTrue(component.repository.lock.is_read_locked)
+            return load_template()
+
+        def check_base(*args, **kwargs):
+            self.assertEqual(
+                component.repository.lock.is_read_locked, not kwargs["fast"]
+            )
+            return validate_base(*args, **kwargs)
+
+        with (
+            patch.object(
+                component, "load_template_store", side_effect=check_template
+            ) as template,
+            patch.object(
+                component.file_format_cls,
+                "is_valid_base_for_new",
+                side_effect=check_base,
+            ) as base,
+        ):
+            self.assertTrue(component.can_add_new_language(self.user, fast=True))
+            template.assert_not_called()
+            self.assertTrue(component.can_add_new_language(self.user))
+            template.assert_called_once()
+        self.assertEqual(base.call_count, 2)
+        self.assertFalse(component.repository.lock.is_read_locked)
+
+    def test_settings_validate_matches_and_parse_under_checkout_lock(self) -> None:
+        component = self.component
+        component.edit_template = True
+        matches = component.get_mask_matches
+        clean_files = component.clean_files
+
+        def check_lock() -> None:
+            self.assertTrue(component.repository.lock.is_read_locked)
+            self.assertEqual(
+                component.repository.lock.is_locked, bool(component.intermediate)
+            )
+
+        def check_matches(**kwargs):
+            check_lock()
+            return matches(**kwargs)
+
+        def check_files(filenames):
+            check_lock()
+            return clean_files(filenames)
+
+        with (
+            patch.object(
+                component, "get_mask_matches", side_effect=check_matches
+            ) as match,
+            patch.object(component, "clean_files", side_effect=check_files) as parse,
+        ):
+            component.clean()
+            component.intermediate = "po-mono/cs.po"
+            component.clean()
+        self.assertEqual(match.call_count, 2)
+        self.assertEqual(parse.call_count, 2)
+        self.assertFalse(component.repository.lock.is_read_locked)
+
+    def test_new_language_page_reports_busy_checkout(self) -> None:
+        repository_lock = self.component.repository.lock
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=repository_lock.lock_object
+        )
+        self.client.force_login(self.user)
+        with patch.object(type(repository_lock), "read", side_effect=error):
+            response = self.client.get(
+                reverse("new-language", kwargs={"path": self.component.get_url_path()})
+            )
+
+        self.assertContains(
+            response, "Could not obtain the repository lock", status_code=423
+        )
+
     def test_existing_language_file_can_be_used_and_cleared_as_intermediate(
         self,
     ) -> None:
@@ -3420,15 +3550,29 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         def assert_file_restored_before_queue(*_args, **_kwargs) -> None:
             self.assertTrue(os.path.exists(filename))
 
-        with patch.object(
-            Component,
-            "queue_background_task",
-            autospec=True,
-            side_effect=assert_file_restored_before_queue,
-        ) as mock_queue:
+        can_restore = self.component.can_restore_missing_translation_file
+
+        def check_restore_under_lock() -> bool:
+            self.assertTrue(self.component.repository.lock.is_locked)
+            return can_restore()
+
+        with (
+            patch.object(
+                self.component,
+                "can_restore_missing_translation_file",
+                side_effect=check_restore_under_lock,
+            ) as check_restore,
+            patch.object(
+                Component,
+                "queue_background_task",
+                autospec=True,
+                side_effect=assert_file_restored_before_queue,
+            ) as mock_queue,
+        ):
             self.assertTrue(self.component.do_file_sync(self.get_request()))
 
         self.assertTrue(os.path.exists(filename))
+        check_restore.assert_called_once()
         mock_queue.assert_called_once()
         self.assertTrue(
             PendingUnitChange.objects.filter(
@@ -3904,6 +4048,12 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.prepare_missing_translation_file(self.de_translation)
         lock_states: list[bool] = []
 
+        get_filename = self.de_translation.get_filename
+
+        def get_locked_filename():
+            lock_states.append(self.component.repository.lock.is_locked)
+            return get_filename()
+
         def record_add_language(*args, **kwargs) -> None:
             lock_states.append(self.component.repository.lock.is_locked)
 
@@ -3913,6 +4063,9 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
 
         self.assertFalse(self.component.repository.lock.is_locked)
         with (
+            patch.object(
+                self.de_translation, "get_filename", side_effect=get_locked_filename
+            ),
             patch.object(
                 self.component.file_format_cls,
                 "add_language",
@@ -3930,7 +4083,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                 self.de_translation, user=self.user
             )
 
-        self.assertEqual(lock_states, [True, True])
+        self.assertEqual(lock_states, [True, True, True])
 
     def test_restore_missing_translation_file_preserves_post_add_on_silent_commit(
         self,
@@ -4206,6 +4359,25 @@ class TranslationRemoveRevisionTest(ComponentTestCase):
         self.assertTrue(Translation.objects.filter(pk=translation.pk).exists())
         self.assertTrue(filename.exists())
         self.assertEqual(self.component.repository.last_revision, head)
+
+    def test_remove_resolves_cached_filenames_under_checkout_lock(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        filename = translation.filenames[0]
+        repository = translation.component.repository
+        validate = translation.component.check_file_is_valid
+
+        def check_path(path):
+            self.assertTrue(repository.lock.is_locked)
+            return validate(path)
+
+        with patch.object(
+            translation.component, "check_file_is_valid", side_effect=check_path
+        ) as check:
+            translation.remove(self.user)
+
+        self.assertGreaterEqual(check.call_args_list.count(call(filename)), 2)
+        self.assertFalse(pathlib.Path(filename).exists())
+        self.assertFalse(repository.lock.is_locked)
 
     def test_remove_updates_stored_local_revision(self) -> None:
         translation = self.component.translation_set.get(language_code="de")
