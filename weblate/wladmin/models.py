@@ -336,7 +336,8 @@ class SupportStatus(models.Model):
         metrics = MetricsWrapper(None, Metric.SCOPE_GLOBAL, 0)
         data = {
             "secret": self.secret,
-            "site_url": site_url or get_site_url(),
+            "site_url": site_url
+            or get_site_url(reverse("manage").removesuffix("/manage/")),
             "site_title": settings.SITE_TITLE,
             "users": User.objects.count(),
             "projects": Project.objects.count(),
@@ -361,6 +362,7 @@ class SupportStatus(models.Model):
         }
         if self.discoverable:
             data["discoverable"] = 1
+            data["discovery_verification"] = 1
             data["public_projects"] = json.dumps(
                 [
                     {

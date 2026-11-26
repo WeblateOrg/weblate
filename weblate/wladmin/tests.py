@@ -28,11 +28,13 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import connection
+from django.test import Client
 from django.test import TestCase as DjangoTestCase
 from django.test.client import RequestFactory
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.crypto import salted_hmac
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from lxml import html
 
@@ -2381,6 +2383,31 @@ class AdminTest(ReusableViewTestCase):
         status.refresh_from_db()
         self.assertFalse(status.discoverable)
 
+    @modify_settings(
+        MIDDLEWARE={"append": "django.contrib.auth.middleware.LoginRequiredMiddleware"}
+    )
+    def test_discovery_proof_requires_active_opt_in(self) -> None:
+        nonce = "a" * 64
+        path = reverse("discovery-verification", kwargs={"nonce": nonce})
+        client = Client()
+        support = SupportStatus.objects.create(
+            secret="test-support", discoverable=False
+        )
+        self.assertEqual(client.get(path).status_code, 404)
+
+        support.discoverable = True
+        support.save(update_fields=["discoverable"])
+        response = client.get(path)
+        expected = salted_hmac(
+            "weblate.discovery", nonce, secret=support.secret, algorithm="sha256"
+        ).hexdigest()
+        self.assertContains(response, expected)
+        self.assertIn("no-store", response.headers["Cache-Control"])
+
+        support.enabled = False
+        support.save(update_fields=["enabled"])
+        self.assertEqual(client.get(path).status_code, 404)
+
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
@@ -2744,6 +2771,7 @@ class AdminTest(ReusableViewTestCase):
 
         refresh_body = parse_qs(get_response_call_body(0))
         self.assertEqual(refresh_body["discoverable"], ["1"])
+        self.assertEqual(refresh_body["discovery_verification"], ["1"])
         discover_projects = json.loads(refresh_body["public_projects"][0])
         self.assertEqual(
             {project["name"] for project in discover_projects},
