@@ -338,7 +338,7 @@ The default workspace teams are:
 
 `Owners`
     Can edit workspace settings, add projects to the workspace, manage
-    workspace access, and view or pay billing plans assigned to the workspace.
+    workspace access, and :ref:`manage workspace billing <workspace-billing>`.
 
 `Project creators`
     Can add projects to the workspace.
@@ -355,8 +355,14 @@ Billing
 When :ref:`billing` is enabled, a billing plan is assigned to a workspace.
 Projects in that workspace count against the workspace billing plan.
 
-Users with :guilabel:`Edit workspace settings` permission can view and pay the
-billing plan. Billing notification e-mails are sent to these users.
+Users with the :guilabel:`Edit workspace settings` permission (``workspace.edit``)
+for the workspace can view and pay its billing plan, disable recurring payments,
+and terminate the plan. Termination requires an active or trial billing plan
+and a workspace with no projects. Billing notification e-mails are sent to these
+users.
+
+Administrative plan overrides, trial extensions, and Libre hosting approvals
+require the site-wide :guilabel:`Manage billing` permission (``billing.manage``).
 
 Billing is optional. Workspaces are still available when the billing module is
 not installed.
