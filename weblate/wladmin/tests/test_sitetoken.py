@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from queue import Queue
 from threading import Event
-from typing import Any
+from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
@@ -54,6 +54,9 @@ from weblate.wladmin.forms import (
     sitewide_teams_queryset,
 )
 from weblate.workspaces.models import WORKSPACE_OWNERS_GROUP, Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class SiteWideTokenTest(FixtureTestCase):
@@ -1189,7 +1192,7 @@ class SiteTokenConcurrencyTest(TransactionTestCase):
                     with connection.cursor() as cursor:
                         cursor.execute("SELECT pg_backend_pid()")
                         second_pid.put(cursor.fetchone()[0])
-                request = RequestFactory().post("/")
+                request = cast("AuthenticatedHttpRequest", RequestFactory().post("/"))
                 request.user = actor
                 form = SiteTokenGroupForm(
                     {"user": token_user.username, "groups": [team.pk]}
