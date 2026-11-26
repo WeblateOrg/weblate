@@ -240,16 +240,28 @@ class RepositoryTest(TestCase):
             with (
                 patch.object(repository, "ensure_lock_session_recovered"),
                 repository.lock,
-                patch.object(repository, "execute") as execute,
+                patch.object(repository, "execute", side_effect=[None, b""]) as execute,
             ):
                 repository.finalize_backup_restore()
-        execute.assert_called_once_with(
-            ["read-tree", "--reset", "HEAD"],
-            remote_op="none",
-            environment={
-                "GIT_DIR": str(Path(repository.path) / ".git"),
-                "GIT_WORK_TREE": repository.path,
-            },
+        environment = {
+            "GIT_DIR": str(Path(repository.path) / ".git"),
+            "GIT_WORK_TREE": repository.path,
+        }
+        self.assertEqual(
+            execute.call_args_list,
+            [
+                call(
+                    ["read-tree", "--reset", "HEAD"],
+                    remote_op="none",
+                    environment=environment,
+                ),
+                call(
+                    ["ls-files", "--stage", "-z"],
+                    remote_op="none",
+                    environment=environment,
+                    raw=True,
+                ),
+            ],
         )
 
     def make_stale_lock(self, lockfile: Path) -> None:
