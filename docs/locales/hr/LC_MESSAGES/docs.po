@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-11-20 00:06+0000\n"
-"PO-Revision-Date: 2026-11-25 14:30+0000\n"
+"PO-Revision-Date: 2026-11-26 18:06+0000\n"
 "Last-Translator: Milo Ivir <milotype@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -11196,7 +11196,7 @@ msgid ""
 msgstr ""
 
 msgid "Avatar caching"
-msgstr ""
+msgstr "Predmemoriranje avatara"
 
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
@@ -11204,7 +11204,7 @@ msgid ""
 msgstr ""
 
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Konfiguriraj slanje e-mailova"
 
 msgid ""
 "Weblate needs to send out e-mails on several occasions, and these e-mails "
@@ -47688,7 +47688,7 @@ msgid "Target Initial Action"
 msgstr "Ciljani prijevod"
 
 msgid "Critical"
-msgstr ""
+msgstr "Kritična"
 
 msgid ""
 "Total outage; Admin compromise; Active data breach; requires immediate "
@@ -53356,6 +53356,14 @@ msgid ""
 "``check:ai_accuracy``. Translation flags such as ``ignore-ai-accuracy`` "
 "disable a category; ``ignore-all-checks`` disables all checks."
 msgstr ""
+"Nalazi se prikazuju kao standardne provjere točnosti, tečnosti, "
+"terminologije, stila i formatiranja. Svaki nalaz uključuje razinu "
+"ozbiljnosti (mala, velika ili kritična) te objašnjenje. Više nalaza unutar "
+"iste kategorije dijeli istu provjeru, pa zanemarivanje te provjere znači "
+"zanemarivanje cijele kategorije za izraz. Postojeći filtri pretraživanja i "
+"pretraživanje putem API-ja funkcioniraju, npr. ``check:ai_accuracy``. Oznake "
+"za prijevod, kao što je ``ignore-ai-accuracy``, deaktiviraju kategoriju, dok "
+"``ignore-all-checks`` aktivira sve provjere."
 
 msgid ""
 "Changing the source or translation removes outdated findings. Results "
@@ -56216,10 +56224,8 @@ msgstr "Aktiviraj provjeru kvalitete :ref:`check-fluent-source-syntax`."
 msgid "Ignore all quality checks."
 msgstr "Zanemari sve provjere kvalitete."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-placeholders` quality check."
 msgid "Skip the :ref:`check-accelerator` quality check."
-msgstr "Preskoči provjeru :ref:`check-placeholders`."
+msgstr "Preskoči provjeru :ref:`check-accelerator`."
 
 #, fuzzy
 #| msgid "Skip the :ref:`check-url` quality check."
@@ -56525,15 +56531,13 @@ msgstr ""
 "dobru kvalitetu prijevoda."
 
 msgid "Accelerator key"
-msgstr ""
+msgstr "Tipka prečaca"
 
 msgid "Summary"
 msgstr "Sažetak"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Izvor i prijevod ne završavaju s dvotočkom."
+msgstr "Izvorni kod i prijevod sadrže nedosljedne tipke prečaca."
 
 msgid "translated strings"
 msgstr "prevedeni izrazi"
@@ -56579,10 +56583,10 @@ msgid ""
 msgstr ""
 
 msgid "AI: Accuracy"
-msgstr ""
+msgstr "Umjetna inteligencija: Točnost"
 
 msgid "The evaluation detected a change in meaning."
-msgstr ""
+msgstr "Evaluacija je otkrila promjenu značenja."
 
 msgid "This check is always enabled but can be ignored using a flag."
 msgstr ""
@@ -56594,34 +56598,28 @@ msgid ""
 msgstr ""
 
 msgid "AI: Fluency"
-msgstr ""
+msgstr "Umjetna inteligencija: Tečnost"
 
 msgid "The evaluation detected a language quality issue."
-msgstr ""
+msgstr "Evaluacija je otkrila problem s kvalitetom govora."
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Vue I18n formatiranje"
+msgstr "Umjetna inteligencija: Formatiranje"
 
-#, fuzzy
-#| msgid "Translation is missing some placeholders."
 msgid "The evaluation detected a formatting or placeholder issue."
-msgstr "Prijevodu nedostaju neka rezervirana mjesta."
+msgstr "Evaluacija je otkrila problem s formatiranjem ili rezerviranim mjestom."
 
 msgid "AI: Style"
-msgstr ""
+msgstr "Umjetna inteligencija: Stil"
 
 msgid "The evaluation detected a style or instruction mismatch."
 msgstr "Evaluacija je otkrila neusklađenost stila ili uputa."
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "Terminologija"
+msgstr "Umjetna inteligencija: Terminologija"
 
 msgid "The evaluation detected incorrect terminology."
-msgstr ""
+msgstr "Evaluacija je otkrila netočnu terminologiju."
 
 #, fuzzy
 #| msgid "AsciiDoc file"
@@ -56983,10 +56981,10 @@ msgid ""
 msgstr ""
 
 msgid "AngularJS interpolation string"
-msgstr "Znakovni niz AngularJS interpolacije"
+msgstr "Izraz AngularJS interpolacije"
 
 msgid "AngularJS interpolation strings do not match source."
-msgstr "Znakovni nizovi AngularJS interpolacije se ne poklapaju s izvorom."
+msgstr "Izrazi AngularJS interpolacije se ne poklapaju s izvorom."
 
 #, fuzzy
 #| msgid "Information"
@@ -63880,10 +63878,8 @@ msgid ""
 "the source, and use comments when a source punctuation choice looks wrong."
 msgstr ""
 
-#, fuzzy
-#| msgid "Field operators"
 msgid "Accelerators"
-msgstr "Operatori za polja"
+msgstr "Tipke prečaca"
 
 msgid ""
 "Menu labels can mark keyboard accelerators with characters such as ``&``, "
@@ -65431,35 +65427,29 @@ msgstr ""
 msgid "Installing:"
 msgstr "Instaliranje:"
 
-#, fuzzy
-#| msgid "The following commands are available:"
 msgid "The following tags are available:"
-msgstr "Dostupne su sljedeće naredbe:"
+msgstr "Dostupne su sljedeće oznake:"
 
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Latest stable release."
-msgstr "Stanje Weblatea"
+msgstr "Najnovije stabilno izdanje."
 
 msgid "Full version, for example ``2.2.0``"
-msgstr ""
+msgstr "Potpuna verzija, na primjer ``2.2.0``"
 
-#, fuzzy
-#| msgid "Weblate status"
 msgid "A specific stable release."
-msgstr "Stanje Weblatea"
+msgstr "Određeno stabilno izdanje."
 
 msgid "Major version, for example ``2``"
-msgstr ""
+msgstr "Glavna verzija, na primjer ``2``"
 
 msgid "Latest stable release in that major series."
-msgstr ""
+msgstr "Najnovije stabilno izdanje u toj glavnoj seriji."
 
 msgid "Current development version from the main branch."
-msgstr ""
+msgstr "Aktualna razvojna verzija iz glavne grane."
 
 msgid "A specific development snapshot."
-msgstr ""
+msgstr "Snimka određenog razvoja."
 
 msgid "To build an image from the source checkout:"
 msgstr ""
