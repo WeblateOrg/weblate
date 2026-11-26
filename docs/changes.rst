@@ -1,3 +1,13 @@
+Weblate 2026.12.1
+-----------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Gitea, Forgejo, and Codeberg sign-in now refreshes verified secondary e-mail addresses from the provider; see :ref:`gitea_auth`.
+
+
 Weblate 2026.12
 ---------------
 
@@ -80,6 +90,7 @@ Weblate 2026.12
 * Reduced database loading when polling :ref:`background tasks <api-tasks>` spanning many components.
 * Outbound requests and Git repositories now honor ``no_proxy`` with the :ref:`HTTP proxy <http-proxy>`.
 * Sped up importing translation files by locking :ref:`inconsistent <check-inconsistent>` and :ref:`reused translation checks <check-reused>` once per file instead of once per string.
+* Gitea, Forgejo, and Codeberg sign-in now refreshes verified secondary e-mail addresses from the provider; see :ref:`gitea_auth`. Requires a corresponding ``social-auth-core`` release.
 * Listed :ref:`saved-searches` first in the search filters and truncated long saved queries.
 * Highlighted individual search terms in the searched fields when :ref:`searching for strings <search-strings>`.
 * Show :ref:`linked components <internal-urls>` in repository details and label suggestion counts on wider screens in :ref:`zen-mode`.

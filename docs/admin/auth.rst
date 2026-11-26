@@ -532,6 +532,9 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
    for an example of production deployment with Forgejo,
    see `Codeberg Translate <https://translate.codeberg.org>`_.
 
+When the provider returns verified e-mail addresses during sign-in, they are
+stored for account and commit e-mail selection the same way as for GitHub.
+
 .. seealso::
 
    :doc:`psa:backends/gitea`
