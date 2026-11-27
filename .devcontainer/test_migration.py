@@ -76,6 +76,16 @@ class SnapshotTests(unittest.TestCase):
                 config["services"]["developer"]["build"]["target"], "migration"
             )
             self.assertEqual(env.backend, "compose")
+            socket = "unix:///test/podman/podman.sock"
+            env = configure_migration(destination, socket=socket)
+            self.assertEqual(env.socket, socket)
+            config = json.loads(
+                (destination / ".devcontainer/compose.podman.json").read_text()
+            )
+            self.assertEqual(config["services"]["developer"]["userns_mode"], "keep-id")
+            self.assertEqual(
+                config["services"]["developer"]["build"]["target"], "migration"
+            )
 
     def test_cleanup_on_startup_failure_test_failure_and_interrupt(self) -> None:
         for startup, outcome in ((1, 0), (0, 2), (0, KeyboardInterrupt())):

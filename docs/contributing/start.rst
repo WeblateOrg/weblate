@@ -97,6 +97,26 @@ Both backends share the same test environment for a checkout. The Compose
 backend runs bootstrap on each ``up`` invocation. CI checks both backends on
 ARM Linux runners, including concurrent application QA in separate worktrees.
 
+.. _dev-podman:
+
+On Linux, the Compose backend also supports rootless Podman. After installing
+Podman and Docker Compose v2, start the user socket and select Podman in your
+shell.
+
+.. code-block:: sh
+
+   systemctl --user start podman.socket
+   export WEBLATE_CONTAINER_ENGINE=podman
+   ./scripts/devcontainer --backend compose up
+   ./scripts/devcontainer --backend compose doctor
+
+The launchers also select Podman when ``DOCKER_HOST`` points to
+``unix://$XDG_RUNTIME_DIR/podman/podman.sock``. Set
+``WEBLATE_CONTAINER_ENGINE=docker`` to explicitly select the Docker launcher.
+If Podman selects a different Compose provider, set
+``PODMAN_COMPOSE_PROVIDER`` to the path of the Docker Compose v2 executable.
+Use the same engine selection when stopping or cleaning up the environment.
+
 Bootstrap uses the frozen dependency lock and builds ``lxml`` and ``xmlsec``
 from source, matching CI. Initial setup requires network access to download
 images and dependencies; lint hooks download their environments on first use.
@@ -146,7 +166,7 @@ and non-ignored untracked files, into an independent temporary clone. It runs
 the existing migration CI setup and upgrade assertions with a dedicated Compose
 project and database. The optional migration image includes Python 3.11 and
 3.13 and legacy rendering dependencies. Release tags and historical dependencies
-require network access. The command always uses Docker Compose internally;
+require network access. The command always uses the Compose backend internally;
 it does not require the Dev Container CLI or a running test environment.
 
 Migration verification prints service logs on failure and removes its temporary
@@ -252,8 +272,9 @@ daemons are not supported by the host-path mounts.
 Running Weblate locally in Docker
 ---------------------------------
 
-Install Docker with the Compose plugin, Git, and Python 3.12 or newer on the
-host. Start the development application with:
+Install Git and Python 3.12 or newer on the host, plus Docker with the Compose
+plugin or :ref:`rootless Podman with Docker Compose <dev-podman>`. Run the
+launcher to start the development application.
 
 .. code-block:: sh
 
@@ -268,16 +289,18 @@ and Celery workers, and prints the application and Maildev mailbox URLs when
 Weblate is ready. Sign in as ``admin`` with password ``admin``. The installation
 starts empty; continue with :ref:`adding-projects`.
 
-Docker assigns free HTTP ports bound to ``127.0.0.1``. Each worktree has its own
-application database, Valkey instance, data, virtual environment, home, and
-caches, separate from the test profile. SMTP, PostgreSQL, and Valkey ports are
-not published. Weblate uses the discovered application URL for generated links
-and authentication origins. To display the current URLs again:
+The container engine assigns free HTTP ports bound to ``127.0.0.1``. Each
+worktree has its own application database, Valkey instance, data, virtual
+environment, home, and caches, separate from the test profile. SMTP, PostgreSQL,
+and Valkey ports are not published. Weblate uses the discovered application URL
+for generated links and authentication origins. To display the current URLs again:
 
 .. code-block:: sh
 
    ./rundev.sh urls
    ./rundev.sh urls --json
+
+The JSON output gives the Maildev base URL for scripts that use its API.
 
 To exercise real background workers through complete application journeys:
 

@@ -14,7 +14,7 @@ import subprocess
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from environment import Environment, configuration, git
+from environment import Environment, configuration, git, override_path
 
 
 def snapshot(source: Path, destination: Path) -> None:
@@ -96,30 +96,32 @@ def snapshot(source: Path, destination: Path) -> None:
     )
 
 
-def configure_migration(root: Path) -> Environment:
-    config = configuration(root)
-    config["services"]["developer"]["build"]["target"] = "migration"
-    config["services"]["developer"]["environment"] = {
+def configure_migration(root: Path, *, socket: str | None = None) -> Environment:
+    podman = socket is not None
+    config = configuration(root, podman=podman)
+    developer = config["services"]["developer"]
+    developer["build"] = {**developer["build"], "target": "migration"}
+    developer["environment"] = {
         "CI_DB_USER": "postgres",
         "CI_DATABASE": "postgresql",
         "UV_FROZEN": "1",
     }
     config["services"]["database"] = {"environment": {"POSTGRES_USER": "postgres"}}
-    (root / ".devcontainer/compose.local.json").write_text(json.dumps(config) + "\n")
-    return Environment(root, "tests", "compose")
+    override_path(root, podman=podman).write_text(json.dumps(config) + "\n")
+    return Environment(root, "tests", "compose", socket=socket)
 
 
 def interrupted(_signum: int, _frame: object) -> None:
     raise KeyboardInterrupt
 
 
-def migration_test(source: Path, version: str) -> int:
+def migration_test(source: Path, version: str, *, socket: str | None = None) -> int:
     previous = signal.signal(signal.SIGTERM, interrupted)
     try:
         with TemporaryDirectory(prefix="weblate-migration-") as directory:
             root = Path(directory) / "checkout"
             snapshot(source, root)
-            env = configure_migration(root)
+            env = configure_migration(root, socket=socket)
             status = 1
             try:
                 startup = env.up()

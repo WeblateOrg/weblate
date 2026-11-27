@@ -90,8 +90,13 @@ For application-developer workflows and broader product integration guidance, us
   `<type>(<optional scope>): <description>`. Common types include `feat`,
   `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
   `fix(translations): handle empty component slug`. Include a concise commit
-  body describing the motivation. When the commit resolves an issue, add a
-  `Fixes #123` clause.
+  body describing the motivation. Use the tracker-specific reference in the
+  commit body for each resolved issue.
+  - For GitHub, use `Fixes #123`.
+  - For Sentry, use the short ID, as in `Fixes WEBLATE-3B89`. Omit the URL and
+    numeric issue ID.
+  - For HackerOne, use the report URL, as in
+    `Fixes https://hackerone.com/reports/123456`.
 - Pin dependencies to exact versions using `==`. Use a non-exact constraint
   only when there is a deliberate reason, and document that reason next to the
   dependency declaration, as is done for `certifi` to allow newer certificate
@@ -218,6 +223,9 @@ For application-developer workflows and broader product integration guidance, us
   the commands below. Run `./scripts/devcontainer doctor` to diagnose setup,
   and `./scripts/devcontainer bootstrap` after dependency changes. The test
   environment uses PostgreSQL and Valkey; it does not start application workers.
+- On rootless Podman hosts, use `./scripts/devcontainer --backend compose`
+  for the test environment and `./rundev.sh` for application QA. Follow the
+  Podman socket and Compose provider setup in `docs/contributing/start.rst`.
 - Use `./scripts/devcontainer verify` for full lint, typing, documentation, and
   frontend verification, or repeat `--check lint`, `--check types`, `--check docs`,
   and `--check frontend` to select groups. This requires an already prepared

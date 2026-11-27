@@ -76,6 +76,44 @@ jobs:
         BUILDX_BAKE_ENTITLEMENTS_FS: '0'
       run: python3 .devcontainer/smoke.py
 
+  podman:
+    name: Rootless Podman smoke test
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    env:
+      WEBLATE_CONTAINER_ENGINE: podman
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Prepare rootless Podman
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y podman
+        systemctl --user start podman.socket
+        podman compose version | grep '^Docker Compose version '
+    - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
+    - run: ./rundev.sh start
+    - name: Check loopback services and checkout ownership
+      run: |
+        urls=$(./rundev.sh urls --json)
+        app=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["application"])' <<< "$urls")
+        mailbox=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["mailbox"])' <<< "$urls")
+        curl --fail --silent --show-error "${app}healthz/" > /dev/null
+        curl --fail --silent --show-error "${mailbox}index.html" > /dev/null
+        curl --fail --silent --show-error "${mailbox}api/email" > /dev/null
+        probe=$(mktemp -d .podman-smoke.XXXXXX)
+        trap 'rm -r -- "$probe"' EXIT
+        ./rundev.sh exec -- touch "$probe/app"
+        ./scripts/devcontainer --backend compose exec -- touch "$probe/tests"
+        owner="$(id -u):$(id -g)"
+        test "$(stat -c '%u:%g' "$probe/app")" = "$owner"
+        test "$(stat -c '%u:%g' "$probe/tests")" = "$owner"
+    - run: ./rundev.sh --all logs
+      if: failure()
+    - run: ./rundev.sh --all destroy --yes
+      if: always()
+
   oss-scanner:
     name: OSS Scanner offline smoke test
     runs-on: ubuntu-26.04

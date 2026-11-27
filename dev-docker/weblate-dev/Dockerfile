@@ -94,7 +94,7 @@ RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-do
 
 # Compose selects this target with the existing small development context.
 FROM common AS development
-COPY --link --chmod=0755 start-dev /app/bin/
+COPY start-dev /app/bin/
 COPY --from=node /usr/local/ /opt/node/
 ENV PATH=/app/venv/bin:/opt/node/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 RUN apt-get update --error-on=any \

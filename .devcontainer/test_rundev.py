@@ -49,11 +49,13 @@ sys.exit(int(os.environ.get('FAIL_STATUS', '0')) if os.environ.get('FAIL_COMMAND
         path = self.root / "bin/docker"
         path.write_text(stub)
         path.chmod(0o755)
+        (self.root / "bin/podman").symlink_to(path)
         self.log = self.root / "commands.jsonl"
         self.environment = {
             **os.environ,
             "PATH": f"{self.root / 'bin'}:{os.environ['PATH']}",
             "COMMAND_LOG": str(self.log),
+            "WEBLATE_CONTAINER_ENGINE": "docker",
         }
         self.environment.pop("COMPOSE_PROJECT_NAME", None)
 
@@ -145,6 +147,17 @@ sys.exit(int(os.environ.get('FAIL_STATUS', '0')) if os.environ.get('FAIL_COMMAND
     def test_compose_passthrough(self) -> None:
         self.assertEqual(self.run_script("ps", "--all"), 0)
         self.assertEqual(self.commands()[0][-2:], ["ps", "--all"])
+
+    def test_podman_socket_uses_separate_configuration(self) -> None:
+        socket = f"unix://{self.root}/podman/podman.sock"
+        self.environment.pop("WEBLATE_CONTAINER_ENGINE")
+        self.environment.update(XDG_RUNTIME_DIR=str(self.root), DOCKER_HOST=socket)
+        self.assertEqual(self.run_script("stop"), 0)
+        self.assertEqual(self.commands()[0][:3], ["--url", socket, "compose"])
+        podman_override = self.root / ".devcontainer/compose.podman.json"
+        self.assertIn(str(podman_override), self.commands()[0])
+        self.assertTrue(podman_override.exists())
+        self.assertFalse((self.root / ".devcontainer/compose.local.json").exists())
 
 
 class ApplicationEntrypointTests(unittest.TestCase):

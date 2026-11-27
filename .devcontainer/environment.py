@@ -29,7 +29,30 @@ def project_name(root: Path) -> str:
     )
 
 
-def configuration(root: Path) -> dict:
+def default_podman_socket() -> str:
+    runtime = Path(os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}")
+    return f"unix://{runtime / 'podman/podman.sock'}"
+
+
+def podman_socket() -> str | None:
+    engine = os.environ.get("WEBLATE_CONTAINER_ENGINE")
+    if engine == "docker":
+        return None
+    if engine not in {None, "podman"}:
+        msg = "Set WEBLATE_CONTAINER_ENGINE to docker or podman."
+        raise ValueError(msg)
+    socket = default_podman_socket()
+    if engine == "podman" or os.environ.get("DOCKER_HOST") == socket:
+        return socket
+    return None
+
+
+def override_path(root: Path, *, podman: bool) -> Path:
+    name = "compose.podman.json" if podman else "compose.local.json"
+    return root / ".devcontainer" / name
+
+
+def configuration(root: Path, *, podman: bool = False) -> dict:
     """Preserve Git's absolute worktree paths, escaping Compose interpolation."""
     root = root.resolve()
     common = Path(git(root, "rev-parse", "--path-format=absolute", "--git-common-dir"))
@@ -51,6 +74,12 @@ def configuration(root: Path) -> dict:
         "working_dir": str(root).replace("$", "$$"),
         "volumes": mounts,
     }
+    if podman:
+        # Map the process UID/GID to the owner of the bind-mounted checkout.
+        service["userns_mode"] = "keep-id"
+    # Podman does not accept uid/gid on tmpfs mounts. Use sticky, writable
+    # mounts in the application container, where all workers run as one user.
+    tmpfs_options = "mode=1777" if podman else f"uid={os.getuid()},gid={os.getgid()}"
     return {
         "name": project_name(root),
         "services": {
@@ -64,7 +93,7 @@ def configuration(root: Path) -> dict:
                     "GRANIAN_RELOAD_PATHS": str(root / "weblate").replace("$", "$$"),
                 },
                 "tmpfs": [
-                    f"{path}:exec,uid={os.getuid()},gid={os.getgid()}"
+                    f"{path}:exec,{tmpfs_options}"
                     for path in ("/app/cache", "/tmp", "/run")  # ruff: ignore[hardcoded-temp-file]
                 ],
             },
@@ -72,7 +101,7 @@ def configuration(root: Path) -> dict:
     }
 
 
-def initialize(root: Path) -> None:
+def initialize(root: Path, *, podman: bool = False) -> None:
     expected = project_name(root)
     if os.environ.get("COMPOSE_PROJECT_NAME", expected) != expected:
         msg = "Unset COMPOSE_PROJECT_NAME: each checkout must use its own project."
@@ -91,8 +120,8 @@ def initialize(root: Path) -> None:
         ):
             msg = f"Remove COMPOSE_PROJECT_NAME from {dotenv}: each checkout must use its own project."
             raise ValueError(msg)
-    content = json.dumps(configuration(root), indent=2) + "\n"
-    destination = root / ".devcontainer/compose.local.json"
+    content = json.dumps(configuration(root, podman=podman), indent=2) + "\n"
+    destination = override_path(root, podman=podman)
     if destination.exists() and destination.read_text() == content:
         return
     # Replace atomically, including when CLI and IDE initialization overlap.
@@ -127,22 +156,37 @@ def log_arguments(arguments: list[str], services: list[str]) -> list[str]:
 class Environment:
     """One checkout, one Compose project, two independently managed profiles."""
 
-    def __init__(self, root: Path, profile: str, backend: str) -> None:
+    def __init__(
+        self, root: Path, profile: str, backend: str, *, socket: str | None = None
+    ) -> None:
         self.root = root
         self.profile = profile
         self.backend = backend
         self.environment = {**os.environ, "COMPOSE_PROJECT_NAME": project_name(root)}
         # Do not allow host COMPOSE_PROFILES to enable the application implicitly.
         self.environment.pop("COMPOSE_PROFILES", None)
+        self.socket = socket
+        self.engine = ["docker"]
+        if socket is not None:
+            self.engine = ["podman", "--url", socket]
+            self.environment["DOCKER_HOST"] = socket
+            self.environment.pop("DOCKER_CONTEXT", None)
+            self.environment["COMPOSE_BAKE"] = "false"
+            self.environment.setdefault("PODMAN_COMPOSE_WARNING_LOGS", "false")
+        elif (
+            self.environment.get("WEBLATE_CONTAINER_ENGINE") == "docker"
+            and self.environment.get("DOCKER_HOST") == default_podman_socket()
+        ):
+            self.environment.pop("DOCKER_HOST")
         self.compose = [
-            "docker",
+            *self.engine,
             "compose",
             "--project-name",
             project_name(root),
             "-f",
             str(root / ".devcontainer/compose.yaml"),
             "-f",
-            str(root / ".devcontainer/compose.local.json"),
+            str(override_path(root, podman=socket is not None)),
             "--profile",
             "app",
         ]
@@ -161,8 +205,16 @@ class Environment:
             [*self.compose, *arguments], cwd=self.root, env=self.environment, text=True
         ).strip()
 
+    def uses_devcontainer(self) -> bool:
+        if self.profile != "tests" or self.backend != "devcontainer":
+            return False
+        if self.socket is not None:
+            msg = "For rootless Podman, pass --backend compose before the command."
+            raise ValueError(msg)
+        return True
+
     def execute(self, arguments: list[str]) -> int:
-        if self.profile == "tests" and self.backend == "devcontainer":
+        if self.uses_devcontainer():
             return subprocess.call(
                 [
                     "devcontainer",
@@ -198,7 +250,9 @@ class Environment:
         if as_json:
             print(json.dumps(urls))
         else:
-            print(f"Weblate: {urls['application']}\nMaildev: {urls['mailbox']}")
+            print(
+                f"Weblate: {urls['application']}\nMaildev: {urls['mailbox']}index.html"
+            )
 
     def activate(self) -> int:
         domain = self.address("weblate", 8080)
@@ -222,7 +276,7 @@ class Environment:
             "/run/site-domain",
         )
 
-    def wait(self) -> int:
+    def wait(self, *, require_services: bool = False) -> int:
         deadline = time.monotonic() + 1800
         while time.monotonic() < deadline:
             states = self.output("ps", "--all", "--format", "json", *self.services)
@@ -232,6 +286,14 @@ class Environment:
                 if states.startswith("[")
                 else [json.loads(line) for line in states.splitlines() if line]
             )
+            if require_services and not set(self.services) <= {
+                entry["Service"] for entry in entries
+            }:
+                print(
+                    "Run ./rundev.sh up to start the missing application services.",
+                    file=sys.stderr,
+                )
+                return 1
             if any(entry.get("State") in {"exited", "dead"} for entry in entries):
                 print("Application container exited; inspect logs.", file=sys.stderr)
                 return 1
@@ -248,7 +310,7 @@ class Environment:
         return 1
 
     def up(self, *, restart: bool = False) -> int:
-        if self.profile == "tests" and self.backend == "devcontainer":
+        if self.uses_devcontainer():
             return subprocess.call(
                 ["devcontainer", "up", "--workspace-folder", str(self.root)],
                 cwd=self.root,
@@ -286,7 +348,7 @@ class Environment:
         # volume is normal after partial startup or repeated cleanup.
         existing = subprocess.check_output(
             [
-                "docker",
+                *self.engine,
                 "volume",
                 "ls",
                 "--quiet",
@@ -298,7 +360,7 @@ class Environment:
         ).splitlines()
         for volume in sorted(volumes.intersection(existing)):
             result = subprocess.call(
-                ["docker", "volume", "rm", volume], env=self.environment
+                [*self.engine, "volume", "rm", volume], env=self.environment
             )
             status = result or status
         return status
@@ -317,13 +379,36 @@ class Environment:
             # The host migration runner uses Environment; defer to avoid a cycle.
             from migration import migration_test  # ruff: ignore[import-outside-top-level]
 
-            return migration_test(self.root, arguments[0])
+            return migration_test(self.root, arguments[0], socket=self.socket)
         self.profile = "tests"
         return self.execute(
             ["uv", "run", "--no-sync", "python", ".devcontainer/verify.py", *arguments]
         )
 
     def doctor(self, arguments: list[str]) -> int:
+        if self.socket is not None:
+            try:
+                subprocess.check_output(
+                    [*self.engine, "version", "--format", "{{.Server.Version}}"],
+                    env=self.environment,
+                    text=True,
+                    timeout=10,
+                )
+            except (OSError, subprocess.SubprocessError) as error:
+                msg = "Cannot reach rootless Podman. Install Podman and run systemctl --user start podman.socket."
+                raise RuntimeError(msg) from error
+            try:
+                version = subprocess.check_output(
+                    [*self.engine, "compose", "version"],
+                    env=self.environment,
+                    text=True,
+                    timeout=10,
+                )
+            except (OSError, subprocess.SubprocessError):
+                version = ""
+            if not version.startswith("Docker Compose version "):
+                msg = "Install Docker Compose v2 and run with PODMAN_COMPOSE_PROVIDER=/path/to/docker-compose."
+                raise RuntimeError(msg)
         if arguments == ["--browser"]:
             self.profile = "tests"
         return (
@@ -338,7 +423,7 @@ class Environment:
                 ]
             )
             if self.profile == "tests"
-            else self.wait() or self.execute(["weblate", "check"])
+            else self.wait(require_services=True) or self.execute(["weblate", "check"])
         )
 
 
@@ -510,12 +595,14 @@ def main() -> int:
         parser.error("--all only applies to stop, logs, and destroy")
     arguments = command_arguments(parser, args.command, arguments)
     root = Path(__file__).resolve().parent.parent
-    initialize(root)
     if args.command == "initialize":
+        initialize(root)
         return 0
     profile = args.profile or ("app" if args.rundev else "tests")
     backend = args.backend or ("compose" if args.rundev else "devcontainer")
-    env = Environment(root, profile, backend)
+    socket = podman_socket()
+    initialize(root, podman=socket is not None)
+    env = Environment(root, profile, backend, socket=socket)
     return dispatch(env, args.command, arguments, all_profiles=args.all)
 
 
