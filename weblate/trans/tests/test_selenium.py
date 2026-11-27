@@ -2799,7 +2799,7 @@ class SeleniumTests(
         component = fixture.create_po(project=project)
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.get(source="Hello, world!\n")
-        user = self.do_login(superuser=True)
+        self.do_login(superuser=True)
         zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{zen_url}")
