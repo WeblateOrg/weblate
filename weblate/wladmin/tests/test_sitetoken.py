@@ -476,6 +476,7 @@ class SiteWideTokenTest(FixtureTestCase):
             headers={"authorization": f"Token {token}"},
         )
         self.assertEqual(response.status_code, 401)
+        token_user.refresh_from_db()
         self.assertTrue(token_user.is_active)
         self.assertTrue(Token.objects.filter(key=token).exists())
 
