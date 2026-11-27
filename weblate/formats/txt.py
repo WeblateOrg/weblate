@@ -110,24 +110,36 @@ class MultiParser(BaseStore):
             chain.from_iterable(parser.units for parser in self.parsers.values())
         )
 
-    def file_key(self, filename):
+    @staticmethod
+    def file_key(filename: str) -> str:
         return filename
+
+    @classmethod
+    def iter_file_matches(
+        cls, base: str, *, accept_directory: Callable[[str], bool] | None = None
+    ) -> Generator[tuple[str, str]]:
+        for name, flags in cls.filenames:
+            filename = os.path.join(base, name)
+            if accept_directory is not None and not accept_directory(
+                os.path.dirname(filename)
+            ):
+                continue
+            for match in sorted(glob(filename), key=cls.file_key):
+                yield match, flags
 
     def load_parser(self):
         result = {}
-        for name, flags in self.filenames:
-            filename = self.get_filename(name)
-            for match in sorted(glob(filename), key=self.file_key):
-                # Needed to allow overlapping globs, more specific first
-                if match in result:
-                    continue
-                try:
-                    match = self.file_validator(match)
-                    result[match] = TextParser(
-                        match, os.path.relpath(match, self.base), flags
-                    )
-                except Exception as error:
-                    raise MultiparserError(match, error) from error
+        for match, flags in self.iter_file_matches(self.base):
+            # Needed to allow overlapping globs, more specific first
+            if match in result:
+                continue
+            try:
+                match = self.file_validator(match)
+                result[match] = TextParser(
+                    match, os.path.relpath(match, self.base), flags
+                )
+            except Exception as error:
+                raise MultiparserError(match, error) from error
         return result
 
     def get_filename(self, name):
@@ -153,7 +165,8 @@ class AppStoreParser(MultiParser):
         ("*.txt", ""),
     )
 
-    def file_key(self, filename):
+    @staticmethod
+    def file_key(filename: str) -> str:
         parts = filename.rsplit("changelogs/", 1)
         if len(parts) == 2:
             try:

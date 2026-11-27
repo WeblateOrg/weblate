@@ -3408,7 +3408,8 @@ class Translation(
     ) -> Unit | None:
         if validate_length:
             self.validate_new_unit_text_length(context, source, target, explanation)
-        with self.component.lock:
+        # After-commit add-on work can take the repository lock.
+        with transaction.atomic(), self.component.lock:
             try:
                 return self._add_unit_locked(
                     request,
@@ -3430,7 +3431,6 @@ class Translation(
                 self.component.unload_sources()
                 raise
 
-    @transaction.atomic
     @source_operation_method
     def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches, too-many-arguments]
         self,
