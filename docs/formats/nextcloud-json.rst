@@ -5,6 +5,10 @@ Nextcloud Apps JSON files
 
 JSON-based format used in Nextcloud Apps that use JavaScript and HTML.
 
+When saving a translation file, Weblate omits untranslated entries so Nextcloud
+can fall back to the source strings. Partially translated plural entries are
+kept.
+
 .. seealso::
 
    * :doc:`tt:formats/json`

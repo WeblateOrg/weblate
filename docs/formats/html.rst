@@ -7,6 +7,15 @@ HTML files
 
 The translatable content is extracted from the HTML files and offered for the translation.
 
+Weblate extracts human-readable attribute values such as ``alt``, ``title``,
+``placeholder`` on form fields, and ``aria-label``. ARIA references such as
+``aria-labelledby`` and ``aria-describedby`` keep their original element IDs.
+Translate the text in the referenced elements to localize those labels and
+descriptions.
+
+To extract additional attributes on an element as plain text, list their names
+in ``data-translate-attribute``, separated by spaces or commas.
+
 .. include:: /snippets/format-database-backed.rst
 
 .. seealso::
@@ -34,7 +43,7 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | File format                    | `HTML file`                         |
 +--------------------------------+-------------------------------------+
-| File format parameters         | ``html_merge_duplicates=True``      |
+| File format parameters         | ``merge_duplicates=True``           |
 +--------------------------------+-------------------------------------+
 
 .. _html-duplicates:

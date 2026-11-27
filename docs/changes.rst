@@ -29,6 +29,9 @@ Weblate 2026.12
 * Resume supported browser form submissions after :ref:`verifying your identity <sensitive-action-verification>`.
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* :ref:`HTML files <html>` extract more human-readable attributes, including ARIA labels and custom attributes marked with ``data-translate-attribute``.
+* Preserve distinct translations when saving repeated headings in :ref:`MDX files <mdx>`.
+* When :ref:`translating Markdown front matter values <markdown-frontmatter-values>`, keep heading translations that match the source and use older heading keys when the current translation is missing.
 * Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
