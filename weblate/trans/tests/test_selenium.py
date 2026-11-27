@@ -5403,21 +5403,30 @@ class SeleniumTests(
     def test_select_existing_screenshot(self) -> None:
         project = self.create_component()
         self.do_login(superuser=True)
-        unit = Unit.objects.filter(
+        unit = Unit.objects.get(
             translation__component__project=project,
             translation__component__slug="django",
             translation__language__code="cs",
-        ).first()
-        assert unit is not None
+            source="Add new translation string",
+        )
         screenshot = Screenshot.objects.create(
             name="Source strings", translation=unit.source_unit.translation
         )
         translated_screenshot = Screenshot.objects.create(
-            name="Translated strings", translation=unit.translation
+            name="Other strings", translation=unit.translation
         )
-        for image in (screenshot, translated_screenshot):
-            with open(get_test_file("screenshot.png"), "rb") as handle:
-                image.image.save("picker.png", File(handle))
+        with patch("weblate.screenshots.ocr.schedule_ocr"):
+            for image in (screenshot, translated_screenshot):
+                with open(get_test_file("screenshot.png"), "rb") as handle:
+                    image.image.save("picker.png", File(handle))
+        ScreenshotOCR.objects.create(
+            screenshot=screenshot,
+            data={
+                "passes": [
+                    {"lines": [{"text": "Add new"}, {"text": "translation string"}]}
+                ],
+            },
+        )
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
         editor_url = self.driver.current_url
@@ -5430,6 +5439,20 @@ class SeleniumTests(
         )
         WebDriverWait(self.driver, 5).until(
             lambda driver: driver.switch_to.active_element == search
+        )
+        choices = self.find_elements_now(
+            By.CSS_SELECTOR, "#screenshot-picker-selection input[name=screenshot]"
+        )
+        self.assertEqual(
+            [choice.get_attribute("id") for choice in choices],
+            [
+                f"screenshot-choice-{screenshot.pk}",
+                f"screenshot-choice-{translated_screenshot.pk}",
+            ],
+        )
+        self.assertTrue(all(not choice.is_selected() for choice in choices))
+        self.assert_text_contains(
+            f'label[for="screenshot-choice-{screenshot.pk}"]', "Image text match"
         )
         search_button = self.driver.find_element(
             By.CSS_SELECTOR, "#screenshot-picker-search button"
@@ -5485,7 +5508,7 @@ class SeleniumTests(
         self.assertEqual(
             self.find_elements_now(By.ID, f"screenshot-choice-{screenshot.pk}"), []
         )
-        self.assert_text_contains("#screenshot-picker-content", "Translated strings")
+        self.assert_text_contains("#screenshot-picker-content", "Other strings")
         search.clear()
         search.send_keys("unmatched screenshot", Keys.ENTER)
         WebDriverWait(self.driver, 10).until(staleness_of(search))

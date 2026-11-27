@@ -480,7 +480,10 @@ To link a screenshot that has already been uploaded, open the string in the
 translation editor:
 
 1. In the :guilabel:`Screenshots` panel, choose :guilabel:`Add existing screenshot`.
-2. Browse the thumbnails, or enter a query in :guilabel:`Search screenshots` and
+2. Browse the thumbnails. Screenshots with the current source phrase in their
+   recognized image text appear first and show an :guilabel:`Image text match`
+   badge. To filter by screenshot name or other :ref:`screenshot search fields
+   <search-screenshots>`, enter a query in :guilabel:`Search screenshots` and
    choose :guilabel:`Search`. Use :guilabel:`Previous` and :guilabel:`Next` to
    browse additional results.
 3. Select a screenshot by clicking its card. The card is highlighted and marked

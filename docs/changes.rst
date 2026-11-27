@@ -47,6 +47,7 @@ Weblate 2026.12
 
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
+* The :ref:`screenshot picker <add-existing-screenshot>` prioritizes screenshots with recognized image text matching the current source string.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
 * Keep the original editor search when merging a translation from the :ref:`translation context <source-context>`.
 
