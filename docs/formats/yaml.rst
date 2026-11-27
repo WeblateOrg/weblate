@@ -6,7 +6,9 @@ YAML files
 .. index::
     pair: YAML; file format
 
-The plain YAML files with string keys and values. Weblate also extract strings from lists or dictionaries.
+Weblate extracts strings from plain YAML files, including strings in lists and
+dictionaries. Floating-point numbers and dates remain in the existing file when
+Weblate saves translations.
 
 Weblate currently supports several variants of YAML translations:
 

@@ -8,7 +8,11 @@ MDX files
 .. include:: /snippets/format-in-development.rst
 
 MDX files are Markdown files with JSX syntax. Weblate extracts translatable
-Markdown text and preserves imports, exports, JSX components, and expressions.
+Markdown text and preserves imports, exports, and JavaScript expressions.
+Weblate also extracts quoted attribute values from supported standalone JSX
+components, such as ``<Step title="Open" />``, and Markdown content inside
+simple component blocks. Explicit heading IDs are preserved as in
+:ref:`markdown` files.
 
 MDX units automatically get the ``md-text``, ``auto-safe-html``, ``strict-same`` and ``safe-mdx`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and
@@ -43,7 +47,7 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | File format                    | `MDX file`                          |
 +--------------------------------+-------------------------------------+
-| File format parameters         | ``mdx_merge_duplicates=True``       |
+| File format parameters         | ``merge_duplicates=True``           |
 +--------------------------------+-------------------------------------+
 
 .. _mdx-duplicates:

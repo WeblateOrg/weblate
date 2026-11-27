@@ -15,6 +15,15 @@ Weblate currently supports several variants of PHP translations:
 * Monolingual PHP strings in various syntax
 * :ref:`laravel-php`
 
+Weblate displays interpolated PHP variables as placeholders such as
+``{$name}``. Use this form when a placeholder touches other text, for example
+``{$name}s``. A standalone ``$name`` in prose can also be interpolated. To keep
+a dollar placeholder literal, escape it as ``\$name`` or ``\{$name}``.
+
+.. seealso::
+
+   :doc:`tt:formats/php`
+
 Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.php
