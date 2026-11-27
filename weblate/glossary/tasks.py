@@ -14,6 +14,7 @@ from weblate.trans.models import Component, Project, Translation
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
+from weblate.vcs.base import LocalRepositoryInitializationConflictError
 
 if TYPE_CHECKING:
     from weblate.trans.models.translation import TranslationQuerySet
@@ -21,7 +22,11 @@ if TYPE_CHECKING:
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    autoretry_for=(
+        Component.DoesNotExist,
+        LocalRepositoryInitializationConflictError,
+        WeblateLockTimeoutError,
+    ),
     retry_backoff=60,
 )
 def sync_glossary_languages(pk: int, component: Component | None = None) -> None:
@@ -122,7 +127,11 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    autoretry_for=(
+        Component.DoesNotExist,
+        LocalRepositoryInitializationConflictError,
+        WeblateLockTimeoutError,
+    ),
     retry_backoff=60,
 )
 def sync_terminology(pk: int, component: Component | None = None) -> dict[str, int]:

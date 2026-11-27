@@ -203,6 +203,7 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import (
+    LocalRepositoryInitializationConflictError,
     RepositoryAlertDetails,
     RepositoryDiagnosis,
     RepositoryError,
@@ -3317,32 +3318,32 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Initialization must use the saved component's lock, including the
         # existence check, rather than the standalone repository's path lock.
         with self.repository.lock:
-            if not os.path.exists(os.path.join(self.full_path, ".git")):
-                if (
-                    not self.template
-                    and not self.file_format_cls.create_empty_bilingual
-                    and not issubclass(self.file_format_cls, BilingualUpdateMixin)
-                ) or (
-                    self.template
-                    and self.file_format_cls.get_new_file_content(
-                        get_encoding_param(self.file_format, self.file_format_params)
-                    )
-                    is None
-                ):
+            if os.path.exists(os.path.join(self.full_path, ".git")):
+                return
+
+            files = {}
+            if self.template:
+                content = self.file_format_cls.get_new_file_content(
+                    get_encoding_param(self.file_format, self.file_format_params)
+                )
+                if content is None:
                     raise ValidationError({"template": gettext("File does not exist.")})
+                files[self.template] = content
+            elif not self.file_format_cls.create_empty_bilingual and not issubclass(
+                self.file_format_cls, BilingualUpdateMixin
+            ):
+                raise ValidationError({"template": gettext("File does not exist.")})
+
+            try:
                 LocalRepository.from_files(
                     self.full_path,
-                    {
-                        self.template: self.file_format_cls.get_new_file_content(
-                            get_encoding_param(
-                                self.file_format, self.file_format_params
-                            )
-                        )
-                    }
-                    if self.template
-                    else {},
+                    files,
                     lock=self.repository.lock,
+                    create_only=True,
                 )
+            except LocalRepositoryInitializationConflictError:
+                if not LocalRepository.has_initialized_checkout(self.full_path):
+                    raise
 
     def configure_repo(self, validate=False, pull=True) -> None:
         """Ensure repository is correctly set up."""

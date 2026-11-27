@@ -82,6 +82,7 @@ from weblate.utils.zip import (
     validate_zip_members,
 )
 from weblate.vcs.base import (
+    LocalRepositoryInitializationConflictError,
     Repository,
     RepositoryCommandError,
     RepositoryDiagnosis,
@@ -4347,6 +4348,20 @@ class LocalRepository(GitRepository):
         """Create the local repository without validating an upstream URL."""
         self._clone("local:", self.path, self.branch)
 
+    @classmethod
+    def has_initialized_checkout(cls, path: str) -> bool:
+        """Check for a committed checkout without changing its Git state."""
+        try:
+            cls._popen(
+                ["--git-dir=.git", "rev-parse", "--verify", "HEAD^{commit}"],
+                cwd=path,
+                retry=False,
+                timeout=5,
+            )
+        except RepositoryError:
+            return False
+        return True
+
     @cached_property
     def last_remote_revision(self) -> str:
         return self.last_revision
@@ -4359,16 +4374,24 @@ class LocalRepository(GitRepository):
         commit_message: str,
         *,
         lock: RepositoryLock | None = None,
+        create_only: bool = False,
     ) -> Generator[Self, None, None]:
         repo = cls(target)
         if lock is not None:
             repo.lock.replace_lock(lock)
         with repo.lock:
-            # Create empty repo
-            if os.path.exists(target):
+            if not create_only and os.path.exists(target):
                 remove_tree(target)
+            # A stale lookup on shared storage can miss an existing checkout.
+            # Claim the directory before enabling cleanup of this build.
             try:
-                repo.clone_from("local:")
+                os.makedirs(target)
+            except FileExistsError as error:
+                if create_only:
+                    raise LocalRepositoryInitializationConflictError from error
+                raise
+            try:
+                repo.create_blank_repository(target)
                 # Populate files
                 yield repo
                 # Add to repository
@@ -4417,12 +4440,16 @@ class LocalRepository(GitRepository):
         files: dict[str, bytes],
         *,
         lock: RepositoryLock | None = None,
+        create_only: bool = False,
     ) -> Self:
         # Check all names before build_local_repo can replace an existing tree.
         for name in files:
             validate_filename(name)
         with cls.build_local_repo(
-            target, "Started translation using Weblate", lock=lock
+            target,
+            "Started translation using Weblate",
+            lock=lock,
+            create_only=create_only,
         ) as repo:
             # Create files
             for name, content in files.items():
