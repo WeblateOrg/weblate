@@ -163,6 +163,10 @@ URL where translators can find more info about the project.
 
 This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 
+By default, Weblate raises an alert for HTTP 5xx responses after three days of
+repeated failures. Set :setting:`WEBSITE_ALERTS_ENABLED` to ``False`` to disable
+project website checks.
+
 .. seealso::
 
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
@@ -670,6 +674,9 @@ Repository browser
 
 URL of repository browser used to display source files (location of used messages).
 When empty, no such links will be generated. You can use :ref:`markup`.
+
+For source and translation file links, Weblate raises an alert for HTTP 5xx
+responses after three days of repeated failures.
 
 For example on GitHub, use something like:
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
