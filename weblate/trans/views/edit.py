@@ -109,7 +109,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
-    from weblate.trans.models.unit import UnitQuerySet
+    from weblate.trans.models.unit import UnitFlagAction, UnitQuerySet
 
 SESSION_SEARCH_CACHE_TTL = 1800
 ZEN_PAGE_SIZE = 20
@@ -1511,6 +1511,21 @@ def get_editor_contributors(
     return translator, None
 
 
+def get_unit_tools(unit: Unit, user: User) -> dict[str, list[UnitFlagAction] | bool]:
+    actions = unit.get_flag_actions(user)
+    can_delete = bool(user.has_perm("unit.delete", unit))
+    return {
+        "actions": actions,
+        "source_actions": [action for action in actions if action.scope == "source"],
+        "translation_actions": [
+            action for action in actions if action.scope == "translation"
+        ],
+        "can_delete": can_delete,
+        "can_delete_source": can_delete and unit.is_source,
+        "can_delete_translation": can_delete and not unit.is_source,
+    }
+
+
 @transaction.atomic
 def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
     """Translate, suggest and search view."""
@@ -1644,7 +1659,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             if user.has_perm("meta:unit.edit_source", unit)
             else None,
             "flags_form": UnitFlagsForm(unit=unit, user=user),
-            "flag_actions": unit.get_flag_actions(user),
+            "unit_tools": get_unit_tools(unit, user),
             "search_form": search_result["form"].reset_offset(),
             "can_refresh_search": True,
             "secondary": secondary,

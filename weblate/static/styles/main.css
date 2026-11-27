@@ -1082,6 +1082,17 @@ kbd {
   padding-left: 15px;
 }
 
+.glossary-tools-menu {
+  width: max-content;
+  max-width: min(24rem, calc(100vw - 2rem));
+}
+
+.glossary-tools-menu
+  :is(.dropdown-item, .dropdown-header, .dropdown-item-text) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .fullmodal .modal-dialog {
   width: max-content;
   max-width: 100%;

@@ -1,0 +1,31 @@
+{% if heading %}
+  <li>
+    <h6 class="dropdown-header">{{ heading }}</h6>
+  </li>
+{% endif %}
+{% if can_delete %}
+  <li>
+    {# Keep the offset so the next string takes the place of the deleted one. #}
+    <a href=""
+       class="dropdown-item link-post"
+       data-href="{% url 'delete-unit' unit_id=unit.pk %}"
+       data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{{ delete_label }}</a>
+  </li>
+{% endif %}
+{% for action in actions %}
+  <li>
+    {% if action.disabled_reason %}
+      <button type="button"
+              class="dropdown-item"
+              aria-describedby="unit-tool-reason-{{ action.scope }}-{{ action.flag }}"
+              disabled>{{ action.label }}</button>
+      <small class="dropdown-item-text"
+             id="unit-tool-reason-{{ action.scope }}-{{ action.flag }}">{{ action.disabled_reason }}</small>
+    {% else %}
+      <a href=""
+         class="dropdown-item link-post"
+         data-href="{% url 'edit_context' pk=unit.pk %}"
+         data-params='{"{{ action.action|escapejs }}": "{{ action.flag|escapejs }}", "scope": "{{ action.scope|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ action.label }}</a>
+    {% endif %}
+  </li>
+{% endfor %}

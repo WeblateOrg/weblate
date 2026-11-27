@@ -8,15 +8,16 @@ from unittest.mock import patch
 
 from django.db import transaction
 from django.urls import reverse
+from lxml import html
 
-from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import UnitFlagsForm
-from weblate.trans.models import Unit
+from weblate.trans.models import Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import (
     STATE_EMPTY,
@@ -48,9 +49,14 @@ class UnitFlagsTest(ViewTestCase):
     def actions(self) -> set[tuple[str, str, str]]:
         unit = Unit.objects.get(pk=self.unit.pk)
         return {
-            (action, flag, scope)
-            for action, flag, _label, scope in unit.get_flag_actions(self.user)
+            (action.action, action.flag, action.scope)
+            for action in unit.get_flag_actions(self.user)
         }
+
+    def enable_glossary(self) -> None:
+        self.component.is_glossary = True
+        self.component.manage_units = True
+        self.component.save(update_fields=["is_glossary", "manage_units"])
 
     def test_readonly_action_matrix_and_promotion(self) -> None:
         self.assertEqual(
@@ -295,13 +301,10 @@ class UnitFlagsTest(ViewTestCase):
     def test_source_view_offers_source_scope_only(self) -> None:
         actions = self.source.get_flag_actions(self.user)
         self.assertTrue(actions)
-        self.assertTrue(
-            all(scope == "source" for _action, _flag, _label, scope in actions)
-        )
+        self.assertTrue(all(action.scope == "source" for action in actions))
 
     def test_glossary_flags_have_explicit_scope(self) -> None:
-        self.component.is_glossary = True
-        self.component.save(update_fields=["is_glossary"])
+        self.enable_glossary()
         actions = self.actions()
         self.assertIn(("addflag", "forbidden", "translation"), actions)
         self.assertIn(("addflag", "terminology", "source"), actions)
@@ -310,6 +313,208 @@ class UnitFlagsTest(ViewTestCase):
         self.source.refresh_from_db()
         self.assertIn("forbidden", Flags(self.unit.extra_flags))
         self.assertNotIn("forbidden", Flags(self.source.extra_flags))
+
+    def editor_badges(self, unit: Unit) -> list[str]:
+        response = self.client.get(unit.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        return html.fromstring(response.content).xpath(
+            '//form[contains(@class, "translation-form")]'
+            '//h4[@class="card-title"]/span[@class="badge text-bg-secondary"]/text()'
+        )
+
+    def test_glossary_source_badge_is_independent_of_readonly(self) -> None:
+        self.enable_glossary()
+        self.assertTrue(self.source.readonly)
+        self.assertEqual(self.editor_badges(self.source), ["Source string"])
+        self.assertNotIn("Untranslatable term", self.editor_badges(self.unit))
+
+        url = reverse("edit_context", kwargs={"pk": self.source.pk})
+        response = self.client.post(url, {"addflag": "read-only", "scope": "source"})
+        self.assertRedirects(
+            response, self.source.get_absolute_url(), fetch_redirect_response=False
+        )
+        self.source.refresh_from_db()
+        self.assertTrue(self.source.readonly)
+        self.assertEqual(
+            self.editor_badges(self.source), ["Source string", "Untranslatable term"]
+        )
+        self.assertEqual(self.editor_badges(self.unit), ["Untranslatable term"])
+
+        response = self.client.post(url, {"removeflag": "read-only", "scope": "source"})
+        self.assertRedirects(
+            response, self.source.get_absolute_url(), fetch_redirect_response=False
+        )
+        self.source.refresh_from_db()
+        self.assertTrue(self.source.readonly)
+        self.assertEqual(self.editor_badges(self.source), ["Source string"])
+        self.assertNotIn("Untranslatable term", self.editor_badges(self.unit))
+
+    def test_untranslatable_badge_is_scoped_to_glossary_translation(self) -> None:
+        self.set_flags(self.unit, "read-only")
+        self.assertEqual(self.editor_badges(self.unit), ["Read-only"])
+
+        self.enable_glossary()
+        self.assertEqual(self.editor_badges(self.unit), ["Untranslatable term"])
+        self.assertNotIn("Untranslatable term", self.editor_badges(self.source))
+        self.assertNotIn(
+            "Untranslatable term", self.editor_badges(self.get_unit(language="de"))
+        )
+
+    def test_glossary_editor_shows_source_review_with_untranslatable_badge(
+        self,
+    ) -> None:
+        self.enable_glossary()
+        self.set_flags(self.unit, "read-only")
+        Unit.objects.filter(pk=self.source.pk).update(state=STATE_FUZZY)
+
+        self.assertEqual(
+            self.editor_badges(self.unit), ["Source in review", "Untranslatable term"]
+        )
+
+    def test_glossary_tools_menu_groups_actions_by_scope(self) -> None:
+        self.enable_glossary()
+        cases = (
+            (
+                self.unit,
+                ["This translation", "All languages"],
+                "Delete this string in this language",
+            ),
+            (
+                self.source,
+                ["All languages"],
+                "Delete this string in all languages",
+            ),
+        )
+        for unit, headings, delete_label in cases:
+            with self.subTest(unit=unit.pk):
+                response = self.client.get(unit.get_absolute_url())
+                self.assertEqual(response.status_code, 200)
+                menu = html.fromstring(response.content).xpath(
+                    '//ul[@aria-labelledby="unit_tools_dropdown"]'
+                )[0]
+                self.assertEqual(menu.xpath("./li/h6/text()"), headings)
+                delete_url = reverse("delete-unit", kwargs={"unit_id": unit.pk})
+                self.assertEqual(
+                    menu.xpath("./li/a[@data-href=$url]/text()", url=delete_url),
+                    [delete_label],
+                )
+
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        viewers = Group.objects.create(
+            name="Glossary viewers", language_selection=SELECTION_ALL
+        )
+        viewers.projects.add(self.project)
+        viewers.roles.add(Role.objects.get(name="Add suggestion"))
+        self.user.groups.set([viewers])
+        response = self.client.get(self.unit.get_absolute_url())
+        self.assertNotContains(response, 'id="unit_tools_dropdown"')
+
+    def test_glossary_tools_recheck_local_conflicts_on_post(self) -> None:
+        self.enable_glossary()
+        for flag, opposing_flag in (
+            ("read-only", "forbidden"),
+            ("forbidden", "read-only"),
+        ):
+            with self.subTest(flag=flag):
+                self.set_flags(self.unit, "")
+                next_url = self.unit.get_absolute_url()
+                reason_id = f"unit-tool-reason-translation-{flag}"
+                self.assertNotContains(self.client.get(next_url), f'id="{reason_id}"')
+                # Simulate submitting an action from a menu opened before this edit.
+                self.set_flags(self.unit, opposing_flag)
+                history = self.unit.change_set.count()
+                response = self.client.post(
+                    self.url,
+                    {"addflag": flag, "scope": "translation", "next": next_url},
+                    follow=True,
+                )
+                self.assertRedirects(response, next_url)
+                self.assertContains(response, f'aria-describedby="{reason_id}"')
+                self.assertContains(
+                    response,
+                    "A glossary entry cannot be both untranslatable and forbidden"
+                    " in the same language.",
+                )
+                self.unit.refresh_from_db()
+                self.assertEqual(self.unit.extra_flags, opposing_flag)
+                self.assertEqual(self.unit.change_set.count(), history)
+
+    def test_glossary_tools_check_other_languages_before_setting_source_flags(
+        self,
+    ) -> None:
+        self.enable_glossary()
+        german = self.get_unit(language="de")
+        self.set_flags(german, "forbidden")
+        self.set_flags(self.unit, "read-only")
+        self.assertContains(
+            self.client.get(self.unit.get_absolute_url()),
+            'aria-describedby="unit-tool-reason-source-read-only"',
+        )
+        history = self.source.change_set.count()
+        response = self.client.post(
+            self.url, {"promoteflag": "read-only", "scope": "source"}
+        )
+        self.assertRedirects(response, self.unit.get_absolute_url())
+        self.source.refresh_from_db()
+        self.unit.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+        self.assertEqual(self.unit.extra_flags, "read-only")
+        self.assertEqual(self.source.change_set.count(), history)
+
+        # A source-wide Forbidden flag would conflict with the Czech flag.
+        self.assertContains(
+            self.client.get(self.source.get_absolute_url()),
+            'aria-describedby="unit-tool-reason-source-forbidden"',
+        )
+        response = self.client.post(
+            self.url, {"addflag": "forbidden", "scope": "source"}
+        )
+        self.assertRedirects(response, self.unit.get_absolute_url())
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "")
+
+        # The German flag does not prevent editing the Czech entry.
+        self.client.post(self.url, {"removeflag": "read-only", "scope": "translation"})
+        self.client.post(self.url, {"addflag": "read-only", "scope": "translation"})
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.extra_flags, "read-only")
+
+    def test_glossary_tools_allow_removing_legacy_conflict_and_adding_terminology(
+        self,
+    ) -> None:
+        self.enable_glossary()
+        self.set_flags(self.source, "forbidden, read-only")
+        self.assertContains(
+            self.client.get(self.source.get_absolute_url()),
+            "Unmark as forbidden for all languages",
+        )
+        self.client.post(self.url, {"removeflag": "forbidden", "scope": "source"})
+        self.client.post(self.url, {"addflag": "terminology", "scope": "source"})
+        self.source.refresh_from_db()
+        self.assertEqual(self.source.extra_flags, "read-only, terminology")
+
+    def test_glossary_tools_distinguish_untranslatable_from_inherited_readonly(
+        self,
+    ) -> None:
+        self.enable_glossary()
+        Translation.objects.filter(pk=self.unit.translation_id).update(
+            check_flags="read-only"
+        )
+        payload = {"addflag": "forbidden", "scope": "translation"}
+        response = self.client.post(self.url, payload)
+        self.assertRedirects(response, self.unit.get_absolute_url())
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.extra_flags, "forbidden")
+
+        self.client.post(self.url, {"removeflag": "forbidden", "scope": "translation"})
+        Unit.objects.filter(pk=self.unit.pk).update(flags="read-only")
+        response = self.client.post(self.url, payload, follow=True)
+        self.assertContains(
+            response, 'aria-describedby="unit-tool-reason-translation-forbidden"'
+        )
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.extra_flags, "")
 
     def test_bulk_flags_use_matches_before_state_change(self) -> None:
         Unit.objects.filter(pk=self.unit.pk).update(state=STATE_FUZZY)
@@ -411,5 +616,5 @@ class UnitFlagsTest(ViewTestCase):
         actions = self.unit.get_flag_actions(self.user)
         self.assertIn(
             ("removeflag", "read-only", "translation"),
-            {(action, flag, scope) for action, flag, _label, scope in actions},
+            {(action.action, action.flag, action.scope) for action in actions},
         )

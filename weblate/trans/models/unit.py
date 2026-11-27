@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 from functools import partial
-from typing import TYPE_CHECKING, Any, TypedDict, cast
+from typing import TYPE_CHECKING, Any, NamedTuple, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
@@ -140,6 +140,14 @@ UNIT_SOURCE_UPDATE_FIELDS = (
     "num_words",
     "last_updated",
 )
+
+
+class UnitFlagAction(NamedTuple):
+    action: str
+    flag: str
+    label: str
+    scope: str
+    disabled_reason: str = ""
 
 
 def orders_units_by_component(obj: object) -> bool:
@@ -3501,22 +3509,27 @@ class Unit(models.Model, LoggerMixin):
 
         return Flags(self.translation.all_flags, unit_flags)
 
-    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
+    def get_all_flags(
+        self,
+        override: Flags | str | None = None,
+        *,
+        source_flags: str | None = None,
+        extra_flags: str | None = None,
+    ) -> Flags:
         """Return inherited flags with source and translation overrides."""
+        if source_flags is None:
+            # The source_unit is None before saving the object for the first time.
+            source_flags = getattr(self.source_unit, "extra_flags", "")
         # Ordering is important here as that defines overriding
         flags = Flags(
             self.get_inherited_flags(override),
-            # The source_unit is None before saving the object for the first time
-            getattr(self.source_unit, "extra_flags", ""),
-            # This unit flag overrides
-            self.extra_flags,
+            source_flags,
+            self.extra_flags if extra_flags is None else extra_flags,
         )
 
         # Explicit source-wide read-only cannot be discarded by a translation.
         # Do not inherit source translation restrictions imposed by its format.
-        if not self.is_source and "read-only" in Flags(
-            getattr(self.source_unit, "extra_flags", "")
-        ):
+        if not self.is_source and "read-only" in Flags(source_flags):
             flags.merge("read-only")
         return flags
 
@@ -3534,11 +3547,15 @@ class Unit(models.Model, LoggerMixin):
         edited there (for example source strings of a bilingual file).
         Glossaries use this to tell untranslatable terms apart.
         """
-        # The source_unit is None before saving the object for the first time
-        source_flags = Flags(getattr(self.source_unit, "extra_flags", ""))
+        return self._has_untranslatable_flag(
+            getattr(self.source_unit, "extra_flags", ""), self.extra_flags
+        )
+
+    def _has_untranslatable_flag(self, source_flags: str, extra_flags: str) -> bool:
+        parsed_source = Flags(source_flags)
 
         # Explicit source-wide read-only cannot be discarded by a translation.
-        if not self.is_source and "read-only" in source_flags:
+        if not self.is_source and "read-only" in parsed_source:
             return True
 
         # Validate flags from the unit to avoid crash
@@ -3550,9 +3567,9 @@ class Unit(models.Model, LoggerMixin):
         return "read-only" in Flags(
             # Apply unit flags from the file format
             unit_flags,
-            source_flags,
+            parsed_source,
             # This unit flag overrides
-            self.extra_flags,
+            extra_flags,
         )
 
     def get_unit_flags(self) -> Flags:
@@ -3739,9 +3756,55 @@ class Unit(models.Model, LoggerMixin):
         unit = self if self.is_source else self.source_unit
         return unit.labels.all()
 
-    def get_flag_actions(
-        self, user: User | None = None
-    ) -> list[tuple[str, str, str, str]]:
+    def get_flag_action_error(
+        self, action: str, flag: str, extra_flags: str | None = None
+    ) -> str:
+        """Explain why a Tools action on this unit would create a glossary conflict."""
+        if (
+            not self.translation.component.is_glossary
+            or action == "removeflag"
+            or flag not in {"read-only", "forbidden"}
+        ):
+            return ""
+        if extra_flags is None:
+            flags = self.get_unit_flags()
+            flags.merge(flag)
+            extra_flags = flags.format()
+        if self.extra_flags != extra_flags and self._introduces_glossary_flag_conflict(
+            extra_flags
+        ):
+            return gettext(
+                "A glossary entry cannot be both untranslatable and forbidden in the same language."
+            )
+        return ""
+
+    def _introduces_glossary_flag_conflict(self, extra_flags: str) -> bool:
+        source_flags = (
+            self.extra_flags if self.is_source else self.source_unit.extra_flags
+        )
+
+        def has_conflict(unit: Unit, source_flags: str, extra_flags: str) -> bool:
+            return "forbidden" in unit.get_all_flags(
+                source_flags=source_flags, extra_flags=extra_flags
+            ) and unit._has_untranslatable_flag(source_flags, extra_flags)
+
+        if has_conflict(
+            self, extra_flags if self.is_source else source_flags, extra_flags
+        ) and not has_conflict(self, source_flags, self.extra_flags):
+            return True
+
+        if not self.is_source:
+            return False
+
+        for unit in self.unit_set.exclude(pk=self.pk).select_related("translation"):
+            unit.translation.component = self.translation.component
+            if has_conflict(unit, extra_flags, unit.extra_flags) and not has_conflict(
+                unit, source_flags, unit.extra_flags
+            ):
+                return True
+        return False
+
+    def get_flag_actions(self, user: User | None = None) -> list[UnitFlagAction]:
         """Return flag operations with explicit source or translation scope."""
         result = []
         source = self.source_unit
@@ -3766,10 +3829,13 @@ class Unit(models.Model, LoggerMixin):
                 and not source.can_set_extra_flags(user, "terminology")
             ):
                 return
-            if user is None or all(
+            if user is not None and not all(
                 user.has_perm("meta:unit.flag", unit.translation) for unit in targets
             ):
-                result.append((action, flag, label, scope))
+                return
+            # Promotion keeps the translation untranslatable through the source.
+            disabled_reason = targets[0].get_flag_action_error(action, flag)
+            result.append(UnitFlagAction(action, flag, label, scope, disabled_reason))
 
         if source_readonly:
             # Only offer removal when removing the stored flag can unlock it.
@@ -3824,8 +3890,12 @@ class Unit(models.Model, LoggerMixin):
                     "forbidden",
                     self,
                     "source" if self.is_source else "translation",
-                    gettext("Mark as forbidden translation"),
-                    gettext("Unmark as forbidden translation"),
+                    gettext("Mark as forbidden for all languages")
+                    if self.is_source
+                    else gettext("Mark this translation as forbidden"),
+                    gettext("Unmark as forbidden for all languages")
+                    if self.is_source
+                    else gettext("Unmark this translation as forbidden"),
                 ),
                 (
                     "terminology",

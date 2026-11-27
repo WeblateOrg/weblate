@@ -79,6 +79,13 @@ Glossary terms
 Glossary terms are translated the same way regular strings are. You can
 toggle additional features using the :guilabel:`Tools` menu for each term.
 
+Actions under :guilabel:`This translation` affect the entry in the language you
+are editing. Actions under :guilabel:`All languages` affect the source entry and
+apply across the glossary. To remove a term from every language, open its
+source entry and choose :guilabel:`Delete this string in all languages`. To
+remove an entry from one language, open that translation and choose
+:guilabel:`Delete this string in this language` when available.
+
 .. image:: /screenshots/glossary-tools.webp
 
 .. seealso::
@@ -139,11 +146,19 @@ for brand names, product names, domains, technology names, or other terms that
 should not be changed in other languages. Such terms are visually highlighted
 in the glossary sidebar.
 
+The editor shows an :guilabel:`Untranslatable term` badge for these entries,
+including source strings whose editing is already disabled. The editor shows
+edit restrictions separately.
+
 To keep a term unchanged in every language, use
 :guilabel:`Mark as untranslatable for all languages`. If the current translation
 is already untranslatable, :guilabel:`Make untranslatable apply to all languages`
-moves that flag to the source. Forbidden translations are language-specific;
-terminology remains source-wide.
+moves that flag to the source. Terminology applies to all languages.
+
+The :guilabel:`Tools` menu prevents marking an entry as both untranslatable and
+forbidden in the same language. An action for all languages is unavailable if
+it would create a conflict in any language. Unmark the conflicting flag in its
+own scope before applying the new flag.
 
 The ``read-only`` flag is enough when the glossary entry already exists in the
 languages where it should be shown. Add the :ref:`glossary-terminology` flag as
@@ -163,9 +178,10 @@ Forbidden translations
 
 Flagging certain glossary term translations as ``forbidden`` by bulk-editing,
 typing in the flag, or by using :guilabel:`Tools` ↓
-:guilabel:`Mark as forbidden translation` means they are **not** to be used.
+:guilabel:`Mark this translation as forbidden` means they are **not** to be used.
 Use this to clarify translation when some words are ambiguous or could have
-unexpected meanings.
+unexpected meanings. To apply the flag across the glossary, open the source
+entry and choose :guilabel:`Mark as forbidden for all languages`.
 
 Use forbidden entries for translations that should be avoided. Use regular
 glossary entries for preferred translations.
