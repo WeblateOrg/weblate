@@ -1049,7 +1049,7 @@ function initHighlight(root) {
 onReady(() => {
   /* Delegate badge tooltips so asynchronously loaded badges also work. */
   const badgeSelector =
-    '.history-author [data-bs-toggle="tooltip"], .machinery-feature-tooltip';
+    '.history-author [data-bs-toggle="tooltip"], .history-lock, .machinery-feature-tooltip';
   new bootstrap.Tooltip(document.body, {
     selector: badgeSelector,
     customClass: "history-tooltip",

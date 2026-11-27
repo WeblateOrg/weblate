@@ -544,6 +544,9 @@ Origin badges are visible to anyone who can view the change. Superusers also
 see an IP address badge when an address was recorded. Origin metadata is also
 available through the :doc:`API </api>` to users who can access the change.
 
+When a component is currently locked, a lock icon appears beside its path in
+history. The icon disappears from its history rows when the component is unlocked.
+
 In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to browse
 history, or :guilabel:`Latest` to return to the newest matching changes.
 :guilabel:`Jump to date` starts with the latest changes on or before the selected

@@ -758,6 +758,7 @@ class ChangeQueriesTest(FixtureTestCase):
                 )
 
     def test_history_render_does_not_fetch_translation_metadata(self) -> None:
+        self.component.do_lock(self.user)
         for action in (ActionEvents.CHANGE, ActionEvents.SOURCE_CHANGE):
             for snapshot in (False, True):
                 with self.subTest(action=action, snapshot=snapshot):
@@ -772,11 +773,16 @@ class ChangeQueriesTest(FixtureTestCase):
                         rendered.count('class="history-data col-md-9"'), len(changes)
                     )
                     self.assertIn("Updated", html.fromstring(rendered).text_content())
+                    self.assertEqual(
+                        rendered.count('class="state-icon history-lock"'), len(changes)
+                    )
                     metadata_queries = [
                         query["sql"]
                         for query in queries
                         if 'FROM "trans_translation"' in query["sql"]
                         or 'FROM "lang_plural"' in query["sql"]
+                        or 'FROM "trans_component"' in query["sql"]
+                        or 'FROM "trans_unit"' in query["sql"]
                     ]
                     self.assertEqual(metadata_queries, [])
 
@@ -839,6 +845,68 @@ class FeedQueriesTest(FixtureTestCase):
 
 
 class ChangesTest(ReusableViewTestCase):
+    def test_current_component_lock_in_language_history(self) -> None:
+        language = self.translation.language
+        unlocked_component = self.create_po(
+            project=self.project, name="Unlocked component"
+        )
+        unlocked_translation = unlocked_component.translation_set.get(language=language)
+        self.component.do_lock(self.user)
+        Change.objects.all().delete()
+        locked_change = Change.objects.create(
+            unit=self.get_unit(), user=self.user, action=ActionEvents.SOURCE_CHANGE
+        )
+        unlocked_change = Change.objects.create(
+            unit=self.get_unit(translation=unlocked_translation),
+            user=self.user,
+            action=ActionEvents.SOURCE_CHANGE,
+        )
+        component_change = self.component.change_set.create(
+            language=language, user=self.user, action=ActionEvents.LOCK
+        )
+        announcement = Announcement.objects.create(
+            language=language, user=self.user, message="Language announcement"
+        )
+        language_change = Change.objects.get(announcement=announcement)
+        urls = (
+            reverse("show_language", kwargs={"lang": language.code}),
+            reverse("changes", kwargs={"path": language.get_url_path()}),
+        )
+        for locked in (True, False):
+            if not locked:
+                self.component.do_lock(self.user, lock=False)
+            for url in urls:
+                with self.subTest(locked=locked, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    document = html.fromstring(response.content)
+                    for change, expected in (
+                        (locked_change, locked),
+                        (component_change, locked),
+                        (unlocked_change, False),
+                        (language_change, False),
+                    ):
+                        rows = document.xpath(
+                            '//tbody[@id="changes-list"]/tr[.//a[@title="View details" and @href=$url]]',
+                            url=change.get_absolute_url(),
+                        )
+                        self.assertEqual(len(rows), 1)
+                        icons = rows[0].xpath(
+                            './/span[@class="state-icon history-lock"]'
+                        )
+                        self.assertEqual(len(icons), int(expected))
+                        if expected:
+                            self.assertEqual(
+                                icons[0].get("aria-label"),
+                                "This translation is locked.",
+                            )
+                            self.assertEqual(icons[0].get("tabindex"), "0")
+                            self.assertTrue(
+                                icons[0].xpath(
+                                    'parent::li[parent::ul[@class="breadcrumb"] and preceding-sibling::li[1]/a]'
+                                )
+                            )
+
     def test_email_author_filter_requires_account_lookup_permission(self) -> None:
         author = User.objects.create_user("hidden-author", "hidden@example.org", "x")
         self.client.logout()
