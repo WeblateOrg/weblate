@@ -311,13 +311,31 @@ the App. The same exemption is needed for repository access. If
 :setting:`VCS_ALLOW_HOSTS` is non-empty, it must also include the Enterprise
 hostname; :setting:`VCS_PRIVATE_ALLOWLIST` does not bypass that host filter.
 
-The manifest requests the permissions and event subscriptions Weblate needs
-(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
-``Organization administration`` read-only, ``Workflows`` read/write, and the
-``Installation``, ``Meta``, ``Push`` and ``Repository`` events), and sets the
-callback, setup and per-app webhook URLs automatically, so no manual GitHub App
-configuration is required. GitHub delivers the ``Installation`` and
-``Installation repositories`` events to all GitHub Apps by default.
+.. list-table:: Permissions requested by the GitHub App
+   :header-rows: 1
+
+   * - Permission
+     - Access
+     - Why Weblate requests it
+   * - Contents
+     - Read and write
+     - Clone repositories and push translation commits.
+   * - Metadata
+     - Read-only
+     - List repositories available to the installation and read their names and URLs.
+   * - Pull requests
+     - Read and write
+     - Find existing translation pull requests and open new ones.
+   * - Organization administration
+     - Read-only
+     - Verify that the person connecting an organization installation is an organization owner.
+
+If you own a previously registered GitHub App, you can remove its
+:guilabel:`Workflows` permission in the App settings on GitHub.
+
+The manifest sets the callback, setup, and webhook URLs and subscribes to the
+``Installation target``, ``Meta``, ``Push``, and ``Repository`` events. GitHub delivers
+the ``Installation`` and ``Installation repositories`` events to all GitHub Apps by default.
 
 GitHub only offers accounts where the signed-in GitHub user can install or
 request the app. If an organization is not shown during the install flow, check

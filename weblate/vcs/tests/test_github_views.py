@@ -35,7 +35,6 @@ from weblate.utils.tests import http_mock
 from weblate.utils.tests.network import mock_dns
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
-    GITHUB_APP_MANIFEST_PERMISSIONS,
     GitHubAppCredentials,
     GithubAppRepository,
     GitHubInstallation,
@@ -3313,7 +3312,13 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertTrue(manifest["request_oauth_on_install"])
         self.assertTrue(manifest["public"])
         self.assertEqual(
-            manifest["default_permissions"], dict(GITHUB_APP_MANIFEST_PERMISSIONS)
+            manifest["default_permissions"],
+            {
+                "contents": "write",
+                "metadata": "read",
+                "organization_administration": "read",
+                "pull_requests": "write",
+            },
         )
         self.assertEqual(manifest["default_events"], list(GITHUB_APP_MANIFEST_EVENTS))
         self.assertIn("repository", manifest["default_events"])
