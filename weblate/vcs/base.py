@@ -161,6 +161,7 @@ type RepositoryErrorCode = Literal[
     "template_render_failed",
     "repository_checkout_missing",
     "repository_checkout_invalid",
+    "local_repository_initialization_conflict",
     "api_error",
     "api_error_retry",
     "api_request_failed",
@@ -261,6 +262,11 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "repository_checkout_invalid": gettext_noop(
         "The local repository checkout is invalid."
+    ),
+    "local_repository_initialization_conflict": gettext_noop(
+        "The local repository directory already exists, but its Git history "
+        "could not be read. Retry the operation or recover the checkout if "
+        "the problem persists."
     ),
     "api_error": gettext_noop("%(detail)s"),
     "api_error_retry": gettext_noop("%(detail)s Please retry later."),
@@ -710,6 +716,18 @@ def format_stored_repository_error(
         params=error.get("params"),
     )
     return structured.get_message(translator)
+
+
+class LocalRepositoryInitializationConflictError(RepositoryInternalError):
+    """The directory could not be claimed for local initialization."""
+
+    def __init__(
+        self,
+        code: Literal["local_repository_initialization_conflict"] = (
+            "local_repository_initialization_conflict"
+        ),
+    ) -> None:
+        super().__init__(0, code)
 
 
 class RepositoryTemplateError(RepositoryInternalError):

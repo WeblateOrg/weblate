@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from copy import deepcopy
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
+from celery.exceptions import Retry
 from django.core.cache import cache
 from django.db import transaction
 from django.template.loader import render_to_string
@@ -46,6 +48,7 @@ from weblate.trans.alerts.config import (
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.forms import ContextForm, UnitFlagsForm
 from weblate.trans.models import PendingUnitChange, Unit, WorkflowSetting
+from weblate.trans.tasks import component_after_save
 from weblate.trans.tests.test_views import ReusableViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
@@ -56,6 +59,8 @@ from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.xml import PARSER
+from weblate.vcs.base import LocalRepositoryInitializationConflictError
+from weblate.vcs.git import LocalRepository
 
 if TYPE_CHECKING:
     from weblate.trans.models import Translation
@@ -198,11 +203,88 @@ class GlossaryTest(ReusableViewTestCase):
         content = filename.read_bytes()
         revision = component.repository.get_last_revision()
 
-        # The queued initializer must preserve files created by synchronization.
-        component.configure_repo(pull=False)
+        git_dir = os.path.join(component.full_path, ".git")
+        exists = os.path.exists
+
+        def stale_exists(path: str) -> bool:
+            return path != git_dir and exists(path)
+
+        # The kernel still reports EEXIST even when this client cannot see .git.
+        with (
+            patch.object(os.path, "exists", side_effect=stale_exists),
+            patch.object(
+                LocalRepository,
+                "has_initialized_checkout",
+                wraps=LocalRepository.has_initialized_checkout,
+            ) as probe,
+            acting_user_context(self.user),
+        ):
+            self.run_glossary_after_save()
+
+        probe.assert_called_once_with(component.full_path)
         self.assertEqual(filename.read_bytes(), content)
         self.assertEqual(component.repository.get_last_revision(), revision)
         self.assertFalse(component.repository.needs_commit())
+
+    def run_glossary_after_save(self, *, retries: int = 0) -> None:
+        component_after_save.apply(
+            args=(self.glossary_component.pk,),
+            kwargs={
+                "changed_git": True,
+                "changed_setup": True,
+                "changed_template": False,
+                "changed_variant": False,
+                "changed_enforced_checks": False,
+                "skip_push": True,
+                "create": True,
+            },
+            retries=retries,
+            throw=True,
+        )
+
+    def test_after_save_retries_when_local_checkout_is_not_yet_visible(self) -> None:
+        component = self.glossary_component
+        revision = component.repository.get_last_revision()
+        git_dir = os.path.join(component.full_path, ".git")
+        exists = os.path.exists
+        visible = False
+
+        def stale_exists(path: str) -> bool:
+            return (visible or path != git_dir) and exists(path)
+
+        with (
+            patch.object(os.path, "exists", side_effect=stale_exists),
+            patch.object(
+                LocalRepository, "has_initialized_checkout", return_value=False
+            ) as probe,
+            acting_user_context(self.user),
+        ):
+            with self.assertRaises(Retry):
+                self.run_glossary_after_save()
+            visible = True
+            self.run_glossary_after_save(retries=1)
+
+        probe.assert_called_once_with(component.full_path)
+        self.assertEqual(component.repository.get_last_revision(), revision)
+
+    def test_after_save_preserves_uninitialized_directory_at_retry_limit(self) -> None:
+        root = Path(self.glossary_component.full_path)
+        remove_tree(root)
+        root.mkdir()
+        sentinel = root / "working-file"
+        sentinel.write_bytes(b"preserve")
+        max_retries = component_after_save.max_retries
+        if max_retries is None:
+            self.fail("Expected a bounded retry policy.")
+
+        with (
+            acting_user_context(self.user),
+            self.assertRaises(LocalRepositoryInitializationConflictError),
+        ):
+            self.run_glossary_after_save(retries=max_retries)
+
+        self.assertEqual(sentinel.read_bytes(), b"preserve")
+        self.assertFalse((root / ".git").exists())
 
     def test_add_language_initializes_local_repository(self) -> None:
         component = self.glossary_component

@@ -115,7 +115,11 @@ from weblate.utils.task_log import (
     record_task_failure,
     store_task_failure_dependencies,
 )
-from weblate.vcs.base import RepositoryError, RepositoryTemplateError
+from weblate.vcs.base import (
+    LocalRepositoryInitializationConflictError,
+    RepositoryError,
+    RepositoryTemplateError,
+)
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
 LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
@@ -1394,7 +1398,11 @@ def component_alerts(component_ids=None) -> None:
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
+    autoretry_for=(
+        Component.DoesNotExist,
+        LocalRepositoryInitializationConflictError,
+        WeblateLockTimeoutError,
+    ),
     retry_backoff=60,
 )
 @transaction.atomic

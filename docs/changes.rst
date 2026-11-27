@@ -142,6 +142,7 @@ Weblate 2026.12
 
 * Preserved source strings backed by a file when :ref:`removing their last translation <component-manage_units>`.
 * Enabled adding languages from the project language list in :ref:`glossary-only projects <glossary-language-sync>`.
+* Preserved existing local repositories when concurrent :ref:`glossary synchronization <glossary-language-sync>` and component setup run on shared storage.
 * Preserved special characters in e-mail subjects for :ref:`notifications`.
 * Handled invalid configured :ref:`templates <markup>` without unhandled server errors, preserving editor access and reporting failed repository and add-on operations.
 

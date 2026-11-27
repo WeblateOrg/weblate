@@ -26,6 +26,7 @@ from unittest.mock import MagicMock, call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import httpx2
+from celery.utils.serialization import get_pickleable_exception
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connections
@@ -50,6 +51,7 @@ from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs import git as git_module
 from weblate.vcs.base import (
+    LocalRepositoryInitializationConflictError,
     Repository,
     RepositoryCommandError,
     RepositoryError,
@@ -163,6 +165,13 @@ class BrokenGitChildRepository(BrokenGitRepository):
     @classmethod
     def _get_version(cls) -> str:
         return "1.0"
+
+
+class RepositoryErrorTest(SimpleTestCase):
+    def test_local_initialization_conflict_survives_serialization(self) -> None:
+        error = LocalRepositoryInitializationConflictError()
+
+        self.assertIs(get_pickleable_exception(error), error)
 
 
 class RepositoryTest(TestCase):
@@ -7309,6 +7318,24 @@ class VCSLocalTest(VCSGitTest):
             self.assertTrue(repo.is_valid())
             self.assertFalse(repo.needs_commit())
 
+    def test_from_files_preserves_unseen_destination_on_mkdir_failure(self) -> None:
+        target = os.path.join(self.tempdir, "unseen-destination")
+        os.mkdir(target)
+        sentinel = Path(target, "sentinel")
+        sentinel.write_bytes(b"preserve")
+        exists = os.path.exists
+
+        def stale_exists(path: str) -> bool:
+            return path != target and exists(path)
+
+        with (
+            patch.object(os.path, "exists", side_effect=stale_exists),
+            self.assertRaises(FileExistsError),
+        ):
+            LocalRepository.from_files(target, {"translation.txt": b"replacement"})
+
+        self.assertEqual(sentinel.read_bytes(), b"preserve")
+
     def test_upstream_changes(self) -> NoReturn:
         self.skipTest("Not supported")
 
@@ -7504,10 +7531,14 @@ remove the file manually to continue.
             zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
         archive.seek(0)
         target = Path(self.tempdir) / "from-zip-casefolded-metadata"
+        target.mkdir()
+        old_file = target / "old-file"
+        old_file.write_bytes(b"replace")
 
         repo = LocalRepository.from_zip(str(target), archive)
 
         self.assertTrue(repo.is_valid())
+        self.assertFalse(old_file.exists())
         self.assertTrue((target / "locale" / "cs.po").is_file())
         self.assertNotIn(
             "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
