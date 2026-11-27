@@ -13,14 +13,56 @@ import os
 import shutil
 import subprocess
 import unittest
-from contextlib import redirect_stderr
+from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from time import monotonic
 from unittest.mock import Mock, patch
 
-from environment import Environment, configuration, initialize, main, project_name
+from environment import (
+    Environment,
+    configuration,
+    initialize,
+    main,
+    podman_socket,
+    project_name,
+)
+
+
+class EngineSelectionTests(unittest.TestCase):
+    def test_podman_selection(self) -> None:
+        socket = "unix:///test-runtime/podman/podman.sock"
+        for host, engine, expected in (
+            ("", "", None),
+            (socket, "", socket),
+            ("unix:///var/run/docker.sock", "", None),
+            ("", "podman", socket),
+            (socket, "docker", None),
+        ):
+            with (
+                self.subTest(host=host, engine=engine),
+                patch.dict(
+                    os.environ,
+                    {"XDG_RUNTIME_DIR": "/test-runtime", "DOCKER_HOST": host},
+                ),
+            ):
+                os.environ.pop("WEBLATE_CONTAINER_ENGINE", None)
+                if engine:
+                    os.environ["WEBLATE_CONTAINER_ENGINE"] = engine
+                self.assertEqual(podman_socket(), expected)
+
+    def test_explicit_docker_drops_the_rootless_podman_host(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "DOCKER_HOST": "unix:///test-runtime/podman/podman.sock",
+                "WEBLATE_CONTAINER_ENGINE": "docker",
+                "XDG_RUNTIME_DIR": "/test-runtime",
+            },
+        ):
+            env = Environment(Path("/checkout"), "app", "compose")
+        self.assertNotIn("DOCKER_HOST", env.environment)
 
 
 class WorktreeTests(unittest.TestCase):
@@ -132,6 +174,11 @@ class WorktreeTests(unittest.TestCase):
 
 
 class CommandTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.enterContext(
+            patch.dict(os.environ, {"WEBLATE_CONTAINER_ENGINE": "docker"})
+        )
+
     def test_application_journey_failure_captures_logs(self) -> None:
         for launcher in ([], ["--rundev"]):
             with (
@@ -343,6 +390,43 @@ class ApplicationTests(unittest.TestCase):
         self.assertEqual(app["working_dir"], test["working_dir"])
         self.assertEqual(app["environment"]["WEBLATE_SOURCE_DIR"], app["working_dir"])
 
+    def test_podman_maps_only_the_checkout_users(self) -> None:
+        with patch("environment.git", return_value="/shared/.git"):
+            config = configuration(self.env.root, podman=True)
+        self.assertEqual(
+            {
+                name: service["userns_mode"]
+                for name, service in config["services"].items()
+            },
+            {"developer": "keep-id", "weblate": "keep-id"},
+        )
+        self.assertIn("/run:exec,mode=1777", config["services"]["weblate"]["tmpfs"])
+
+    def test_app_doctor_reports_missing_services_without_waiting(self) -> None:
+        with (
+            patch.object(self.env, "output", return_value="[]"),
+            patch("environment.time", monotonic=monotonic) as clock,
+            redirect_stderr(StringIO()) as stderr,
+        ):
+            self.assertEqual(self.env.doctor([]), 1)
+        self.assertIn("./rundev.sh up", stderr.getvalue())
+        clock.sleep.assert_not_called()
+
+    def test_podman_doctor_reports_socket_and_provider_failures(self) -> None:
+        env = Environment(
+            self.env.root, "app", "compose", socket="unix:///podman/podman.sock"
+        )
+        for results, message in (
+            ([FileNotFoundError()], "systemctl --user start podman.socket"),
+            (["5.4.2", "podman-compose version 1.3.0"], "PODMAN_COMPOSE_PROVIDER"),
+        ):
+            with (
+                self.subTest(results=results),
+                patch("environment.subprocess.check_output", side_effect=results),
+                self.assertRaisesRegex(RuntimeError, message),
+            ):
+                env.doctor([])
+
     def test_reject_invalid_port(self) -> None:
         for value in (
             "",
@@ -357,6 +441,22 @@ class ApplicationTests(unittest.TestCase):
                 self.assertRaises(ValueError),
             ):
                 self.env.address("weblate", 8080)
+
+    def test_mailbox_link_opens_the_ui(self) -> None:
+        urls = {
+            "application": "http://127.0.0.1:43210/",
+            "mailbox": "http://127.0.0.1:43211/",
+        }
+        with (
+            patch.object(self.env, "urls", return_value=urls),
+            redirect_stdout(StringIO()) as stdout,
+        ):
+            self.env.print_urls()
+            self.assertIn(f"{urls['mailbox']}index.html", stdout.getvalue())
+            stdout.truncate(0)
+            stdout.seek(0)
+            self.env.print_urls(as_json=True)
+            self.assertEqual(json.loads(stdout.getvalue()), urls)
 
     def test_startup_activation_precedes_readiness(self) -> None:
         with (
@@ -439,22 +539,32 @@ class ApplicationTests(unittest.TestCase):
             {"type": "volume", "source": "app-data"},
             {"type": "bind", "source": "/source"},
         ]
-        with (
-            patch.object(self.env, "output", return_value=json.dumps(config)),
-            patch.object(self.env, "call", return_value=0) as compose,
-            patch(
-                "environment.subprocess.check_output",
-                return_value="owned_app-data\nowned_developer-data\n",
-            ),
-            patch("environment.subprocess.call", return_value=0) as docker,
+        socket = "unix:///podman/podman.sock"
+        for address, engine in (
+            (None, ["docker"]),
+            (socket, ["podman", "--url", socket]),
         ):
-            self.assertEqual(self.env.destroy(all_profiles=False), 0)
-        self.assertEqual(
-            compose.call_args.args, ("rm", "--stop", "--force", *self.env.services)
-        )
-        self.assertEqual(
-            docker.call_args.args[0], ["docker", "volume", "rm", "owned_app-data"]
-        )
+            env = Environment(self.env.root, "app", "compose", socket=address)
+            with (
+                self.subTest(engine=engine),
+                patch.object(env, "output", return_value=json.dumps(config)),
+                patch.object(env, "call", return_value=0) as compose,
+                patch(
+                    "environment.subprocess.check_output",
+                    return_value="owned_app-data\nowned_developer-data\n",
+                ) as volumes,
+                patch("environment.subprocess.call", return_value=0) as remove,
+            ):
+                self.assertEqual(env.destroy(all_profiles=False), 0)
+                self.assertEqual(env.compose[: len(engine) + 1], [*engine, "compose"])
+                self.assertEqual(
+                    compose.call_args.args, ("rm", "--stop", "--force", *env.services)
+                )
+                self.assertEqual(volumes.call_args.args[0][: len(engine)], engine)
+                self.assertEqual(
+                    remove.call_args.args[0],
+                    [*engine, "volume", "rm", "owned_app-data"],
+                )
 
     def test_host_profiles_do_not_enable_application(self) -> None:
         with patch.dict(os.environ, {"COMPOSE_PROFILES": "app"}):
@@ -462,17 +572,31 @@ class ApplicationTests(unittest.TestCase):
         self.assertNotIn("COMPOSE_PROFILES", env.environment)
 
 
-@unittest.skipUnless(shutil.which("docker"), "Docker Compose is not installed")
 class ComposeConfigurationTests(unittest.TestCase):
     def test_application_paths_resolve_from_base_file(self) -> None:
+        for compose in (["docker", "compose"], ["docker-compose"]):
+            if not shutil.which(compose[0]):
+                continue
+            help_result = subprocess.run(
+                [*compose, "config", "--help"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if help_result.returncode == 0 and any(
+                "--format" in line and "json" in line
+                for line in help_result.stdout.splitlines()
+            ):
+                break
+        else:
+            self.skipTest("Docker Compose with JSON config output is not installed")
         root = Path(__file__).resolve().parent.parent
         with TemporaryDirectory() as directory:
             override = Path(directory) / "compose.local.json"
             override.write_text(json.dumps(configuration(root)))
             output = subprocess.check_output(
                 [
-                    "docker",
-                    "compose",
+                    *compose,
                     "--project-name",
                     project_name(root),
                     "-f",
