@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-25 19:12+0000\n"
 "Last-Translator: Hyeonjeong Lee <hayden@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -42,6 +42,11 @@ msgstr "없음"
 
 msgid "User avatar"
 msgstr "사용자 아바타"
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "제안 수({count})가 너무 많습니다. 관리자에게 문의하세요."
 
 msgid "No notification"
 msgstr "알림 없음"
@@ -1460,9 +1465,6 @@ msgstr "무료 체험"
 msgid "Notification diagnostics for %(user)s"
 msgstr "%(object)s의 알림 음소거"
 
-msgid "This user can not be edited."
-msgstr "이 사용자를 편집할 수 없습니다."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr "%(user)s의 사이트 전체 편집 복원이 예약되었습니다."
@@ -2240,6 +2242,18 @@ msgid ""
 msgstr ""
 "Meson 애드온은 meson.build와 POTFILES 또는 POTFILES.in이 있는 Meson gettext "
 "디렉터리가 필요합니다."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "원문 검토 활성화"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "이 컴포넌트는 새로운 번역을 위해 gettext 템플릿을 정의해야 합니다."
@@ -3151,6 +3165,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "{username} 님이 실행함."
+
 msgid "Allowed number of requests to perform"
 msgstr "수행할 수 있는 허용된 요청 수"
 
@@ -3359,6 +3384,9 @@ msgstr "작업을 수행하기 위해 구성요소 %s의 업데이트 잠금을 
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "작업을 수행하기 위해 %(origin)s의 %(scope)s 잠금을 얻을 수 없습니다."
+
+msgid "This user can not be edited."
+msgstr "이 사용자를 편집할 수 없습니다."
 
 msgid "Expected an object."
 msgstr "객체가 필요합니다."
@@ -4785,7 +4813,7 @@ msgstr "결제 이벤트"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "구성요소가 없는 프로젝트"
 
 msgid "monthly"
@@ -5923,6 +5951,14 @@ msgstr "변경되지 않은 번역"
 msgid "Source and translation are identical."
 msgstr "원문과 번역이 동일합니다."
 
+msgid "Saving string failed"
+msgstr "문자열 저장 실패"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "승인된 번역만 번역 파일에 기록됩니다."
+
 msgid "Unpluralised"
 msgstr "복수형 미사용"
 
@@ -6106,6 +6142,11 @@ msgstr "gettext 확장이 포함된 XLIFF 1.1"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.2 번역 파일"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6146,6 +6187,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "저장소를 업데이트할 수 없습니다."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The workbook header row is empty."
+msgstr "리소스가 잠겼습니다."
 
 #, python-format
 msgid ""
@@ -6438,6 +6484,10 @@ msgid "App store metadata files"
 msgstr "앱 스토어 메타데이터 파일"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -7649,6 +7699,23 @@ msgstr "구성요소 원문 언어"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "프로젝트 또는 구성요소에 정의된 보조 언어"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "접근 권한이 거부되었습니다"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "번역 맥락"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -8921,19 +8988,6 @@ msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr "API 키는 자동으로 내보내기된 Git 저장소의 인증에도 사용됩니다."
-
-msgid "Code-hosting connections"
-msgstr "코드 호스팅 연결"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"관리 중인 워크스페이스에 연결된 코드 호스팅 계정을 관리하세요. 이 연결은 로그"
-"인 ID와 별개입니다."
-
-msgid "Manage code-hosting connections"
-msgstr "코드 호스팅 연결 관리"
 
 msgid "Pending invitation"
 msgstr "초대 보류 중"
@@ -10283,13 +10337,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "구성 요소 메시지 추가"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "작업공간에 프로젝트 추가"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "View affected components"
+msgstr "구성요소 생성됨"
 
 msgid "Customer"
 msgstr "고객"
@@ -10705,6 +10775,11 @@ msgstr "이 구성요소 복제"
 
 msgid "Share in projects"
 msgstr "프로젝트에서 공유"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "무료 호스팅 문의"
 
 msgid "dismissed"
 msgstr "해결됨"
@@ -12492,8 +12567,10 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "이 Weblate는 weblate.org에 등록되어 있습니다"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "이 Weblate는 weblate.org에 등록되어 있지 않습니다"
@@ -13371,6 +13448,19 @@ msgstr "번역 메모리 가져오기"
 msgid "Delete announcement"
 msgstr "공지 삭제"
 
+msgid "Contributors"
+msgstr "기여자"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "기여자 라이선스 계약이 제거되었습니다."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "최근 기여 내역이 없습니다."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13454,6 +13544,16 @@ msgstr "작성자 이름"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "이름"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "이전"
+
 msgid "Click to edit position"
 msgstr "클릭하여 위치 편집"
 
@@ -13471,6 +13571,16 @@ msgstr "이동"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "다음"
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last page"
+msgstr "최종 업데이트"
 
 msgid "Labels"
 msgstr "레이블"
@@ -14124,6 +14234,11 @@ msgstr "대소문자 구분"
 msgid "Most active translators"
 msgstr "가장 활발한 번역자"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "새 기여자"
+
 msgid "Browse all users"
 msgstr "모든 사용자 보기"
 
@@ -14202,9 +14317,6 @@ msgstr "최근 30일간의 추이"
 
 msgid "Quick numbers"
 msgstr "주요 수치"
-
-msgid "Contributors"
-msgstr "기여자"
 
 msgid "Translations"
 msgstr "번역"
@@ -14554,6 +14666,25 @@ msgstr "쿼리"
 msgid "Refresh results"
 msgstr "저장소"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "개인 파일"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "저장소에서 번역된 원본 형식 파일"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr "모든 문자열, 의견이 포함된 변환 파일. 오프라인 번역에 적합"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14745,6 +14876,22 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "IP 주소가 클립보드에 복사되었습니다."
 
+msgid "Strings"
+msgstr "문자열"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s 개의 단어"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "문자 개수"
+
 msgid "Suggestion added"
 msgstr "제안 추가됨"
 
@@ -14808,9 +14955,6 @@ msgstr "대상 문자열"
 
 msgid "Translation status"
 msgstr "번역 현황"
-
-msgid "Strings"
-msgstr "문자열"
 
 msgid "Words"
 msgstr "단어"
@@ -14971,9 +15115,6 @@ msgstr "%(addon)s 설정"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate에서 스크립트 애드온을 실행할 수 없습니다."
 
-msgid "The following occurrences were found:"
-msgstr "다음 항목이 발견되었습니다:"
-
 msgid "Command"
 msgstr "명령"
 
@@ -14993,6 +15134,9 @@ msgstr ""
 "이 언어 코드는 매크로 언어를 나타내며, 일반적으로 개별 언어 코드를 사용하는 "
 "것이 좋습니다."
 
+msgid "The following occurrences were found:"
+msgstr "다음 항목이 발견되었습니다:"
+
 msgid "Suggested individual language codes"
 msgstr "권장 개별 언어 코드"
 
@@ -15010,6 +15154,15 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15116,6 +15269,9 @@ msgid ""
 msgstr ""
 "업스트림 저장소를 찾을 수 없습니다. 저장소가 존재하고 Weblate에서 접근 가능한"
 "지 확인하세요."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15386,7 +15542,10 @@ msgstr "다음 파일이 더 이상 저장소에 없습니다:"
 msgid "Template for new translations"
 msgstr "신규 번역의 템플릿"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "저장소를 업데이트하는 동안 Weblate에서 업스트림 변경사항을 병합할 수 없었습니"
 "다."
@@ -15438,6 +15597,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "번역 구성요소가 단일 언어로 보이지만, 그렇게 설정되어 있지 않습니다."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "구성요소 설정에서 단일 언어 기본 언어 파일을 추가하세요."
 
@@ -15471,11 +15641,15 @@ msgstr ""
 "번역이 이미 있다면 파일 마스크 <code>%(filemask)s</code>가 버전 관리 시스템 "
 "저장소의 파일과 일치하는지 확인하세요."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "%(count)s건 중 일부만 표시됩니다."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "최종 발생"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15498,6 +15672,24 @@ msgstr "Weblate에서 업스트림 저장소에 변경사항을 푸시할 수 �
 msgid "Push the repository"
 msgstr "저장소 푸시"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"VCS 저장소에 업스트림 대비 많은 변경사항이 있습니다. 수동으로 병합하거나 푸시"
+"를 설정하여 자동화하세요."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15514,6 +15706,24 @@ msgstr "Weblate는 저장소 브라우저 URL을 유효하지 않을 수 있습�
 #| msgid "Push the repository"
 msgid "Reset the repository"
 msgstr "저장소 푸시"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"VCS 저장소가 업스트림과 최신 상태가 아닙니다. 수동으로 병합하거나 훅을 설정하"
+"여 자동화하세요."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15547,6 +15757,19 @@ msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "이 구성요소는 %(count)s일 동안 번역을 받지 못했습니다."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate에는 %(date)s 이후로 이 프로젝트들에 대한 미처리 번역 변경 사항이 있습"
+"니다."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "번역이 제거되었습니다."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "더 이상 유용하지 않은 경우 구성요소 제거를 고려하세요."
@@ -15725,38 +15948,13 @@ msgid ""
 msgstr ""
 "기존 번역 파일을 ZIP 파일로 만든 후 %(link_start)s업로드%(link_end)s하세요."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-
-msgid "Add or configure account"
-msgstr "계정 추가 또는 설정"
 
 #, fuzzy
-#| msgid "Visibility changed"
-msgid "Visibility"
-msgstr "공개 범위 변경됨"
-
-msgid "Import"
-msgstr "가져오기"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"사용 가능한 저장소가 아직 없습니다. 여기에 저장소를 표시하려면 코드 호스팅 계"
-"정을 연결하세요."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "연결된 저장소가 있는 구성요소 표시"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15883,49 +16081,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "병합 충돌 해결을 위한 일반적인 워크플로"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"내보낸 Weblate 저장소는 기본적으로 shallow일 수 있으므로, 이 워크플로는 최신 "
-"업스트림 체크아웃에서 가장 잘 작동합니다. 내보낸 Weblate 저장소에서 복제하거"
-"나 오래된 업스트림 체크아웃을 사용하면 Weblate와 업스트림이 동기화되어 있어"
-"도 실패할 수 있습니다. 자세한 내용은 아래 FAQ를 참조하세요."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr "업스트림 저장소의 기존 체크아웃을 열거나 새로 체크아웃합니다."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Weblate에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Weblate에서 내보낸 저장소를 원격으로 추가합니다."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Weblate 변경사항을 병합하고 충돌을 해결합니다."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "업스트림 위에 Weblate 변경사항을 리베이스하고 충돌을 해결합니다."
-
-msgid "Push changes into upstream repository."
-msgstr "변경사항을 업스트림 저장소로 푸시합니다."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"이제 Weblate에서 업데이트된 저장소를 확인할 수 있으며 잠금을 해제할 수 있습니"
-"다."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "이 문제 해결 방법은 FAQ를 확인하세요."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "커밋 메시지에 Django 템플릿 마크업을 사용할 수 있습니다."
@@ -16031,6 +16201,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "번역 파일 정리"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -16298,6 +16478,16 @@ msgstr "스크린샷 추가"
 msgid "String information"
 msgstr "문자열 정보"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "대상 번역"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "번역 승인됨"
+
 msgid "No explanation currently provided."
 msgstr "현재 제공된 설명이 없습니다."
 
@@ -16440,19 +16630,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "저장소에서 번역된 원본 형식 파일"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr "모든 문자열, 의견이 포함된 변환 파일. 오프라인 번역에 적합"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr "미완료 문자열, 의견이 포함된 변환 파일. 오프라인 번역에 적합"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "업로드된 파일은 현재 번역과 병합됩니다."
 
@@ -16465,74 +16642,6 @@ msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
 msgstr "메시지는 지정된 만료일 또는 삭제 전까지 번역 페이지에 표시됩니다."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"이용 가능한 코드 호스팅 연결이 없습니다. 먼저 사이트 관리자가 코드 호스팅 애"
-"플리케이션을 등록해야 합니다."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-msgid "Code-hosting app"
-msgstr "코드 호스팅 앱"
-
-#, fuzzy
-#| msgid "Not yet measured"
-msgid "Not registered"
-msgstr "아직 측정되지 않음"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connect accounts"
-msgstr "계정 삭제"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connected accounts"
-msgstr "계정 삭제"
-
-#, fuzzy
-#| msgid "Provider"
-msgid "Provider ID"
-msgstr "제공자"
-
-msgid "Repositories"
-msgstr "저장소"
-
-msgid "Refresh"
-msgstr "새로고침"
-
-msgid "No connected accounts yet."
-msgstr "아직 연결된 계정이 없습니다."
-
-msgid "Code-hosting integrations"
-msgstr "코드 호스팅 연동"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16560,11 +16669,6 @@ msgstr "연결된 GitHub 계정:"
 msgid "Refresh repositories"
 msgstr "저장소 새로고침"
 
-#, fuzzy
-#| msgid "Created component"
-msgid "Migrate selected components"
-msgstr "구성요소 생성됨"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16585,6 +16689,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "번역 현황"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "%(component)s의 새 경고"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "GitHub 스타"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -16595,8 +16711,16 @@ msgstr "읽기 전용"
 msgid "Repository access needed"
 msgstr "저장소 리베이스됨"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "구성요소 생성됨"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+msgid "Code-hosting connections"
+msgstr "코드 호스팅 연결"
 
 #, fuzzy
 #| msgid "Register in Weblate"
@@ -16669,11 +16793,126 @@ msgstr "그룹 이름"
 msgid "Continue to %(host)s"
 msgstr "%(return_target)s(으)로 계속"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate eligible components"
+msgstr "구성요소 생성됨"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate these components"
+msgstr "구성요소 생성됨"
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "No components are ready to migrate."
+msgstr "제거할 구성요소"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "계정 설정으로 돌아가기"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected accounts"
+msgstr "계정 삭제"
+
+#, fuzzy
+#| msgid "Provider"
+msgid "Provider ID"
+msgstr "제공자"
+
+msgid "Repositories"
+msgstr "저장소"
+
+msgid "No connected accounts yet."
+msgstr "아직 연결된 계정이 없습니다."
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Created user account {}."
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "사용자 계정 {}로 생성되었습니다."
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "이 계정 삭제"
+
+#, fuzzy
+#| msgid "Inherit from %(scope)s"
+msgid "Accounts from workspaces you own"
+msgstr "%(scope)s에서 상속"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "다른 구성요소"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "초대를 수락하려면 등록을 완료해 주세요."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "인증"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "계속"
 
 #, fuzzy
 #| msgctxt "Label on donate page"
@@ -16695,6 +16934,9 @@ msgstr "%(project_name)s 초대"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+msgid "Add or configure account"
+msgstr "계정 추가 또는 설정"
 
 #, python-format
 msgid ""
@@ -16718,6 +16960,14 @@ msgstr "저장소 업데이트됨"
 msgid "Available Repositories"
 msgstr "저장소"
 
+#, fuzzy
+#| msgid "Visibility changed"
+msgid "Visibility"
+msgstr "공개 범위 변경됨"
+
+msgid "Import"
+msgstr "가져오기"
+
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -16739,6 +16989,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "등록된 인증기 앱이 없습니다."
 
 #, fuzzy
 #| msgid "Remove"
@@ -16767,10 +17022,21 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "계정 삭제"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "View connections"
+msgstr "번역 호스팅"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "모든 경고 보기"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -16781,6 +17047,19 @@ msgstr "계정 삭제"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "계정 삭제"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr "새로고침"
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Repositories from these accounts"
+msgstr "내 계정 제거"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16794,9 +17073,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 #, fuzzy
@@ -16808,6 +17085,97 @@ msgstr "이 Weblate 인스턴스의 총 항목 수"
 #| msgid "Push the repository"
 msgid "Try refreshing the repository list."
 msgstr "저장소 푸시"
+
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Weblate 상태"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "작업공간에 프로젝트 추가"
+
+#, fuzzy
+#| msgid "The project is already assigned to this workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "프로젝트가 이미 이 작업공간에 할당되어 있습니다."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "작업공간에 프로젝트 추가"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "현재 작업공간을 편집할 권한이 없습니다."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "All protected projects"
+msgid "Move selected projects"
+msgstr "모든 보호된 프로젝트"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "작업공간 없이 프로젝트를 생성하는 것은 허용되지 않습니다."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "작업공간 관리"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "검색과 일치하는 문자열이 없습니다!"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Weblate 작업공간"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "구성요소 만들기"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect another account"
+msgstr "계정 삭제"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "검색과 일치하는 문자열이 없습니다!"
+
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "현재 작업공간의 모든 구성요소"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "코드 호스팅 연결 관리"
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -16837,6 +17205,50 @@ msgstr[0] "다음 구성요소가 생성됩니다"
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "%(component)s의 %(count)s개 문자열에 작업이 필요합니다"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "작업공간 추가"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "검색과 일치하는 문자열이 없습니다!"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"이용 가능한 코드 호스팅 연결이 없습니다. 먼저 사이트 관리자가 코드 호스팅 애"
+"플리케이션을 등록해야 합니다."
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate all eligible components"
+msgstr "구성요소 생성됨"
+
+msgid "Code-hosting app"
+msgstr "코드 호스팅 앱"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not registered"
+msgstr "아직 측정되지 않음"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 msgid "Invitations"
 msgstr "초대"
@@ -17441,9 +17853,6 @@ msgstr "카테고리 이동됨"
 #| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
 msgstr "Weblate에서 스크립트 애드온을 실행할 수 없습니다."
-
-msgid "Saving string failed"
-msgstr "문자열 저장 실패"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "저장소에서 동기화하는 동안 새 문자열이 발견되었습니다."
@@ -18102,6 +18511,25 @@ msgstr "업로드된 파일이 너무 큽니다."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "스크린샷 %(name)s을(를) 복원할 수 없습니다: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "대신 원문 언어에 문자열을 추가하세요."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -18123,6 +18551,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "카테고리가 선택한 프로젝트에 속하지 않습니다."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -18156,6 +18592,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -18174,10 +18616,26 @@ msgstr "버전 관리 설정"
 msgid "File format parameters"
 msgstr "파일 형식 매개변수"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "로컬 저장소는 이미 최신 상태입니다."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "선택한 번역 메모리 항목 제거하기"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -18926,8 +19384,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "문자열의 의미나 용도를 명확히 하기 위한 추가 설명입니다."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "원문 문자열 설명"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "그 사이 원문 문자열이 변경되었습니다. 변경사항을 확인하세요."
@@ -19350,6 +19819,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "일치하는 작업공간을 찾을 수 없습니다."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "중복된 번역."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "프로젝트 백업이 포함된 ZIP 파일"
@@ -19957,11 +20441,6 @@ msgstr "ZIP 업로드로 구성요소 생성됨"
 
 msgid "Component created via document upload"
 msgstr "문서 업로드로 구성요소 생성됨"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(user)s 님이 %(translation)s에서 %(time)s에 %(action)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22275,6 +22754,12 @@ msgstr "대상 작업공간을 편집할 권한이 없습니다."
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "대상 작업공간에 프로젝트를 추가할 권한이 없습니다."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg가 출력 없이 경고와 함께 완료되었습니다."
 
@@ -23488,6 +23973,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "저장소가 연결된 경우 저장소 분기는 사용되지 않습니다!"
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Could not obtain the lock to perform the operation."
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -23624,6 +24123,41 @@ msgstr "제거할 구성요소"
 #| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
 msgstr "복사할 기존 구성요소 설정을 선택하세요."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "제거할 프로젝트"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Weblate 작업공간"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "작업공간 프로젝트 추가"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "작업공간 관리"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "작업공간 이름"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "서비스 계정의 JSON 키를 입력하세요."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24067,8 +24601,10 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "GitHub did not return a valid installation ID."
+msgstr "등록을 완료할 수 없습니다."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -24076,24 +24612,29 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "대상 작업공간을 편집할 권한이 없습니다."
-
-#, fuzzy
-#| msgid "Could not complete registration."
-msgid "GitHub did not return a valid installation ID."
-msgstr "등록을 완료할 수 없습니다."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr "번역을 업데이트하는 동안 Weblate에서 번역 파일을 파싱할 수 없었습니다."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the target workspace."
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "대상 작업공간을 편집할 권한이 없습니다."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
 msgstr ""
 
 msgid ""
@@ -24112,23 +24653,40 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "사용자 계정 {}로 생성되었습니다."
 
-#, python-format
-msgid "Migrated one component to the Weblate GitHub App."
-msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
-msgstr[0] ""
+msgid "The project selection changed. Select the projects again."
+msgstr ""
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "GitLab 프로젝트를 가져올 수 없습니다(%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "등록을 완료할 수 없습니다."
 
 #, fuzzy, python-format
 #| msgid "Could not push %(component)s: %(error_text)s"
 msgid "Could not migrate %(component)s: %(error)s"
 msgstr "%(component)s을(를) 푸시할 수 없습니다: %(error_text)s"
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+
+#, fuzzy, python-format
+#| msgid "All components are now locked for translation updates!"
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "모든 구성요소가 번역 업데이트를 위해 잠겼습니다!"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -24453,18 +25011,13 @@ msgstr "가입일: %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s, 문자열 %(position)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "저장소 브랜치를 불러오지 못했습니다. 다시 시도하세요."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
@@ -24763,6 +25316,89 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "관리 중인 워크스페이스에 연결된 코드 호스팅 계정을 관리하세요. 이 연결은 "
+#~ "로그인 ID와 별개입니다."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "이 Weblate는 weblate.org에 등록되어 있습니다"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "%(count)s건 중 일부만 표시됩니다."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "사용 가능한 저장소가 아직 없습니다. 여기에 저장소를 표시하려면 코드 호스"
+#~ "팅 계정을 연결하세요."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "내보낸 Weblate 저장소는 기본적으로 shallow일 수 있으므로, 이 워크플로는 최"
+#~ "신 업스트림 체크아웃에서 가장 잘 작동합니다. 내보낸 Weblate 저장소에서 복"
+#~ "제하거나 오래된 업스트림 체크아웃을 사용하면 Weblate와 업스트림이 동기화되"
+#~ "어 있어도 실패할 수 있습니다. 자세한 내용은 아래 FAQ를 참조하세요."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr "업스트림 저장소의 기존 체크아웃을 열거나 새로 체크아웃합니다."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Weblate에서 보류 중인 모든 변경사항을 커밋하고 번역 구성요소를 잠급니다."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Weblate에서 내보낸 저장소를 원격으로 추가합니다."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Weblate 변경사항을 병합하고 충돌을 해결합니다."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "업스트림 위에 Weblate 변경사항을 리베이스하고 충돌을 해결합니다."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "변경사항을 업스트림 저장소로 푸시합니다."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "이제 Weblate에서 업데이트된 저장소를 확인할 수 있으며 잠금을 해제할 수 있"
+#~ "습니다."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "이 문제 해결 방법은 FAQ를 확인하세요."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr "미완료 문자열, 의견이 포함된 변환 파일. 오프라인 번역에 적합"
+
+#, fuzzy
+#~| msgid "Remove account"
+#~ msgid "Connect accounts"
+#~ msgstr "계정 삭제"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "코드 호스팅 연동"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(user)s 님이 %(translation)s에서 %(time)s에 %(action)s"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "용어집 %(name)s 보기"
@@ -24870,11 +25506,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Manage machinery"
 #~ msgstr "기계 번역 관리"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "구성요소 만들기"
 
 #, fuzzy
 #~| msgid "Review changes"
@@ -25098,11 +25729,6 @@ msgstr "원문이 제거되었습니다."
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "다른 구성요소"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "접근 권한이 거부되었습니다"
 
 #~ msgid ""
 #~ "While Weblate remains free for all users, its development requires "
@@ -25446,13 +26072,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgstr "사이트 구성 관리"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "GitHub 스타"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "초대"
@@ -25574,9 +26193,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Return to the component"
 #~ msgstr "구성요소로 돌아가기"
-
-#~ msgid "View all alerts"
-#~ msgstr "모든 경고 보기"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "커뮤니티 현지화 체크리스트의 지침을 검토하세요."
@@ -26251,11 +26867,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "용어집 번역: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s 개의 단어"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "확인된 주소에서 기본 이메일을 선택합니다."
 
@@ -26320,9 +26931,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "번역할 새 문자열"
-
-#~ msgid "New contributor"
-#~ msgstr "새 기여자"
 
 #~ msgid "New announcement"
 #~ msgstr "새로운 공지사항"
@@ -26649,9 +27257,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgstr ""
 #~ "저장소의 URL은 다른 구성 요소와 공유하기 위해 weblate://project/component"
 #~ "를 사용합니다."
-
-#~ msgid "No string matched your search!"
-#~ msgstr "검색과 일치하는 문자열이 없습니다!"
 
 #, fuzzy, python-format
 #~| msgid "This will remove <b>%(user)s</b> access to this project."
@@ -27186,9 +27791,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Translatable words"
 #~ msgstr "번역 가능한 단어"
 
-#~ msgid "Number of characters"
-#~ msgstr "문자 개수"
-
 #~ msgid "Number of source strings"
 #~ msgstr "원본 문자열의 수"
 
@@ -27436,9 +28038,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "보호 표시, 오직 선택된 사용자만이 번역 가능"
-
-#~ msgid "Add a component message"
-#~ msgstr "구성 요소 메시지 추가"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "%(project)s 의 새로운 화이트보드 메시지"
@@ -30202,9 +30801,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Fuzzy strings (%d)"
 #~ msgstr "애매한 문자열 (%d)"
-
-#~ msgid "First name"
-#~ msgstr "이름"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

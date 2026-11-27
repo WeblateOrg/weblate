@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-23 16:20+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -39,6 +39,12 @@ msgstr "Tidak ada"
 
 msgid "User avatar"
 msgstr "Avatar pengguna"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Autentikasi tidak dapat diselesaikan. Silakan hubungi administrator."
 
 msgid "No notification"
 msgstr "Tidak ada notifikasi"
@@ -1489,9 +1495,6 @@ msgstr "Uji coba gratis"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Diagnostik notifikasi untuk %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Pengguna ini tidak dapat diedit."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2251,6 +2254,18 @@ msgid ""
 msgstr ""
 "Pengaya Meson mengharapkan direktori gettext Meson dengan meson.build dan "
 "POTFILES atau POTFILES.in."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Aktifkan tinjauan sumber"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "Komponen harus mendefinisikan templat gettext untuk terjemahan baru."
@@ -3141,6 +3156,17 @@ msgstr ""
 "Filter berdasarkan tindakan perubahan. Ulangi parameter ini untuk memfilter "
 "berdasarkan beberapa tindakan."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "Dipicu oleh {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "Jumlah permintaan yang diizinkan untuk dilakukan"
 
@@ -3341,6 +3367,9 @@ msgid ""
 msgstr ""
 "Tidak dapat memperoleh kunci %(scope)s bagi %(origin)s untuk melakukan "
 "operasi."
+
+msgid "This user can not be edited."
+msgstr "Pengguna ini tidak dapat diedit."
 
 msgid "Expected an object."
 msgstr "Diharapkan sebuah objek."
@@ -4673,7 +4702,9 @@ msgstr "Penagihan"
 msgid "Billing event"
 msgstr "Peristiwa tagihan"
 
-msgid "Project has no components."
+#, fuzzy
+#| msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Proyek tidak memiliki komponen."
 
 msgid "monthly"
@@ -5796,6 +5827,14 @@ msgstr "Terjemahan tidak berubah"
 msgid "Source and translation are identical."
 msgstr "Sumber dan terjemahan identik."
 
+msgid "Saving string failed"
+msgstr "Penyimpanan string gagal"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "Hanya terjemahan yang disetujui akan ditulis ke berkas terjemahan."
+
 msgid "Unpluralised"
 msgstr "Tidak dijamak"
 
@@ -5978,6 +6017,11 @@ msgstr "XLIFF 1.1 dengan ekstensi gettext"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "Berkas terjemahan XLIFF 1.2"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6016,6 +6060,11 @@ msgstr "Excel Open XML"
 
 msgid "Could not open the workbook archive."
 msgstr "Tidak dapat membuka arsip buku kerja."
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "The workbook header row is empty."
+msgstr "Laporan kosong."
 
 #, python-format
 msgid ""
@@ -6300,6 +6349,13 @@ msgstr "Berkas metadata toko aplikasi"
 
 msgid "File validation is required for directory-based formats."
 msgstr "Validasi berkas diperlukan untuk format berbasis direktori."
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr ""
+"Arsip buku kerja melebihi ukuran maksimum yang diizinkan setelah "
+"diekstraksi, yaitu %d byte."
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -7455,6 +7511,23 @@ msgstr "Bahasa sumber komponen"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Bahasa kedua yang didefinisikan di proyek atau komponen"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission required on:"
+msgid "Rephrasing (requires Pro)"
+msgstr "Izin diperlukan pada:"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "Konteks terjemahan"
 
 msgid "Rate limit reset."
 msgstr "Batas laju telah diatur ulang."
@@ -8731,19 +8804,6 @@ msgid ""
 msgstr ""
 "Kunci API juga digunakan untuk mengautentikasikan penyimpanan Git yang "
 "diekspor secara otomatis."
-
-msgid "Code-hosting connections"
-msgstr "Koneksi hosting kode"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Kelola akun pemosting kode yang terhubung ke ruang kerja yang Anda kelola. "
-"Koneksi ini terpisah dari identitas masuk."
-
-msgid "Manage code-hosting connections"
-msgstr "Kelola koneksi hosting kode"
 
 msgid "Pending invitation"
 msgstr "Undangan ditunda"
@@ -10115,9 +10175,13 @@ msgstr ""
 "Langganan ini tidak memenuhi syarat untuk paket bebas, silakan perbaiki "
 "galat di atas atau beli langganan."
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Resolve the issues below by %(date)s to keep Libre hosting for your "
+#| "project."
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 "Selesaikan masalah di bawah ini sebelum %(date)s agar proyek Anda tetap "
 "mendapatkan hosting Libre."
@@ -10128,6 +10192,21 @@ msgid ""
 msgstr ""
 "Weblate mengunci komponen yang ada untuk terjemahan saat mengeluarkan "
 "peringatan ini. Pemelihara proyek dapat membukanya kembali."
+
+#, fuzzy
+#| msgid "All components"
+msgid "Add a component to keep Libre hosting"
+msgstr "Semua komponen"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "Tambahkan proyek ke ruang kerja"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "Komponen terdampak"
 
 msgid "Customer"
 msgstr "Pelanggan"
@@ -10524,6 +10603,11 @@ msgstr "Gandakan komponen ini"
 
 msgid "Share in projects"
 msgstr "Bagikan proyek"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Minta untuk pengehosan Bebas"
 
 msgid "dismissed"
 msgstr "dihilangkan, dibuang"
@@ -12280,8 +12364,10 @@ msgstr ""
 "Saat diaktifkan, weblate.org mencantumkan detail situs Anda serta proyek "
 "publik atau terlindungi."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Weblate Anda terdaftar di weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Weblate Anda tidak terdaftar di weblate.org"
@@ -13050,6 +13136,19 @@ msgstr "Impor memori terjemahan"
 msgid "Delete announcement"
 msgstr "Hapus pengumuman"
 
+msgid "Contributors"
+msgstr "Kontributor"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Perjanjian lisensi kontributor dihapus."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Tidak ada kontribusi terkini yang ditemukan."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13135,6 +13234,16 @@ msgstr "Izinkan"
 msgid "Deny"
 msgstr "Tolak"
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Nama depan"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Sebelumnya"
+
 msgid "Click to edit position"
 msgstr "Klik untuk menyunting posisi"
 
@@ -13152,6 +13261,16 @@ msgstr "Lompat ke"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Selanjutnya"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "Pembaruan terakhir"
 
 msgid "Labels"
 msgstr "Label"
@@ -13759,6 +13878,11 @@ msgstr "Peka huruf kapital"
 msgid "Most active translators"
 msgstr "Penerjemah paling aktif"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Kontribusi baru"
+
 msgid "Browse all users"
 msgstr "Telusuri semua pengguna"
 
@@ -13837,9 +13961,6 @@ msgstr "Tren dalam 30 hari terakhir"
 
 msgid "Quick numbers"
 msgstr "Angka cepat"
-
-msgid "Contributors"
-msgstr "Kontributor"
 
 msgid "Translations"
 msgstr "Terjemahan"
@@ -14194,6 +14315,27 @@ msgstr "Kueri"
 msgid "Refresh results"
 msgstr "Segarkan hasil"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "Berkas pribadi"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Berkas dalam format asli sebagai diterjemahkan di repositori"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Semua string, berkas yang dikonversi diperkaya dengan komentar; cocok untuk "
+"terjemahan luring"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14369,6 +14511,22 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "Alamat IP disalin ke papan klip."
 
+msgid "Strings"
+msgstr "String"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s kata"
+
+#, fuzzy, python-format
+#| msgid "Number of words"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Jumlah kata"
+
 msgid "Suggestion added"
 msgstr "Saran ditambahkan"
 
@@ -14426,9 +14584,6 @@ msgstr "Istilah target"
 
 msgid "Translation status"
 msgstr "Status terjemahan"
-
-msgid "Strings"
-msgstr "String"
 
 msgid "Words"
 msgstr "Kata"
@@ -14583,9 +14738,6 @@ msgstr "Konfigurasikan %(addon)s"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate tidak dapat mengeksekusi skrip pengaya."
 
-msgid "The following occurrences were found:"
-msgstr "Kemunculan berikut ini ditemukan:"
-
 msgid "Command"
 msgstr "Perintah"
 
@@ -14608,6 +14760,9 @@ msgid ""
 msgstr ""
 "Kode bahasa ini menunjukkan bahasa makro dan biasanya lebih baik menggunakan "
 "kode bahasa individu sebagai gantinya."
+
+msgid "The following occurrences were found:"
+msgstr "Kemunculan berikut ini ditemukan:"
 
 msgid "Suggested individual language codes"
 msgstr "Kode bahasa individual yang disarankan"
@@ -14633,6 +14788,15 @@ msgid ""
 msgstr ""
 "Komponen ini tampaknya berisi berkas PO gettext biasa, tetapi dikonfigurasi "
 "sebagai gettext PO monolingual."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -14774,6 +14938,9 @@ msgid ""
 msgstr ""
 "Repositori hulu tidak ditemukan. Silakan periksa jika repositorinya tersedia "
 "dan dapat diakses oleh Weblate."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15081,7 +15248,10 @@ msgstr "Berkas berikut tidak lagi ada di repositori:"
 msgid "Template for new translations"
 msgstr "Templat untuk terjemahan baru"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Weblate tidak dapat menggabungkan perubahan hulu saat memperbarui repositori."
 
@@ -15128,6 +15298,17 @@ msgstr ""
 "Komponen terjemahan terlihat ekabahasa, tetapi sebenarnya tidak disiapkan "
 "untuk itu."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 "Silakan tambahkan berkas bahasa dasar ekabahasa dalam pengaturan komponen."
@@ -15164,11 +15345,15 @@ msgstr ""
 "Jika terjemahan sudah ada, periksa apakah berkas mask <code>%(filemask)s</"
 "code> cocok dengan berkas di repositori sistem kontrol versi Anda."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Hanya beberapa dari %(count)s total kejadian yang ditampilkan."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Kejadian terakhir"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15196,6 +15381,25 @@ msgstr "Weblate tidak bisa mendorong perubahan ke repositori hulu."
 msgid "Push the repository"
 msgstr "Dorong repositori"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"Repositori VCS memiliki banyak perubahan dibandingkan dengan repositori "
+"hulu. Silakan gabungkan perubahan secara manual atau mengatur pendorongan "
+"untuk mengotomatisasinya."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15209,6 +15413,24 @@ msgstr "Weblate tidak dapat memulihkan operasi repositori yang terputus."
 
 msgid "Reset the repository"
 msgstr "Atur ulang repositori"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"Repositori VCS tidak sesuai dengan hulu. Silakan gabungkan perubahan secara "
+"manual atau mengatur pengait untuk mengotomatisasinya."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15249,6 +15471,19 @@ msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "Komponen tidak menerima terjemahan apa pun dalam %(count)s hari."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate memiliki perubahan terjemahan yang tertunda untuk proyek‑proyek ini "
+"sejak %(date)s."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "Terjemahan telah dihapus."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
@@ -15435,42 +15670,19 @@ msgstr ""
 "Buat berkas ZIP yang berisi berkas terjemahan yang Anda miliki dan "
 "%(link_start)smengunggahnya%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Pilih repositori dari akun yang terhubung. Formulir pembuatan komponen akan "
-"diisi sebelumnya dengan URL klon, cabang default, dan driver VCS yang sesuai."
+"Pilih repositori untuk diimpor. Ini akan mengisi sebelumnya formulir "
+"pembuatan komponen dengan URL dan cabang repositori."
 
-msgid "Add or configure account"
-msgstr "Tambahkan atau konfigurasi akun"
-
-msgid "Visibility"
-msgstr "Visibilitas"
-
-msgid "Import"
-msgstr "Impor"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Belum ada repositori yang tersedia. Hubungkan akun hosting kode agar "
-"repositori tersedia di sini."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Tidak ada repositori yang tersedia dari akun yang terhubung untuk ruang "
-"kerja proyek ini."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Pilih proyek dengan ruang kerja untuk menghubungkan akun atau mengimpor "
-"repositori dari koneksi yang sudah ada."
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Tampilkan komponen dengan repositori yang ditautkan"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15606,52 +15818,21 @@ msgstr ""
 "tidak lengkap. Anda dapat mengonfigurasi berkas terjemahan yang belum "
 "ditemukan secara manual."
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Alur kerja umum untuk memperbaiki konflik dalam penggabungan"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"Repositori Weblate yang diekspor secara bawaan dapat bersifat dangkal, "
-"sehingga alur kerja ini paling baik digunakan dari checkout hulu yang "
-"mutakhir. Mengkloning dari repositori Weblate yang diekspor atau menggunakan "
-"checkout hulu yang kedaluwarsa dapat gagal meskipun Weblate dan hulu sudah "
-"tersinkronisasi. Lihat FAQ di bawah untuk rinciannya."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"Buka checkout yang sudah ada dari repositori hulu atau lakukan yang baru."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Komit perubahan yang tertunda dalam Weblate dan kunci komponen terjemahan."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Tambahkan repositori yang diekspor Weblate sebagai jarak jauh."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Gabungkan perubahan Weblate dan selesaikan konflik apapun."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Basis ulang perubahan Weblate di atas hulu dan selesaikan konflik apa pun."
-
-msgid "Push changes into upstream repository."
-msgstr "Dorong perubahan ke repositori hulu."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Weblate seharusnya sekarang dapat melihat repositori yang diperbarui dan "
-"Anda dapat membukanya."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "Periksa FAQ untuk info tentang cara menyelesaikan ini."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "Anda dapat menggunakan markah templat Django dalam pesan komit."
@@ -15765,6 +15946,16 @@ msgstr ""
 "Jika paket penagihan ruang kerja yang dipilih mengharuskan konten bersifat "
 "publik, proyek dan komponen terbatas berikut akan dapat diakses publik "
 "setelah impor:"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Bersihkan berkas terjemahan"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
+msgstr ""
 
 msgid "Token copied to clipboard."
 msgstr "Token disalin ke papan klip."
@@ -16023,6 +16214,16 @@ msgstr "Unggah tangkapan layar"
 msgid "String information"
 msgstr "Informasi string"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Terjemahan target"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Terjemahan disetujui"
+
 msgid "No explanation currently provided."
 msgstr "Saat ini tidak ada penjelasan yang disediakan."
 
@@ -16167,23 +16368,6 @@ msgstr ""
 "Berkas asli dapat berisi identitas kontributor dan memerlukan izin tambahan. "
 "Gunakan hasil ekspor yang dihasilkan di bawah ini untuk penerjemahan luring."
 
-msgid "File in original format as translated in the repository"
-msgstr "Berkas dalam format asli sebagai diterjemahkan di repositori"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Semua string, berkas yang dikonversi diperkaya dengan komentar; cocok untuk "
-"terjemahan luring"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"String yang belum selesai, berkas yang dikonversi diperkaya dengan komentar; "
-"cocok untuk terjemahan luring"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Berkas unggahan akan digabungkan dengan terjemahan saat ini."
 
@@ -16200,75 +16384,6 @@ msgid ""
 msgstr ""
 "Pesan ditampilkan di halaman terjemahan hingga masa berlakunya habis atau "
 "dihapus."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"Anda tidak mengelola ruang kerja apa pun. Akun VCS hanya dapat dihubungkan "
-"ke ruang kerja yang Anda kelola."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Tidak ada koneksi hosting kode yang tersedia. Administrator situs harus "
-"terlebih dahulu mendaftarkan aplikasi hosting kode."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Hubungkan akun hosting kode ke %(workspace)s. Akun ini kemudian dapat "
-"digunakan saat membuat komponen dari kontrol versi."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Hubungkan akun hosting kode ke ruang kerja yang Anda kelola. Akun ini "
-"kemudian dapat digunakan saat membuat komponen dari kontrol versi."
-
-msgid "Code-hosting app"
-msgstr "Aplikasi hosting kode"
-
-msgid "Not registered"
-msgstr "Belum terdaftar"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Kredensial aplikasi hosting kode belum terdaftar untuk %(hostname)s. Akun "
-"yang sudah terhubung dapat dihapus, tetapi akun baru tidak dapat dihubungkan "
-"hingga administrator situs mendaftarkan ulang aplikasi tersebut."
-
-msgid "Connect accounts"
-msgstr "Hubungkan akun"
-
-msgid "Connect GitHub account"
-msgstr "Hubungkan akun GitHub"
-
-msgid "Connected accounts"
-msgstr "Akun yang terhubung"
-
-msgid "Provider ID"
-msgstr "ID penyedia"
-
-msgid "Repositories"
-msgstr "Repositori"
-
-msgid "Refresh"
-msgstr "Segarkan"
-
-msgid "No connected accounts yet."
-msgstr "Belum ada akun yang terhubung."
-
-msgid "Code-hosting integrations"
-msgstr "Integrasi hosting kode"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16298,9 +16413,6 @@ msgstr "Akun GitHub yang terhubung:"
 msgid "Refresh repositories"
 msgstr "Segarkan repositori"
 
-msgid "Migrate selected components"
-msgstr "Migrasikan komponen yang dipilih"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16325,14 +16437,32 @@ msgstr ""
 msgid "Migration status"
 msgstr "Status migrasi"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Peringatan baru di %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "Bintang GitHub"
+
 msgid "Ready"
 msgstr "Siap"
 
 msgid "Repository access needed"
 msgstr "Akses repositori diperlukan"
 
+msgid "Migrate selected components"
+msgstr "Migrasikan komponen yang dipilih"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr "Tidak ada komponen GitHub di ruang kerja ini yang dapat dimigrasikan."
+
+msgid "Code-hosting connections"
+msgstr "Koneksi hosting kode"
 
 msgid "Register Weblate GitHub App"
 msgstr "Daftarkan Aplikasi GitHub Weblate"
@@ -16401,6 +16531,105 @@ msgstr "Nama App"
 msgid "Continue to %(host)s"
 msgstr "Lanjutkan ke %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "Migrasikan komponen yang dipilih"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Pilih komponen Git atau GitHub yang sudah ada untuk menggunakan Weblate "
+"GitHub App. URL repositorinya akan diganti dengan URL HTTPS kanonis, dan URL "
+"push terpisah akan dihapus."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "Migrasikan komponen yang dipilih"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "Komponen yang akan dimigrasikan"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Kembali ke pengaturan akun"
+
+msgid "Connected accounts"
+msgstr "Akun yang terhubung"
+
+msgid "Provider ID"
+msgstr "ID penyedia"
+
+msgid "Repositories"
+msgstr "Repositori"
+
+msgid "No connected accounts yet."
+msgstr "Belum ada akun yang terhubung."
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Pilih ruang kerja sebelum menghubungkan akun GitHub."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "Hubungkan akun GitHub"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Akun GitHub yang terhubung: %(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "Hubungkan atau perbarui akun GitHub"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "Warisi dari ruang kerja"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Komponen lainnya"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16409,6 +16638,28 @@ msgstr ""
 "GitHub hanya menampilkan akun tempat pengguna GitHub Anda dapat memasang "
 "atau meminta aplikasi ini. Jika organisasi tidak ada, periksa peran Anda "
 "dalam organisasi serta pembatasan pemasangan GitHub App di GitHub."
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub menolak kode pendaftaran. Mulai pendaftaran lagi."
+
+#, fuzzy
+#| msgid "Authorize application"
+msgid "Authorize again"
+msgstr "Otorisasi aplikasi"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "Lanjutkan ke GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Pilih host GitHub"
@@ -16428,6 +16679,9 @@ msgstr "Pasang di %(hostname)s"
 msgid "Connected GitHub account: %(login)s"
 msgstr "Akun GitHub yang terhubung: %(login)s"
 
+msgid "Add or configure account"
+msgstr "Tambahkan atau konfigurasi akun"
+
 #, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
@@ -16446,6 +16700,12 @@ msgstr "Repositori diperbarui"
 
 msgid "Available Repositories"
 msgstr "Repositori yang tersedia"
+
+msgid "Visibility"
+msgstr "Visibilitas"
+
+msgid "Import"
+msgstr "Impor"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16476,6 +16736,11 @@ msgstr ""
 "berkomunikasi dengan penyedia hosting kode. Hubungkan akun ke setiap "
 "aplikasi untuk mengimpor repositori dari akun tersebut."
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Tidak ada aplikasi autentikator yang didaftarkan."
+
 msgid "Remove app"
 msgstr "Hapus aplikasi"
 
@@ -16503,18 +16768,42 @@ msgstr ""
 "App itu sendiri tetap terpasang di GitHub. Hapus secara terpisah dari GitHub "
 "jika Anda tidak lagi membutuhkannya."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Belum ada akun yang terhubung. Gunakan tombol di atas untuk menghubungkan "
-"akun organisasi atau pengguna."
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Dari akun yang terhubung"
+
+#, fuzzy
+#| msgid "Broker connection"
+msgid "View connections"
+msgstr "Koneksi broker"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "Lihat semua peringatan"
 
 msgid "From connected account"
 msgstr "Dari akun yang terhubung"
 
 msgid "Import from connected account"
 msgstr "Impor dari akun yang terhubung"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Pilih proyek dengan ruang kerja sebelum menghubungkan akun. Akun hosting "
+"kode dihubungkan ke ruang kerja."
+
+msgid "Refresh"
+msgstr "Segarkan"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "Tidak ada repositori yang tersedia dari akun yang terhubung."
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16531,18 +16820,107 @@ msgid ""
 msgstr ""
 "Pasang Weblate GitHub App untuk menghubungkan akun organisasi atau pengguna."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Pilih proyek dengan ruang kerja sebelum menghubungkan akun. Akun hosting "
-"kode dihubungkan ke ruang kerja."
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Pilih ruang kerja sebelum menghubungkan akun GitHub."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr "Weblate GitHub App belum terdaftar pada instans Weblate ini."
 
 msgid "Try refreshing the repository list."
 msgstr "Coba segarkan daftar repositori."
+
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Migrasikan ke GitHub App"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "Tambahkan proyek ke ruang kerja"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "Proyek dipindahkan ke dalam atau ke luar dari ruang kerja."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "Tambahkan proyek ke ruang kerja"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "Anda tidak memiliki izin untuk mengedit workspace saat ini."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "Proyek terdampak"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "Membuat proyek tanpa workspace tidak diizinkan."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "Administrasi workspace"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "Tidak ada string yang cocok dalam pencarian Anda!"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Ruang kerja Weblate"
+
+#, fuzzy
+#| msgid "Preview component ID"
+msgid "Review component migration"
+msgstr "Pratinjau ID komponen"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "Akun yang terhubung"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "Tidak ada string yang cocok dalam pencarian Anda!"
+
+#, fuzzy
+#| msgid "All eligible components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Semua komponen yang memenuhi syarat dalam ruang kerja saat ini"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Kelola koneksi hosting kode"
 
 msgid "Remove connected account?"
 msgstr "Hapus akun yang terhubung?"
@@ -16572,6 +16950,57 @@ msgstr[0] ""
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "dan %(counter)s komponen lainnya"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "Tambahkan workspace"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "Tidak ada string yang cocok dalam pencarian Anda!"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Tidak ada koneksi hosting kode yang tersedia. Administrator situs harus "
+"terlebih dahulu mendaftarkan aplikasi hosting kode."
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Pilih proyek dengan ruang kerja untuk menghubungkan akun atau mengimpor "
+"repositori dari koneksi yang sudah ada."
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "Migrasikan komponen yang dipilih"
+
+msgid "Code-hosting app"
+msgstr "Aplikasi hosting kode"
+
+msgid "Not registered"
+msgstr "Belum terdaftar"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Kredensial aplikasi hosting kode belum terdaftar untuk %(hostname)s. Akun "
+"yang sudah terhubung dapat dihapus, tetapi akun baru tidak dapat dihubungkan "
+"hingga administrator situs mendaftarkan ulang aplikasi tersebut."
 
 msgid "Invitations"
 msgstr "Undangan"
@@ -17102,9 +17531,6 @@ msgstr "Kategori dipindahkan"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate tidak dapat menyimpan string yang diubah."
-
-msgid "Saving string failed"
-msgstr "Penyimpanan string gagal"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "String baru ditemukan saat menyinkronkan dari repositori."
@@ -17682,6 +18108,25 @@ msgstr "Berkas terunggah terlalu besar."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Tidak dapat memvalidasi tangkapan layar: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Tambahkan string ke bahasa sumber saja."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "Komponen yang dirujuk tidak ada."
 
@@ -17697,6 +18142,14 @@ msgstr "Data repositori bukan milik komponen yang dipulihkan."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponen yang terhubung ke repositori tidak dapat berisi data repositori."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 msgid "Imported authors"
 msgstr "Penulis hasil impor"
@@ -17733,6 +18186,17 @@ msgstr ""
 "Pengguna %(username)s masih menunggu penerimaan undangan; kepengarangan "
 "hasil impor tetap anonim sampai diterima."
 
+#, fuzzy, python-format
+#| msgid ""
+#| "User %(username)s was skipped because no eligible local account matches "
+#| "the backup."
+msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+"Pengguna %(username)s dilewati karena tidak ada akun lokal yang memenuhi "
+"syarat dan cocok dengan cadangan."
+
 #, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
@@ -17755,8 +18219,24 @@ msgstr "Parameter kontrol versi"
 msgid "File format parameters"
 msgstr "Parameter format berkas"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "Direktori repositori proyek sudah ada."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Hapus entri memori terjemahan yang dipilih"
 
 msgid "Invalid search type."
 msgstr "Jenis pencarian tidak valid."
@@ -18499,8 +18979,19 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Penjelasan tambahan untuk mengklarifikasikan arti atau penggunaan string."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Penjelasan string sumber"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "String sumber telah diubah. Silakan periksa perubahan Anda."
@@ -18920,6 +19411,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "Tidak ada workspace yang cocok ditemukan."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Terjemahan ganda."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "Berkas ZIP berisi cadangan proyek"
@@ -19557,11 +20063,6 @@ msgstr "Komponen dibuat melalui unggahan ZIP"
 
 msgid "Component created via document upload"
 msgstr "Komponen dibuat melalui unggahan dokumen"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s pada %(time)s di %(translation)s oleh %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -21805,6 +22306,12 @@ msgstr "Anda tidak memiliki izin untuk mengedit workspace target."
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "Anda tidak memiliki izin untuk menambahkan proyek ke workspace target."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg selesai dengan peringatan tanpa output apa pun."
 
@@ -22936,6 +23443,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Repositori memiliki operasi Git %(operation)s yang terputus."
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "Tidak dapat memulihkan operasi Git %(operation)s yang terputus."
@@ -23061,6 +23582,41 @@ msgstr "Komponen yang akan dimigrasikan"
 
 msgid "Select at least one component to migrate."
 msgstr "Pilih setidaknya satu komponen untuk dimigrasikan."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Proyek untuk dihapus"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Ruang kerja Weblate"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "Tambahkan proyek workspace"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "Kelola workspace"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "Nama ruang kerja"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Masukkan kunci JSON untuk akun layanan."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -23503,8 +24059,8 @@ msgstr "Pilih ruang kerja sebelum menghubungkan akun GitHub."
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Weblate GitHub App belum dikonfigurasi untuk host yang dipilih."
 
-msgid "Connected GitHub account updated."
-msgstr "Akun GitHub yang terhubung telah diperbarui."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub tidak mengembalikan ID pemasangan yang valid."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -23513,19 +24069,13 @@ msgstr ""
 "Tautan pemasangan Weblate GitHub App sudah tidak valid. Mulai pemasangan "
 "lagi."
 
-msgid "You do not have permission to connect GitHub to this workspace."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
-"Anda tidak memiliki izin untuk menghubungkan GitHub ke ruang kerja ini."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub tidak mengembalikan ID pemasangan yang valid."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
-"Terlalu banyak upaya koneksi akun GitHub. Pemasangan GitHub tidak terhubung "
-"dan mungkin masih tertunda. Coba hubungkan akun lagi nanti."
+"Weblate tidak dapat mengurai berkas terjemahan saat memperbarui terjemahan."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -23535,6 +24085,20 @@ msgstr ""
 "Weblate tidak dapat mengonfirmasi bahwa Anda dapat mengelola pemasangan "
 "GitHub ini. Mulai pemasangan lagi dengan pengguna GitHub yang memiliki akun "
 "atau dapat mengelola organisasi."
+
+msgid "Connected GitHub account updated."
+msgstr "Akun GitHub yang terhubung telah diperbarui."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr ""
+"Anda tidak memiliki izin untuk menghubungkan GitHub ke ruang kerja ini."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"Terlalu banyak upaya koneksi akun GitHub. Pemasangan GitHub tidak terhubung "
+"dan mungkin masih tertunda. Coba hubungkan akun lagi nanti."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -23555,25 +24119,43 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Akun GitHub yang terhubung ditambahkan."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Tidak dapat mendapatkan proyek GitLab (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Tidak dapat menyelesaikan pendaftaran."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Tidak dapat memigrasikan %(component)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] ""
 "Sebanyak %(count)d komponen telah dimigrasikan ke Weblate GitHub App."
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"Sebanyak %(count)d komponen tidak dimigrasikan karena repositorinya tidak "
-"lagi tersedia."
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Komponen dibuka kuncinya untuk penerjemahan."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Tidak dapat memigrasikan %(component)s: %(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "Respons autentikasi telah kedaluwarsa. Silakan coba masuk lagi."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Masukkan nama dan host GitHub App yang valid."
@@ -23858,18 +24440,11 @@ msgstr "Laporan dari %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s — %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
-msgstr ""
-"Verifikasi identitas Anda telah kedaluwarsa. Konfirmasikan identitas Anda, "
-"lalu pilih dan unggah kembali laporan CSV."
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "Pilih laporan CSV berukuran maksimal 10 MiB."
 
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Tidak dapat menyimpan unggahan terenkripsi. Coba lagi."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr "Pilih laporan CSV berukuran maksimal 10 MiB."
 
 msgid "Could not read the uploaded report. Upload it again."
 msgstr "Tidak dapat membaca laporan yang diunggah. Unggah kembali."
@@ -24107,6 +24682,155 @@ msgstr "Ruang kerja tidak dapat dihapus karena masih digunakan."
 msgid "The workspace has been removed."
 msgstr "Ruang kerja telah dihapus."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Kelola akun pemosting kode yang terhubung ke ruang kerja yang Anda "
+#~ "kelola. Koneksi ini terpisah dari identitas masuk."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Weblate Anda terdaftar di weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Hanya beberapa dari %(count)s total kejadian yang ditampilkan."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Pilih repositori dari akun yang terhubung. Formulir pembuatan komponen "
+#~ "akan diisi sebelumnya dengan URL klon, cabang default, dan driver VCS "
+#~ "yang sesuai."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Belum ada repositori yang tersedia. Hubungkan akun hosting kode agar "
+#~ "repositori tersedia di sini."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Tidak ada repositori yang tersedia dari akun yang terhubung untuk ruang "
+#~ "kerja proyek ini."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Repositori Weblate yang diekspor secara bawaan dapat bersifat dangkal, "
+#~ "sehingga alur kerja ini paling baik digunakan dari checkout hulu yang "
+#~ "mutakhir. Mengkloning dari repositori Weblate yang diekspor atau "
+#~ "menggunakan checkout hulu yang kedaluwarsa dapat gagal meskipun Weblate "
+#~ "dan hulu sudah tersinkronisasi. Lihat FAQ di bawah untuk rinciannya."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Buka checkout yang sudah ada dari repositori hulu atau lakukan yang baru."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Komit perubahan yang tertunda dalam Weblate dan kunci komponen terjemahan."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Tambahkan repositori yang diekspor Weblate sebagai jarak jauh."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Gabungkan perubahan Weblate dan selesaikan konflik apapun."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Basis ulang perubahan Weblate di atas hulu dan selesaikan konflik apa pun."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Dorong perubahan ke repositori hulu."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Weblate seharusnya sekarang dapat melihat repositori yang diperbarui dan "
+#~ "Anda dapat membukanya."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "Periksa FAQ untuk info tentang cara menyelesaikan ini."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "String yang belum selesai, berkas yang dikonversi diperkaya dengan "
+#~ "komentar; cocok untuk terjemahan luring"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "Anda tidak mengelola ruang kerja apa pun. Akun VCS hanya dapat "
+#~ "dihubungkan ke ruang kerja yang Anda kelola."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Hubungkan akun hosting kode ke %(workspace)s. Akun ini kemudian dapat "
+#~ "digunakan saat membuat komponen dari kontrol versi."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Hubungkan akun hosting kode ke ruang kerja yang Anda kelola. Akun ini "
+#~ "kemudian dapat digunakan saat membuat komponen dari kontrol versi."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Hubungkan akun"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Integrasi hosting kode"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Belum ada akun yang terhubung. Gunakan tombol di atas untuk menghubungkan "
+#~ "akun organisasi atau pengguna."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s pada %(time)s di %(translation)s oleh %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "Sebanyak %(count)d komponen tidak dimigrasikan karena repositorinya tidak "
+#~ "lagi tersedia."
+
+#~ msgid ""
+#~ "Your identity verification has expired. Confirm your identity, then "
+#~ "select and upload the CSV report again."
+#~ msgstr ""
+#~ "Verifikasi identitas Anda telah kedaluwarsa. Konfirmasikan identitas "
+#~ "Anda, lalu pilih dan unggah kembali laporan CSV."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Telusuri glosarium %(name)s"
@@ -24236,9 +24960,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Kelola mesin"
-
-#~ msgid "Preview component ID"
-#~ msgstr "Pratinjau ID komponen"
 
 #~ msgid "Preview change ID"
 #~ msgstr "Pratinjau ID perubahan"
@@ -24508,9 +25229,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Skipped components:"
 #~ msgstr "Komponen yang dilewati:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "Izin diperlukan pada:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -24878,13 +25596,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgstr "Kelola konfigurasi situs"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "Bintang GitHub"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "Undangan"
@@ -25008,9 +25719,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Return to the component"
 #~ msgstr "Kembali ke komponen"
-
-#~ msgid "View all alerts"
-#~ msgstr "Lihat semua peringatan"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Tinjau pedoman dari daftar periksa lokalisasi komunitas."
@@ -25721,11 +26429,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Terjemahan glosarium: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s kata"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "Pilih surel utama dari alamat yang terverifikasi."
 
@@ -25791,9 +26494,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "String baru untuk diterjemahkan"
-
-#~ msgid "New contributor"
-#~ msgstr "Kontribusi baru"
 
 #~ msgid "New announcement"
 #~ msgstr "Pengumuman baru"
@@ -26119,9 +26819,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgstr ""
 #~ "URL repositori, gunakan weblate://project/component untuk berbagi dengan "
 #~ "komponen lainnya."
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Tidak ada string yang cocok dalam pencarian Anda!"
 
 #, fuzzy, python-format
 #~| msgid ""
@@ -26672,11 +27369,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Translatable words"
 #~ msgstr "Kata yang bisa diterjemahkan"
 
-#, fuzzy
-#~| msgid "Number of words"
-#~ msgid "Number of characters"
-#~ msgstr "Jumlah kata"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Jumlah string sumber"
 
@@ -26932,11 +27624,6 @@ msgstr "Ruang kerja telah dihapus."
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr ""
 #~ "Terlihat oleh publik, hanya dapat diterjemahkan oleh pengguna terpilih"
-
-#, fuzzy
-#~| msgid "All components"
-#~ msgid "Add a component message"
-#~ msgstr "Semua komponen"
 
 #, fuzzy
 #~| msgid "Whiteboard message"
@@ -29825,9 +30512,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Avatar untuk %s"
-
-#~ msgid "First name"
-#~ msgstr "Nama depan"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

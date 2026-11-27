@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-24 11:32+0000\n"
 "Last-Translator: Watchman89 <watchman89@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -37,6 +37,13 @@ msgstr "Geen"
 
 msgid "User avatar"
 msgstr "Profielfoto"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr ""
+"Authenticatie kon niet worden voltooid. Neem contact op met een beheerder."
 
 msgid "No notification"
 msgstr "Geen meldingen"
@@ -1491,9 +1498,6 @@ msgstr "Gratis proefperiode"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Meldingsdiagnostiek voor %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Deze gebruiker kan niet worden bewerkt."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2270,6 +2274,18 @@ msgid ""
 msgstr ""
 "De Meson add-on verwacht een map Meson gettext met daarin meson.build en "
 "POTFILES of POTFILES.in."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Bronbeoordelingen inschakelen"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
@@ -3175,6 +3191,17 @@ msgstr ""
 "Filteren op wijzigen van actie. Herhaal deze parameter om te filteren op "
 "meerdere acties."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "Geactiveerd door {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "Toegestane aantal uit te voeren verzoeken"
 
@@ -3378,6 +3405,9 @@ msgid ""
 msgstr ""
 "Kon geen vergrendeling van de %(scope)s voor %(origin)s krijgen om de "
 "bewerking uit te voeren."
+
+msgid "This user can not be edited."
+msgstr "Deze gebruiker kan niet worden bewerkt."
 
 msgid "Expected an object."
 msgstr "Verwachtte een object."
@@ -4740,7 +4770,9 @@ msgstr "Facturatie"
 msgid "Billing event"
 msgstr "Facturatie gebeurtenis"
 
-msgid "Project has no components."
+#, fuzzy
+#| msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Project heeft geen onderdelen."
 
 msgid "monthly"
@@ -5898,6 +5930,15 @@ msgstr "ongewijzigde vertaling"
 msgid "Source and translation are identical."
 msgstr "De bron en vertaling zijn identiek."
 
+msgid "Saving string failed"
+msgstr "Opslaan van tekenreeks mislukt"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr ""
+"Alleen goedgekeurde vertalingen worden weggeschreven naar het vertaalbestand."
+
 msgid "Unpluralised"
 msgstr "geen meervoud"
 
@@ -6089,6 +6130,11 @@ msgstr "XLIFF 1.1 met gettext-extensies"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.2-vertaalbestand"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6127,6 +6173,11 @@ msgstr "Excel Open XML"
 
 msgid "Could not open the workbook archive."
 msgstr "Kon het werkboekarchief niet openen."
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "The workbook header row is empty."
+msgstr "Het rapport is leeg."
 
 #, python-format
 msgid ""
@@ -6415,6 +6466,12 @@ msgstr "App-store metadata-bestanden"
 
 msgid "File validation is required for directory-based formats."
 msgstr "Bestand valideren is vereist voor op mappen gebaseerde indelingen."
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr ""
+"Werkboekarchieven overschrijden de maximale uitgevouwen maat van %d bytes."
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -7582,6 +7639,23 @@ msgstr "Onderdeel brontaal"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Secundaire taal gedefinieerd in project of onderdeel"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission required on:"
+msgid "Rephrasing (requires Pro)"
+msgstr "Toestemming vereist voor:"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "Context vertaling"
 
 msgid "Rate limit reset."
 msgstr "Snelheidslimiet opnieuw ingesteld."
@@ -8878,19 +8952,6 @@ msgid ""
 msgstr ""
 "De api-sleutel wordt ook gebruikt voor verificatie met automatisch "
 "geëxporteerde Git-opslagruimten."
-
-msgid "Code-hosting connections"
-msgstr "Verbindingen voor codehosten"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Accounts voor codehosten beheren die zijn verbonden met de werkruimten die u "
-"beheert. Deze verbindingen staan los van identiteiten voor aanmelden."
-
-msgid "Manage code-hosting connections"
-msgstr "Verbindingen voor codehosten beheren"
 
 msgid "Pending invitation"
 msgstr "In afwachting zijnde uitnodiging"
@@ -10304,9 +10365,13 @@ msgstr ""
 "Dit pakket is niet compatibel met het vrijesoftwarehostingpakket. Los "
 "bovenstaande fouten op of schaf een pakket aan."
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Resolve the issues below by %(date)s to keep Libre hosting for your "
+#| "project."
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 "Los de problemen hieronder op voor %(date)s om Vrij hosting voor uw project "
 "te behouden."
@@ -10317,6 +10382,21 @@ msgid ""
 msgstr ""
 "Weblate vergrendeld bestaande onderdelen voor vertaling als het deze "
 "waarschuwing afgeeft. Projectonderhouders kunnen ze ontgrendelen."
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "Een onderdeel-bericht toevoegen"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "Projecten aan werkruimte toevoegen"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "Beïnvloed onderdeel"
 
 msgid "Customer"
 msgstr "Klant"
@@ -10722,6 +10802,11 @@ msgstr "Dit onderdeel dupliceren"
 
 msgid "Share in projects"
 msgstr "Delen in projecten"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Aanvraag voor vrije hosting"
 
 msgid "dismissed"
 msgstr "verworpen"
@@ -12532,8 +12617,10 @@ msgstr ""
 "Indien ingeschakeld, vermeldt weblate.org uw sitedetails en publieke of "
 "beveiligde projecten."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Uw Weblate staat vermeld op weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Uw Weblate staat niet vermeld op weblate.org"
@@ -13316,6 +13403,19 @@ msgstr "Vertaalgeheugen importeren"
 msgid "Delete announcement"
 msgstr "Aankondiging verwijderen"
 
+msgid "Contributors"
+msgstr "Medewerkers"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "De medewerker licentieovereenkomst is afgeschaft."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Geen recente bijdragen gevonden."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13400,6 +13500,16 @@ msgstr "Authorizeren"
 msgid "Deny"
 msgstr "Weigeren"
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Voornaam"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Vorige"
+
 msgid "Click to edit position"
 msgstr "Klik om positie aan te passen"
 
@@ -13417,6 +13527,16 @@ msgstr "Ga naar"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Volgende"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "Laatst bijgewerkt"
 
 msgid "Labels"
 msgstr "Labels"
@@ -14038,6 +14158,11 @@ msgstr "Hoofdlettergevoeligheid"
 msgid "Most active translators"
 msgstr "Meest actieve vertalers"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Nieuwe medewerker"
+
 msgid "Browse all users"
 msgstr "Alle gebruikers tonen"
 
@@ -14116,9 +14241,6 @@ msgstr "Populair in de afgelopen 30 dagen"
 
 msgid "Quick numbers"
 msgstr "Snelle cijfers"
-
-msgid "Contributors"
-msgstr "Medewerkers"
 
 msgid "Translations"
 msgstr "Vertalingen"
@@ -14472,6 +14594,28 @@ msgstr "Zoeken naar"
 msgid "Refresh results"
 msgstr "Resultaten vernieuwen"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "Persoonlijk bestand"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr ""
+"Het bestand met oorspronkelijke opmaak zoals vertaald in de opslagruimte"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Alle tekenreeksen, geconverteerde bestanden voorzien van opmerkingen - "
+"geschikt voor offline-vertaling"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14646,6 +14790,24 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "IP-adres is gekopieerd naar het klembord."
 
+msgid "Strings"
+msgstr "Tekenreeksen"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s woord"
+msgstr[1] "%(count)s woorden"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Aantal tekens"
+msgstr[1] "Aantal tekens"
+
 msgid "Suggestion added"
 msgstr "Suggestie toegevoegd"
 
@@ -14704,9 +14866,6 @@ msgstr "Doeltermen"
 
 msgid "Translation status"
 msgstr "Vertaalstatus"
-
-msgid "Strings"
-msgstr "Tekenreeksen"
 
 msgid "Words"
 msgstr "Woorden"
@@ -14869,9 +15028,6 @@ msgstr "%(addon)s configureren"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate kan geen scriptuitbreiding uitvoeren."
 
-msgid "The following occurrences were found:"
-msgstr "De volgende gevallen zijn aangetroffen:"
-
 msgid "Command"
 msgstr "Opdracht"
 
@@ -14893,6 +15049,9 @@ msgid ""
 msgstr ""
 "Deze taalcodes duiden op een macrotaal. Het is doorgaans beter om codes van "
 "individuele talen te gebruiken."
+
+msgid "The following occurrences were found:"
+msgstr "De volgende gevallen zijn aangetroffen:"
 
 msgid "Suggested individual language codes"
 msgstr "Aanbevolen individuele taalcodes"
@@ -14918,6 +15077,16 @@ msgid ""
 msgstr ""
 "Het onderdeel lijkt normale gettext PO-bestanden te bevatten, maar het is "
 "geconfigureerd als eentalige gettext PO."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15067,6 +15236,9 @@ msgid ""
 msgstr ""
 "De opslagruimte upstream is niet aangetroffen. Controleer of deze bestaat en "
 "of Weblate toegang heeft."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15381,7 +15553,10 @@ msgstr "De volgende bestanden ontbreken in de opslagruimte:"
 msgid "Template for new translations"
 msgstr "Sjabloon voor nieuwe vertalingen"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Weblate kon de stroomopwaartse wijzigingen niet samenvoegen tijdens het "
 "bijwerken van de opslagruimte."
@@ -15428,6 +15603,17 @@ msgid ""
 msgstr ""
 "Het vertaalonderdeel ziet er enkeltalig uit, maar is niet zo ingesteld."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "Voeg een enkeltalig basistaalbestand toe in de onderdeelinstellingen."
 
@@ -15466,12 +15652,16 @@ msgstr ""
 "<code>%(filemask)s</code> overeenkomt met de bestanden in uw opslagruimte "
 "van uw versiebeheersysteem."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Er wordt slechts een van de %(count)s vermeldingen getoond."
-msgstr[1] "Er worden slechts enkele van de %(count)s vermeldingen getoond."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Recentste voorkomen"
+msgstr[1] "Recentste voorkomen"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15503,6 +15693,26 @@ msgstr ""
 msgid "Push the repository"
 msgstr "Opslagruimte pushen"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"De VCS-opslagruimte bevat vele wijzigingen ten opzichte van de "
+"stroomopwaartse. Voeg de wijzigingen handmatig samen of stel ‘push’ in om "
+"dit te automatiseren."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15517,6 +15727,25 @@ msgstr ""
 
 msgid "Reset the repository"
 msgstr "Opslagruimte herstellen"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"De VCS-opslagruimte is niet actueel ten opzichte van de stroomopwaartse. "
+"Voeg wijzigingen handmatig samen of stel hooks in om dit te automatiseren."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15558,6 +15787,19 @@ msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "Het onderdeel heeft al %(count)s dag geen vertaling ontvangen."
 msgstr[1] "Het onderdeel heeft al %(count)s dagen geen vertaling ontvangen."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate heeft openstaande wijzigingen voor vertalingen voor deze projecten "
+"sinds %(date)s."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "De vertaling is verwijderd."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
@@ -15747,43 +15989,20 @@ msgstr ""
 "Stel een zip-bestand samen met daarin alle aanwezige vertaalbestanden en "
 "%(link_start)supload deze%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Kies een opslagruimte uit een verbonden account. Het formulier voor het "
-"maken van het onderdeel zal van tevoren worden gevuld met de URL van de "
-"kloon, standaardbranch en het overeenkomende VCS-stuurprogramma."
+"Selecteer een opslagruimte om te importeren. Dit zal het formulier voor het "
+"maken van het onderdeel vooraf invullen met de URL en branch voor de "
+"opslagruimte."
 
-msgid "Add or configure account"
-msgstr "Account toevoegen of configureren"
-
-msgid "Visibility"
-msgstr "Zichtbaarheid"
-
-msgid "Import"
-msgstr "Importeren"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Nog geen opslagruimten beschikbaar. Verbind met een account voor codehosten "
-"om hier opslagruimten beschikbaar te maken."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Geen opslagruimte beschikbaar vanuit verbonden accounts voor deze werkruimte "
-"van het project."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Selecteer een project met een werkruimte om te verbinden met een account of "
-"importeer opslagruimten vanuit een bestaande verbinding."
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Onderdelen gekoppeld aan opslagruimten tonen"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15919,54 +16138,21 @@ msgstr ""
 "Vertaalverkenning heeft een bronlimiet bereikt. Resultaten kunnen incompleet "
 "zijn. U kan ontbrekende vertaalbestanden handmatig instellen."
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Typische werkmethode voor het oplossen van samenvoegingsconflicten"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"De geëxporteerde opslagruimte van Weblate kan standaard oppervlakkig zijn, "
-"dus deze werkstroom werkt het beste vanuit een up-to-date checkout van "
-"upstream. Klonen van de geëxporteerde opslagruimte van Weblate of een "
-"verouderde checkout van upstream gebruiken kan mislukken, zelfs wanneer "
-"Weblate en upstream gesynchroniseerd zijn. Bekijk de FAQ hieronder voor "
-"details."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"Open een bestaande checkout van de opslagruimte upstream of voer een nieuwe "
-"uit."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Voer alle openstaande wijzigingen door op Weblate en vergrendel het "
-"vertaalonderdeel."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Voeg een Weblate-geëxporteerde opslagruimte toe als een externe."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Voeg Weblate-wijzigingen samen en los conflicten op."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Herbaseer Weblate-wijzigingen op stroomopwaartse en los conflicten op."
-
-msgid "Push changes into upstream repository."
-msgstr "Voer de wijzigingen door naar de stroomopwaartse opslagruimte."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Weblate zou nu de bijgewerkte opslagruimte moeten kunnen zien en die zou "
-"door u te ontgrendelen moeten zijn."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "Bekijk de veelgestelde vragen om te zien hoe u dit oplost."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "U kunt Django-sjabloonopmaak gebruiken in de commitberichten."
@@ -16085,6 +16271,16 @@ msgstr ""
 "Als het factureringsplan van de geselecteerd werkruimte openbare inhoud "
 "vereist zullen het project en de volgende beperkte onderdelen openbaar "
 "worden na import:"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Vertaalbestanden opruimen"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
+msgstr ""
 
 msgid "Token copied to clipboard."
 msgstr "De sleutel is gekopieerd naar het klembord."
@@ -16354,6 +16550,16 @@ msgstr "Schermafdruk uploaden"
 msgid "String information"
 msgstr "Tekenreeksinformatie"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Doelvertaling"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Vertaling goedgekeurd"
+
 msgid "No explanation currently provided."
 msgstr "Er is geen uitleg gegeven."
 
@@ -16501,24 +16707,6 @@ msgstr ""
 "extra rechten. Gebruik een hieronder gegenereerd export voor offline "
 "vertaling."
 
-msgid "File in original format as translated in the repository"
-msgstr ""
-"Het bestand met oorspronkelijke opmaak zoals vertaald in de opslagruimte"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Alle tekenreeksen, geconverteerde bestanden voorzien van opmerkingen - "
-"geschikt voor offline-vertaling"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"Onafgeronde tekenreeksen, geconverteerde bestanden voorzien van opmerkingen "
-"- geschikt voor offline-vertaling"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr ""
 "Het geüploade bestand zal worden samengevoegd met de huidige vertaling."
@@ -16536,77 +16724,6 @@ msgid ""
 msgstr ""
 "Dit bericht wordt getoond op de vertaalpagina tot de aangegeven vervaldatum "
 "of verwijdering."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"U beheert geen werkruimten. VCS-accounts kunnen alleen worden verbonden met "
-"werkruimten die u beheert."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Er zijn geen verbindingen voor codehosten beschikbaar. Een sitebeheerder "
-"moet eerst een app voor codehosten registreren."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Accounts voor codehosten verbinden met %(workspace)s. Deze accounts kunnen "
-"dan worden gebruikt bij het maken van onderdelen vanuit versiebeheer."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Accounts voor codehosten verbinden met werkruimten die u beheert. Deze "
-"accounts kunnen dan worden gebruikt bij het maken van onderdelen vanuit "
-"versiebeheer."
-
-msgid "Code-hosting app"
-msgstr "Codehosten-app"
-
-msgid "Not registered"
-msgstr "Niet geregistreerd"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Inloggegevens voor app voor codehosten zijn niet geregistreerd voor "
-"%(hostname)s. Bestaande verbonden accounts kunnen worden verwijderd, maar "
-"nieuwe accounts kunnen niet worden verbonden totdat een administrator de app "
-"opnieuw registreert."
-
-msgid "Connect accounts"
-msgstr "Met accounts verbinden"
-
-msgid "Connect GitHub account"
-msgstr "Met GitHub-account verbinden"
-
-msgid "Connected accounts"
-msgstr "Verbonden accounts"
-
-msgid "Provider ID"
-msgstr "Aanbieder-ID"
-
-msgid "Repositories"
-msgstr "Opslagruimtes"
-
-msgid "Refresh"
-msgstr "Vernieuwen"
-
-msgid "No connected accounts yet."
-msgstr "Nog geen verbonden accounts."
-
-msgid "Code-hosting integrations"
-msgstr "Integraties codehosten"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16637,9 +16754,6 @@ msgstr "Verbonden GitHub-accounts:"
 msgid "Refresh repositories"
 msgstr "Opslagruimtes vernieuwen"
 
-msgid "Migrate selected components"
-msgstr "Migreer geselecteerde onderdelen"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16664,16 +16778,32 @@ msgstr ""
 msgid "Migration status"
 msgstr "Migratiestatus"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Nieuwe waarschuwing bij %(component)s"
+
+#, fuzzy
+#| msgid "GitHub App"
+msgid "Using GitHub App"
+msgstr "GitHub-app"
+
 msgid "Ready"
 msgstr "Klaar"
 
 msgid "Repository access needed"
 msgstr "Toegang voor opslagruimte vereist"
 
+msgid "Migrate selected components"
+msgstr "Migreer geselecteerde onderdelen"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
 "Er zijn geen GitHub-onderdelen in deze werkruimte die gemigreerd kunnen "
 "worden."
+
+msgid "Code-hosting connections"
+msgstr "Verbindingen voor codehosten"
 
 msgid "Register Weblate GitHub App"
 msgstr "Weblate-GitHub-app registreren"
@@ -16743,6 +16873,105 @@ msgstr "Naam van de app"
 msgid "Continue to %(host)s"
 msgstr "Doorgaan naar %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "Migreer geselecteerde onderdelen"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Selecteer bestaande Git- of GitHub-onderdelen om de Weblate GitHub App te "
+"gebruiken. Hun opslagruimte-URLs zullen vervangen worden met canonieke HTTPS "
+"URLs en individuele aanvraag-URLs zullen worden verwijderd."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "Migreer geselecteerde onderdelen"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "Onderdelen te migreren"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Terug naar account-instellingen"
+
+msgid "Connected accounts"
+msgstr "Verbonden accounts"
+
+msgid "Provider ID"
+msgstr "Aanbieder-ID"
+
+msgid "Repositories"
+msgstr "Opslagruimtes"
+
+msgid "No connected accounts yet."
+msgstr "Nog geen verbonden accounts."
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Selecteer een werkruimte vóór het verbinden met een GitHub-account."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "Met GitHub-account verbinden"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Verbonden GitHub-account: %(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "Verbind of update GitHub account"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "Overnemen vanuit werkruimte"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Andere onderdelen"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16752,6 +16981,28 @@ msgstr ""
 "installeren of erom mag vragen. Als een organisatie ontbreekt, controleer "
 "dan de rol van uw organisatie en de beperkingen voor het installeren van "
 "GitHub App in GitHub."
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub weigerde de registratiecode. Begin opnieuw met het registreren."
+
+#, fuzzy
+#| msgid "Authorize application"
+msgid "Authorize again"
+msgstr "Toepassing authorizeren"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "Doorgaan naar GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Kies host GitHub"
@@ -16770,6 +17021,9 @@ msgstr "Installeren op %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Verbonden GitHub-account: %(login)s"
+
+msgid "Add or configure account"
+msgstr "Account toevoegen of configureren"
 
 #, python-format
 msgid ""
@@ -16790,6 +17044,12 @@ msgstr "Opslagruimten bijgewerkt"
 
 msgid "Available Repositories"
 msgstr "Beschikbare repository's"
+
+msgid "Visibility"
+msgstr "Zichtbaarheid"
+
+msgid "Import"
+msgstr "Importeren"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16820,6 +17080,11 @@ msgstr ""
 "praten met providers voor code hosten. Verbind met een account voor elke app "
 "om opslagruimten voor dat account te importeren."
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Nog geen app voor authenticatie geregistreerd."
+
 msgid "Remove app"
 msgstr "App verwijderen"
 
@@ -16847,18 +17112,43 @@ msgstr ""
 "De app zelf blijft geïnstalleerd op GitHub. Verwijder het afzonderlijk van "
 "GitHub als u het niet meer nodig hebt."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Nog geen verbonden accounts. Gebruik de knop hierboven om te verbinden met "
-"een account voor een organisatie of gebruiker."
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Van verbonden account"
+msgstr[1] "Van verbonden account"
+
+#, fuzzy
+#| msgid "Broker connection"
+msgid "View connections"
+msgstr "Verbinding met broker"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "Alle meldingen bekijken"
 
 msgid "From connected account"
 msgstr "Van verbonden account"
 
 msgid "Import from connected account"
 msgstr "Importeren vanuit verbonden account"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Selecteer een project met een werkruimte voordat u met een account verbindt. "
+"Accounts voor codehosten zijn verbonden met werkruimten."
+
+msgid "Refresh"
+msgstr "Vernieuwen"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "Geen opslagruimten beschikbaar vanuit de verbonden accounts."
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16877,18 +17167,108 @@ msgstr ""
 "Installeer de Weblate GitHub-app om te verbinden met een account van een "
 "organisatie of ene gebruiker."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Selecteer een project met een werkruimte voordat u met een account verbindt. "
-"Accounts voor codehosten zijn verbonden met werkruimten."
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Selecteer een werkruimte vóór het verbinden met een GitHub-account."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr "De Weblate-GitHub-app is niet geregistreerd op deze …."
 
 msgid "Try refreshing the repository list."
 msgstr "Probeer de lijst met repository's te vernieuwen."
+
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Migreer naar GitHub-apps"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "Projecten aan werkruimte toevoegen"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "Het project werd in of uit een werkruimte verplaatst."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "Projecten aan werkruimte toevoegen"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr ""
+"U heeft op dit moment geen rechten om de huidige werkruimte te bewerken."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "Beïnvloede projecten"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "Maken van een project zonder een werkruimte is niet toegestaan."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "Beheren werkruimte"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "Geen enkele tekenreeks komt overeen met uw zoekterm!"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Weblate werkruimte"
+
+#, fuzzy
+#| msgid "Preview component ID"
+msgid "Review component migration"
+msgstr "Geef voorbeeld onderdeel-ID weer"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "Verbonden accounts"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "Geen enkele tekenreeks komt overeen met uw zoekterm!"
+
+#, fuzzy
+#| msgid "All eligible components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Alle geschikte onderdelen in de huidige werkruimte"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Verbindingen voor codehosten beheren"
 
 msgid "Remove connected account?"
 msgstr "Verbonden account verwijderen?"
@@ -16921,6 +17301,58 @@ msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "en nog %(counter)s onderdeel"
 msgstr[1] "en nog %(counter)s onderdelen"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "Werkruimte toevoegen"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "Geen enkele tekenreeks komt overeen met uw zoekterm!"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Er zijn geen verbindingen voor codehosten beschikbaar. Een sitebeheerder "
+"moet eerst een app voor codehosten registreren."
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Selecteer een project met een werkruimte om te verbinden met een account of "
+"importeer opslagruimten vanuit een bestaande verbinding."
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "Migreer geselecteerde onderdelen"
+
+msgid "Code-hosting app"
+msgstr "Codehosten-app"
+
+msgid "Not registered"
+msgstr "Niet geregistreerd"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Inloggegevens voor app voor codehosten zijn niet geregistreerd voor "
+"%(hostname)s. Bestaande verbonden accounts kunnen worden verwijderd, maar "
+"nieuwe accounts kunnen niet worden verbonden totdat een administrator de app "
+"opnieuw registreert."
 
 msgid "Invitations"
 msgstr "Uitnodigingen"
@@ -17458,9 +17890,6 @@ msgstr "Categorie verplaatst"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate kon geen gewijzigde tekenreeks opslaan."
-
-msgid "Saving string failed"
-msgstr "Opslaan van tekenreeks mislukt"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr ""
@@ -18066,6 +18495,25 @@ msgstr "Het geüploade bestand is te groot."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Kon schermafdruk niet valideren: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Voeg de tekenreeks toe aan de brontaal."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "Onderdeel, waarnaar wordt verwezen, bestaat niet."
 
@@ -18085,6 +18533,14 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Aan opslagruimte gekoppelde onderdelen mogen geen gegevens van de "
 "opslagruimte bevatten."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 msgid "Imported authors"
 msgstr "Geïmporteerde auteurs"
@@ -18121,6 +18577,17 @@ msgstr ""
 "Gebruiker %(username)s wacht acceptatie van de uitnodiging af. Geïmporteerd "
 "auteurschap blijft anoniem totdat het is geaccepteerd."
 
+#, fuzzy, python-format
+#| msgid ""
+#| "User %(username)s was skipped because no eligible local account matches "
+#| "the backup."
+msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+"Gebruiker %(username)s is overgeslagen omdat geen geschikte lokale accounts "
+"overeenkomen met de back-up."
+
 #, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
@@ -18143,8 +18610,24 @@ msgstr "Parameters versiebeheer"
 msgid "File format parameters"
 msgstr "Parameters bestandsindeling"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "De map voor de opslagruimte van het project bestaat al."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Verwijder geselecteerde items van vertaalgeheugen"
 
 msgid "Invalid search type."
 msgstr "Ongeldig zoektype."
@@ -18905,8 +19388,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Aanvullende uitleg over de betekenis of het gebruik van de tekenreeks."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Uitleg omtrent brontekenreeks"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -19333,6 +19827,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "Geen overeenkomstige werkruimte gevonden."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Dubbele vertaling."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "Zip-bestand met back-up"
@@ -19971,11 +20480,6 @@ msgstr "Onderdeel via geüploade ZIP aangemaakt"
 
 msgid "Component created via document upload"
 msgstr "Onderdeel via geüpload document aangemaakt"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22311,6 +22815,12 @@ msgstr "U hebt geen rechten om de doelwerkruimte te bewerken."
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "U hebt geen rechten om projecten aan de werkruimte toe te voegen."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg voltooid met waarschuwingen zonder enige uitvoer."
 
@@ -22749,7 +23259,8 @@ msgid "Template rendering exceeded its loop limit."
 msgstr "Sjabloonrenderen overschrijdde de loop limiet."
 
 msgid "Attribute access and method calls are not supported."
-msgstr "Toegang tot attributen en oproepen van methodes wordt niet ondersteund."
+msgstr ""
+"Toegang tot attributen en oproepen van methodes wordt niet ondersteund."
 
 msgid "Index exceeds the length limit of 128 characters."
 msgstr "Index overschrijdt de lengtelimiet van 128 tekens."
@@ -22774,7 +23285,8 @@ msgstr ""
 "Lussen vereisen een lijst, tekenreeks, woordenboek of woordenboekinzicht."
 
 msgid "Loop unpacking requires a list, tuple, string, or dictionary."
-msgstr "Uitpakken via lus vereist een lisjt, tuple, tekenreeks, of woordenboek."
+msgstr ""
+"Uitpakken via lus vereist een lisjt, tuple, tekenreeks, of woordenboek."
 
 msgid "Loop value cannot be unpacked into its variables."
 msgstr "Luswaarde kan niet worden uitepakt tot de bijbehorende variabelen."
@@ -22818,7 +23330,8 @@ msgid "Choices must be a string."
 msgstr "Keuzes moeten een tekenreeks zijn."
 
 msgid "Length requires a list, string, dictionary, or dictionary view."
-msgstr "Lengte vereist een lijst, tekenreeks, woordenboek, of woordenboekzicht."
+msgstr ""
+"Lengte vereist een lijst, tekenreeks, woordenboek, of woordenboekzicht."
 
 msgid "This filter requires a list, tuple, or string."
 msgstr "Dit filter vereist een lijst, tuple, of tekenreeks."
@@ -23452,6 +23965,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Opslagruimte heeft een onderbroken bewerking %(operation)s voor Git."
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "Kon onderbroken bewerking %(operation)s voor Git niet herstellen."
@@ -23592,6 +24119,41 @@ msgstr "Onderdelen te migreren"
 
 msgid "Select at least one component to migrate."
 msgstr "Selecteer ten minste één onderdeel om te migreren."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Te verwijderen project"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Weblate werkruimte"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "Werkruimteprojecten toevoegen"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "Werkruimten beheren"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "Naam werkruimte"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Voer een JSON-sleutel voor het account in."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24049,8 +24611,8 @@ msgstr "Selecteer een werkruimte vóór het verbinden met een GitHub-account."
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Weblate GitHub-app is niet geconfigureerd voor de geselecteerde host."
 
-msgid "Connected GitHub account updated."
-msgstr "Verbonden GitHub-account bijgewerkt."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub gaf geen geldige installatie-ID terug."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -24059,19 +24621,14 @@ msgstr ""
 "De link voor het installeren van de Weblate GitHub-app is niet langer "
 "geldig. Begin het installeren opnieuw."
 
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "U heeft geen rechten om GitHub te verbinden met deze werkruimte."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub gaf geen geldige installatie-ID terug."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
-"Te veel verbindingspogingen voor GitHub-account. De installatie van GitHub "
-"werd niet verbonden en zou nog steeds in afwachting kunnen zijn. Probeer "
-"later nog eens te verbinden met het account."
+"Weblate kon de vertaalbestanden niet verwerken tijdens het bijwerken van de "
+"vertalingen."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -24081,6 +24638,20 @@ msgstr ""
 "Weblate kon niet bevestigen dat u deze installatie van GitHub beheert. Begin "
 "opnieuw met installeren met een gebruiker van GitHub die eigenaar is van het "
 "account of de organisatie kan beheren."
+
+msgid "Connected GitHub account updated."
+msgstr "Verbonden GitHub-account bijgewerkt."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "U heeft geen rechten om GitHub te verbinden met deze werkruimte."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"Te veel verbindingspogingen voor GitHub-account. De installatie van GitHub "
+"werd niet verbonden en zou nog steeds in afwachting kunnen zijn. Probeer "
+"later nog eens te verbinden met het account."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -24102,28 +24673,44 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Verbonden GitHub-account toegevoegd."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Kon niet ophalen het project van GitLab (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "De registratie kan niet worden voltooid."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "%(component)s kon niet worden gemigreerd: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] "Één onderdeel gemigreerd naar de Weblate GitHub App."
 msgstr[1] "%(count)d onderdelen gemigreerd naar de Weblate GitHub App."
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"Één onderdeel werd niet gemigreerd omdat die opslagruimte niet langer "
-"beschikbaar is."
-msgstr[1] ""
-"%(count)d onderdelen werden niet gemigreerd omdat die opslagruimtes niet "
-"langer beschikbaar zijn."
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Een onderdeel is nu ontgrendeld voor vertalen."
+msgstr[1] "Een onderdeel is nu ontgrendeld voor vertalen."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "%(component)s kon niet worden gemigreerd: %(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "Het authenticatie-antwoord is verlopen. Probeer opnieuw aan te melden."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Voer een geldige naam voor de Github-app en host in."
@@ -24412,18 +24999,11 @@ msgstr "Rapport van %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s — %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
-msgstr ""
-"Uw identiteitsverificatie is verlopen. Bevestig uw identiteit en selecteer "
-"en upload het CSV-rapport opnieuw."
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "Kies een CSV-rapport van maximaal 10 MiB."
 
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Kon de versleutelde upload niet opslaan. Probeer opnieuw."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr "Kies een CSV-rapport van maximaal 10 MiB."
 
 msgid "Could not read the uploaded report. Upload it again."
 msgstr "Kon het geüploade rapport niet lezen. Upload het opnieuw."
@@ -24668,6 +25248,165 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "De werkruimte is verwijderd."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Accounts voor codehosten beheren die zijn verbonden met de werkruimten "
+#~ "die u beheert. Deze verbindingen staan los van identiteiten voor "
+#~ "aanmelden."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Uw Weblate staat vermeld op weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Er wordt slechts een van de %(count)s vermeldingen getoond."
+#~ msgstr[1] "Er worden slechts enkele van de %(count)s vermeldingen getoond."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Kies een opslagruimte uit een verbonden account. Het formulier voor het "
+#~ "maken van het onderdeel zal van tevoren worden gevuld met de URL van de "
+#~ "kloon, standaardbranch en het overeenkomende VCS-stuurprogramma."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Nog geen opslagruimten beschikbaar. Verbind met een account voor "
+#~ "codehosten om hier opslagruimten beschikbaar te maken."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Geen opslagruimte beschikbaar vanuit verbonden accounts voor deze "
+#~ "werkruimte van het project."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "De geëxporteerde opslagruimte van Weblate kan standaard oppervlakkig "
+#~ "zijn, dus deze werkstroom werkt het beste vanuit een up-to-date checkout "
+#~ "van upstream. Klonen van de geëxporteerde opslagruimte van Weblate of een "
+#~ "verouderde checkout van upstream gebruiken kan mislukken, zelfs wanneer "
+#~ "Weblate en upstream gesynchroniseerd zijn. Bekijk de FAQ hieronder voor "
+#~ "details."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Open een bestaande checkout van de opslagruimte upstream of voer een "
+#~ "nieuwe uit."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Voer alle openstaande wijzigingen door op Weblate en vergrendel het "
+#~ "vertaalonderdeel."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Voeg een Weblate-geëxporteerde opslagruimte toe als een externe."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Voeg Weblate-wijzigingen samen en los conflicten op."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Herbaseer Weblate-wijzigingen op stroomopwaartse en los conflicten op."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Voer de wijzigingen door naar de stroomopwaartse opslagruimte."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Weblate zou nu de bijgewerkte opslagruimte moeten kunnen zien en die zou "
+#~ "door u te ontgrendelen moeten zijn."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "Bekijk de veelgestelde vragen om te zien hoe u dit oplost."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "Onafgeronde tekenreeksen, geconverteerde bestanden voorzien van "
+#~ "opmerkingen - geschikt voor offline-vertaling"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "U beheert geen werkruimten. VCS-accounts kunnen alleen worden verbonden "
+#~ "met werkruimten die u beheert."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Accounts voor codehosten verbinden met %(workspace)s. Deze accounts "
+#~ "kunnen dan worden gebruikt bij het maken van onderdelen vanuit "
+#~ "versiebeheer."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Accounts voor codehosten verbinden met werkruimten die u beheert. Deze "
+#~ "accounts kunnen dan worden gebruikt bij het maken van onderdelen vanuit "
+#~ "versiebeheer."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Met accounts verbinden"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Integraties codehosten"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Nog geen verbonden accounts. Gebruik de knop hierboven om te verbinden "
+#~ "met een account voor een organisatie of gebruiker."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "Één onderdeel werd niet gemigreerd omdat die opslagruimte niet langer "
+#~ "beschikbaar is."
+#~ msgstr[1] ""
+#~ "%(count)d onderdelen werden niet gemigreerd omdat die opslagruimtes niet "
+#~ "langer beschikbaar zijn."
+
+#~ msgid ""
+#~ "Your identity verification has expired. Confirm your identity, then "
+#~ "select and upload the CSV report again."
+#~ msgstr ""
+#~ "Uw identiteitsverificatie is verlopen. Bevestig uw identiteit en "
+#~ "selecteer en upload het CSV-rapport opnieuw."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Bladeren door begrippenlijst van %(name)s"
@@ -24796,9 +25535,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Machinevertalingen beheren"
-
-#~ msgid "Preview component ID"
-#~ msgstr "Geef voorbeeld onderdeel-ID weer"
 
 #~ msgid "Preview change ID"
 #~ msgstr "Voorbeeldweergave veranderings-ID"
@@ -25081,9 +25817,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Skipped components:"
 #~ msgstr "Overgeslagen onderdelen:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "Toestemming vereist voor:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -25444,9 +26177,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid "Manage VCS integrations"
 #~ msgstr "Siteconfiguratie beheren"
 
-#~ msgid "GitHub App"
-#~ msgstr "GitHub-app"
-
 #~ msgid "VCS Installations"
 #~ msgstr "VCS-installaties"
 
@@ -25572,9 +26302,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Return to the component"
 #~ msgstr "Terugkeren naar het onderdeel"
-
-#~ msgid "View all alerts"
-#~ msgstr "Alle meldingen bekijken"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Bekijk richtlijnen omtrent gemeenschapsvertalingen."
@@ -26280,12 +27007,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Begrippenlijstvertaling: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s woord"
-#~ msgstr[1] "%(count)s woorden"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "Kies het primaire adres uit de goedgekeurde adressen."
 
@@ -26344,9 +27065,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nieuwe tekenreeks om te vertalen"
-
-#~ msgid "New contributor"
-#~ msgstr "Nieuwe medewerker"
 
 #~ msgid "New announcement"
 #~ msgstr "Nieuwe aankondiging"
@@ -26708,9 +27426,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Token value to use in API"
 #~ msgstr "De in de api te verwerken sleutelwaarde"
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Geen enkele tekenreeks komt overeen met uw zoekterm!"
 
 #, python-format
 #~ msgid ""
@@ -27251,9 +27966,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid "Translatable words"
 #~ msgstr "Vertaalbare woorden"
 
-#~ msgid "Number of characters"
-#~ msgstr "Aantal tekens"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Aantal brontekenreeksen"
 
@@ -27511,9 +28223,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "Openbaar zichtbaar, alleen vertaalbaar voor gekozen gebruikers"
-
-#~ msgid "Add a component message"
-#~ msgstr "Een onderdeel-bericht toevoegen"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "Nieuw aankondigingsbericht bij %(project)s"
@@ -30360,9 +31069,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Avatar voor %s"
-
-#~ msgid "First name"
-#~ msgstr "Voornaam"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

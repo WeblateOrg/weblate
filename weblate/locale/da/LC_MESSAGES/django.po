@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-25 14:29+0000\n"
 "Last-Translator: Ulrik <ulrik@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
@@ -41,6 +41,12 @@ msgstr "Ingen"
 
 msgid "User avatar"
 msgstr "Brugeravatar"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Godkendelsen kunne ikke gennemføres. Kontakt administratoren."
 
 msgid "No notification"
 msgstr "Ingen notifikation"
@@ -451,7 +457,8 @@ msgstr "Adgangskode ændret."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr "Grænsen for antal forespørgsler blev overskredet for {scope} på {path}."
+msgstr ""
+"Grænsen for antal forespørgsler blev overskredet for {scope} på {path}."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -1480,9 +1487,6 @@ msgstr "Gratis prøveperiode"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Fejlfinding af notifikationer for %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Denne bruger kan ikke redigeres."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2009,8 +2013,8 @@ msgid ""
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Når en oversættelse ændres i versionsstyringen, markerer Weblate den som »"
-"Skal omskrives«. Det er især nyttigt, hvis oversættelsesfilerne ofte "
+"Når en oversættelse ændres i versionsstyringen, markerer Weblate den som "
+"»Skal omskrives«. Det er især nyttigt, hvis oversættelsesfilerne ofte "
 "opdateres manuelt eller af en ekstern tjeneste."
 
 msgid "Path of generated MO file"
@@ -2122,7 +2126,8 @@ msgid "xgettext checks"
 msgstr "xgettext-kontroller"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr "Yderligere kontroller, som xgettext skal udføre på de udtrukne tekster."
+msgstr ""
+"Yderligere kontroller, som xgettext skal udføre på de udtrukne tekster."
 
 msgid "Additional keywords"
 msgstr "Ekstra nøgleord"
@@ -2237,6 +2242,18 @@ msgstr ""
 "Meson-tilføjelsen kræver en gettext-mappe til Meson med meson.build og enten "
 "POTFILES eller POTFILES.in."
 
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Aktivér gennemgang af kilder"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
+
 msgid "The component has to define a gettext template for new translations."
 msgstr "Komponenten skal angive en gettext-skabelon til nye oversættelser."
 
@@ -2244,8 +2261,8 @@ msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Django-tilføjelsen kræver, at skabelonen til nye oversættelser hedder »"
-"django.pot«, »djangojs.pot«, »django.po« eller »djangojs.po«."
+"Django-tilføjelsen kræver, at skabelonen til nye oversættelser hedder "
+"»django.pot«, »djangojs.pot«, »django.po« eller »djangojs.po«."
 
 msgid "Filtering"
 msgstr "Filtrering"
@@ -2422,8 +2439,8 @@ msgstr ""
 "Lad feltet stå tomt for at søge direkte efter oversættelsesfiler. Hvis du "
 "udfylder det, søger Weblate efter den etsprogede basisfil eller basisfilen "
 "til nye oversættelser og bruger skabelonen som filmaske. Medtag et jokertegn "
-"for sproget og {{ component }}, fx locale/*/{{ component }}.po eller docs/{{ "
-"component }}_*.md."
+"for sproget og {{ component }}, fx locale/*/{{ component }}.po eller docs/"
+"{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Sprogfilter"
@@ -2817,8 +2834,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Opdaterer variablen ALL_LINGUAS i filerne »configure«, »configure.in« eller »"
-"configure.ac«, når en oversættelse tilføjes eller fjernes."
+"Opdaterer variablen ALL_LINGUAS i filerne »configure«, »configure.in« eller "
+"»configure.ac«, når en oversættelse tilføjes eller fjernes."
 
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "Opdater PO-filer til at matche POT (msgmerge)"
@@ -3119,6 +3136,17 @@ msgstr ""
 "Filtrer efter ændringshandling. Gentag parameteren for at filtrere efter "
 "flere handlinger."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "Aktiveret af  {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "Antal tilladte forespørgsler"
 
@@ -3319,6 +3347,9 @@ msgstr ""
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "Kunne ikke få %(scope)s-låsen for %(origin)s til at udføre handlingen."
+
+msgid "This user can not be edited."
+msgstr "Denne bruger kan ikke redigeres."
 
 msgid "Expected an object."
 msgstr "Forventede et objekt."
@@ -4309,7 +4340,8 @@ msgid "The change event does not match this automation's triggers."
 msgstr "Ændringshændelsen svarer ikke til nogen af automatiseringens udløsere."
 
 msgid "Trigger scope requires a change with a string."
-msgstr "Udløserens afgrænsning kræver en ændring, der er knyttet til en streng."
+msgstr ""
+"Udløserens afgrænsning kræver en ændring, der er knyttet til en streng."
 
 msgid "Automation nesting is too deep."
 msgstr "Automatiseringen har for mange indlejringsniveauer."
@@ -4659,7 +4691,9 @@ msgstr "Fakturering"
 msgid "Billing event"
 msgstr "Faktureringshændelse"
 
-msgid "Project has no components."
+#, fuzzy
+#| msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Projektet har ingen komponenter."
 
 msgid "monthly"
@@ -5653,7 +5687,8 @@ msgstr "Tegn omkring XML-tags"
 
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Tegnene omkring XML-tags i oversættelsen stemmer ikke med kildeteksten."
+msgstr ""
+"Tegnene omkring XML-tags i oversættelsen stemmer ikke med kildeteksten."
 
 msgid "Markdown references"
 msgstr "Markdown-referencer"
@@ -5779,6 +5814,14 @@ msgstr "Uændret oversættelse"
 
 msgid "Source and translation are identical."
 msgstr "Kilde og oversættelse er identiske."
+
+msgid "Saving string failed"
+msgstr "Kunne ikke gemme streng"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "Kun godkendte oversættelser skrives til oversættelsesfilen."
 
 msgid "Unpluralised"
 msgstr "Uden flertalsform"
@@ -5964,6 +6007,11 @@ msgstr "XLIFF 1.1 med gettext-udvidelser"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.2-oversættelsesfil"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6002,6 +6050,11 @@ msgstr "Excel Open XML"
 
 msgid "Could not open the workbook archive."
 msgstr "Kunne ikke åbne projektmappearkivet."
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "The workbook header row is empty."
+msgstr "Rapporten er tom."
 
 #, python-format
 msgid ""
@@ -6287,6 +6340,11 @@ msgstr "App Store-metadatafiler"
 
 msgid "File validation is required for directory-based formats."
 msgstr "Mappebaserede formater kræver filvalidering."
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr "Projektmappearkivet overskrider grænsen på %d byte efter udpakning."
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -6840,8 +6898,8 @@ msgid ""
 "eTranslation failed in domain %(domain)s: %(description)s (error code "
 "%(code)s)."
 msgstr ""
-"eTranslation mislykkedes i domænet %(domain)s: %(description)s (fejlkode %"
-"(code)s)."
+"eTranslation mislykkedes i domænet %(domain)s: %(description)s (fejlkode "
+"%(code)s)."
 
 msgid "Invalid eTranslation domains response"
 msgstr "Ugyldigt svar om domæner fra eTranslation"
@@ -6952,7 +7010,8 @@ msgid "Other domain code"
 msgstr "Anden domænekode"
 
 msgid "Enter a domain code from eTranslation when selecting Other domain code."
-msgstr "Angiv en domænekode fra eTranslation, når du vælger »Anden domænekode«."
+msgstr ""
+"Angiv en domænekode fra eTranslation, når du vælger »Anden domænekode«."
 
 msgctxt "eTranslation configuration"
 msgid "Component language domains"
@@ -7234,8 +7293,8 @@ msgid ""
 "%(limit)d characters. For example: {\"de\": \"Use formal address.\"}"
 msgstr ""
 "Angiv et JSON-objekt, der knytter målsprogskoder, som Weblate genkender, til "
-"yderligere oversættelsesinstruktioner. Hver instruktion må indeholde op til %"
-"(limit)d tegn. Fx: {\"de\": \"Brug formel tiltale.\"}"
+"yderligere oversættelsesinstruktioner. Hver instruktion må indeholde op til "
+"%(limit)d tegn. Fx: {\"de\": \"Brug formel tiltale.\"}"
 
 msgid "Language-specific instructions must be a JSON object."
 msgstr "Sprogspecifikke instruktioner skal angives som et JSON-objekt."
@@ -7247,7 +7306,8 @@ msgstr ""
 
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr "De sprogspecifikke instruktioner indeholder den ukendte sprogkode »%s«."
+msgstr ""
+"De sprogspecifikke instruktioner indeholder den ukendte sprogkode »%s«."
 
 #, python-format
 msgid ""
@@ -7447,6 +7507,23 @@ msgstr "Komponentens kildesprog"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Sekundært sprog defineret i projekt eller komponent"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "Tilladelse nægtet"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "Oversættelseskontekst"
 
 msgid "Rate limit reset."
 msgstr "Grænsen for antal forespørgsler er nulstillet."
@@ -8096,9 +8173,9 @@ msgid ""
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"Har du brug for support til en anden Weblate-installation end %(site_title)"
-"s, kan du se supportmulighederne eller bruge kontaktformularen på den "
-"pågældende server."
+"Har du brug for support til en anden Weblate-installation end "
+"%(site_title)s, kan du se supportmulighederne eller bruge kontaktformularen "
+"på den pågældende server."
 
 msgid "View support offerings"
 msgstr "Se supportmuligheder"
@@ -8424,7 +8501,8 @@ msgid "None"
 msgstr "Ingen"
 
 msgid "No accessible components or translations in this target."
-msgstr "Der er ingen tilgængelige komponenter eller oversættelser på denne sti."
+msgstr ""
+"Der er ingen tilgængelige komponenter eller oversættelser på denne sti."
 
 msgid "No matching subscriptions in this scope."
 msgstr "Der er ingen tilsvarende abonnementer i dette område."
@@ -8734,20 +8812,6 @@ msgid ""
 msgstr ""
 "API-nøglen bruges også til at godkende automatisk eksporterede Git-"
 "repositorier."
-
-msgid "Code-hosting connections"
-msgstr "Forbindelser til kodeplatforme"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Administrer de konti på kodeplatforme, der er knyttet til arbejdsområder, "
-"som du administrerer. Disse forbindelser er adskilt fra de konti, du bruger "
-"til at logge ind."
-
-msgid "Manage code-hosting connections"
-msgstr "Administrer forbindelser til kodeplatforme"
 
 msgid "Pending invitation"
 msgstr "Afventende invitation"
@@ -9490,7 +9554,8 @@ msgid "Published translation files are available from the CDN base URL:"
 msgstr "De udgivne oversættelsesfiler kan hentes fra CDN'ets basis-URL:"
 
 msgid "Files use language-code names with the original file extension."
-msgstr "Filerne har sprogkoden som navn og beholder den oprindelige filendelse."
+msgstr ""
+"Filerne har sprogkoden som navn og beholder den oprindelige filendelse."
 
 msgid "Include following snippet to load the localization from the CDN:"
 msgstr "Inkluder følgende kodestykke for at indlæse lokaliseringen fra CDN:"
@@ -10133,9 +10198,13 @@ msgstr ""
 "Dette abonnement er ikke berettiget til libre-planen. Ret fejlene ovenfor "
 "eller køb et abonnement."
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Resolve the issues below by %(date)s to keep Libre hosting for your "
+#| "project."
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 "Løs problemerne nedenfor senest den %(date)s for at beholde Libre-hosting "
 "til dit projekt."
@@ -10146,6 +10215,21 @@ msgid ""
 msgstr ""
 "Weblate låser de eksisterende komponenter for oversættelse, når denne "
 "advarsel udsendes. De projektansvarlige kan låse dem op."
+
+#, fuzzy
+#| msgid "All components"
+msgid "Add a component to keep Libre hosting"
+msgstr "Alle komponenter"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "Føj projekter til arbejdsområdet"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "Berørte komponenter"
 
 msgid "Customer"
 msgstr "Kunde"
@@ -10246,7 +10330,8 @@ msgid "Only chosen users can contribute."
 msgstr "Kun udvalgte brugere kan bidrage."
 
 msgid "Only chosen users can access VCS repository."
-msgstr "Kun udvalgte brugere kan få adgang til versionsstyringens repositorium."
+msgstr ""
+"Kun udvalgte brugere kan få adgang til versionsstyringens repositorium."
 
 msgid "Visible only to chosen users."
 msgstr "Kun synlig for udvalgte brugere."
@@ -10543,6 +10628,11 @@ msgstr "Dupliker denne komponent"
 
 msgid "Share in projects"
 msgstr "Del i projekter"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Spørg efter Libre-hosting"
 
 msgid "dismissed"
 msgstr "afvist"
@@ -11248,7 +11338,8 @@ msgid "to"
 msgstr "til"
 
 msgid "Copies placeable of a given number from source string."
-msgstr "Kopiér det element fra kildestrengen, som svarer til det valgte nummer."
+msgstr ""
+"Kopiér det element fra kildestrengen, som svarer til det valgte nummer."
 
 msgid "followed by"
 msgstr "fulgt af"
@@ -11691,16 +11782,16 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
-"Den automatiske årlige betaling for dit abonnement bliver slået fra den %"
-"(date)s, fordi de omfattede projekter ser ud til at være forladt."
+"Den automatiske årlige betaling for dit abonnement bliver slået fra den "
+"%(date)s, fordi de omfattede projekter ser ud til at være forladt."
 
 #, python-format
 msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
-"Det seneste kendte commit i disse projekters upstream-repositorier er fra %"
-"(date)s."
+"Det seneste kendte commit i disse projekters upstream-repositorier er fra "
+"%(date)s."
 
 #, python-format
 msgid ""
@@ -11800,8 +11891,8 @@ msgid ""
 "%(site_title)s. This address is already associated with an account and "
 "cannot be added to another."
 msgstr ""
-"Nogen har bedt om at føje denne email-adresse til en anden konto på %"
-"(site_title)s. Adressen er allerede knyttet til en konto og kan ikke føjes "
+"Nogen har bedt om at føje denne email-adresse til en anden konto på "
+"%(site_title)s. Adressen er allerede knyttet til en konto og kan ikke føjes "
 "til en anden."
 
 msgid ""
@@ -12335,8 +12426,10 @@ msgstr ""
 "Når funktionen er aktiveret, viser weblate.org oplysninger om dit websted og "
 "dine offentlige eller beskyttede projekter."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Din Weblate er listet på weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Din Weblate er ikke listet på weblate.org"
@@ -13115,6 +13208,19 @@ msgstr "Importér oversættelseshukommelse"
 msgid "Delete announcement"
 msgstr "Slet meddelelse"
 
+msgid "Contributors"
+msgstr "Bidragydere"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Licensaftale for bidragydere blev fjernet."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Ingen nylige bidrag fundet."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13200,6 +13306,16 @@ msgstr "Giv adgang"
 msgid "Deny"
 msgstr "Afvis"
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Fornavn"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Forrige"
+
 msgid "Click to edit position"
 msgstr "Klik for at redigere position"
 
@@ -13217,6 +13333,16 @@ msgstr "Spring til"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Næste"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "Seneste opdatering"
 
 msgid "Labels"
 msgstr "Etiketter"
@@ -13773,7 +13899,8 @@ msgid "Translation process"
 msgstr "Oversættelsesproces"
 
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Kun brugere med særlige rettigheder kan redigere oversættelser direkte."
+msgstr ""
+"Kun brugere med særlige rettigheder kan redigere oversættelser direkte."
 
 msgid "Translation suggestions can be made."
 msgstr "Oversættelsesforslag kan foretages."
@@ -13832,6 +13959,11 @@ msgstr "Versalfølsomhed"
 
 msgid "Most active translators"
 msgstr "Mest aktive oversættere"
+
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Ny bidragsyder"
 
 msgid "Browse all users"
 msgstr "Gennemse alle brugere"
@@ -13912,9 +14044,6 @@ msgstr "Trends fra de sidste 30 dage"
 msgid "Quick numbers"
 msgstr "Hurtige tal"
 
-msgid "Contributors"
-msgstr "Bidragydere"
-
 msgid "Translations"
 msgstr "Oversættelser"
 
@@ -13924,8 +14053,8 @@ msgid ""
 "%(project_name)s and join the %(team_name)s team. You will join only if you "
 "accept this invitation."
 msgstr ""
-"En regel for automatisk teamtildeling har inviteret dig til at bidrage til %"
-"(project_name)s og blive medlem af teamet %(team_name)s. Du bliver først "
+"En regel for automatisk teamtildeling har inviteret dig til at bidrage til "
+"%(project_name)s og blive medlem af teamet %(team_name)s. Du bliver først "
 "medlem, når du accepterer invitationen."
 
 #, python-format
@@ -13933,9 +14062,9 @@ msgid ""
 "An automatic team assignment rule invited you to join the %(team_name)s team "
 "in %(workspace_name)s. You will join only if you accept this invitation."
 msgstr ""
-"En regel for automatisk teamtildeling har inviteret dig til teamet %"
-"(team_name)s i %(workspace_name)s. Du bliver først medlem, når du accepterer "
-"invitationen."
+"En regel for automatisk teamtildeling har inviteret dig til teamet "
+"%(team_name)s i %(workspace_name)s. Du bliver først medlem, når du "
+"accepterer invitationen."
 
 #, python-format
 msgid ""
@@ -14266,6 +14395,27 @@ msgstr "Forespørgsel"
 msgid "Refresh results"
 msgstr "Opdater resultater"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "Personlig fil"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Fil i originalformat som oversat i repositoriet"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Alle strenge, konverterede filer med kommentarer; velegnet til offline-"
+"oversættelse"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14445,6 +14595,24 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "IP-adresse kopieret til udklipsholder."
 
+msgid "Strings"
+msgstr "Strenge"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s ord"
+msgstr[1] "%(count)s ord"
+
+#, fuzzy, python-format
+#| msgid "Number of words"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Antal ord"
+msgstr[1] "Antal ord"
+
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
@@ -14503,9 +14671,6 @@ msgstr "Termer på målsproget"
 
 msgid "Translation status"
 msgstr "Oversættelsesstatus"
-
-msgid "Strings"
-msgstr "Strenge"
 
 msgid "Words"
 msgstr "Ord"
@@ -14659,9 +14824,6 @@ msgstr "Konfigurer %(addon)s"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate kunne ikke udføre script-tilføjelse."
 
-msgid "The following occurrences were found:"
-msgstr "Følgende forekomster blev fundet:"
-
 msgid "Command"
 msgstr "Kommando"
 
@@ -14683,6 +14845,9 @@ msgid ""
 msgstr ""
 "Disse sprogkoder angiver et makrosprog, og det er normalt bedre at bruge "
 "koden for det enkelte sprog i stedet."
+
+msgid "The following occurrences were found:"
+msgstr "Følgende forekomster blev fundet:"
 
 msgid "Suggested individual language codes"
 msgstr "Forslag til individuelle sprogkoder"
@@ -14708,6 +14873,16 @@ msgid ""
 msgstr ""
 "Komponenten ser ud til at indeholde almindelige gettext-PO-filer, men "
 "formatet er indstillet til etsprogede gettext-PO-filer."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -14850,6 +15025,9 @@ msgstr ""
 "Upstream-repositoriet blev ikke fundet. Tjek, om det findes og er "
 "tilgængeligt for Weblate."
 
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
+
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
@@ -14958,7 +15136,8 @@ msgstr ""
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
-msgstr "Upstream-repositoriet var midlertidigt utilgængeligt. Prøv igen senere."
+msgstr ""
+"Upstream-repositoriet var midlertidigt utilgængeligt. Prøv igen senere."
 
 msgid ""
 "Your repository URL seems to miss credentials. Either provide them in the "
@@ -15155,7 +15334,10 @@ msgstr "Følgende filer findes ikke længere i repositoriet:"
 msgid "Template for new translations"
 msgstr "Skabelon for nye oversættelser"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Weblate kunne ikke flette upstream-ændringer, mens repositoriet opdateres."
 
@@ -15199,6 +15381,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "Oversættelseskomponenten ser etsproget ud, men er ikke sat op til det."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "Tilføj en etsproget grundsprogfil i komponentindstillingerne."
 
@@ -15238,12 +15431,16 @@ msgstr ""
 "Tjek, om filmasken <code>%(filemask)s</code> matcher filer i dit "
 "versionskontrolsystems repository."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Kun noget af %(count)s forekomst vises."
-msgstr[1] "Kun nogle af %(count)s forekomster vises."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Sidste forekomst"
+msgstr[1] "Sidste forekomst"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15273,6 +15470,25 @@ msgstr "Weblate kunne ikke pushe ændringer til upstream-repositoriet."
 msgid "Push the repository"
 msgstr "Push repositoriet"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"VCS-repositoriet har mange ændringer i forhold til upstream. Flet "
+"ændringerne manuelt eller opsæt push for at automatisere dette."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15285,6 +15501,25 @@ msgstr "Weblate kunne ikke gendanne en afbrudt handling i repositoriet."
 
 msgid "Reset the repository"
 msgstr "Nulstil repositoriet"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"VCS-repositoriet er ikke opdateret med upstream-repositoriet. Flet ændringer "
+"manuelt eller opsæt hooks til at automatisere dette."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15328,6 +15563,19 @@ msgstr[0] ""
 "Komponenten har ikke modtaget nogen oversættelse inden for %(count)s dag."
 msgstr[1] ""
 "Komponenten har ikke modtaget nogen oversættelse inden for %(count)s dage."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate har haft afventende oversættelsesændringer for disse projekter siden "
+"%(date)s."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "Oversættelsen er blevet fjernet."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "Overvej at fjerne komponenten, hvis den ikke længere er nyttig."
@@ -15516,43 +15764,19 @@ msgstr ""
 "Opret en ZIP-fil med dine eksisterende oversættelsesfiler, og "
 "%(link_start)supload den%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Vælg et repositorium fra en tilknyttet konto. Formularen til oprettelse af "
-"komponenten udfyldes automatisk med klonings-URL, standardgren og den "
-"tilhørende driver til versionsstyring."
+"Vælg et repositorium til import. Repositoriets URL og gren udfyldes "
+"automatisk i formularen til den nye komponent."
 
-msgid "Add or configure account"
-msgstr "Tilføj eller konfigurer konto"
-
-msgid "Visibility"
-msgstr "Synlighed"
-
-msgid "Import"
-msgstr "Importér"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Der er endnu ingen tilgængelige repositorier. Tilknyt en konto på en "
-"kodeplatform for at gøre dens repositorier tilgængelige her."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Ingen repositorier er tilgængelige fra de tilknyttede konti i projektets "
-"arbejdsområde."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Vælg et projekt med et arbejdsområde for at tilknytte en konto eller "
-"importere repositorier fra en eksisterende forbindelse."
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Vis komponenter med linkede repositories"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15687,54 +15911,21 @@ msgstr ""
 "være ufuldstændige. Du kan konfigurere de manglende oversættelsesfiler "
 "manuelt."
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Typisk arbejdsgang for at løse fletningskonflikter"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"Weblates eksporterede repositorium kan som standard have begrænset historik. "
-"Arbejdsgangen fungerer derfor bedst med en opdateret arbejdskopi fra "
-"upstream. Kloning fra det eksporterede repositorium eller brug af en "
-"forældet arbejdskopi fra upstream kan mislykkes, selv om Weblate og upstream "
-"er synkroniseret. Se de ofte stillede spørgsmål nedenfor."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"Åbn en eksisterende checkout af upstream-repositoriet eller udfør en ny."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Commit alle ventende ændringer i Weblate, og lås oversættelseskomponenten."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr ""
-"Tilføj det repositorium, som Weblate har eksporteret, som et eksternt "
-"repositorium."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Flet Weblate-ændringer og løs eventuelle konflikter."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Rebase Weblate-ændringerne på upstream-repositoriet og løs eventuelle "
-"konflikter."
-
-msgid "Push changes into upstream repository."
-msgstr "Push ændringer til upstream-repositoriet."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Weblate burde nu kunne se det opdaterede repositorium, og du kan låse det op."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "Se FAQ for info om, hvordan dette løses."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "Du kan bruge Django-skabelonmarkup i commitbeskeder."
@@ -15848,6 +16039,16 @@ msgstr ""
 "Hvis det valgte arbejdsområdes abonnement kræver offentligt indhold, bliver "
 "projektet og følgende adgangsbegrænsede komponenter offentligt tilgængelige "
 "efter import:"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Ryd op i oversættelsesfiler"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
+msgstr ""
 
 msgid "Token copied to clipboard."
 msgstr "Token kopieret til udklipsholder."
@@ -16109,6 +16310,16 @@ msgstr "Upload skærmbillede"
 msgid "String information"
 msgstr "Information om streng"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Måloversættelse"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Oversættelse godkendt"
+
 msgid "No explanation currently provided."
 msgstr "Ingen forklaring i øjeblikket."
 
@@ -16253,23 +16464,6 @@ msgstr ""
 "kræver yderligere rettigheder. Brug en af eksportmulighederne nedenfor til "
 "at oversætte offline."
 
-msgid "File in original format as translated in the repository"
-msgstr "Fil i originalformat som oversat i repositoriet"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Alle strenge, konverterede filer med kommentarer; velegnet til offline-"
-"oversættelse"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"Ufærdige strenge, konverterede filer med kommentarer; velegnet til offline-"
-"oversættelse"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Den uploadede fil flettes med den nuværende oversættelse."
 
@@ -16284,76 +16478,6 @@ msgid ""
 "deletion."
 msgstr ""
 "Beskeden vises på oversættelsessiden, indtil den udløber eller slettes."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"Du administrerer ingen arbejdsområder. Du kan kun knytte konti til "
-"versionsstyring til arbejdsområder, du administrerer."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Der er ingen tilgængelige forbindelser til kodeplatforme. En "
-"webstedsadministrator skal først registrere en app til en kodeplatform."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Tilknyt konti på kodeplatforme til %(workspace)s. Kontiene kan derefter "
-"bruges til at oprette komponenter fra versionsstyringen."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Tilknyt konti på kodeplatforme til arbejdsområder, du administrerer. "
-"Kontiene kan derefter bruges til at oprette komponenter fra "
-"versionsstyringen."
-
-msgid "Code-hosting app"
-msgstr "App til kodeplatform"
-
-msgid "Not registered"
-msgstr "Ikke registreret"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Der er ikke registreret legitimationsoplysninger til kodeplatformens app på %"
-"(hostname)s. Eksisterende kontotilknytninger kan fjernes, men nye konti kan "
-"først tilknyttes, når en webstedsadministrator har registreret appen igen."
-
-msgid "Connect accounts"
-msgstr "Tilknyt konti"
-
-msgid "Connect GitHub account"
-msgstr "Tilknyt GitHub-konto"
-
-msgid "Connected accounts"
-msgstr "Tilknyttede konti"
-
-msgid "Provider ID"
-msgstr "Udbyder-id"
-
-msgid "Repositories"
-msgstr "Repositories"
-
-msgid "Refresh"
-msgstr "Opdater"
-
-msgid "No connected accounts yet."
-msgstr "Ingen tilknyttede konti endnu."
-
-msgid "Code-hosting integrations"
-msgstr "Integration med kodeplatforme"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16375,17 +16499,14 @@ msgstr ""
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
-"GitHub-appen skal have adgang til repositorierne på disse konti: %(accounts)"
-"s."
+"GitHub-appen skal have adgang til repositorierne på disse konti: "
+"%(accounts)s."
 
 msgid "Connected GitHub accounts:"
 msgstr "Tilknyttede GitHub-konti:"
 
 msgid "Refresh repositories"
 msgstr "Opdater repositorier"
-
-msgid "Migrate selected components"
-msgstr "Migrer valgte komponenter"
 
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
@@ -16411,14 +16532,32 @@ msgstr ""
 msgid "Migration status"
 msgstr "Migreringsstatus"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Nyt varsel i %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "GitHub-stjerne"
+
 msgid "Ready"
 msgstr "Klar"
 
 msgid "Repository access needed"
 msgstr "Kræver adgang til repositorium"
 
+msgid "Migrate selected components"
+msgstr "Migrer valgte komponenter"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr "Der er ingen GitHub-komponenter i arbejdsområdet, som kan migreres."
+
+msgid "Code-hosting connections"
+msgstr "Forbindelser til kodeplatforme"
 
 msgid "Register Weblate GitHub App"
 msgstr "Registrer Weblates GitHub-app"
@@ -16471,8 +16610,8 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
-"Klik på knappen nedenfor for at sende det udfyldte GitHub-appmanifest til %"
-"(host)s. Du kommer tilbage hertil, når GitHub har bekræftet det."
+"Klik på knappen nedenfor for at sende det udfyldte GitHub-appmanifest til "
+"%(host)s. Du kommer tilbage hertil, når GitHub har bekræftet det."
 
 msgid "GitHub host"
 msgstr "GitHub-vært"
@@ -16487,6 +16626,105 @@ msgstr "Appnavn"
 msgid "Continue to %(host)s"
 msgstr "Fortsæt til %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "Migrer valgte komponenter"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Vælg de eksisterende Git- eller GitHub-komponenter, som skal bruge Weblates "
+"GitHub-app. Deres repositorie-URL'er erstattes med kanoniske HTTPS-URL'er, "
+"og særskilte push-URL'er fjernes."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "Migrer valgte komponenter"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "Komponenter til migrering"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Tilbage til kontoindstillinger"
+
+msgid "Connected accounts"
+msgstr "Tilknyttede konti"
+
+msgid "Provider ID"
+msgstr "Udbyder-id"
+
+msgid "Repositories"
+msgstr "Repositories"
+
+msgid "No connected accounts yet."
+msgstr "Ingen tilknyttede konti endnu."
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Vælg et arbejdsområde, før du tilknytter en GitHub-konto."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "Tilknyt GitHub-konto"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Tilknyttet GitHub-konto: %(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "Tilknyt eller opdater GitHub-konto"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "Nedarv fra arbejdsområde"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Andre komponenter"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16496,6 +16734,28 @@ msgstr ""
 "anmode om installation. Hvis en organisation mangler, skal du kontrollere "
 "din rolle i organisationen og dens begrænsninger for installation af GitHub-"
 "apps på GitHub."
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub afviste registreringskoden. Start registreringen igen."
+
+#, fuzzy
+#| msgid "Authorize application"
+msgid "Authorize again"
+msgstr "Giv applikationen adgang"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "Fortsæt til GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Vælg GitHub-vært"
@@ -16515,14 +16775,17 @@ msgstr "Installer på %(hostname)s"
 msgid "Connected GitHub account: %(login)s"
 msgstr "Tilknyttet GitHub-konto: %(login)s"
 
+msgid "Add or configure account"
+msgstr "Tilføj eller konfigurer konto"
+
 #, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
-"Der er ikke registreret legitimationsoplysninger til Weblates GitHub-app på %"
-"(hostname)s. Fornyelse af tokens og kontrol af webhook-signaturer virker "
+"Der er ikke registreret legitimationsoplysninger til Weblates GitHub-app på "
+"%(hostname)s. Fornyelse af tokens og kontrol af webhook-signaturer virker "
 "først, når appens legitimationsoplysninger er registreret igen."
 
 msgid "GitHub installation ID"
@@ -16533,6 +16796,12 @@ msgstr "Repositorier opdateret"
 
 msgid "Available Repositories"
 msgstr "Tilgængelige repositorier"
+
+msgid "Visibility"
+msgstr "Synlighed"
+
+msgid "Import"
+msgstr "Importér"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16563,6 +16832,11 @@ msgstr ""
 "kommunikere med kodeplatforme. Tilknyt en konto til hver app for at "
 "importere kontoens repositorier."
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Ingen godkendelsesapps registreret endnu."
+
 msgid "Remove app"
 msgstr "Fjern app"
 
@@ -16590,18 +16864,43 @@ msgstr ""
 "Selve appen forbliver installeret på GitHub. Slet den særskilt på GitHub, "
 "hvis du ikke længere har brug for den."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Ingen tilknyttede konti endnu. Brug knappen ovenfor til at tilknytte en "
-"organisation eller en brugerkonto."
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Fra tilknyttet konto"
+msgstr[1] "Fra tilknyttet konto"
+
+#, fuzzy
+#| msgid "Broker connection"
+msgid "View connections"
+msgstr "Forbindelse til beskedmægler"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "Se alle varsler"
 
 msgid "From connected account"
 msgstr "Fra tilknyttet konto"
 
 msgid "Import from connected account"
 msgstr "Importér fra tilknyttet konto"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Vælg et projekt med et arbejdsområde, før du tilknytter en konto. Konti på "
+"kodeplatforme knyttes til arbejdsområder."
+
+msgid "Refresh"
+msgstr "Opdater"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "Ingen tilgængelige repositorier fra tilknyttede konti."
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16619,12 +16918,10 @@ msgstr ""
 "Installer Weblates GitHub-app for at tilknytte en organisation eller en "
 "brugerkonto."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Vælg et projekt med et arbejdsområde, før du tilknytter en konto. Konti på "
-"kodeplatforme knyttes til arbejdsområder."
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Vælg et arbejdsområde, før du tilknytter en GitHub-konto."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr "Weblates GitHub-app er ikke registreret på denne Weblate-installation."
@@ -16632,12 +16929,104 @@ msgstr "Weblates GitHub-app er ikke registreret på denne Weblate-installation."
 msgid "Try refreshing the repository list."
 msgstr "Prøv at opdatere listen over repositorier."
 
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Migrer til GitHub-appen"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "Føj projekter til arbejdsområdet"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "Et projekt blev flyttet til eller fra et arbejdsområde."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "Føj projekter til arbejdsområdet"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "Du har ikke tilladelse til at redigere det aktuelle arbejdsområde."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "Berørte projekter"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "Det er ikke tilladt at oprette et projekt uden et arbejdsområde."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "Administration af arbejdsområde"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "Ingen strenge passede til søgning!"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Weblate-arbejdsområder"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "Opret komponent"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "Tilknyttede konti"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "Ingen strenge passede til søgning!"
+
+#, fuzzy
+#| msgid "All eligible components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Alle relevante komponenter i det aktuelle arbejdsområde"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Administrer forbindelser til kodeplatforme"
+
 msgid "Remove connected account?"
 msgstr "Vil du fjerne den tilknyttede konto?"
 
 #, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
-msgstr "Dette fjerner den tilknyttede konto <code>%(login)s</code> fra Weblate."
+msgstr ""
+"Dette fjerner den tilknyttede konto <code>%(login)s</code> fra Weblate."
 
 msgid ""
 "If no other Weblate workspace uses this connection, the Weblate GitHub App "
@@ -16663,6 +17052,57 @@ msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "%(count)s streng, der kræver handling i %(component)s"
 msgstr[1] "%(count)s strenge, der kræver handling i %(component)s"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "Tilføj arbejdsområde"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "Ingen strenge passede til søgning!"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Der er ingen tilgængelige forbindelser til kodeplatforme. En "
+"webstedsadministrator skal først registrere en app til en kodeplatform."
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Vælg et projekt med et arbejdsområde for at tilknytte en konto eller "
+"importere repositorier fra en eksisterende forbindelse."
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "Migrer valgte komponenter"
+
+msgid "Code-hosting app"
+msgstr "App til kodeplatform"
+
+msgid "Not registered"
+msgstr "Ikke registreret"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Der er ikke registreret legitimationsoplysninger til kodeplatformens app på "
+"%(hostname)s. Eksisterende kontotilknytninger kan fjernes, men nye konti kan "
+"først tilknyttes, når en webstedsadministrator har registreret appen igen."
 
 msgid "Invitations"
 msgstr "Invitationer"
@@ -17196,9 +17636,6 @@ msgstr "Kategori flyttet"
 msgid "Weblate could not save a changed string."
 msgstr "Weblate kunne ikke gemme en ændret streng."
 
-msgid "Saving string failed"
-msgstr "Kunne ikke gemme streng"
-
 msgid "A new string was found while synchronizing from the repository."
 msgstr "En ny streng blev fundet under synkronisering fra repositoriet."
 
@@ -17285,7 +17722,8 @@ msgid "Forced synchronization of translations"
 msgstr "Tvungen synkronisering af oversættelser"
 
 msgid "Translation files were forcibly rescanned for changes."
-msgstr "Oversættelsesfilerne blev tvunget gennem en ny søgning efter ændringer."
+msgstr ""
+"Oversættelsesfilerne blev tvunget gennem en ny søgning efter ændringer."
 
 msgid "Forced rescan of translations"
 msgstr "Tvungen genscanning af oversættelser"
@@ -17780,6 +18218,25 @@ msgstr "Den uploadede fil er for stor."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Kunne ikke validere skærmbilledet: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Føj strengen til kildesproget i stedet."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "Den angivne komponent findes ikke."
 
@@ -17796,6 +18253,14 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenter, der er knyttet til en anden komponents repositorium, må ikke "
 "indeholde egne repositoriedata."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 msgid "Imported authors"
 msgstr "Importerede forfattere"
@@ -17832,6 +18297,17 @@ msgstr ""
 "Brugeren %(username)s har endnu ikke accepteret invitationen. De importerede "
 "bidrag er anonyme, indtil brugeren accepterer."
 
+#, fuzzy, python-format
+#| msgid ""
+#| "User %(username)s was skipped because no eligible local account matches "
+#| "the backup."
+msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+"Brugeren %(username)s blev sprunget over, fordi ingen relevant lokal konto "
+"svarer til brugeren i sikkerhedskopien."
+
 #, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
@@ -17854,8 +18330,24 @@ msgstr "Parametre for versionsstyring"
 msgid "File format parameters"
 msgstr "Parametre for filformat"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "Projektets repositoriemappe findes allerede."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Fjern valgte poster fra oversættelseshukommelsen"
 
 msgid "Invalid search type."
 msgstr "Ugyldig søgetype."
@@ -18272,8 +18764,8 @@ msgid ""
 "Controls the UTF-8 byte order mark. Other encodings are unchanged. New files "
 "without a template omit the mark when preserving input."
 msgstr ""
-"Styrer byteordensmærket i UTF-8. Andre tegnkodninger påvirkes ikke. Hvis »"
-"Behold som i inputfilen« er valgt, får nye filer uden skabelon intet mærke."
+"Styrer byteordensmærket i UTF-8. Andre tegnkodninger påvirkes ikke. Hvis "
+"»Behold som i inputfilen« er valgt, får nye filer uden skabelon intet mærke."
 
 msgid "XML declaration encoding case"
 msgstr "Store og små bogstaver i XML-deklarationens tegnkodning"
@@ -18291,8 +18783,8 @@ msgid ""
 "Controls encoding names in the XML declaration, for example \"UTF-8\" or "
 "\"utf-8\"."
 msgstr ""
-"Styrer skrivemåden for tegnkodningen i XML-deklarationen, fx »UTF-8« eller »"
-"utf-8«."
+"Styrer skrivemåden for tegnkodningen i XML-deklarationen, fx »UTF-8« eller "
+"»utf-8«."
 
 msgid "XML final newline"
 msgstr "Afsluttende linjeskift i XML"
@@ -18409,8 +18901,8 @@ msgstr "DOS-linjeslutninger"
 msgid ""
 "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
 msgstr ""
-"Brug DOS-linjeafslutninger (\\r\\n) i stedet for UNIX-linjeafslutninger (\\"
-"n) i strenge."
+"Brug DOS-linjeafslutninger (\\r\\n) i stedet for UNIX-linjeafslutninger "
+"(\\n) i strenge."
 
 msgid "Maximum line length"
 msgstr "Maksimal linjelængde"
@@ -18609,8 +19101,19 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Yderligere forklaring for at afklare betydningen eller brugen af strengen."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Forklaring på kildestreng"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "Kildestrengen blev ændret imens. Tjek dine ændringer."
@@ -19029,6 +19532,21 @@ msgstr ""
 msgid "No matching workspace found."
 msgstr "Intet matchende arbejdsområde fundet."
 
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Duplikeret oversættelse."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
+
 msgid "ZIP file containing project backup"
 msgstr "ZIP-fil med sikkerhedskopiering af projekt"
 
@@ -19219,7 +19737,8 @@ msgid "Please type in the full slug of the translation to confirm."
 msgstr "Indtast hele oversættelsens slug for at bekræfte."
 
 msgid "Delete translation memory created from this component"
-msgstr "Slet poster i oversættelseshukommelsen, der stammer fra denne komponent"
+msgstr ""
+"Slet poster i oversættelseshukommelsen, der stammer fra denne komponent"
 
 msgid ""
 "Select this to delete project, workspace, and shared translation memory "
@@ -19656,11 +20175,6 @@ msgstr "Komponent oprettet ved upload af ZIP-fil"
 msgid "Component created via document upload"
 msgstr "Komponent oprettet ved upload af dokument"
 
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s %(time)s på %(translation)s af %(user)s"
-
 msgctxt "Change origin badge"
 msgid "API"
 msgstr "API"
@@ -19728,7 +20242,8 @@ msgstr ""
 
 msgid ""
 "This field is managed by the repository integration and can not be changed."
-msgstr "Dette felt styres af integrationen med repositoriet og kan ikke ændres."
+msgstr ""
+"Dette felt styres af integrationen med repositoriet og kan ikke ændres."
 
 msgid ""
 "Version control system to use to access your repository containing "
@@ -19766,8 +20281,8 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Link til repositoriets webgrænseflade. Brug {{branch}} som pladsholder for "
-"grenen, {{filename}} for filnavnet og {{line}} for linjenummeret. Brug {"
-"{filename|parentdir}} til at fjerne det første mappenavn."
+"grenen, {{filename}} for filnavnet og {{line}} for linjenummeret. Brug "
+"{{filename|parentdir}} til at fjerne det første mappenavn."
 
 msgid "Repository browser for translations"
 msgstr "Repositoriets webvisning for oversættelser"
@@ -19787,7 +20302,8 @@ msgid "Exported repository URL"
 msgstr "URL til det eksporterede repositorium"
 
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "URL til det repositorium, hvor brugerne kan hente ændringer fra Weblate"
+msgstr ""
+"URL til det repositorium, hvor brugerne kan hente ændringer fra Weblate"
 
 msgid "Source string bug reporting address"
 msgstr "Adresse til fejlrapportering af kildestreng"
@@ -20273,9 +20789,9 @@ msgid ""
 "%(filename2)s Please adjust the file mask and use components for translating "
 "different resources."
 msgstr ""
-"Der er mere end én fil for sproget %(language)s: %(filename1)s, %(filename2)"
-"s. Juster filmasken, og brug komponenter til oversættelse af forskellige "
-"ressourcer."
+"Der er mere end én fil for sproget %(language)s: %(filename1)s, "
+"%(filename2)s. Juster filmasken, og brug komponenter til oversættelse af "
+"forskellige ressourcer."
 
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Kunne ikke finde noget matchende sprog. Tjek filmasken."
@@ -20393,8 +20909,8 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parameteren »%(param)s« kan ikke bruges med versionsstyringssystemet »%(vcs)s"
-"«."
+"Parameteren »%(param)s« kan ikke bruges med versionsstyringssystemet "
+"»%(vcs)s«."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
@@ -20654,7 +21170,8 @@ msgstr ""
 
 msgid ""
 "Use the commit message when merging translation configured in the workspace."
-msgstr "Brug commitbeskeden for fletning af en oversættelse fra arbejdsområdet."
+msgstr ""
+"Brug commitbeskeden for fletning af en oversættelse fra arbejdsområdet."
 
 msgid ""
 "Use the commit message when add-on makes a change configured in the "
@@ -21920,6 +22437,12 @@ msgstr ""
 "Du har ikke tilladelse til at tilføje projekter i det valgte "
 "destinationsarbejdsområde."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg afsluttede med advarsler uden at give yderligere oplysninger."
 
@@ -22329,7 +22852,8 @@ msgstr "Skabelonen overskrider grænsen på %(limit)d handlinger."
 
 #, python-format
 msgid "Template exceeds the cumulative work limit of %(limit)d bytes."
-msgstr "Skabelonen overskrider den samlede behandlingsgrænse på %(limit)d byte."
+msgstr ""
+"Skabelonen overskrider den samlede behandlingsgrænse på %(limit)d byte."
 
 #, python-format
 msgid "Template value exceeds the size limit of %(limit)d bytes."
@@ -22901,62 +23425,62 @@ msgstr "%(detail)s Prøv igen senere."
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request: %"
-"(status)s"
+"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request: %"
-"(status)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request: "
+"%(status)s. Prøv igen senere."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request (%"
-"(status)s): %(error)s"
+"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request (%"
-"(status)s): %(error)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved oprettelse af en pull request "
+"(%(status)s): %(error)s. Prøv igen senere."
 
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved fletning af en pull request: %"
-"(status)s"
+"API-kaldet til %(service)s mislykkedes ved fletning af en pull request: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved fletning af en pull request: %"
-"(status)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved fletning af en pull request: "
+"%(status)s. Prøv igen senere."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved fletning af en pull request (%"
-"(status)s): %(error)s"
+"API-kaldet til %(service)s mislykkedes ved fletning af en pull request "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved fletning af en pull request (%"
-"(status)s): %(error)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved fletning af en pull request "
+"(%(status)s): %(error)s. Prøv igen senere."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Repositorier fra GitHub-appen skal importeres med en gren."
@@ -23000,32 +23524,32 @@ msgstr ""
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request: %"
-"(status)s"
+"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request: %"
-"(status)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request: "
+"%(status)s. Prøv igen senere."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s"
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request (%"
-"(status)s): %(error)s"
+"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while customizing a pull request "
 "(%(status)s): %(error)s Please retry later."
 msgstr ""
-"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request (%"
-"(status)s): %(error)s. Prøv igen senere."
+"API-kaldet til %(service)s mislykkedes ved tilpasning af en pull request "
+"(%(status)s): %(error)s. Prøv igen senere."
 
 #, python-format
 msgid "GitHub did not assign the requested users: %(assignees)s"
@@ -23064,6 +23588,20 @@ msgstr ""
 #, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Git-handlingen %(operation)s blev afbrudt i repositoriet."
+
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
 
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -23123,7 +23661,8 @@ msgstr ""
 "Repositoriets HTTP-omdirigering ændrede uventet URL'ens forespørgselsstreng."
 
 msgid "The repository HTTP redirect target could not be validated."
-msgstr "Destinationen for repositoriets HTTP-omdirigering kunne ikke valideres."
+msgstr ""
+"Destinationen for repositoriets HTTP-omdirigering kunne ikke valideres."
 
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
@@ -23201,6 +23740,41 @@ msgstr "Komponenter til migrering"
 msgid "Select at least one component to migrate."
 msgstr "Vælg mindst én komponent til migrering."
 
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Projekt at fjerne"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Weblate-arbejdsområder"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "Tilføj projekter til arbejdsområdet"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "Administrer arbejdsområder"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "Arbejdsområdets navn"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Indtast en JSON-nøgle for tjenestekontoen."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -23237,9 +23811,9 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
-"Påkrævet for at installere appen for flere brugere eller organisationer. »"
-"Offentlig« betyder her, at andre end ejeren kan installere appen. Den bliver "
-"ikke opført på GitHub Marketplace."
+"Påkrævet for at installere appen for flere brugere eller organisationer. "
+"»Offentlig« betyder her, at andre end ejeren kan installere appen. Den "
+"bliver ikke opført på GitHub Marketplace."
 
 msgid "This will force push changes to the upstream repository."
 msgstr "Dette vil force push ændringer til upstream-repositoriet."
@@ -23520,23 +24094,23 @@ msgstr "Kunne ikke hente en værts offentlige nøgle."
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s (%"
-"(keytype)s)."
+"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s "
+"(%(keytype)s)."
 
 #, python-format
 msgid ""
 "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Sprang værtsnøglen for %(host)s med fingeraftrykket %(fingerprint)s over (%"
-"(keytype)s)."
+"Sprang værtsnøglen for %(host)s med fingeraftrykket %(fingerprint)s over "
+"(%(keytype)s)."
 
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s (%"
-"(keytype)s). Bekræft, at det er korrekt."
+"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s "
+"(%(keytype)s). Bekræft, at det er korrekt."
 
 msgid "No validated SSH addresses available."
 msgstr "Der er ingen validerede SSH-adresser tilgængelige."
@@ -23554,8 +24128,8 @@ msgstr "Kunne ikke opdatere de gemte værtsnøgler."
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Fjernede værtsnøglen for %(host)s med fingeraftrykket %(fingerprint)s (%"
-"(keytype)s)."
+"Fjernede værtsnøglen for %(host)s med fingeraftrykket %(fingerprint)s "
+"(%(keytype)s)."
 
 #, python-format
 msgid "Could not determine the effective SSH destination: %s"
@@ -23633,7 +24207,8 @@ msgid "Refreshed %(count)d repositories from GitHub."
 msgstr "Opdaterede %(count)d repositorier fra GitHub."
 
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "Weblates GitHub-app er ikke konfigureret på denne Weblate-installation."
+msgstr ""
+"Weblates GitHub-app er ikke konfigureret på denne Weblate-installation."
 
 msgid "Select a workspace before connecting a GitHub account."
 msgstr "Vælg et arbejdsområde, før du tilknytter en GitHub-konto."
@@ -23641,8 +24216,8 @@ msgstr "Vælg et arbejdsområde, før du tilknytter en GitHub-konto."
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Weblates GitHub-app er ikke konfigureret for den valgte vært."
 
-msgid "Connected GitHub account updated."
-msgstr "Den tilknyttede GitHub-konto er opdateret."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub returnerede ikke et gyldigt installations-id."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -23651,19 +24226,14 @@ msgstr ""
 "Installationslinket til Weblates GitHub-app er ikke længere gyldigt. Start "
 "installationen igen."
 
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Du har ikke tilladelse til at knytte GitHub til dette arbejdsområde."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub returnerede ikke et gyldigt installations-id."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
-"For mange forsøg på at tilknytte GitHub-kontoen. GitHub-installationen blev "
-"ikke tilknyttet og afventer muligvis stadig. Prøv at tilknytte kontoen igen "
-"senere."
+"Weblate kunne ikke analysere oversættelsesfilerne, mens oversættelserne "
+"opdateres."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -23673,6 +24243,20 @@ msgstr ""
 "Weblate kunne ikke bekræfte, at du kan administrere denne GitHub-"
 "installation. Start installationen igen med en GitHub-bruger, der ejer "
 "kontoen eller kan administrere organisationen."
+
+msgid "Connected GitHub account updated."
+msgstr "Den tilknyttede GitHub-konto er opdateret."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "Du har ikke tilladelse til at knytte GitHub til dette arbejdsområde."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"For mange forsøg på at tilknytte GitHub-kontoen. GitHub-installationen blev "
+"ikke tilknyttet og afventer muligvis stadig. Prøv at tilknytte kontoen igen "
+"senere."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -23693,28 +24277,44 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "GitHub-kontoen er tilknyttet."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Kunne ikke hente GitLab-projektet (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Kunne ikke fuldføre tilmelding."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Kunne ikke migrere %(component)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] "Én komponent er migreret til Weblates GitHub-app."
 msgstr[1] "%(count)d komponenter er migreret til Weblates GitHub-app."
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"Én komponent blev ikke migreret, fordi dens repositorium ikke længere er "
-"tilgængeligt."
-msgstr[1] ""
-"%(count)d komponenter blev ikke migreret, fordi deres repositorier ikke "
-"længere er tilgængelige."
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "En komponent blev låst op for oversættelse."
+msgstr[1] "En komponent blev låst op for oversættelse."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Kunne ikke migrere %(component)s: %(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "Svaret fra godkendelsestjenesten er udløbet. Prøv at logge ind igen."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Angiv et gyldigt navn og en gyldig vært til GitHub-appen."
@@ -23998,18 +24598,11 @@ msgstr "Rapport fra %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s – %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
-msgstr ""
-"Bekræftelsen af din identitet er udløbet. Bekræft din identitet, og vælg og "
-"upload CSV-rapporten igen."
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "Vælg en CSV-rapport på højst 10 MiB."
 
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Kunne ikke gemme den krypterede fil. Prøv igen."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr "Vælg en CSV-rapport på højst 10 MiB."
 
 msgid "Could not read the uploaded report. Upload it again."
 msgstr "Kunne ikke læse den uploadede rapport. Upload den igen."
@@ -24246,6 +24839,165 @@ msgstr "Arbejdsområdet kan ikke fjernes, fordi det stadig er i brug."
 msgid "The workspace has been removed."
 msgstr "Arbejdsområdet er fjernet."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Administrer de konti på kodeplatforme, der er knyttet til arbejdsområder, "
+#~ "som du administrerer. Disse forbindelser er adskilt fra de konti, du "
+#~ "bruger til at logge ind."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Din Weblate er listet på weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Kun noget af %(count)s forekomst vises."
+#~ msgstr[1] "Kun nogle af %(count)s forekomster vises."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Vælg et repositorium fra en tilknyttet konto. Formularen til oprettelse "
+#~ "af komponenten udfyldes automatisk med klonings-URL, standardgren og den "
+#~ "tilhørende driver til versionsstyring."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Der er endnu ingen tilgængelige repositorier. Tilknyt en konto på en "
+#~ "kodeplatform for at gøre dens repositorier tilgængelige her."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Ingen repositorier er tilgængelige fra de tilknyttede konti i projektets "
+#~ "arbejdsområde."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Weblates eksporterede repositorium kan som standard have begrænset "
+#~ "historik. Arbejdsgangen fungerer derfor bedst med en opdateret "
+#~ "arbejdskopi fra upstream. Kloning fra det eksporterede repositorium eller "
+#~ "brug af en forældet arbejdskopi fra upstream kan mislykkes, selv om "
+#~ "Weblate og upstream er synkroniseret. Se de ofte stillede spørgsmål "
+#~ "nedenfor."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Åbn en eksisterende checkout af upstream-repositoriet eller udfør en ny."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Commit alle ventende ændringer i Weblate, og lås oversættelseskomponenten."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr ""
+#~ "Tilføj det repositorium, som Weblate har eksporteret, som et eksternt "
+#~ "repositorium."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Flet Weblate-ændringer og løs eventuelle konflikter."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Rebase Weblate-ændringerne på upstream-repositoriet og løs eventuelle "
+#~ "konflikter."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Push ændringer til upstream-repositoriet."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Weblate burde nu kunne se det opdaterede repositorium, og du kan låse det "
+#~ "op."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "Se FAQ for info om, hvordan dette løses."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "Ufærdige strenge, konverterede filer med kommentarer; velegnet til "
+#~ "offline-oversættelse"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "Du administrerer ingen arbejdsområder. Du kan kun knytte konti til "
+#~ "versionsstyring til arbejdsområder, du administrerer."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Tilknyt konti på kodeplatforme til %(workspace)s. Kontiene kan derefter "
+#~ "bruges til at oprette komponenter fra versionsstyringen."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Tilknyt konti på kodeplatforme til arbejdsområder, du administrerer. "
+#~ "Kontiene kan derefter bruges til at oprette komponenter fra "
+#~ "versionsstyringen."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Tilknyt konti"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Integration med kodeplatforme"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Ingen tilknyttede konti endnu. Brug knappen ovenfor til at tilknytte en "
+#~ "organisation eller en brugerkonto."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s %(time)s på %(translation)s af %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "Én komponent blev ikke migreret, fordi dens repositorium ikke længere er "
+#~ "tilgængeligt."
+#~ msgstr[1] ""
+#~ "%(count)d komponenter blev ikke migreret, fordi deres repositorier ikke "
+#~ "længere er tilgængelige."
+
+#~ msgid ""
+#~ "Your identity verification has expired. Confirm your identity, then "
+#~ "select and upload the CSV report again."
+#~ msgstr ""
+#~ "Bekræftelsen af din identitet er udløbet. Bekræft din identitet, og vælg "
+#~ "og upload CSV-rapporten igen."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Gennemsé ordlisten %(name)s"
@@ -24350,11 +25102,6 @@ msgstr "Arbejdsområdet er fjernet."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Administrere maskiner"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "Opret komponent"
 
 #, fuzzy
 #~| msgid "Recent changes"
@@ -24570,11 +25317,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "Andre komponenter"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "Tilladelse nægtet"
 
 #~ msgid ""
 #~ "While Weblate remains free for all users, its development requires "
@@ -24893,13 +25635,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~ msgstr "Weblate-konfiguration"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "GitHub-stjerne"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "Invitationer"
@@ -25002,9 +25737,6 @@ msgstr "Arbejdsområdet er fjernet."
 
 #~ msgid "Return to the component"
 #~ msgstr "Gå tilbage til komponenten"
-
-#~ msgid "View all alerts"
-#~ msgstr "Se alle varsler"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Gennemgå retningslinjer fra fællesskabets lokaliseringstjekliste."
@@ -25722,12 +26454,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Upload oversættelser"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s ord"
-#~ msgstr[1] "%(count)s ord"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "Vælg primær e-mail fra bekræftede adresser."
 
@@ -25786,9 +26512,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Ny streng som skal oversættes"
-
-#~ msgid "New contributor"
-#~ msgstr "Ny bidragsyder"
 
 #~ msgid "New announcement"
 #~ msgstr "Ny meddelelse"
@@ -26166,9 +26889,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~ msgstr ""
 #~ "URL-adressen på et arkiv, brug weblate://projekt/komponent til deling med "
 #~ "andre komponenter."
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Ingen strenge passede til søgning!"
 
 #, fuzzy, python-format
 #~| msgid "This will remove <b>%(user)s</b> access to this project."
@@ -26693,11 +27413,6 @@ msgstr "Arbejdsområdet er fjernet."
 #~ msgid "Translatable words"
 #~ msgstr "Ord som kan oversættes"
 
-#, fuzzy
-#~| msgid "Number of words"
-#~ msgid "Number of characters"
-#~ msgstr "Antal ord"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Antal kildestrenge"
 
@@ -26978,11 +27693,6 @@ msgstr "Arbejdsområdet er fjernet."
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "Offentligt synlig, som kun kan oversættes af udvalgte brugere"
-
-#, fuzzy
-#~| msgid "All components"
-#~ msgid "Add a component message"
-#~ msgstr "Alle komponenter"
 
 #, fuzzy
 #~| msgid "Whiteboard message"
@@ -29812,9 +30522,6 @@ msgstr "Arbejdsområdet er fjernet."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Avatar for %s"
-
-#~ msgid "First name"
-#~ msgstr "Fornavn"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

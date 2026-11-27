@@ -26,10 +26,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-23 16:21+0000\n"
-"Last-Translator: Monarch <monarch.scrap-0p@users.noreply.hosted.weblate.org>"
-"\n"
+"Last-Translator: Monarch "
+"<monarch.scrap-0p@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -45,6 +45,11 @@ msgstr "名無しさん"
 
 msgid "User avatar"
 msgstr "ユーザーのアバター"
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "提案が多すぎます（{count}）。管理者に連絡してください。"
 
 msgid "No notification"
 msgstr "通知しない"
@@ -1508,9 +1513,6 @@ msgstr "無料体験"
 msgid "Notification diagnostics for %(user)s"
 msgstr "%(object)s の通知無効化"
 
-msgid "This user can not be edited."
-msgstr "このユーザーは編集できません。"
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2292,6 +2294,18 @@ msgid ""
 msgstr ""
 "Meson アドオンは、meson.build と POTFILES または POTFILES.in を含む Meson の "
 "gettext 用ディレクトリの存在を前提としています。"
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "原文の査読の有効化"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
@@ -3229,6 +3243,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "{username} にトリガーされました。"
+
 msgid "Allowed number of requests to perform"
 msgstr "リクエストの接続制限回数"
 
@@ -3429,6 +3454,9 @@ msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
 "%(origin)s の %(scope)s ロックを取得できなかったため、操作を実行できません。"
+
+msgid "This user can not be edited."
+msgstr "このユーザーは編集できません。"
 
 msgid "Expected an object."
 msgstr "オブジェクトが必要です。"
@@ -4858,7 +4886,7 @@ msgstr "請求書"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "コンポーネントがないプロジェクト"
 
 #, fuzzy
@@ -5996,6 +6024,14 @@ msgstr "未翻訳の翻訳文"
 msgid "Source and translation are identical."
 msgstr "原文と翻訳文が同一。"
 
+msgid "Saving string failed"
+msgstr "文字列の保存失敗"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "承認された翻訳のみ翻訳ファイルに書き込みます。"
+
 msgid "Unpluralised"
 msgstr "複数形の書式になっていない"
 
@@ -6181,6 +6217,11 @@ msgstr "gettext 拡張付きの XLIFF 1.1"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.2 翻訳ファイル"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6221,6 +6262,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "リポジトリを更新できません。"
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The workbook header row is empty."
+msgstr "リソースがロックされています。"
 
 #, python-format
 msgid ""
@@ -6512,6 +6558,10 @@ msgid "App store metadata files"
 msgstr "アプリ ストアのメタデータ ファイル"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -7728,6 +7778,23 @@ msgstr "コンポーネントの原文の言語"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "プロジェクトまたはコンポーネントで設定された第二言語"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "アクセスが拒否されました"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "翻訳情報"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -9062,21 +9129,6 @@ msgid ""
 msgstr ""
 "API キーは、自動的に公開された git リポジトリに対して認証を行う際にも使用しま"
 "す。"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "翻訳のホスティング"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "保留中の招待状"
 
 msgid "Pending invitation"
 msgstr "保留中の招待"
@@ -10466,13 +10518,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "コンポーネントのメッセージを追加"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "ワークスペースにプロジェクトを追加"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "影響を受けるコンポーネント"
 
 msgid "Customer"
 msgstr "顧客"
@@ -10888,6 +10956,11 @@ msgstr "コンポーネントの複製"
 
 msgid "Share in projects"
 msgstr "プロジェクトで共有"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Libre （自由）ホスティングの依頼"
 
 msgid "dismissed"
 msgstr "除外"
@@ -12711,8 +12784,10 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "ご使用の Weblate は weblate.org に掲載済みです"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "ご使用の Weblate は weblate.org に未掲載です"
@@ -13595,6 +13670,19 @@ msgstr "翻訳メモリのインポート"
 msgid "Delete announcement"
 msgstr "お知らせの削除"
 
+msgid "Contributors"
+msgstr "貢献者"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "貢献者ライセンス同意書は削除されました。"
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "最近の貢献は見つかりません。"
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13681,6 +13769,16 @@ msgstr "翻訳者名"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "名前 (名)"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "前へ"
+
 msgid "Click to edit position"
 msgstr "クリックして位置の編集"
 
@@ -13698,6 +13796,16 @@ msgstr "ジャンプ先"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "次へ"
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last page"
+msgstr "最終更新"
 
 msgid "Labels"
 msgstr "ラベル"
@@ -14366,6 +14474,11 @@ msgstr "大文字と小文字の区別"
 msgid "Most active translators"
 msgstr "最も活動している翻訳者"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "新しい貢献者"
+
 msgid "Browse all users"
 msgstr "すべてのユーザーを閲覧"
 
@@ -14444,9 +14557,6 @@ msgstr "過去 30 日間の動向"
 
 msgid "Quick numbers"
 msgstr "クイック ナンバー"
-
-msgid "Contributors"
-msgstr "貢献者"
 
 msgid "Translations"
 msgstr "翻訳"
@@ -14805,6 +14915,24 @@ msgid "Refresh results"
 msgstr "リポジトリを更新"
 
 #, fuzzy
+#| msgid "Personal info"
+msgid "Original file"
+msgstr "個人情報"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "リポジトリで使われている元の形式の翻訳ファイル"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr "すべての文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -14996,6 +15124,22 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "IP アドレスがクリップボードにコピーされました。"
 
+msgid "Strings"
+msgstr "文字列"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s 個の単語"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "文字数"
+
 msgid "Suggestion added"
 msgstr "提案の追加"
 
@@ -15062,9 +15206,6 @@ msgstr "翻訳文"
 
 msgid "Translation status"
 msgstr "翻訳状況"
-
-msgid "Strings"
-msgstr "文字列"
 
 msgid "Words"
 msgstr "単語"
@@ -15223,9 +15364,6 @@ msgstr "アドオンの設定"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate はスクリプト アドオンを実行できません。"
 
-msgid "The following occurrences were found:"
-msgstr "次のような現象が起きました:"
-
 msgid "Command"
 msgstr "コマンド"
 
@@ -15245,6 +15383,9 @@ msgstr ""
 "これらの言語コードはマクロランゲージであり、通常は個別の言語のコードを使用を"
 "推奨します。"
 
+msgid "The following occurrences were found:"
+msgstr "次のような現象が起きました:"
+
 msgid "Suggested individual language codes"
 msgstr "推奨する個別の言語コード"
 
@@ -15262,6 +15403,15 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15368,6 +15518,9 @@ msgid ""
 msgstr ""
 "上流リポジトリが見つかりませんでした。それが存在し、Weblate にアクセスできる"
 "かどうかを確認してください。"
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15648,7 +15801,10 @@ msgstr "リポジトリから削除されたファイル:"
 msgid "Template for new translations"
 msgstr "新しい翻訳のテンプレート"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr "Weblate はリポジトリの更新中に上流の変更をマージできませんでした。"
 
 msgid ""
@@ -15699,6 +15855,17 @@ msgstr ""
 "翻訳コンポーネントはモノリンガルのようですが、そのような設定にはなっていませ"
 "ん。"
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 "コンポーネントの設定で、モノリンガル用の基準の言語ファイルを追加してくださ"
@@ -15737,11 +15904,15 @@ msgstr ""
 "翻訳が既に存在する場合、ファイル マスク <code>%(filemask)s</code> がバージョ"
 "ン管理システムのリポジトリにあるファイルと一致するかどうかを確認します。"
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "発生した %(count)s 回の一部のみが表示されます。"
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "直近の発生日時"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15764,6 +15935,24 @@ msgstr "Weblate は変更を上流のリポジトリにプッシュできませ�
 msgid "Push the repository"
 msgstr "リポジトリをプッシュする"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"VCS のリポジトリには、上流に比べて多くの変更があります。変更を手動でマージす"
+"るか、マージを自動化するためのプッシュを設定してください。"
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15776,6 +15965,24 @@ msgstr "Weblate は中断されたリポジトリ操作を回復できません�
 
 msgid "Reset the repository"
 msgstr "リポジトリをリセットする"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"VCS のリポジトリは、上流のリポジトリと比較して最新の状態ではありません。変更"
+"を手動でマージするか、マージを自動化するためのフックを設定してください。"
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15810,6 +16017,18 @@ msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "コンポーネントで %(count)s 日の間翻訳が行われていません。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate は %(date)s からこれらのプロジェクトへの翻訳の変更を保留しています。"
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "翻訳は削除されました。"
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "不要になったコンポーネントは、削除することを検討してください。"
@@ -16005,34 +16224,13 @@ msgstr ""
 "既存の翻訳ファイルを含む ZIP ファイルを作成し、%(link_start)sアップロー"
 "ド%(link_end)sします。"
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
 
-msgid "Add or configure account"
-msgstr "アカウントの追加または設定"
-
-msgid "Visibility"
-msgstr "公開範囲"
-
-msgid "Import"
-msgstr "インポート"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "リンクしたリポジトリのコンポーネントを表示"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16160,51 +16358,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "マージの競合を解決する一般的な方法:"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"Weblate がエクスポートするリポジトリは既定で浅いクローンになるため、このワー"
-"クフローは最新の上流リポジトリのチェックアウトから実行するのが最適です。エク"
-"スポートされた Weblate リポジトリからのクローンや、更新されていない上流リポジ"
-"トリのチェックアウトを使用すると、Weblate と上流が同期している場合でも失敗す"
-"ることがあります。詳細は以下の FAQ を参照してください。"
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"上流リポジトリの既存のチェックアウトを開くか、新しいチェックアウトを実行す"
-"る。"
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Weblate で保留中のすべての変更をコミットして、翻訳コンポーネントをロックす"
-"る。"
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Weblate からエクスポートしたリポジトリをリモートとして追加する。"
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Weblate の変更をマージして競合を解決する。"
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Weblate の変更を上流の上にリベースし、競合を解決します。"
-
-msgid "Push changes into upstream repository."
-msgstr "変更をリモートのリポジトリに送信する。"
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Weblate で更新されたリポジトリを確認して、ロックを解除できます。"
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "この問題の解決方法については、 FAQ をお読みください。"
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
@@ -16312,6 +16480,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "翻訳ファイルのクリーンアップ"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -16585,6 +16763,16 @@ msgstr "スクリーンショットの追加"
 msgid "String information"
 msgstr "文字列情報"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "翻訳先"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "翻訳の承認"
+
 msgid "No explanation currently provided."
 msgstr "現在、説明はありません。"
 
@@ -16728,20 +16916,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "リポジトリで使われている元の形式の翻訳ファイル"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr "すべての文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"翻訳未完了の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "アップロードされたファイルは現在の翻訳にマージされます。"
 
@@ -16756,66 +16930,6 @@ msgid ""
 "deletion."
 msgstr ""
 "メッセージは、指定した期限または削除するまで、翻訳ページに表示されます。"
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting app"
-msgstr "翻訳のホスティング"
-
-msgid "Not registered"
-msgstr "未登録"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-msgid "Connect accounts"
-msgstr "アカウントの接続"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-msgid "Connected accounts"
-msgstr "接続したアカウント"
-
-msgid "Provider ID"
-msgstr "事業者 ID"
-
-msgid "Repositories"
-msgstr "リポジトリ"
-
-msgid "Refresh"
-msgstr ""
-
-msgid "No connected accounts yet."
-msgstr "接続したアカウントがまだありません。"
-
-msgid "Code-hosting integrations"
-msgstr "コードホスティング統合"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16845,11 +16959,6 @@ msgstr "このアカウントを削除"
 msgid "Refresh repositories"
 msgstr "リポジトリを更新"
 
-#, fuzzy
-#| msgid "Affected components"
-msgid "Migrate selected components"
-msgstr "影響を受けるコンポーネント"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16870,6 +16979,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "翻訳状況"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "%(component)s で新しい警告"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "GitHub スター数"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -16880,8 +17001,18 @@ msgstr "翻訳禁止"
 msgid "Repository access needed"
 msgstr "リポジトリのリベース"
 
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "影響を受けるコンポーネント"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "翻訳のホスティング"
 
 #, fuzzy
 #| msgid "Register in Weblate"
@@ -16947,11 +17078,122 @@ msgstr "アプリ名"
 msgid "Continue to %(host)s"
 msgstr "%(host)s へ続行"
 
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate eligible components"
+msgstr "影響を受けるコンポーネント"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate these components"
+msgstr "影響を受けるコンポーネント"
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "No components are ready to migrate."
+msgstr "削除するコンポーネント"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "アカウント設定に戻る"
+
+msgid "Connected accounts"
+msgstr "接続したアカウント"
+
+msgid "Provider ID"
+msgstr "事業者 ID"
+
+msgid "Repositories"
+msgstr "リポジトリ"
+
+msgid "No connected accounts yet."
+msgstr "接続したアカウントがまだありません。"
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account added."
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "GitHub アカウントへの接続を追加しました。"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "このアカウントを削除"
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Accounts from workspaces you own"
+msgstr "継承したフラグ"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "その他のコンポーネント"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "招待を承諾するために登録を完了してください。"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "認証"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "続行"
 
 msgid "Choose GitHub host"
 msgstr "GitHub ホストを選択"
@@ -16968,6 +17210,9 @@ msgstr "%(hostname)s へインストール"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+msgid "Add or configure account"
+msgstr "アカウントの追加または設定"
 
 #, python-format
 msgid ""
@@ -16986,6 +17231,12 @@ msgstr "リポジトリは最新の状態ではありません。"
 
 msgid "Available Repositories"
 msgstr "利用可能なリポジトリ"
+
+msgid "Visibility"
+msgstr "公開範囲"
+
+msgid "Import"
+msgstr "インポート"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -17006,6 +17257,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "まだ認証アプリが登録されていません。"
 
 #, fuzzy
 #| msgid "Remove"
@@ -17032,10 +17288,21 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "アカウントの削除"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "View connections"
+msgstr "翻訳のホスティング"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "すべての警告の表示"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -17046,6 +17313,19 @@ msgstr "アカウントの削除"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "アカウントの削除"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Repositories from these accounts"
+msgstr "接続したアカウントを削除しますか？"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17059,9 +17339,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
@@ -17069,6 +17347,97 @@ msgstr "Weblate GitHub App はこの Weblate インスタンスに登録され�
 
 msgid "Try refreshing the repository list."
 msgstr "リポジトリ一覧を更新してみてください。"
+
+#, fuzzy, python-format
+#| msgid "Weblate GitHub Apps"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Weblate GitHub Apps"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "ワークスペースにプロジェクトを追加"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "Projects moved to these workspaces:"
+msgstr "このコンポーネントは既に %s で共有されています。"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "ワークスペースにプロジェクトを追加"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to create terminology."
+msgid "You do not have permission to create workspaces."
+msgstr "用語集に固有の用語を作成する権限がありません。"
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "影響を受けるプロジェクト"
+
+#, fuzzy
+#| msgid "Fetching VCS repository from %s is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "VCS リポジトリを %s からフェッチすることは許可されていません。"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "ワークスペースの管理"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "該当する文字列が見つかりませんでした！"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Connected workspaces"
+msgstr "Weblate 暗号鍵"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "コンポーネントの作成"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "接続したアカウント"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "該当する文字列が見つかりませんでした！"
+
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Migrate all eligible components across workspaces"
+msgstr "現在のプロジェクトにおけるすべてのコンポーネント"
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "保留中の招待状"
 
 msgid "Remove connected account?"
 msgstr "接続したアカウントを削除しますか？"
@@ -17096,6 +17465,44 @@ msgstr[0] "以下のコンポーネントが作成されます"
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "さらに %(count)s つの影響するコンポーネント。"
+
+#, fuzzy
+#| msgid "Add new workspace"
+msgid "Find a workspace"
+msgstr "新しいワークスペースの追加"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "該当する文字列が見つかりませんでした！"
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate all eligible components"
+msgstr "影響を受けるコンポーネント"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting app"
+msgstr "翻訳のホスティング"
+
+msgid "Not registered"
+msgstr "未登録"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 msgid "Invitations"
 msgstr "招待状"
@@ -17741,9 +18148,6 @@ msgstr "カテゴリー移動"
 #| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
 msgstr "Weblate はスクリプト アドオンを実行できません。"
-
-msgid "Saving string failed"
-msgstr "文字列の保存失敗"
 
 #, fuzzy
 #| msgid "Source string added in the repository"
@@ -18459,6 +18863,25 @@ msgstr "アップロードしたファイルは大きすぎます。"
 msgid "Could not validate screenshot: %(error)s"
 msgstr "スクリーンショットの検証に失敗：%(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "代わりに原文の言語に文字列を追加してください。"
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -18480,6 +18903,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "このカテゴリは、選択したプロジェクトに属していません。"
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -18513,6 +18944,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -18531,10 +18968,26 @@ msgstr "バージョンコントロールの設定"
 msgid "File format parameters"
 msgstr "ファイル形式パラメータ"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "ローカルリポジトリは最新の状態です。"
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "選択した翻訳メモリ項目を削除する"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -19322,8 +19775,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "原文の説明"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "入力中に原文が変更されました。変更点を確認してください。"
@@ -19782,6 +20246,21 @@ msgstr ""
 #| msgid "No matching user found."
 msgid "No matching workspace found."
 msgstr "該当するユーザーは見つかりませんでした。"
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "重複した翻訳。"
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "プロジェクトのバックアップが入った ZIP ファイル"
@@ -20443,11 +20922,6 @@ msgstr "ZIPアップロードからコンポーネント作成"
 
 msgid "Component created via document upload"
 msgstr "ドキュメントのアップロードからコンポーネント作成"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(action)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22960,6 +23434,12 @@ msgstr "提案を採用する権限がありません。"
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "プロジェクトのアクセス制御を変更するための権限がありません。"
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg は警告付きで完了しましたが、出力はありませんでした。"
 
@@ -24159,6 +24639,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "リポジトリに中断されたGit %(operation)s操作があります。"
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "中断されたGit %(operation)s操作を回復できませんでした。"
@@ -24292,6 +24786,41 @@ msgstr "削除するコンポーネント"
 #| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
 msgstr "コピーする既存のコンポーネントの設定を選択してください。"
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "削除するプロジェクト"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Create workspaces"
+msgstr "Weblate 暗号鍵"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "ワークスペースにプロジェクトを追加"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "One shared workspace"
+msgstr "ユーザーの管理"
+
+#, fuzzy
+#| msgid "Your name"
+msgid "Shared workspace name"
+msgstr "お名前"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "サービスアカウントの JSON キーを入力してください。"
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24750,31 +25279,38 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
-
-msgid ""
-"The Weblate GitHub app installation link is no longer valid. Start the "
-"installation again."
-msgstr ""
-
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "GitHub をこのワークスペースに接続する権限がありません。"
-
 #, fuzzy
 #| msgid "Could not complete registration."
 msgid "GitHub did not return a valid installation ID."
 msgstr "登録を完了できませんでした。"
 
 msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+"The Weblate GitHub app installation link is no longer valid. Start the "
+"installation again."
 msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr "Weblate は翻訳の更新中に翻訳ファイルを解析できませんでした。"
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
+msgstr ""
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "GitHub をこのワークスペースに接続する権限がありません。"
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
 msgstr ""
 
 msgid ""
@@ -24791,24 +25327,41 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "GitHub アカウントへの接続を追加しました。"
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "取得できない GitLab プロジェクト (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "登録を完了できませんでした。"
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "%(component)s のプッシュに失敗しました: %(error_text)s"
+
 #, fuzzy, python-format
 #| msgid "Remove Weblate GitHub App?"
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] "Weblate GitHub App を削除しますか？"
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-
 #, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "%(component)s のプッシュに失敗しました: %(error_text)s"
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "コンポーネントの翻訳をロック解除しました。"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "有効な GitHub App名とホスト名を入力してください。"
@@ -25136,18 +25689,13 @@ msgstr "%(date)s に参加"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s、%(position)s 番目の文字列"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "チケットを起票できませんでした。後でもう一度お試しください。"
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
@@ -25472,6 +26020,77 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "ワークスペースを削除しました。"
 
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "ご使用の Weblate は weblate.org に掲載済みです"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "発生した %(count)s 回の一部のみが表示されます。"
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Weblate がエクスポートするリポジトリは既定で浅いクローンになるため、この"
+#~ "ワークフローは最新の上流リポジトリのチェックアウトから実行するのが最適で"
+#~ "す。エクスポートされた Weblate リポジトリからのクローンや、更新されていな"
+#~ "い上流リポジトリのチェックアウトを使用すると、Weblate と上流が同期している"
+#~ "場合でも失敗することがあります。詳細は以下の FAQ を参照してください。"
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "上流リポジトリの既存のチェックアウトを開くか、新しいチェックアウトを実行す"
+#~ "る。"
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Weblate で保留中のすべての変更をコミットして、翻訳コンポーネントをロックす"
+#~ "る。"
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Weblate からエクスポートしたリポジトリをリモートとして追加する。"
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Weblate の変更をマージして競合を解決する。"
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "Weblate の変更を上流の上にリベースし、競合を解決します。"
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "変更をリモートのリポジトリに送信する。"
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr "Weblate で更新されたリポジトリを確認して、ロックを解除できます。"
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "この問題の解決方法については、 FAQ をお読みください。"
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "翻訳未完了の文字列、コメントを付加したファイル（オフラインでの翻訳に最適）"
+
+#~ msgid "Connect accounts"
+#~ msgstr "アカウントの接続"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "コードホスティング統合"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr ""
+#~ "%(time)s に %(user)s が実施した、 %(translation)s に対する %(action)s"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "%(name)s 用語集の表示"
@@ -25573,11 +26192,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Manage machinery"
 #~ msgstr "機械翻訳の管理"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "コンポーネントの作成"
 
 #, fuzzy
 #~| msgid "Recent changes"
@@ -25800,11 +26414,6 @@ msgstr "ワークスペースを削除しました。"
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "その他のコンポーネント"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "アクセスが拒否されました"
 
 #~ msgid ""
 #~ "While Weblate remains free for all users, its development requires "
@@ -26128,13 +26737,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgstr "Weblate の設定"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "GitHub スター数"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "招待状"
@@ -26252,9 +26854,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Return to the component"
 #~ msgstr "コンポーネントに戻る"
-
-#~ msgid "View all alerts"
-#~ msgstr "すべての警告の表示"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
@@ -26950,11 +27549,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Glossary translation: %s"
 #~ msgstr "用語集にある翻訳: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s 個の単語"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr ""
 #~ "優先的に使用するメールアドレスを、認証済みのメールアドレスから選択してくだ"
@@ -27023,9 +27617,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "新しい翻訳対象の文字列"
-
-#~ msgid "New contributor"
-#~ msgstr "新しい貢献者"
 
 #~ msgid "New announcement"
 #~ msgstr "新しいお知らせ"
@@ -27359,9 +27950,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Token value to use in API"
 #~ msgstr "API で使用するトークン値"
-
-#~ msgid "No string matched your search!"
-#~ msgstr "該当する文字列が見つかりませんでした！"
 
 #, python-format
 #~ msgid ""
@@ -27885,9 +28473,6 @@ msgstr "ワークスペースを削除しました。"
 #~ msgid "Translatable words"
 #~ msgstr "翻訳可能な単語数"
 
-#~ msgid "Number of characters"
-#~ msgstr "文字数"
-
 #~ msgid "Number of source strings"
 #~ msgstr "原文文字列の数"
 
@@ -28152,9 +28737,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "一般公開するが、翻訳は選ばれたユーザ限定"
-
-#~ msgid "Add a component message"
-#~ msgstr "コンポーネントのメッセージを追加"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "%(project)s の、新しいホワイトボード メッセージ"
@@ -30955,9 +31537,6 @@ msgstr "ワークスペースを削除しました。"
 
 #~ msgid "Avatar for %s"
 #~ msgstr "%s のアバター"
-
-#~ msgid "First name"
-#~ msgstr "名前 (名)"
 
 #~ msgid ""
 #~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."

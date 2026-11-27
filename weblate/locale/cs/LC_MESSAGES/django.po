@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-23 16:21+0000\n"
 "Last-Translator: Adam Havránek <helak@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -40,6 +40,12 @@ msgstr "Žádný"
 
 msgid "User avatar"
 msgstr "Avatar uživatele"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Ověření se nepodařilo dokončit. Obraťte se prosím na správce."
 
 msgid "No notification"
 msgstr "Žádná oznámení"
@@ -1468,9 +1474,6 @@ msgstr "Vyzkoušet zdarma"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Diagnostika oznámení pro %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Tento uživatel nelze upravit."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2224,6 +2227,18 @@ msgid ""
 msgstr ""
 "Doplněk Meson očekává adresář Meson gettext se soubory meson.build a "
 "POTFILES nebo POTFILES.in."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Povolit kontroly zdroje"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "Komponenta musí definovat šablonu gettext pro nové překlady."
@@ -3105,6 +3120,17 @@ msgstr ""
 "Filtrovat podle akce změny. Tento parametr lze zopakovat, chcete-li "
 "filtrovat podle více akcí."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "Spuštěno uživatelem {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "Povolený počet požadavků k provedení"
 
@@ -3302,6 +3328,9 @@ msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
 "Nepodařilo se získat uzamčení %(scope)s %(origin)s pro provedení operace."
+
+msgid "This user can not be edited."
+msgstr "Tento uživatel nelze upravit."
 
 msgid "Expected an object."
 msgstr "Očekáván objekt."
@@ -4366,7 +4395,8 @@ msgid "Change ID"
 msgstr "Změnit ID"
 
 msgid "Required for workflows using only change triggers."
-msgstr "Je to nutné pro pracovní postupy, které využívají pouze spouštěče změn."
+msgstr ""
+"Je to nutné pro pracovní postupy, které využívají pouze spouštěče změn."
 
 #, fuzzy
 #| msgid "Review changes"
@@ -4706,7 +4736,7 @@ msgstr "Fakturační událost"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Projekty bez součástí"
 
 msgid "monthly"
@@ -5828,6 +5858,14 @@ msgstr "Nezměněný překlad"
 msgid "Source and translation are identical."
 msgstr "Překlad je stejný jako zdroj."
 
+msgid "Saving string failed"
+msgstr "Uložení řetězce se nezdařilo"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "Do souboru překladů budou zapsány pouze schválené překlady."
+
 msgid "Unpluralised"
 msgstr "Nepluralizováno"
 
@@ -6007,6 +6045,11 @@ msgstr "XLIFF 1.1 s gettext rozšířeními"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "Překladový soubor XLIFF 1.2"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6047,6 +6090,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "Nepodařilo se aktualizovat repozitář."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The workbook header row is empty."
+msgstr "Zdroj je uzamčen."
 
 #, python-format
 msgid ""
@@ -6331,6 +6379,10 @@ msgid "App store metadata files"
 msgstr "Soubory metadat pro aplikační obchody"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -7555,6 +7607,23 @@ msgstr "Zdrojový jazyk součásti"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Alternativní jazyk zvolený v projektu nebo v součásti"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission required on:"
+msgid "Rephrasing (requires Pro)"
+msgstr "Je vyžadováno oprávnění pro:"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "Kontext překladu"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -8885,21 +8954,6 @@ msgid ""
 "repositories."
 msgstr ""
 "Klíč API slouží také k ověřování automaticky exportovaných Git repozitářů."
-
-msgid "Code-hosting connections"
-msgstr "Připojení pro hostování kódu"
-
-#, fuzzy
-#| msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Spravujte účty pro hostování kódu propojené s pracovními prostory, které "
-"spravujete."
-
-msgid "Manage code-hosting connections"
-msgstr "Správa připojení k službám pro hostování kódu"
 
 msgid "Pending invitation"
 msgstr "Čekající pozvánka"
@@ -10345,13 +10399,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "Přidat oznámení pro součást"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "Přidat projekty do pracovního prostoru"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "Dotčené součásti"
 
 msgid "Customer"
 msgstr "Zákazník"
@@ -10767,6 +10837,11 @@ msgstr "Duplikovat tuto součást"
 
 msgid "Share in projects"
 msgstr "Sdílet s projekty"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Požádejte o Libre hosting"
 
 msgid "dismissed"
 msgstr "zahozené"
@@ -12617,8 +12692,10 @@ msgstr ""
 "Je-li tato funkce zapnutá, weblate.org zobrazuje podrobnosti o vašem webu a "
 "veřejné či chráněné projekty."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Vaše Weblate je uvedeno na weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Vaše Weblate není uvedeno na weblate.org"
@@ -13489,6 +13566,19 @@ msgstr "Importovat překladovou paměť"
 msgid "Delete announcement"
 msgstr "Odstranit oznámení"
 
+msgid "Contributors"
+msgstr "Přispěvatelé"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Licenční smlouva s přispěvateli byla odstraněna."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Nenalezeny žádné nedávné příspěvky."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13578,6 +13668,16 @@ msgstr "Jméno autora"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Křestní jméno"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Předchozí"
+
 msgid "Click to edit position"
 msgstr "Kliknutím upravte pozici"
 
@@ -13595,6 +13695,16 @@ msgstr "Přeskočit na"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Následující"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "Poslední aktualizace"
 
 msgid "Labels"
 msgstr "Štítky"
@@ -14242,6 +14352,11 @@ msgstr "Rozlišování velikosti písmen"
 msgid "Most active translators"
 msgstr "Nejaktivnější překladatelé"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Nový přispěvatel"
+
 msgid "Browse all users"
 msgstr "Procházet všechny uživatele"
 
@@ -14320,9 +14435,6 @@ msgstr "Trendy posledních 30 dní"
 
 msgid "Quick numbers"
 msgstr "Rychlá čísla"
-
-msgid "Contributors"
-msgstr "Přispěvatelé"
 
 msgid "Translations"
 msgstr "Překlady"
@@ -14678,6 +14790,27 @@ msgstr "Dotaz"
 msgid "Refresh results"
 msgstr "Obnovit výsledky"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "Osobní soubor"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Soubor v původním formátu, jak je přeložen v repozitáři"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Všechny řetězce v převedených souborech obohacených o komentáře; vhodné pro "
+"offline překlad"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14854,6 +14987,26 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "IP adresa zkopírována do schránky."
 
+msgid "Strings"
+msgstr "Řetězců"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s slovo"
+msgstr[1] "%(count)s slova"
+msgstr[2] "%(count)s slov"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Počet znaků"
+msgstr[1] "Počet znaků"
+msgstr[2] "Počet znaků"
+
 msgid "Suggestion added"
 msgstr "Přidán návrh"
 
@@ -14913,9 +15066,6 @@ msgstr "Cílové výrazy"
 
 msgid "Translation status"
 msgstr "Stav překladu"
-
-msgid "Strings"
-msgstr "Řetězců"
 
 msgid "Words"
 msgstr "Slov"
@@ -15077,9 +15227,6 @@ msgstr "Nastavit doplněk"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate se nepodařilo spustit skript v doplňku."
 
-msgid "The following occurrences were found:"
-msgstr "Nalezeny následující výskyty:"
-
 msgid "Command"
 msgstr "Příkaz"
 
@@ -15098,6 +15245,9 @@ msgid ""
 msgstr ""
 "Tyto kódy jazyků označují makrojazyk a obvykle je lepší místo toho použít "
 "kód jednotlivého jazyka."
+
+msgid "The following occurrences were found:"
+msgstr "Nalezeny následující výskyty:"
 
 msgid "Suggested individual language codes"
 msgstr "Navrhované kódy jednotlivých jazyků"
@@ -15123,6 +15273,17 @@ msgid ""
 msgstr ""
 "Součást vypadá, že obsahuje běžné soubory PO formátu gettext, je však "
 "nakonfigurována jako jednojazyčný soubor PO formátu gettext."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15255,6 +15416,9 @@ msgid ""
 msgstr ""
 "Upstreamový repozitář nebyl nalezen. Zkontrolujte prosím, zda existuje a je "
 "přístupný pro Weblate."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15553,7 +15717,10 @@ msgstr "Následující soubory již v repozitáři nejsou:"
 msgid "Template for new translations"
 msgstr "Šablona pro nové překlady"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Službě Weblate se při aktualizaci repozitáře nepodařilo sloučit změny z "
 "původního repozitáře."
@@ -15599,6 +15766,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "Součást překladu vypadá jako jednojazyčná, ale není tak nastavena."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 "Prosím nastavte základní soubor pro jednojazyčné překlady v natavení "
@@ -15638,13 +15816,17 @@ msgstr ""
 "<code>%(filemask)s</code> odpovídá souborům ve vašem repozitáři systému "
 "správy verzí."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Zobrazena je pouze část z %(count)s výskytu."
-msgstr[1] "Zobrazena je pouze část z %(count)s výskytů."
-msgstr[2] "Zobrazena je pouze část z %(count)s výskytů."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Minulý výskyt"
+msgstr[1] "Minulý výskyt"
+msgstr[2] "Minulý výskyt"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15680,6 +15862,26 @@ msgstr "Weblate se nepodařilo odeslat změny do repozitáře."
 msgid "Push the repository"
 msgstr "Odeslat repozitář"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"Repozitář obsahuje příliš mnoho změn v porovnání s původním. Začleňte prosím "
+"změny ručně nebo nastavte odesílání pro automatické zpracování."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15692,6 +15894,26 @@ msgstr "Weblate se nepodařilo obnovit přerušenou operaci s repozitářem."
 
 msgid "Reset the repository"
 msgstr "Obnovit repozitář"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"Repozitář je pozadu v porovnání s původním. Prosím začleňte změny ručně nebo "
+"nastavte hooky pro automatizaci dané úlohy."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15728,6 +15950,17 @@ msgid_plural ""
 msgstr[0] "Součást neobdržela žádné překlady v průběhu %(count)s dne."
 msgstr[1] "Součást neobdržela žádné překlady v průběhu %(count)s dní."
 msgstr[2] "Součást neobdržela žádné překlady v průběhu %(count)s dnů."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr "Weblate má u těchto projektů čekající změny překladů od %(date)s."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "Překlad byl odstraněn."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "Zvažte prosím odstranění součásti, pokud již není užitečná."
@@ -15920,43 +16153,19 @@ msgstr ""
 "Vytvořte ZIP soubor se všemi stávajícími překladovými soubory, a "
 "%(link_start)snahrajte ho%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Vyberte repozitář z připojeného účtu. Formulář pro vytvoření součásti bude "
-"předvyplněn URL adresou pro klonování, výchozí větví a odpovídajícím "
-"ovladačem VCS."
+"Vyberte repozitář, který chcete importovat. Tím se do formuláře pro "
+"vytvoření komponenty automaticky vyplní URL repozitáře a název větve."
 
-msgid "Add or configure account"
-msgstr "Přidat nebo nakonfigurovat účet"
-
-msgid "Visibility"
-msgstr "Viditelnost"
-
-msgid "Import"
-msgstr "Nahrát"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Zatím nejsou k dispozici žádné repozitáře. Propojte svůj účet pro hostování "
-"kódu, aby zde byly repozitáře dostupné."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Pro tento projektový pracovní prostor nejsou k dispozici žádné repozitáře z "
-"připojených účtů."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Vyberte projekt s pracovním prostorem, abyste mohli propojit účet nebo "
-"importovat repozitáře ze stávajícího propojení."
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Zobrazit součásti s propojenými repozitáři"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16091,52 +16300,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Typický postup pro vyřešení konfliktů"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"Exportovaný repozitář Weblate může být ve výchozím nastavení neúplný, proto "
-"tento postup funguje nejlépe s aktuální verzí z hlavního repozitáře. "
-"Klonování z exportovaného repozitáře Weblate nebo použití zastaralé verze z "
-"hlavního repozitáře může selhat, i když jsou Weblate a hlavní repozitář "
-"synchronizovány. Podrobnosti najdete v sekci Často kladené dotazy níže."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"Otevřete existující kontrolu upstreamového repozitáře nebo proveďte novou "
-"kontrolu."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr "Zapište všechny změny ve Weblate a uzamkněte součást překladů."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Přidejte repozitář exportovaný Weblate jako vzdálený."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Slučte změny Weblate a vyřešte jakékoliv konflikty."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Proveďte rebase změn Weblate nad upstreamem a vyřešte případné konflikty."
-
-msgid "Push changes into upstream repository."
-msgstr "Odešlete změny do upstreamového repozitáře."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Weblate by nyní měl mít přístup k opravenému repozitáři a můžete ho "
-"odemknout."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "V často kladených dotazech naleznete návod na vyřešení této situace."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "V textech pro zápis je možné použít značkovací jazyk Django šablon."
@@ -16253,6 +16431,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Vyčistit soubory s překlady"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -16528,6 +16716,16 @@ msgstr "Nahrát snímek obrazovky"
 msgid "String information"
 msgstr "Informace o řetězci"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Cílový překlad"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Překlad schválen"
+
 msgid "No explanation currently provided."
 msgstr "Nebylo zadáno žádné vysvětlení."
 
@@ -16672,23 +16870,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "Soubor v původním formátu, jak je přeložen v repozitáři"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Všechny řetězce v převedených souborech obohacených o komentáře; vhodné pro "
-"offline překlad"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"Nedokončené řetězce v převedených souborech obohacených o komentáře; vhodné "
-"pro offline překlad"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Nahraný soubor bude sloučen se stávajícími překlady."
 
@@ -16704,75 +16885,6 @@ msgid ""
 "deletion."
 msgstr ""
 "Zpráva bude zobrazena pro tento překlad do jejího ukončení nebo smazání."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"Nespravujete žádné pracovní prostory. Účty VCS lze propojit pouze s "
-"pracovními prostory, které spravujete."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Nejsou k dispozici žádná propojení pro hostování kódu. Správce webu musí "
-"nejprve zaregistrovat aplikaci pro hostování kódu."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Propojte účty pro hostování kódu s %(workspace)s. Tyto účty lze poté použít "
-"při vytváření součástí z úložiště verzí."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Propojte účty pro hostování kódu s pracovními prostory, které spravujete. "
-"Tyto účty pak lze použít při vytváření součástí z systému správy verzí."
-
-msgid "Code-hosting app"
-msgstr "Aplikace pro hostování kódu"
-
-msgid "Not registered"
-msgstr "Není registrována"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Pro %(hostname)s nejsou zaregistrovány přihlašovací údaje aplikace pro "
-"hostování kódu. Stávající připojené účty lze odstranit, nové účty však nelze "
-"připojit, dokud správce webu aplikaci znovu nezaregistruje."
-
-msgid "Connect accounts"
-msgstr "Propojit účty"
-
-msgid "Connect GitHub account"
-msgstr "Propojit účet GitHub"
-
-msgid "Connected accounts"
-msgstr "Propojené účty"
-
-msgid "Provider ID"
-msgstr "ID poskytovatele"
-
-msgid "Repositories"
-msgstr "Repozitáře"
-
-msgid "Refresh"
-msgstr "Obnovit"
-
-msgid "No connected accounts yet."
-msgstr "Zatím nejsou propojeny žádné účty."
-
-msgid "Code-hosting integrations"
-msgstr "Integrace služeb pro hostování kódu"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16802,9 +16914,6 @@ msgstr "Propojené účty GitHub:"
 msgid "Refresh repositories"
 msgstr "Obnovit repozitáře"
 
-msgid "Migrate selected components"
-msgstr "Přenést vybrané komponenty"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16829,16 +16938,34 @@ msgstr ""
 msgid "Migration status"
 msgstr "Stav migrace"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Nové upozornění v součásti %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "Hvězdička na GitHubu"
+
 msgid "Ready"
 msgstr "Připraveno"
 
 msgid "Repository access needed"
 msgstr "Je nutný přístup k repozitáři"
 
+msgid "Migrate selected components"
+msgstr "Přenést vybrané komponenty"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
 "V tomto pracovním prostoru se nenacházejí žádné součásti GitHubu, které je "
 "možné zmigrovat."
+
+msgid "Code-hosting connections"
+msgstr "Připojení pro hostování kódu"
 
 msgid "Register Weblate GitHub App"
 msgstr "Zaregistrovat aplikaci Weblate na GitHubu"
@@ -16910,6 +17037,105 @@ msgstr "Název aplikace"
 msgid "Continue to %(host)s"
 msgstr "Pokračovat na %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "Přenést vybrané komponenty"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Vyberte stávající komponenty Git nebo GitHub, u nichž chcete používat "
+"Weblate pro GitHub. Adresy URL jejich repozitářů budou nahrazeny kanonickými "
+"adresami HTTPS a samostatné adresy URL pro odesílání budou odstraněny."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "Přenést vybrané komponenty"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "Součást k migraci"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Zpět na nastavení účtu"
+
+msgid "Connected accounts"
+msgstr "Propojené účty"
+
+msgid "Provider ID"
+msgstr "ID poskytovatele"
+
+msgid "Repositories"
+msgstr "Repozitáře"
+
+msgid "No connected accounts yet."
+msgstr "Zatím nejsou propojeny žádné účty."
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Před propojením účtu GitHub si vyberte pracovní prostor."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "Propojit účet GitHub"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Připojený účet GitHub: %(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "Připojit nebo aktualizovat účet na GitHubu"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "Zdědit z pracovního prostoru"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Další součásti"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16919,6 +17145,28 @@ msgstr ""
 "aplikaci nainstalovat nebo o ni požádat. Pokud nějaká organizace chybí, "
 "zkontrolujte si v GitHubu svou roli v organizaci a omezení týkající se "
 "instalace aplikací GitHub."
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub odmítl registrační kód. Zahajte registraci znovu."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "Přihlašování"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "Pokračovat na GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Vyberte hostitele GitHubu"
@@ -16938,6 +17186,9 @@ msgstr "Nainstalovat na %(hostname)s"
 msgid "Connected GitHub account: %(login)s"
 msgstr "Připojený účet GitHub: %(login)s"
 
+msgid "Add or configure account"
+msgstr "Přidat nebo nakonfigurovat účet"
+
 #, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
@@ -16956,6 +17207,12 @@ msgstr "Aktualizovány repozitáře"
 
 msgid "Available Repositories"
 msgstr "Dostupné repozitáře"
+
+msgid "Visibility"
+msgstr "Viditelnost"
+
+msgid "Import"
+msgstr "Nahrát"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16986,6 +17243,11 @@ msgstr ""
 "pro komunikaci s poskytovateli hostingu kódu. Proveďte propojení účtu s "
 "každou z těchto aplikací, abyste mohli importovat repozitáře z daného účtu."
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Zatím nebyly zaregistrovány žádné autentifikační aplikace."
+
 msgid "Remove app"
 msgstr "Odstranit aplikaci"
 
@@ -17013,18 +17275,44 @@ msgstr ""
 "Samotná aplikace zůstává nainstalovaná na GitHubu. Pokud ji již "
 "nepotřebujete, odstraňte ji z GitHubu samostatně."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Zatím nejsou propojeny žádné účty. Pomocí tlačítka výše propojte účet "
-"organizace nebo uživatele."
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Z propojeného účtu"
+msgstr[1] "Z propojeného účtu"
+msgstr[2] "Z propojeného účtu"
+
+#, fuzzy
+#| msgid "Broker connection"
+msgid "View connections"
+msgstr "Připojení k brokerovi"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "Zobrazit všechna upozornění"
 
 msgid "From connected account"
 msgstr "Z propojeného účtu"
 
 msgid "Import from connected account"
 msgstr "Import z propojeného účtu"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Před propojením účtu vyberte projekt s pracovním prostorem. Účty pro "
+"hostování kódu se propojují s pracovními prostory."
+
+msgid "Refresh"
+msgstr "Obnovit"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "Z připojených účtů nejsou k dispozici žádné repozitáře."
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17042,12 +17330,10 @@ msgstr ""
 "Nainstalujte si aplikaci Weblate pro GitHub a propojte s ní organizaci nebo "
 "uživatelský účet."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Před propojením účtu vyberte projekt s pracovním prostorem. Účty pro "
-"hostování kódu se propojují s pracovními prostory."
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Před propojením účtu GitHub si vyberte pracovní prostor."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr ""
@@ -17055,6 +17341,97 @@ msgstr ""
 
 msgid "Try refreshing the repository list."
 msgstr "Zkuste aktualizovat seznam repozitářů."
+
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Přejít na aplikaci GitHub"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "Přidat projekty do pracovního prostoru"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "Projekt byl přesunut do pracovního prostoru nebo z něj."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "Přidat projekty do pracovního prostoru"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "Nemáte oprávnění k úpravám aktuálního pracovního prostoru."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "Dotčené projekty"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "Vytvoření projektu bez pracovního prostoru není povoleno."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "Správa pracovního prostoru"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "Vašemu vyhledávání neodpovídá žádný řetězec!"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Pracovní prostory Weblate"
+
+#, fuzzy
+#| msgid "Preview component ID"
+msgid "Review component migration"
+msgstr "ID komponenty náhledu"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "Propojené účty"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "Vašemu vyhledávání neodpovídá žádný řetězec!"
+
+#, fuzzy
+#| msgid "All eligible components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Všechny způsobilé komponenty v aktuálním pracovním prostoru"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Správa připojení k službám pro hostování kódu"
 
 msgid "Remove connected account?"
 msgstr "Chcete odstranit propojený účet?"
@@ -17088,6 +17465,57 @@ msgid_plural "and %(counter)s more components"
 msgstr[0] "a %(counter)s další součást"
 msgstr[1] "a %(counter)s další součásti"
 msgstr[2] "a %(counter)s dalších součástí"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "Přidat pracovní prostor"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "Vašemu vyhledávání neodpovídá žádný řetězec!"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Nejsou k dispozici žádná propojení pro hostování kódu. Správce webu musí "
+"nejprve zaregistrovat aplikaci pro hostování kódu."
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Vyberte projekt s pracovním prostorem, abyste mohli propojit účet nebo "
+"importovat repozitáře ze stávajícího propojení."
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "Přenést vybrané komponenty"
+
+msgid "Code-hosting app"
+msgstr "Aplikace pro hostování kódu"
+
+msgid "Not registered"
+msgstr "Není registrována"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Pro %(hostname)s nejsou zaregistrovány přihlašovací údaje aplikace pro "
+"hostování kódu. Stávající připojené účty lze odstranit, nové účty však nelze "
+"připojit, dokud správce webu aplikaci znovu nezaregistruje."
 
 msgid "Invitations"
 msgstr "Pozvánky"
@@ -17614,9 +18042,6 @@ msgstr "Kategorie přesunuta"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate se nepodařilo uložit upravený řetězec."
-
-msgid "Saving string failed"
-msgstr "Uložení řetězce se nezdařilo"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "Při synchronizaci z repozitáře byl nalezen nový řetězec."
@@ -18220,6 +18645,25 @@ msgstr "Nahraný soubor je příliš velký."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Nelze ověřit snímek obrazovky: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Místo toho přidejte řetězec do zdrojového jazyka."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "Odkazovaná součást neexistuje."
 
@@ -18237,6 +18681,14 @@ msgstr "Data v repozitáři nepatří k obnovené komponentě."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenty propojené s repozitářem nemohou obsahovat data z repozitáře."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 #, fuzzy
 #| msgid "Important dates"
@@ -18271,6 +18723,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -18292,8 +18750,24 @@ msgstr "Parametry verzovacího systému"
 msgid "File format parameters"
 msgstr "Parametry formátu souborů"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "Adresář repozitáře projektu již existuje."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Odstranit zvolené položky v překladové paměti"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -19053,8 +19527,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Další vysvětlení k objasnění významu nebo použití řetězce."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Vysvětlení zdrojového řetězce"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "Zdrojový řetězec se změnil. Zkontrolujte prosím vaše změny."
@@ -19481,6 +19966,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "Nebylo nalezeno žádné odpovídající pracovní prostředí."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Duplicitní překlad."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "Soubor ZIP obsahující zálohu projektu"
@@ -20132,11 +20632,6 @@ msgstr "Součást vytvořena skrze nahrání souboru ZIP"
 
 msgid "Component created via document upload"
 msgstr "Součást vytvořena skrze nahrání dokumentu"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22554,6 +23049,12 @@ msgstr "Nemáte oprávnění k úpravám cílového pracovního prostoru."
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "Nemáte oprávnění přidávat projekty do cílového pracovního prostoru."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg dokončen s varováními bez jakéhokoli výstupu."
 
@@ -23777,6 +24278,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "V repozitáři došlo k přerušení operace Git %(operation)s."
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "Nepodařilo se obnovit přerušenou operaci Git %(operation)s."
@@ -23901,6 +24416,41 @@ msgstr "Součást k migraci"
 
 msgid "Select at least one component to migrate."
 msgstr "Vyberte alespoň jednu součást k migraci."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Projekt k odstranění"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Pracovní prostory Weblate"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "Přidat projekty do pracovního prostoru"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "Správa pracovních prostorů"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "Název pracovního prostoru"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Zadejte JSON klíč pro účet služby."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24349,8 +24899,8 @@ msgstr "Před propojením účtu GitHub si vyberte pracovní prostor."
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Aplikace Weblate na GitHubu není pro vybraný host nastavená."
 
-msgid "Connected GitHub account updated."
-msgstr "Propojený účet GitHub byl aktualizován."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub nevrátil platné instalační ID."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -24359,19 +24909,12 @@ msgstr ""
 "Odkaz na instalaci aplikace Weblate na GitHubu již není platný. Spusťte "
 "instalaci znovu."
 
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Nemáte oprávnění propojit GitHub s tímto pracovním prostorem."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub nevrátil platné instalační ID."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
-"Došlo k příliš mnoha pokusům o připojení účtu GitHub. Instalace GitHubu "
-"nebyla úspěšně dokončena a možná stále probíhá. Zkuste se k účtu připojit "
-"znovu později."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr "Weblate se při aktualizaci repozitáře nepodařilo načíst soubory."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -24381,6 +24924,20 @@ msgstr ""
 "Weblate nemohl ověřit, zda máte oprávnění spravovat tuto instalaci na "
 "GitHubu. Spusťte instalaci znovu pomocí uživatelského účtu na GitHubu, jehož "
 "majitel je vlastníkem účtu nebo má oprávnění spravovat danou organizaci."
+
+msgid "Connected GitHub account updated."
+msgstr "Propojený účet GitHub byl aktualizován."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "Nemáte oprávnění propojit GitHub s tímto pracovním prostorem."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"Došlo k příliš mnoha pokusům o připojení účtu GitHub. Instalace GitHubu "
+"nebyla úspěšně dokončena a možná stále probíhá. Zkuste se k účtu připojit "
+"znovu později."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -24401,6 +24958,23 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Byl přidán propojený účet GitHub."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Nepodařilo se získat GitLab projekt (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Nepodařilo se dokončit registraci."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nepodařilo se zmigrovat součást %(component)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
@@ -24408,24 +24982,23 @@ msgstr[0] "Jedna součást zmigrována do GitHubové aplikace Weblate."
 msgstr[1] "%(count)d součásti zmigrovány do GitHubové aplikace Weblate."
 msgstr[2] "%(count)d součástí zmigrováno do GitHubové aplikace Weblate."
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"Jedna součást nebyla zmigrována, protože její repozitář již není dostupný."
-msgstr[1] ""
-"%(count)d součásti nebyly zmigrovány, protože jejich repozitáře již nejsou "
-"dostupné."
-msgstr[2] ""
-"%(count)d součástí nebylo zmigrováno, protože jejich repozitáře již nejsou "
-"dostupné."
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Součást byla odemčena k překladu."
+msgstr[1] "Součást byla odemčena k překladu."
+msgstr[2] "Součást byla odemčena k překladu."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Nepodařilo se zmigrovat součást %(component)s: %(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+"Platnost ověřovací odpovědi vypršela. Zkuste se prosím přihlásit znovu."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Zadejte platný název aplikace GitHub a hostitele."
@@ -24739,18 +25312,13 @@ msgstr "Připojil/a se %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s, řetězec %(position)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Nepodařilo se načíst větve repozitáře. Zkuste to prosím znovu."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
@@ -25030,6 +25598,160 @@ msgstr "Pracovní prostor nelze odstranit, protože je stále v používání."
 msgid "The workspace has been removed."
 msgstr "Pracovní prostor byl odstraněn."
 
+#, fuzzy
+#~| msgid ""
+#~| "Manage code-hosting accounts connected to workspaces you administer."
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Spravujte účty pro hostování kódu propojené s pracovními prostory, které "
+#~ "spravujete."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Vaše Weblate je uvedeno na weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Zobrazena je pouze část z %(count)s výskytu."
+#~ msgstr[1] "Zobrazena je pouze část z %(count)s výskytů."
+#~ msgstr[2] "Zobrazena je pouze část z %(count)s výskytů."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Vyberte repozitář z připojeného účtu. Formulář pro vytvoření součásti "
+#~ "bude předvyplněn URL adresou pro klonování, výchozí větví a odpovídajícím "
+#~ "ovladačem VCS."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Zatím nejsou k dispozici žádné repozitáře. Propojte svůj účet pro "
+#~ "hostování kódu, aby zde byly repozitáře dostupné."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Pro tento projektový pracovní prostor nejsou k dispozici žádné repozitáře "
+#~ "z připojených účtů."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Exportovaný repozitář Weblate může být ve výchozím nastavení neúplný, "
+#~ "proto tento postup funguje nejlépe s aktuální verzí z hlavního "
+#~ "repozitáře. Klonování z exportovaného repozitáře Weblate nebo použití "
+#~ "zastaralé verze z hlavního repozitáře může selhat, i když jsou Weblate a "
+#~ "hlavní repozitář synchronizovány. Podrobnosti najdete v sekci Často "
+#~ "kladené dotazy níže."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Otevřete existující kontrolu upstreamového repozitáře nebo proveďte novou "
+#~ "kontrolu."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr "Zapište všechny změny ve Weblate a uzamkněte součást překladů."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Přidejte repozitář exportovaný Weblate jako vzdálený."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Slučte změny Weblate a vyřešte jakékoliv konflikty."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Proveďte rebase změn Weblate nad upstreamem a vyřešte případné konflikty."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Odešlete změny do upstreamového repozitáře."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Weblate by nyní měl mít přístup k opravenému repozitáři a můžete ho "
+#~ "odemknout."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr ""
+#~ "V často kladených dotazech naleznete návod na vyřešení této situace."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "Nedokončené řetězce v převedených souborech obohacených o komentáře; "
+#~ "vhodné pro offline překlad"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "Nespravujete žádné pracovní prostory. Účty VCS lze propojit pouze s "
+#~ "pracovními prostory, které spravujete."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Propojte účty pro hostování kódu s %(workspace)s. Tyto účty lze poté "
+#~ "použít při vytváření součástí z úložiště verzí."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Propojte účty pro hostování kódu s pracovními prostory, které spravujete. "
+#~ "Tyto účty pak lze použít při vytváření součástí z systému správy verzí."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Propojit účty"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Integrace služeb pro hostování kódu"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Zatím nejsou propojeny žádné účty. Pomocí tlačítka výše propojte účet "
+#~ "organizace nebo uživatele."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "Jedna součást nebyla zmigrována, protože její repozitář již není dostupný."
+#~ msgstr[1] ""
+#~ "%(count)d součásti nebyly zmigrovány, protože jejich repozitáře již "
+#~ "nejsou dostupné."
+#~ msgstr[2] ""
+#~ "%(count)d součástí nebylo zmigrováno, protože jejich repozitáře již "
+#~ "nejsou dostupné."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Procházet glosář %(name)s"
@@ -25153,9 +25875,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Spravovat autom. překladače"
-
-#~ msgid "Preview component ID"
-#~ msgstr "ID komponenty náhledu"
 
 #~ msgid "Preview change ID"
 #~ msgstr "ID změny náhledu"
@@ -25384,9 +26103,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Skipped components:"
 #~ msgstr "Vynechané součásti:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "Je vyžadováno oprávnění pro:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -25730,13 +26446,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr "Správa integrací systémů pro správu verzí (VCS)"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "Hvězdička na GitHubu"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "Pozvánky"
@@ -25865,9 +26574,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Return to the component"
 #~ msgstr "Vrátit se k součásti"
-
-#~ msgid "View all alerts"
-#~ msgstr "Zobrazit všechna upozornění"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Projděte si pokyny z kontrolního seznamu komunitní lokalizace."
@@ -26604,13 +27310,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Překlad v glosáři: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s slovo"
-#~ msgstr[1] "%(count)s slova"
-#~ msgstr[2] "%(count)s slov"
-
 #~ msgid "Rename"
 #~ msgstr "Přejmenovat"
 
@@ -26666,9 +27365,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nový řetězec k překladu"
-
-#~ msgid "New contributor"
-#~ msgstr "Nový přispěvatel"
 
 #~ msgid "New announcement"
 #~ msgstr "Nové oznámení"
@@ -27021,9 +27717,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Token value to use in API"
 #~ msgstr "Hodnota tokenu pro použití v rozhraní API"
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Vašemu vyhledávání neodpovídá žádný řetězec!"
 
 #, fuzzy, python-format
 #~| msgid ""
@@ -27551,9 +28244,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Translatable words"
 #~ msgstr "Slova které je možné překládat"
 
-#~ msgid "Number of characters"
-#~ msgstr "Počet znaků"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Počet zdrojových řetězců"
 
@@ -27831,9 +28521,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "Veřejně viditelné, překládat mohou pouze zvolení uživatelé"
-
-#~ msgid "Add a component message"
-#~ msgstr "Přidat oznámení pro součást"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "Nová zpráva na nástěnce pro %(project)s"
@@ -30638,9 +31325,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Avatar pro %s"
-
-#~ msgid "First name"
-#~ msgstr "Křestní jméno"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

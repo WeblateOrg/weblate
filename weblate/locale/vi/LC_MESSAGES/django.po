@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-16 15:45+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -41,6 +41,12 @@ msgstr "Không có"
 
 msgid "User avatar"
 msgstr "Ảnh đại diện người dùng"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Xác thực không thành công. Vui lòng liên hệ quản trị viên."
 
 msgid "No notification"
 msgstr "Không thông báo"
@@ -1497,9 +1503,6 @@ msgstr "Dùng thử miễn phí"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Chẩn đoán thông báo cho %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Người dùng này không thể chỉnh sửa."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2256,6 +2259,18 @@ msgid ""
 msgstr ""
 "Tiện ích bổ sung Meson yêu cầu thư mục Meson gettext với các tệp meson.build "
 "và POTFILES hoặc POTFILES.in."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Bật đánh giá nguồn"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "Thành phần này cần định nghĩa một mẫu gettext cho các bản dịch mới."
@@ -3143,6 +3158,17 @@ msgid ""
 msgstr ""
 "Lọc theo hành động thay đổi. Lặp lại tham số này để lọc theo nhiều hành động."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "Được kích hoạt bởi {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "Số lượng yêu cầu được phép thực hiện"
 
@@ -3346,6 +3372,9 @@ msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
 "Không thể lấy được khóa %(scope)s cho %(origin)s để thực hiện thao tác."
+
+msgid "This user can not be edited."
+msgstr "Người dùng này không thể chỉnh sửa."
 
 msgid "Expected an object."
 msgstr "Dự kiến là một đối tượng."
@@ -4774,7 +4803,7 @@ msgstr "Sự kiện thanh toán"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Dự án không có thành phần"
 
 msgid "monthly"
@@ -5902,6 +5931,14 @@ msgstr "Bản dịch không thay đổi"
 msgid "Source and translation are identical."
 msgstr "Nguồn và bản dịch giống hệt nhau."
 
+msgid "Saving string failed"
+msgstr "Lưu chuỗi thất bại"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "Chỉ những bản dịch đã được phê duyệt mới được ghi vào tệp dịch thuật."
+
 msgid "Unpluralised"
 msgstr "Không số nhiều"
 
@@ -6082,6 +6119,11 @@ msgstr "XLIFF 1.1 với mở rộng gettext"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "Tệp phiên dịch XLIFF 1.2"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6122,6 +6164,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "Không thể cập nhật kho lưu trữ."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The workbook header row is empty."
+msgstr "Tài nguyên đã bị khóa."
 
 #, python-format
 msgid ""
@@ -6413,6 +6460,10 @@ msgid "App store metadata files"
 msgstr "Tệp dữ liệu mô tả cửa hàng ứng dụng"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -7616,6 +7667,23 @@ msgstr "Ngôn ngữ nguồn của thành phần"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Ngôn ngữ thứ hai được định nghĩa trong dự án hoặc thành phần"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission required on:"
+msgid "Rephrasing (requires Pro)"
+msgstr "Cần có cấp phép trên:"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Translation context"
+msgid "Translation context"
+msgstr "Ngữ cảnh dịch thuật"
 
 msgid "Rate limit reset."
 msgstr "Đặt lại giới hạn tốc độ."
@@ -8915,21 +8983,6 @@ msgid ""
 msgstr ""
 "Khóa API cũng được sử dụng để xác thực với các kho lưu trữ Git được xuất tự "
 "động."
-
-msgid "Code-hosting connections"
-msgstr "Kết nối lưu trữ mã"
-
-#, fuzzy
-#| msgid "Manage code-hosting accounts connected to workspaces you administer."
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Quản lý các tài khoản lưu trữ mã được kết nối với các không gian làm việc mà "
-"bạn quản trị."
-
-msgid "Manage code-hosting connections"
-msgstr "Quản lý các kết nối lưu trữ mã"
 
 msgid "Pending invitation"
 msgstr "Đang chờ thư mời"
@@ -10321,13 +10374,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Add a component to keep Libre hosting"
+msgstr "Chủ đề đã đăng ký theo dõi"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "Thêm dự án vào không gian làm việc"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "Các thành phần bị ảnh hưởng"
 
 msgid "Customer"
 msgstr "Khách hàng"
@@ -10738,6 +10807,11 @@ msgstr "Nhân bản thành phần này"
 
 msgid "Share in projects"
 msgstr "Chia sẻ trong các dự án"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Yêu cầu lưu trữ Tự Do"
 
 msgid "dismissed"
 msgstr "đã bỏ qua"
@@ -12540,8 +12614,10 @@ msgstr ""
 "Khi được bật, weblate.org liệt kê chi tiết trang web của bạn và các dự án "
 "công khai hoặc được bảo vệ."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Weblate của bạn được liệt kê trên weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Weblate của bạn không được liệt kê trên weblate.org"
@@ -13368,6 +13444,19 @@ msgstr "Nhập bộ nhớ dịch"
 msgid "Delete announcement"
 msgstr "Xóa thông báo"
 
+msgid "Contributors"
+msgstr "Người đóng góp"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Thỏa thuận cấp phép cho người đóng góp đã bị xóa bỏ."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Không tìm thấy bài đóng góp gần đây nào."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13458,6 +13547,16 @@ msgstr "Tên tác giả"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Tên"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Trước đó"
+
 msgid "Click to edit position"
 msgstr "Nhấp chuột để chỉnh sửa vị trí"
 
@@ -13475,6 +13574,16 @@ msgstr "Chuyển đến"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Kế tiếp"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "Cập nhật lần cuối"
 
 msgid "Labels"
 msgstr "Nhãn"
@@ -14119,6 +14228,11 @@ msgstr "Phân biệt chữ hoa chữ thường"
 msgid "Most active translators"
 msgstr "Những dịch giả tích cực nhất"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Người đóng góp mới"
+
 msgid "Browse all users"
 msgstr "Xem tất cả người dùng"
 
@@ -14197,9 +14311,6 @@ msgstr "Xu hướng trong 30 ngày qua"
 
 msgid "Quick numbers"
 msgstr "Số liệu nhanh"
-
-msgid "Contributors"
-msgstr "Người đóng góp"
 
 msgid "Translations"
 msgstr "Bản dịch"
@@ -14554,6 +14665,27 @@ msgstr "Truy vấn"
 msgid "Refresh results"
 msgstr "Làm mới kho lưu trữ"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "Tệp cá nhân"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Tệp ở định dạng gốc như đã được dịch trong kho lưu trữ"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Tất cả các chuỗi, các tệp đã được chuyển đổi được bổ sung thêm chú thích; "
+"phù hợp cho việc dịch ngoại tuyến"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14727,6 +14859,22 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "Địa chỉ IP đã được sao chép vào bảng nhớ tạm."
 
+msgid "Strings"
+msgstr "Chuỗi"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s từ"
+
+#, fuzzy, python-format
+#| msgid "Insert tab character"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Chèn ký tự tab"
+
 msgid "Suggestion added"
 msgstr "Đề xuất đã được thêm"
 
@@ -14792,9 +14940,6 @@ msgstr "Loại mục tiêu"
 
 msgid "Translation status"
 msgstr "Trạng thái bản dịch"
-
-msgid "Strings"
-msgstr "Chuỗi"
 
 msgid "Words"
 msgstr "Từ"
@@ -14953,9 +15098,6 @@ msgstr "Cấu hình %(addon)s"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate không thể thực thi tiện ích bổ sung tập lệnh."
 
-msgid "The following occurrences were found:"
-msgstr "Các trường hợp sau đây đã được phát hiện:"
-
 msgid "Command"
 msgstr "Lệnh"
 
@@ -14984,6 +15126,9 @@ msgstr ""
 "Các mã ngôn ngữ này biểu thị một ngôn ngữ vĩ mô và thay vào đó, tốt hơn nên "
 "sử dụng mã của từng ngôn ngữ."
 
+msgid "The following occurrences were found:"
+msgstr "Các trường hợp sau đây đã được phát hiện:"
+
 msgid "Suggested individual language codes"
 msgstr "Mã ngôn ngữ riêng được đề xuất"
 
@@ -15008,6 +15153,15 @@ msgid ""
 msgstr ""
 "Thành phần này có vẻ như chứa các tệp PO gettext thông thường, nhưng nó được "
 "cấu hình là PO gettext đơn ngữ."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15138,6 +15292,9 @@ msgid ""
 msgstr ""
 "Kho lưu trữ thượng nguồn không được tìm thấy. Vui lòng kiểm tra xem nó có "
 "tồn tại và có thể truy cập được vào Weblate không."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15433,7 +15590,10 @@ msgstr "Các tệp sau đây không còn tồn tại trong kho lưu trữ:"
 msgid "Template for new translations"
 msgstr "Mẫu dành cho các bản dịch mới"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Weblate không thể hợp nhất các thay đổi từ kho lưu trữ gốc trong quá trình "
 "cập nhật kho lưu trữ."
@@ -15481,6 +15641,17 @@ msgstr ""
 "Thành phần dịch thuật trông có vẻ đơn ngữ, nhưng nó không được thiết lập như "
 "vậy."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "Vui lòng thêm tệp ngôn ngữ cơ sở đơn ngữ vào cài đặt thành phần."
 
@@ -15517,11 +15688,15 @@ msgstr ""
 "code> có khớp với các tệp trong kho lưu trữ hệ thống kiểm soát phiên bản của "
 "bạn hay không."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Chỉ một số trong %(count)s lần xuất hiện được hiển thị."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Lần cuối sự việc xảy ra"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15558,6 +15733,25 @@ msgstr "Weblate không thể đẩy các thay đổi lên kho lưu trữ nguồn
 msgid "Push the repository"
 msgstr "Đẩy kho lưu trữ lên"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"Kho lưu trữ VCS có nhiều thay đổi so với kho lưu trữ gốc. Vui lòng hợp nhất "
+"các thay đổi theo cách thủ công hoặc thiết lập push để tự động hóa quá trình "
+"này."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15571,6 +15765,25 @@ msgstr "Weblate không thể khôi phục hoạt động kho lưu trữ bị gi�
 
 msgid "Reset the repository"
 msgstr "Đặt lại kho lưu trữ"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"Kho lưu trữ VCS hiện tại chưa được cập nhật so với kho lưu trữ gốc. Vui lòng "
+"hợp nhất các thay đổi theo cách thủ công hoặc thiết lập các móc nối để tự "
+"động hóa quá trình này."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15607,6 +15820,19 @@ msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] ""
 "Thành phần này chưa nhận được bản dịch nào trong vòng %(count)s ngày."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"Weblate có các thay đổi dịch thuật đang chờ xử lý cho các dự án này kể từ "
+"%(date)s."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "Bản dịch đã bị xóa."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "Vui lòng xem xét gỡ bỏ thành phần này nếu nó không còn hữu ích nữa."
@@ -15796,42 +16022,19 @@ msgstr ""
 "Tạo một tệp ZIP chứa bất kỳ tệp bản dịch hiện có nào bạn có, và "
 "%(link_start)stải tệp đó lên%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Chọn kho lưu trữ từ tài khoản đã kết nối. Biểu mẫu tạo thành phần sẽ được "
-"điền sẵn URL sao chép, nhánh mặc định và trình điều khiển VCS phù hợp."
+"Chọn kho lưu trữ để nhập. Thao tác này sẽ tự động điền URL kho lưu trữ và "
+"nhánh vào biểu mẫu tạo thành phần."
 
-msgid "Add or configure account"
-msgstr "Thêm hoặc cấu hình tài khoản"
-
-msgid "Visibility"
-msgstr "Khả năng hiển thị"
-
-msgid "Import"
-msgstr "Nhập"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Chưa có kho lưu trữ nào. Kết nối tài khoản lưu trữ mã để cung cấp kho lưu "
-"trữ tại đây."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Không có kho lưu trữ nào từ các tài khoản được kết nối cho không gian làm "
-"việc của dự án này."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Chọn một dự án có không gian làm việc để kết nối tài khoản hoặc nhập kho lưu "
-"trữ từ kết nối hiện có."
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Hiển thị các thành phần có kho lưu trữ được liên kết"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15959,57 +16162,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Quy trình làm việc điển hình để khắc phục xung đột hợp nhất"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-"Kho lưu trữ Weblate được xuất ra có thể có dung lượng nông theo mặc định, vì "
-"vậy quy trình này hoạt động tốt nhất khi sử dụng bản sao chép cập nhật từ "
-"nguồn gốc. Việc sao chép từ kho lưu trữ Weblate đã xuất hoặc sử dụng bản sao "
-"chép lỗi thời từ nguồn gốc có thể thất bại ngay cả khi Weblate và nguồn gốc "
-"đồng bộ. Xem phần Câu hỏi thường gặp bên dưới để biết thêm chi tiết."
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-"Mở một bản kiểm tra hiện có của kho lưu trữ thượng nguồn hoặc thực hiện một "
-"bản kiểm tra mới."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Ghi nhận tất cả các thay đổi đang chờ xử lý trong Weblate và khóa thành phần "
-"dịch thuật."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Thêm kho lưu trữ đã xuất từ Weblate làm kho lưu trữ từ xa."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Hợp nhất các thay đổi từ Weblate và giải quyết mọi xung đột."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Cập nhật các thay đổi của Weblate lên trên phiên bản gốc và giải quyết mọi "
-"xung đột."
-
-msgid "Push changes into upstream repository."
-msgstr "Đẩy các thay đổi lên kho lưu trữ gốc."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Giờ đây, Weblate sẽ có thể nhận diện kho lưu trữ đã được cập nhật và bạn có "
-"thể mở khóa nó."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr ""
-"Kiểm tra phần Câu hỏi thường gặp để biết thông tin về cách giải quyết vấn đề "
-"này."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
@@ -16119,6 +16286,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Dọn dẹp các tệp bản dịch"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -16385,6 +16562,16 @@ msgstr "Tải ảnh chụp màn hình lên"
 msgid "String information"
 msgstr "Thông tin chuỗi"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Bản dịch mục tiêu"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Bản dịch đã được phê duyệt"
+
 msgid "No explanation currently provided."
 msgstr "Không có sự giải thích nào hiện tại được cung cấp."
 
@@ -16532,23 +16719,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "Tệp ở định dạng gốc như đã được dịch trong kho lưu trữ"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Tất cả các chuỗi, các tệp đã được chuyển đổi được bổ sung thêm chú thích; "
-"phù hợp cho việc dịch ngoại tuyến"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"Các chuỗi chưa hoàn chỉnh, các tệp đã được chuyển đổi và bổ sung thêm chú "
-"thích; phù hợp cho việc dịch ngoại tuyến"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Tệp được tải lên sẽ được hợp nhất với bản dịch hiện tại."
 
@@ -16564,77 +16734,6 @@ msgid ""
 "deletion."
 msgstr ""
 "Thông báo này sẽ hiển thị trên trang dịch cho đến khi hết hạn hoặc bị xóa."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"Bạn không quản lý bất kỳ không gian làm việc nào. Tài khoản VCS chỉ có thể "
-"được kết nối với không gian làm việc mà bạn quản lý."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Hiện không có kết nối lưu trữ mã nguồn nào khả dụng. Quản trị viên trang web "
-"cần đăng ký ứng dụng lưu trữ mã nguồn trước."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Kết nối tài khoản lưu trữ mã với %(workspace)s. Sau đó, những tài khoản này "
-"có thể được sử dụng khi tạo các thành phần từ kiểm soát phiên bản."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Kết nối tài khoản lưu trữ mã với không gian làm việc mà bạn quản lý. Sau đó, "
-"những tài khoản này có thể được sử dụng khi tạo các thành phần từ kiểm soát "
-"phiên bản."
-
-msgid "Code-hosting app"
-msgstr "Ứng dụng lưu trữ mã"
-
-msgid "Not registered"
-msgstr "Chưa đăng ký"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Thông tin đăng nhập ứng dụng lưu trữ mã nguồn không được đăng ký cho "
-"%(hostname)s. Các tài khoản đã kết nối hiện có thể bị xóa, nhưng không thể "
-"kết nối tài khoản mới cho đến khi quản trị viên trang web đăng ký lại ứng "
-"dụng."
-
-msgid "Connect accounts"
-msgstr "Kết nối tài khoản"
-
-msgid "Connect GitHub account"
-msgstr "Kết nối tài khoản GitHub"
-
-msgid "Connected accounts"
-msgstr "Tài khoản được kết nối"
-
-msgid "Provider ID"
-msgstr "ID Nhà cung cấp"
-
-msgid "Repositories"
-msgstr "Kho lưu trữ"
-
-msgid "Refresh"
-msgstr "Làm mới"
-
-msgid "No connected accounts yet."
-msgstr "Chưa có tài khoản nào được kết nối."
-
-msgid "Code-hosting integrations"
-msgstr "Tích hợp lưu trữ mã"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16665,9 +16764,6 @@ msgstr "Các tài khoản GitHub đã liên kết:"
 msgid "Refresh repositories"
 msgstr "Làm mới kho lưu trữ"
 
-msgid "Migrate selected components"
-msgstr "Di chuyển các thành phần đã chọn"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16692,16 +16788,34 @@ msgstr ""
 msgid "Migration status"
 msgstr "Trạng thái di chuyển"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Cảnh báo mới về %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "Sao GitHub"
+
 msgid "Ready"
 msgstr "Sẵn sàng"
 
 msgid "Repository access needed"
 msgstr "Cần có quyền truy cập kho lưu trữ"
 
+msgid "Migrate selected components"
+msgstr "Di chuyển các thành phần đã chọn"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
 "Không có thành phần GitHub nào trong không gian làm việc này có thể được di "
 "chuyển."
+
+msgid "Code-hosting connections"
+msgstr "Kết nối lưu trữ mã"
 
 msgid "Register Weblate GitHub App"
 msgstr "Đăng ký ứng dụng Weblate trên GitHub"
@@ -16770,6 +16884,105 @@ msgstr "Tên ứng dụng"
 msgid "Continue to %(host)s"
 msgstr "Tiếp tục đến %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "Di chuyển các thành phần đã chọn"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Chọn các thành phần Git hoặc GitHub hiện có để sử dụng Ứng dụng Weblate "
+"GitHub. URL kho lưu trữ của họ sẽ được thay thế bằng URL HTTPS chuẩn và các "
+"URL đẩy riêng biệt sẽ bị xóa."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "Di chuyển các thành phần đã chọn"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "Các thành phần cần di chuyển"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Quay lại cài đặt tài khoản"
+
+msgid "Connected accounts"
+msgstr "Tài khoản được kết nối"
+
+msgid "Provider ID"
+msgstr "ID Nhà cung cấp"
+
+msgid "Repositories"
+msgstr "Kho lưu trữ"
+
+msgid "No connected accounts yet."
+msgstr "Chưa có tài khoản nào được kết nối."
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Chọn không gian làm việc trước khi kết nối tài khoản GitHub."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "Kết nối tài khoản GitHub"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Tài khoản GitHub được kết nối: %(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "Kết nối hoặc cập nhật tài khoản GitHub"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "Kế thừa từ không gian làm việc"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Các thành phần khác"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16778,6 +16991,28 @@ msgstr ""
 "GitHub chỉ hiển thị các tài khoản mà người dùng GitHub của bạn có thể cài "
 "đặt hoặc yêu cầu ứng dụng này. Nếu thiếu tổ chức, hãy kiểm tra vai trò tổ "
 "chức của bạn và các hạn chế cài đặt Ứng dụng GitHub trong GitHub."
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub đã từ chối mã đăng ký. Hãy bắt đầu lại quá trình đăng ký."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "Xác thực"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "Tiếp tục đến GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Chọn máy chủ GitHub"
@@ -16797,6 +17032,9 @@ msgstr "Cài đặt trên %(hostname)s"
 msgid "Connected GitHub account: %(login)s"
 msgstr "Tài khoản GitHub được kết nối: %(login)s"
 
+msgid "Add or configure account"
+msgstr "Thêm hoặc cấu hình tài khoản"
+
 #, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
@@ -16815,6 +17053,12 @@ msgstr "Kho lưu trữ đã được cập nhật"
 
 msgid "Available Repositories"
 msgstr "Kho Lưu Trữ Có Sẵn"
+
+msgid "Visibility"
+msgstr "Khả năng hiển thị"
+
+msgid "Import"
+msgstr "Nhập"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16844,6 +17088,11 @@ msgstr ""
 "liên lạc với các nhà cung cấp dịch vụ lưu trữ mã nguồn. Kết nối một tài "
 "khoản với mỗi ứng dụng để nhập kho lưu trữ từ tài khoản đó."
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Chưa có ứng dụng xác thực nào được đăng ký."
+
 msgid "Remove app"
 msgstr "Gỡ ứng dụng"
 
@@ -16871,18 +17120,42 @@ msgstr ""
 "Bản thân Ứng dụng vẫn được cài đặt trên GitHub. Xóa riêng nó khỏi GitHub nếu "
 "bạn không còn cần nó nữa."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Chưa có tài khoản nào được kết nối. Sử dụng nút ở trên để kết nối một tổ "
-"chức hoặc tài khoản người dùng."
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Từ tài khoản được kết nối"
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "View connections"
+msgstr "Kết nối lưu trữ mã"
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "View all connections"
+msgstr "Kết nối lưu trữ mã"
 
 msgid "From connected account"
 msgstr "Từ tài khoản được kết nối"
 
 msgid "Import from connected account"
 msgstr "Nhập từ tài khoản được kết nối"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Chọn một dự án có không gian làm việc trước khi kết nối tài khoản. Tài khoản "
+"lưu trữ mã được kết nối với không gian làm việc."
+
+msgid "Refresh"
+msgstr "Làm mới"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "Không có kho lưu trữ nào từ các tài khoản được kết nối."
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16900,18 +17173,107 @@ msgstr ""
 "Cài đặt ứng dụng Weblate GitHub để kết nối một tổ chức hoặc tài khoản người "
 "dùng."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Chọn một dự án có không gian làm việc trước khi kết nối tài khoản. Tài khoản "
-"lưu trữ mã được kết nối với không gian làm việc."
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Chọn không gian làm việc trước khi kết nối tài khoản GitHub."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr "Ứng dụng Weblate GitHub chưa được đăng ký trên phiên bản Weblate này."
 
 msgid "Try refreshing the repository list."
 msgstr "Hãy thử làm mới danh sách kho lưu trữ."
+
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Di chuyển sang Ứng dụng GitHub"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "Thêm dự án vào không gian làm việc"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "Một dự án đã được di chuyển vào hoặc ra khỏi không gian làm việc."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "Thêm dự án vào không gian làm việc"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "Bạn không có quyền chỉnh sửa không gian làm việc hiện tại."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "Các dự án bị ảnh hưởng"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "Việc tạo dự án mà không có không gian làm việc là không được phép."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "Quản trị không gian làm việc"
+
+#, fuzzy
+#| msgid "No connected accounts yet."
+msgid "No unconnected workspaces match your search."
+msgstr "Chưa có tài khoản nào được kết nối."
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Không gian làm việc Weblate"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "Tạo thành phần"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "Tài khoản được kết nối"
+
+#, fuzzy
+#| msgid "No connected accounts yet."
+msgid "No connected workspaces match your search."
+msgstr "Chưa có tài khoản nào được kết nối."
+
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Tất cả các thành phần trong không gian làm việc hiện tại"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Quản lý các kết nối lưu trữ mã"
 
 msgid "Remove connected account?"
 msgstr "Xóa tài khoản đã kết nối?"
@@ -16943,6 +17305,58 @@ msgstr[0] ""
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "và thêm %(counter)s thành phần nữa"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "Thêm không gian làm việc"
+
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "No workspaces match your search."
+msgstr "Không tìm thấy không gian làm việc nào."
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Hiện không có kết nối lưu trữ mã nguồn nào khả dụng. Quản trị viên trang web "
+"cần đăng ký ứng dụng lưu trữ mã nguồn trước."
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Chọn một dự án có không gian làm việc để kết nối tài khoản hoặc nhập kho lưu "
+"trữ từ kết nối hiện có."
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "Di chuyển các thành phần đã chọn"
+
+msgid "Code-hosting app"
+msgstr "Ứng dụng lưu trữ mã"
+
+msgid "Not registered"
+msgstr "Chưa đăng ký"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Thông tin đăng nhập ứng dụng lưu trữ mã nguồn không được đăng ký cho "
+"%(hostname)s. Các tài khoản đã kết nối hiện có thể bị xóa, nhưng không thể "
+"kết nối tài khoản mới cho đến khi quản trị viên trang web đăng ký lại ứng "
+"dụng."
 
 msgid "Invitations"
 msgstr "Lời mời"
@@ -17476,9 +17890,6 @@ msgstr "Đã di chuyển danh mục"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate không thể lưu chuỗi đã thay đổi."
-
-msgid "Saving string failed"
-msgstr "Lưu chuỗi thất bại"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr ""
@@ -18081,6 +18492,25 @@ msgstr "Tệp đã tải lên quá lớn."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Không thể xác thực ảnh chụp màn hình: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Thay vào đó, thêm chuỗi vào ngôn ngữ nguồn."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "Thành phần được tham chiếu không tồn tại."
 
@@ -18097,6 +18527,14 @@ msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Các thành phần được liên kết với kho lưu trữ không thể chứa dữ liệu kho lưu "
 "trữ."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 #, fuzzy
 #| msgid "Important dates"
@@ -18131,6 +18569,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -18149,8 +18593,24 @@ msgstr "Các tham số kiểm soát phiên bản"
 msgid "File format parameters"
 msgstr "Các tham số định dạng tệp"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "Thư mục lưu trữ dự án đã tồn tại."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Xóa các mục bộ nhớ dịch đã chọn"
 
 msgid "Invalid search type."
 msgstr "Loại tìm kiếm không hợp lệ."
@@ -18894,8 +19354,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Giải thích thêm để làm rõ ý nghĩa hoặc cách sử dụng của chuỗi ký tự."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Giải thích chuỗi nguồn"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "Chuỗi nguồn đã thay đổi. Vui lòng kiểm tra lại các thay đổi của bạn."
@@ -19332,6 +19803,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "Không tìm thấy không gian làm việc nào phù hợp."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Bản dịch trùng lặp."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "Tệp ZIP chứa bản sao lưu dự án"
@@ -19983,11 +20469,6 @@ msgstr "Thành phần được tạo bằng cách tải lên tệp ZIP"
 
 msgid "Component created via document upload"
 msgstr "Thành phần được tạo bằng cách tải lên tài liệu"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s lúc %(time)s trên %(translation)s bởi %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22319,6 +22800,12 @@ msgstr "Bạn không có quyền chỉnh sửa không gian làm việc mục ti�
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "Bạn không có quyền thêm dự án vào không gian làm việc mục tiêu."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg hoàn thành với cảnh báo mà không có bất kỳ đầu ra nào."
 
@@ -23510,6 +23997,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Kho lưu trữ có hoạt động Git %(operation)s bị gián đoạn."
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "Không thể khôi phục thao tác Git %(operation)s bị gián đoạn."
@@ -23641,6 +24142,41 @@ msgstr "Các thành phần cần di chuyển"
 
 msgid "Select at least one component to migrate."
 msgstr "Chọn ít nhất một thành phần để di chuyển."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Dự án cần loại bỏ"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Không gian làm việc Weblate"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "Thêm dự án không gian làm việc"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "Quản lý không gian làm việc"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "Tên không gian làm việc"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Nhập khóa JSON cho tài khoản dịch vụ."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24091,8 +24627,8 @@ msgstr "Chọn không gian làm việc trước khi kết nối tài khoản Git
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Ứng dụng Weblate GitHub không được định cấu hình cho máy chủ đã chọn."
 
-msgid "Connected GitHub account updated."
-msgstr "Đã cập nhật tài khoản GitHub được kết nối."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub không trả lại ID cài đặt hợp lệ."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -24101,19 +24637,13 @@ msgstr ""
 "Liên kết cài đặt ứng dụng Weblate GitHub không còn hợp lệ. Bắt đầu cài đặt "
 "lại."
 
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Bạn không có quyền kết nối GitHub với không gian làm việc này."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub không trả lại ID cài đặt hợp lệ."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
-"Quá nhiều lần đăng nhập không thành công vào tài khoản GitHub. Quá trình kết "
-"nối GitHub chưa hoàn tất và có thể vẫn đang chờ xử lý. Vui lòng thử kết nối "
-"lại tài khoản sau."
+"Weblate không thể phân tích các tệp dịch trong quá trình cập nhật bản dịch."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -24123,6 +24653,20 @@ msgstr ""
 "Weblate không thể xác nhận rằng bạn có thể quản trị cài đặt GitHub này. Hãy "
 "bắt đầu lại quá trình cài đặt với người dùng GitHub sở hữu tài khoản hoặc có "
 "quyền quản trị tổ chức."
+
+msgid "Connected GitHub account updated."
+msgstr "Đã cập nhật tài khoản GitHub được kết nối."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "Bạn không có quyền kết nối GitHub với không gian làm việc này."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"Quá nhiều lần đăng nhập không thành công vào tài khoản GitHub. Quá trình kết "
+"nối GitHub chưa hoàn tất và có thể vẫn đang chờ xử lý. Vui lòng thử kết nối "
+"lại tài khoản sau."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -24143,24 +24687,42 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Đã thêm tài khoản GitHub được kết nối."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Không thể tải dự án GitLab (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Không thể hoàn thành đăng ký."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Không thể di chuyển %(component)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] "Đã chuyển %(count)d thành phần sang Ứng dụng GitHub của Weblate."
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"%(count)d thành phần không được di chuyển vì kho lưu trữ của chúng không còn "
-"khả dụng."
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Một thành phần đã được mở khóa để dịch."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Không thể di chuyển %(component)s: %(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "Thông báo xác thực đã hết hạn. Vui lòng thử đăng nhập lại."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Nhập tên và máy chủ GitHub App hợp lệ."
@@ -24469,9 +25031,7 @@ msgstr "Tham gia vào %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s — %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
@@ -24479,9 +25039,6 @@ msgstr ""
 msgid "Could not store the encrypted upload. Try again."
 msgstr ""
 "Không thể phân nhánh từ kho lưu trữ tại %(hostname)s. Vui lòng thử lại sau."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not fork repository at %(hostname)s. Please retry later."
@@ -24747,6 +25304,157 @@ msgstr "Không thể xóa không gian làm việc vì nó vẫn đang được s
 msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
 
+#, fuzzy
+#~| msgid ""
+#~| "Manage code-hosting accounts connected to workspaces you administer."
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Quản lý các tài khoản lưu trữ mã được kết nối với các không gian làm việc "
+#~ "mà bạn quản trị."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Weblate của bạn được liệt kê trên weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Chỉ một số trong %(count)s lần xuất hiện được hiển thị."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Chọn kho lưu trữ từ tài khoản đã kết nối. Biểu mẫu tạo thành phần sẽ được "
+#~ "điền sẵn URL sao chép, nhánh mặc định và trình điều khiển VCS phù hợp."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Chưa có kho lưu trữ nào. Kết nối tài khoản lưu trữ mã để cung cấp kho lưu "
+#~ "trữ tại đây."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Không có kho lưu trữ nào từ các tài khoản được kết nối cho không gian làm "
+#~ "việc của dự án này."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Kho lưu trữ Weblate được xuất ra có thể có dung lượng nông theo mặc định, "
+#~ "vì vậy quy trình này hoạt động tốt nhất khi sử dụng bản sao chép cập nhật "
+#~ "từ nguồn gốc. Việc sao chép từ kho lưu trữ Weblate đã xuất hoặc sử dụng "
+#~ "bản sao chép lỗi thời từ nguồn gốc có thể thất bại ngay cả khi Weblate và "
+#~ "nguồn gốc đồng bộ. Xem phần Câu hỏi thường gặp bên dưới để biết thêm chi "
+#~ "tiết."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Mở một bản kiểm tra hiện có của kho lưu trữ thượng nguồn hoặc thực hiện "
+#~ "một bản kiểm tra mới."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Ghi nhận tất cả các thay đổi đang chờ xử lý trong Weblate và khóa thành "
+#~ "phần dịch thuật."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Thêm kho lưu trữ đã xuất từ Weblate làm kho lưu trữ từ xa."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Hợp nhất các thay đổi từ Weblate và giải quyết mọi xung đột."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Cập nhật các thay đổi của Weblate lên trên phiên bản gốc và giải quyết "
+#~ "mọi xung đột."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Đẩy các thay đổi lên kho lưu trữ gốc."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Giờ đây, Weblate sẽ có thể nhận diện kho lưu trữ đã được cập nhật và bạn "
+#~ "có thể mở khóa nó."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr ""
+#~ "Kiểm tra phần Câu hỏi thường gặp để biết thông tin về cách giải quyết vấn "
+#~ "đề này."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "Các chuỗi chưa hoàn chỉnh, các tệp đã được chuyển đổi và bổ sung thêm chú "
+#~ "thích; phù hợp cho việc dịch ngoại tuyến"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "Bạn không quản lý bất kỳ không gian làm việc nào. Tài khoản VCS chỉ có "
+#~ "thể được kết nối với không gian làm việc mà bạn quản lý."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Kết nối tài khoản lưu trữ mã với %(workspace)s. Sau đó, những tài khoản "
+#~ "này có thể được sử dụng khi tạo các thành phần từ kiểm soát phiên bản."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Kết nối tài khoản lưu trữ mã với không gian làm việc mà bạn quản lý. Sau "
+#~ "đó, những tài khoản này có thể được sử dụng khi tạo các thành phần từ "
+#~ "kiểm soát phiên bản."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Kết nối tài khoản"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Tích hợp lưu trữ mã"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Chưa có tài khoản nào được kết nối. Sử dụng nút ở trên để kết nối một tổ "
+#~ "chức hoặc tài khoản người dùng."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s lúc %(time)s trên %(translation)s bởi %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "%(count)d thành phần không được di chuyển vì kho lưu trữ của chúng không "
+#~ "còn khả dụng."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Xem bảng thuật ngữ %(name)s"
@@ -24859,11 +25567,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Quản lý bộ máy"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "Tạo thành phần"
 
 #, fuzzy
 #~| msgid "Review changes"
@@ -25131,9 +25834,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "Skipped components:"
 #~ msgstr "Các thành phần bị bỏ qua:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "Cần có cấp phép trên:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -25457,13 +26157,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~| msgid "PHP strings"
 #~ msgid "VCS integrations"
 #~ msgstr "PHP strings"
-
-#, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "Sao GitHub"
 
 #, fuzzy
 #~| msgid "Administration"
@@ -25903,11 +26596,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s từ"
-
 #, fuzzy
 #~| msgid "Full name"
 #~ msgid "Rename"
@@ -25966,9 +26654,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nhận thông báo khi phần dịch bổ sung các chuỗi mới"
-
-#~ msgid "New contributor"
-#~ msgstr "Người đóng góp mới"
 
 #~ msgid "New announcement"
 #~ msgstr "Thông báo mới"
@@ -26455,11 +27140,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~| msgid "PHP strings"
 #~ msgid "Percent interpolation"
 #~ msgstr "PHP strings"
-
-#, fuzzy
-#~| msgid "Subscribed projects"
-#~ msgid "Add a component message"
-#~ msgstr "Chủ đề đã đăng ký theo dõi"
 
 #, fuzzy
 #~| msgid "Secondary languages"
@@ -27634,11 +28314,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "Traditional Chinese"
 #~ msgstr "Tiếng Trung (truyền thống)"
-
-#, fuzzy
-#~| msgid "First name"
-#~ msgid "First seen"
-#~ msgstr "Tên"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

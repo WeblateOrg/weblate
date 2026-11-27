@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-23 16:21+0000\n"
 "Last-Translator: Sup! 0_0 <sup-25498@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -45,6 +45,11 @@ msgstr "بلا"
 
 msgid "User avatar"
 msgstr "الصورة الرمزية للمستخدم"
+
+#, fuzzy
+#| msgid "Automatic translation source"
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "مصدر الترجمة الآلية"
 
 msgid "No notification"
 msgstr "لا إشعارات"
@@ -1467,9 +1472,6 @@ msgstr "تجربة مجانية"
 msgid "Notification diagnostics for %(user)s"
 msgstr "تشخيص الإشعارات لـ %(user)s"
 
-msgid "This user can not be edited."
-msgstr "لا يمكن تعديل هذا المستخدم."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2208,6 +2210,18 @@ msgid ""
 msgstr ""
 "تتوقع إضافة Meson وجود دليل gettext خاص بـ Meson يحتوي على الملفات "
 "meson.build و POTFILES أو POTFILES.in."
+
+#, fuzzy
+#| msgid "Enable reviews"
+msgid "Excluded source directories"
+msgstr "تمكين المراجَعات"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "يجب أن يحدد المكون قالب gettext للترجمات الجديدة."
@@ -3130,6 +3144,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr "التصفية حسب إجراء التغيير. كرر هذا المعامل للتصفية حسب إجراءات متعددة."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "تم تشغيله بواسطة {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr "عدد الطلبات المسموح للمنصة"
 
@@ -3321,6 +3346,9 @@ msgstr "تعذر الحصول على قفل التحديث للمكون %s لت�
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "تعذر الحصول على قفل (%(scope)s) لـ(%(origin)s) من أجل اجراء العملية."
+
+msgid "This user can not be edited."
+msgstr "لا يمكن تعديل هذا المستخدم."
 
 msgid "Expected an object."
 msgstr "كان من المتوقع وجود كائن."
@@ -4782,7 +4810,7 @@ msgstr "حدث الفوترة"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "مشاريع بدون عناصر"
 
 #, fuzzy
@@ -6000,6 +6028,16 @@ msgstr "لم تتغير الترجمة"
 msgid "Source and translation are identical."
 msgstr "المصدر والترجمة متطابقان."
 
+#, fuzzy
+#| msgid "Failing file"
+msgid "Saving string failed"
+msgstr "ملف فاشل"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "The string could not be written to the translation file."
+msgstr "ترجمة معتمدة في %(translation)s"
+
 msgid "Unpluralised"
 msgstr "غياب صيغة الجمع"
 
@@ -6177,6 +6215,11 @@ msgstr "XLIFF 1.1 مع امتدادات gettext"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "ملف ترجمة XLIFF 1.2"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6218,6 +6261,11 @@ msgstr "إكسيل افتح XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "تعذّر تحديث المستودع."
+
+#, fuzzy
+#| msgid "The resource is locked."
+msgid "The workbook header row is empty."
+msgstr "المورد مقفل."
 
 #, python-format
 msgid ""
@@ -6501,6 +6549,10 @@ msgid "File validation is required for directory-based formats."
 msgstr ""
 "يُعد التحقق من صحة الملفات أمراً ضرورياً للتنسيقات القائمة على الأدلة "
 "(المجلدات)."
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr ""
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -7795,6 +7847,22 @@ msgstr "اسم المكون"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "أُضيفت لغة جديدة إلى %(component)s"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "رُفضت الأذونات"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation context"
+msgstr "تعليق الترجمة"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -9221,19 +9289,6 @@ msgid ""
 "repositories."
 msgstr ""
 "يُستخدم مفتاح API أيضًا للمصادقة على مستودعات Git التي يتم تصديرها تلقائيًا."
-
-msgid "Code-hosting connections"
-msgstr "اتصالات استضافة الكود"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"أدر حسابات استضافة كود المرتبطة لمساحات العمل التي تديرها. هذه الاتصالات "
-"منفصلة عن هويات تسجيل الدخول."
-
-msgid "Manage code-hosting connections"
-msgstr "إدارة اتصالات استضافة الكود"
 
 msgid "Pending invitation"
 msgstr "دعوة معلّقة"
@@ -10739,13 +10794,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "أضف رسالة للمكون"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "إضافة مشاريع إلى مساحة العمل"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "المكونات المتأثرة"
 
 msgid "Customer"
 msgstr "العميل"
@@ -11192,6 +11263,11 @@ msgstr "إنشاء عنصر"
 #| msgid "Watched projects"
 msgid "Share in projects"
 msgstr "المشاريع المُراقبة"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "طلب استضافة حرة"
 
 msgid "dismissed"
 msgstr "تم رفضه"
@@ -13262,7 +13338,9 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
 msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
@@ -14194,6 +14272,19 @@ msgstr "استيراد ذاكرة ترجمة"
 msgid "Delete announcement"
 msgstr "إعلان جديد"
 
+msgid "Contributors"
+msgstr "مساهمون"
+
+#, fuzzy
+#| msgid "Contributor agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "تمت إزالة اتفاقية المساهم."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "لم يتم العثور على مساهمات حديثة."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -14275,6 +14366,16 @@ msgstr "اسم المؤلّف"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First"
+msgid "First page"
+msgstr "الأول"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "السابق"
+
 msgid "Click to edit position"
 msgstr "انقر لتحرير الموضع"
 
@@ -14292,6 +14393,16 @@ msgstr "اقفز إلى"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "التالي"
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last page"
+msgstr "آخر تحديث"
 
 msgid "Labels"
 msgstr "الوسوم"
@@ -14997,6 +15108,11 @@ msgstr "حساسية حالة الأحرف"
 msgid "Most active translators"
 msgstr "أنشط المترجمين"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "مساهم جديد"
+
 msgid "Browse all users"
 msgstr "استكشف كل المستخدمين"
 
@@ -15075,9 +15191,6 @@ msgstr "اتجاهات الـ 30 يوما الأخيرة"
 
 msgid "Quick numbers"
 msgstr "الأرقام السريعة"
-
-msgid "Contributors"
-msgstr "مساهمون"
 
 msgid "Translations"
 msgstr "الترجمات"
@@ -15435,6 +15548,21 @@ msgstr "الاستعلام"
 msgid "Refresh results"
 msgstr "مستودعات"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "الملف الشخصي"
+
+#, fuzzy
+#| msgid "Some plural forms are translated in the same way"
+msgid "File in its original format, as stored in the repository."
+msgstr "بعض صيغ الجمع مترجَمة بنفس الأسلوب"
+
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -15607,6 +15735,32 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "تم نسخ مفتاح API إلى الحافظة."
 
+msgid "Strings"
+msgstr "سلاسل"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s مصطلح"
+msgstr[1] "كلمة"
+msgstr[2] "كلمتين"
+msgstr[3] "%(count)s كلمات"
+msgstr[4] "%(count)s كلمات"
+msgstr[5] "%(count)s كلمات"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "عدد الحروف"
+msgstr[1] "عدد الحروف"
+msgstr[2] "عدد الحروف"
+msgstr[3] "عدد الحروف"
+msgstr[4] "عدد الحروف"
+msgstr[5] "عدد الحروف"
+
 msgid "Suggestion added"
 msgstr "أضاف اقتراحًا"
 
@@ -15674,9 +15828,6 @@ msgstr "المصطلحات الهدف"
 
 msgid "Translation status"
 msgstr "حالة الترجمة"
-
-msgid "Strings"
-msgstr "سلاسل"
 
 msgid "Words"
 msgstr "الكلمات"
@@ -15844,9 +15995,6 @@ msgstr "ضبط الإضافات"
 msgid "Weblate could not execute script add-on."
 msgstr "تعذر على Weblate تنفيذ ملحق البرنامج النصي."
 
-msgid "The following occurrences were found:"
-msgstr "تم العثور على النتائج التالية:"
-
 msgid "Command"
 msgstr "الأمر"
 
@@ -15867,6 +16015,9 @@ msgid ""
 "use the code of the individual language instead."
 msgstr ""
 
+msgid "The following occurrences were found:"
+msgstr "تم العثور على النتائج التالية:"
+
 msgid "Suggested individual language codes"
 msgstr ""
 
@@ -15884,6 +16035,20 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15991,6 +16156,9 @@ msgstr ""
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
+msgstr ""
+
+msgid "Replace the expired SSH key in Azure DevOps"
 msgstr ""
 
 msgid ""
@@ -16260,7 +16428,10 @@ msgstr ""
 msgid "Template for new translations"
 msgstr "ترجمات وابلايت"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "تعذر على Weblate دمج التغييرات التي تتم في المراحل الأولى أثناء تحديث "
 "المستودع."
@@ -16301,6 +16472,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "يبدو مكون الترجمة أحادي اللغة ، لكن لم يتم إعداده ليكون كذلك."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "يرجى إضافة ملف لغة أساسية أحادية اللغة في إعدادات المكونات."
 
@@ -16336,16 +16518,20 @@ msgid ""
 "repository."
 msgstr ""
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "آخر تغيير"
+msgstr[1] "آخر تغيير"
+msgstr[2] "آخر تغيير"
+msgstr[3] "آخر تغيير"
+msgstr[4] "آخر تغيير"
+msgstr[5] "آخر تغيير"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -16373,6 +16559,29 @@ msgstr "تعذر على Weblate دفع التغييرات إلى مستودع ا
 msgid "Push the repository"
 msgstr "إعادة ضبط المستودع"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"يحتوي مستودع VCS على العديد من التغييرات مقارنة مع المنبع. يرجى دمج "
+"التغييرات يدويًا أو إعداد الدفع لأتمتة هذا."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -16387,6 +16596,29 @@ msgstr "تعذّر على Weblate استرداد عملية مستودع متق�
 #| msgid "Reset repository"
 msgid "Reset the repository"
 msgstr "إعادة ضبط المستودع"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"مستودع VCS ليس محدثًا مع المستودع الأولي. يرجى دمج التغييرات يدويًا أو إعداد "
+"الخطافات لأتمتة ذلك."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -16426,6 +16658,17 @@ msgstr[2] "إنّ العنصر مفتوح الآن لتقبُّل تحديثات
 msgstr[3] "إنّ العنصر مفتوح الآن لتقبُّل تحديثات الترجمة."
 msgstr[4] "إنّ العنصر مفتوح الآن لتقبُّل تحديثات الترجمة."
 msgstr[5] "إنّ العنصر مفتوح الآن لتقبُّل تحديثات الترجمة."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr "Weblate لديه تغييرات ترجمة معلّقة لهذه المشاريع منذ %(date)s."
+
+#, fuzzy
+#| msgid "Translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "الترجمة قد تم مسحها."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
@@ -16628,38 +16871,13 @@ msgstr ""
 "قم بإنشاء ملف مضغوط يحتوي على أي ملفات ترجمة موجودة لديك ، و %(link_start)s "
 "يقوم بتحميل %(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
 
 #, fuzzy
-#| msgid "Bad configuration"
-msgid "Add or configure account"
-msgstr "خطأ في الإعداد"
-
-#, fuzzy
-#| msgid "Last change"
-msgid "Visibility"
-msgstr "آخر تغيير"
-
-msgid "Import"
-msgstr "استيراد"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#| msgid "This component is linked to the %(target)s repository."
+msgid "Browse connected repositories"
+msgstr "هذا المكون مرتبط بمستودع %(target)s."
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16798,43 +17016,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "سير العمل النموذجي لإصلاح تعارضات الدمج"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr "تنفيذ كافة التغييرات المعلقة في Weblate وتأمين مكون الترجمة."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr ""
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "إعادة تأسيس تغييرات Weblate أعلى المنبع وحل أي تعارضات."
-
-msgid "Push changes into upstream repository."
-msgstr "دفع التغييرات إلى مستودع المنبع."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"يجب أن يكون Weblate الآن قادرًا على رؤية المستودع المحدث ويمكنك إلغاء قفله."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "اقرأ صفحة الأسئلة الشائعة للاطلاع حول كيفية إصلاح هذا الخطأ."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "يمكنك استخدام ترميز قوالب Django في رسائل الالتزام."
@@ -16955,6 +17151,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "تنظيف ملفات الترجمة"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -17276,6 +17482,16 @@ msgstr "إضافة لقطة شاشة"
 msgid "String information"
 msgstr "معلومات السلسلة"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "الترجمة المستهدفة"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "الترجمة معتمَدة"
+
 msgid "No explanation currently provided."
 msgstr "لا يوجد تفسير مقدم حاليا."
 
@@ -17414,21 +17630,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
-msgid "File in original format as translated in the repository"
-msgstr "بعض صيغ الجمع مترجَمة بنفس الأسلوب"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "سيتم دمج الملف الذي تم إرساله مع الترجمة الحالية."
 
@@ -17443,76 +17644,6 @@ msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
 msgstr "تظهر الرسالة في صفحة الترجمة حتى انتهاء صلاحيتها أو حذفها."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting app"
-msgstr "استضافة الترجمات"
-
-#, fuzzy
-#| msgid "Not yet signed in"
-msgid "Not registered"
-msgstr "لم تسجل الدخول بعد"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connect accounts"
-msgstr "حذف الحساب"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connected accounts"
-msgstr "حذف الحساب"
-
-#, fuzzy
-#| msgid "Provider"
-msgid "Provider ID"
-msgstr "المُزَوّد"
-
-msgid "Repositories"
-msgstr "مستودعات"
-
-msgid "Refresh"
-msgstr "إعادة تحديث"
-
-msgid "No connected accounts yet."
-msgstr "لا حسابات مرتبطة بعد."
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting integrations"
-msgstr "استضافة الترجمات"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -17544,11 +17675,6 @@ msgstr "حذف هذا الحساب"
 msgid "Refresh repositories"
 msgstr "مستودعات"
 
-#, fuzzy
-#| msgid "Create component"
-msgid "Migrate selected components"
-msgstr "إنشاء عنصر"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -17569,6 +17695,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "حالة الترجمة"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "تنبيه جديد على %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "نجم GitHub"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -17579,8 +17717,16 @@ msgstr "للقراءة فقط"
 msgid "Repository access needed"
 msgstr "معلومات المستودع"
 
+#, fuzzy
+#| msgid "Create component"
+msgid "Migrate selected components"
+msgstr "إنشاء عنصر"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+msgid "Code-hosting connections"
+msgstr "اتصالات استضافة الكود"
 
 #, fuzzy
 #| msgid "Return to Weblate"
@@ -17651,11 +17797,127 @@ msgstr "اسم المجموعة"
 msgid "Continue to %(host)s"
 msgstr "دعوة إلى %(site_title)s"
 
+#, fuzzy
+#| msgid "Create component"
+msgid "Migrate eligible components"
+msgstr "إنشاء عنصر"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Migrate these components"
+msgstr "إنشاء عنصر"
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "No components are ready to migrate."
+msgstr "مكون للإزالة"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to connections"
+msgstr "تحرير إعدادات المكون"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected accounts"
+msgstr "حذف الحساب"
+
+#, fuzzy
+#| msgid "Provider"
+msgid "Provider ID"
+msgstr "المُزَوّد"
+
+msgid "Repositories"
+msgstr "مستودعات"
+
+msgid "No connected accounts yet."
+msgstr "لا حسابات مرتبطة بعد."
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Created user account {}."
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "تم إنشاء حساب المستخدم {}."
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "حذف هذا الحساب"
+
+#, fuzzy
+#| msgid "Check flags"
+msgid "Accounts from workspaces you own"
+msgstr "علامات التحقق"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "المكونات الأخرى"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Please enter the activation token obtained when making the subscription."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "الرجاء إدخال رمز التنشيط الذي تم الحصول عليه عند إجراء الاشتراك."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "الاستيثاق"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "استمر"
 
 #, fuzzy
 #| msgctxt "Label on engage page"
@@ -17677,6 +17939,11 @@ msgstr "دعوة إلى %(site_title)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add or configure account"
+msgstr "خطأ في الإعداد"
 
 #, python-format
 msgid ""
@@ -17702,6 +17969,14 @@ msgstr "المستودع قديم."
 msgid "Available Repositories"
 msgstr "مستودعات"
 
+#, fuzzy
+#| msgid "Last change"
+msgid "Visibility"
+msgstr "آخر تغيير"
+
+msgid "Import"
+msgstr "استيراد"
+
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -17723,6 +17998,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "لم يتم تسجيل أي تطبيقات للتحقق من الهوية بعد."
 
 #, fuzzy
 #| msgid "Remove"
@@ -17751,10 +18031,26 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "حذف الحساب"
+msgstr[1] "حذف الحساب"
+msgstr[2] "حذف الحساب"
+msgstr[3] "حذف الحساب"
+msgstr[4] "حذف الحساب"
+msgstr[5] "حذف الحساب"
+
+#, fuzzy
+#| msgid "Code-hosting connections"
+msgid "View connections"
+msgstr "اتصالات استضافة الكود"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "عرض جميع التنبيهات"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -17765,6 +18061,19 @@ msgstr "حذف الحساب"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "حذف الحساب"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr "إعادة تحديث"
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Repositories from these accounts"
+msgstr "حذف الحساب المرتبط؟"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17778,9 +18087,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 #, fuzzy
@@ -17790,6 +18097,97 @@ msgstr "العدد الإجمالي للإدخالات"
 
 msgid "Try refreshing the repository list."
 msgstr "حاول إعادة تحديث قائمة المستودعات."
+
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "حالة Weblate"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "إضافة مشاريع إلى مساحة العمل"
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Projects moved to these workspaces:"
+msgstr "الترجمة حالياً مغلقة."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "إضافة مشاريع إلى مساحة العمل"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You currently do not have permission to create projects."
+msgid "You do not have permission to create workspaces."
+msgstr "حاليا ليس لديك التصريحات اللازمة لإنشاء مشاريع."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "المشاريع المتأثرة"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No projects without a workspace match your search."
+msgstr "لا توجد أية سلسلة تطابق بحثك !"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "إدارة مساحة العمل"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "لا توجد أية سلسلة تطابق بحثك !"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "مساحات عمل Weblate"
+
+#, fuzzy
+#| msgid "Preview component ID"
+msgid "Review component migration"
+msgstr "معاينة مُعرِّف المكوِّن"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect another account"
+msgstr "حذف الحساب"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "لا توجد أية سلسلة تطابق بحثك !"
+
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Migrate all eligible components across workspaces"
+msgstr "كافة العناصر في المشروع الحالي"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "إدارة اتصالات استضافة الكود"
 
 msgid "Remove connected account?"
 msgstr "حذف الحساب المرتبط؟"
@@ -17824,6 +18222,46 @@ msgstr[2] "و %(counter)s مكونان آخران"
 msgstr[3] "و %(counter)s مكونات أخرى"
 msgstr[4] "و %(counter)s مكونًا آخر"
 msgstr[5] "و %(counter)s مكون آخر"
+
+#, fuzzy
+#| msgid "Add new word"
+msgid "Find a workspace"
+msgstr "أضف كلمة جديدة"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "لا توجد أية سلسلة تطابق بحثك !"
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Migrate all eligible components"
+msgstr "إنشاء عنصر"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting app"
+msgstr "استضافة الترجمات"
+
+#, fuzzy
+#| msgid "Not yet signed in"
+msgid "Not registered"
+msgstr "لم تسجل الدخول بعد"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 #, fuzzy
 #| msgid "Resend invitation"
@@ -18514,11 +18952,6 @@ msgstr "الفئة"
 #| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
 msgstr "تعذر على Weblate تنفيذ ملحق البرنامج النصي."
-
-#, fuzzy
-#| msgid "Failing file"
-msgid "Saving string failed"
-msgstr "ملف فاشل"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "عُثر على سلسلة جديدة أثناء المزامنة من المستودع."
@@ -19255,6 +19688,25 @@ msgstr ""
 msgid "Could not validate screenshot: %(error)s"
 msgstr "فشل تحليل الملف %(file)s: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "أضف السلسلة إلى اللغة الهدف بدلا من ذلك."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -19276,6 +19728,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "تمت إضافة مستخدم إلى هذا المشروع."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -19309,6 +19769,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -19329,10 +19795,26 @@ msgstr "إعدادات التحكم في الإصدار"
 msgid "File format parameters"
 msgstr "نُسق الملف"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "المستودع المحلي مُحدث."
+
+#, fuzzy
+#| msgid "Confirm deleting all translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "تأكيد حذف كافة إدخالات ذاكرة الترجمة"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -20187,8 +20669,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "شرح إضافي لتوضيح معنى السلسلة أو استخدامها."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "شرح السلسلة المصدرية"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source string has been changed meanwhile. Please check your changes."
@@ -20666,6 +21159,21 @@ msgid "No matching workspace found."
 msgstr "لا مستخدم مشابه تم إيجاده."
 
 #, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "الترجمة مكررة."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
+
+#, fuzzy
 #| msgid "New translation"
 msgid "ZIP file containing project backup"
 msgstr "ترجمة جديدة"
@@ -20853,8 +21361,8 @@ msgid ""
 "Labels apply to the source strings corresponding to your filter results and "
 "are shared across all languages."
 msgstr ""
-"تنطبق الوسوم إلى السلاسل المصدرية المقابلة لنتائج التصفية خاصّتك ويتم مشاركتها "
-"عبر جميع اللغات."
+"تنطبق الوسوم إلى السلاسل المصدرية المقابلة لنتائج التصفية خاصّتك ويتم "
+"مشاركتها عبر جميع اللغات."
 
 msgid "Select strings to edit or enter a search query."
 msgstr "حدّد سلاسل لتعديل أو أدخل استعلام بحث (search query)."
@@ -21364,11 +21872,6 @@ msgstr "أُنشئ المكون عبر رفع ZIP"
 
 msgid "Component created via document upload"
 msgstr "أُنشئ المكون عبر رفع مستند"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s على %(time)s في %(translation)s بواسطة %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -23987,6 +24490,12 @@ msgstr "ليست لديك الصلاحيات الكافية لقبول اقتر�
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "ليس لديك تصريح لتغيير إعدادت النفاذ إلى المشروع."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr ""
 
@@ -25198,6 +25707,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr ""
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Failed to clean the repository on %s."
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -25333,6 +25856,40 @@ msgstr "مكون للإزالة"
 #| msgid "Unsupported file format."
 msgid "Select at least one component to migrate."
 msgstr "نسق الملف غير مدعوم."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "مشروع للإزالة"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "مساحات عمل Weblate"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "إضافة مشاريع مساحة العمل"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "إدارة مساحات العمل"
+
+#, fuzzy
+#| msgid "Displayed languages"
+msgid "Shared workspace name"
+msgstr "اللغات المعروضة"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Inherit enforced checks from the workspace."
+msgid "Enter a name for the shared workspace."
+msgstr "توريث عمليات التحقق الإلزامية من مساحة العمل."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -25828,8 +26385,10 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "GitHub did not return a valid installation ID."
+msgstr "تعذر إكمال التسجيل."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -25837,24 +26396,29 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "ليست لديك الصلاحيات الكافية لقبول اقتراحات !"
-
-#, fuzzy
-#| msgid "Could not complete registration."
-msgid "GitHub did not return a valid installation ID."
-msgstr "تعذر إكمال التسجيل."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr "تعذر على Weblate تحليل ملفات الترجمة أثناء تحديث الترجمات."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "ليست لديك الصلاحيات الكافية لقبول اقتراحات !"
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
 msgstr ""
 
 msgid ""
@@ -25873,6 +26437,24 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "تم إنشاء حساب المستخدم {}."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "فشل تحليل الملف %(file)s: %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "تعذر إكمال التسجيل."
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "فشل تحليل الملف %(file)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
@@ -25883,23 +26465,22 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
-
 #, fuzzy, python-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "فشل تحليل الملف %(file)s: %(error)s"
+#| msgid "All components are now locked for translation updates!"
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+msgstr[1] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+msgstr[2] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+msgstr[3] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+msgstr[4] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+msgstr[5] "جميع المكونات مقفلة الآن لتحديثات الترجمة!"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -26216,18 +26797,13 @@ msgstr "انضمام في %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s، السلسلة %(position)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "تعذّر تحميل فروع المستودع. يُرجى المحاولة مرة أخرى."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not load repository branches. Please try again."
@@ -26537,6 +27113,46 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "حُذِف المصدر."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "أدر حسابات استضافة كود المرتبطة لمساحات العمل التي تديرها. هذه الاتصالات "
+#~ "منفصلة عن هويات تسجيل الدخول."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr "تنفيذ كافة التغييرات المعلقة في Weblate وتأمين مكون الترجمة."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "إعادة تأسيس تغييرات Weblate أعلى المنبع وحل أي تعارضات."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "دفع التغييرات إلى مستودع المنبع."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "يجب أن يكون Weblate الآن قادرًا على رؤية المستودع المحدث ويمكنك إلغاء قفله."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "اقرأ صفحة الأسئلة الشائعة للاطلاع حول كيفية إصلاح هذا الخطأ."
+
+#, fuzzy
+#~| msgid "Remove account"
+#~ msgid "Connect accounts"
+#~ msgstr "حذف الحساب"
+
+#, fuzzy
+#~| msgid "Hosting translations"
+#~ msgid "Code-hosting integrations"
+#~ msgstr "استضافة الترجمات"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s على %(time)s في %(translation)s بواسطة %(user)s"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "تصفح المسرد %(name)s"
@@ -26657,9 +27273,6 @@ msgstr "حُذِف المصدر."
 
 #~ msgid "Manage machinery"
 #~ msgstr "إدارة الآلات"
-
-#~ msgid "Preview component ID"
-#~ msgstr "معاينة مُعرِّف المكوِّن"
 
 #~ msgid "Preview change ID"
 #~ msgstr "معاينة مُعرِّف التغيير"
@@ -26824,11 +27437,6 @@ msgstr "حُذِف المصدر."
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "المكونات الأخرى"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "رُفضت الأذونات"
 
 #~ msgid ""
 #~ "The invaluable support of the community through subscriptions and "
@@ -27083,13 +27691,6 @@ msgstr "حُذِف المصدر."
 #~ msgstr "إعداد Weblate"
 
 #, fuzzy
-#~| msgctxt "Label on engage page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "نجم GitHub"
-
-#, fuzzy
 #~| msgid "Resend invitation"
 #~ msgid "VCS Installations"
 #~ msgstr "اعادة ارسال الدعوة"
@@ -27186,9 +27787,6 @@ msgstr "حُذِف المصدر."
 
 #~ msgid "Return to the component"
 #~ msgstr "إرجع إلي المكون"
-
-#~ msgid "View all alerts"
-#~ msgstr "عرض جميع التنبيهات"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "راجع الإرشادات من قائمة التحقق من توطين المجتمع."
@@ -27937,16 +28535,6 @@ msgstr "حُذِف المصدر."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "ترجمة المسرد: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s مصطلح"
-#~ msgstr[1] "كلمة"
-#~ msgstr[2] "كلمتين"
-#~ msgstr[3] "%(count)s كلمات"
-#~ msgstr[4] "%(count)s كلمات"
-#~ msgstr[5] "%(count)s كلمات"
-
 #~ msgid "Rename"
 #~ msgstr "إعادة التسمية"
 
@@ -27998,9 +28586,6 @@ msgstr "حُذِف المصدر."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "إشعار عند توفّر سلاسل جديدة لترجمتها"
-
-#~ msgid "New contributor"
-#~ msgstr "مساهم جديد"
 
 #~ msgid "New announcement"
 #~ msgstr "إعلان جديد"
@@ -28292,9 +28877,6 @@ msgstr "حُذِف المصدر."
 #~ "Version control system to use to access your repository with translations."
 #~ msgstr ""
 #~ "نظام التحكم في الإصدار لاستخدامه للوصول إلى المستودع الخاص بك مع الترجمات."
-
-#~ msgid "No string matched your search!"
-#~ msgstr "لا توجد أية سلسلة تطابق بحثك !"
 
 #, fuzzy, python-format
 #~| msgid "User has been removed from this project."
@@ -28772,9 +29354,6 @@ msgstr "حُذِف المصدر."
 #~ msgid "Translatable words"
 #~ msgstr "كلمات يمكن ترجمتها"
 
-#~ msgid "Number of characters"
-#~ msgstr "عدد الحروف"
-
 #~ msgid "Number of source strings"
 #~ msgstr "عدد السلاسل المصدرية"
 
@@ -29051,9 +29630,6 @@ msgstr "حُذِف المصدر."
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "ظاهر للعامة، يمكن ترجمته فقط من طرف المستخدمين المحددين"
-
-#~ msgid "Add a component message"
-#~ msgstr "أضف رسالة للمكون"
 
 #, fuzzy
 #~| msgid "Whiteboard message"
