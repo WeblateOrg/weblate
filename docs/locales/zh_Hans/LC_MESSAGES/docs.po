@@ -47,7 +47,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-11-27 01:20+0000\n"
-"PO-Revision-Date: 2026-11-27 05:18+0000\n"
+"PO-Revision-Date: 2026-11-27 06:42+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -11953,19 +11953,15 @@ msgstr ""
 "Weblate 支持针对外发 HTTP 请求和 Git 仓库的每协议 HTTP 代理配置。"
 "在 :file:`settings.py` 中定义代理环境变量："
 
-#, fuzzy
-#| msgid ""
-#| "Only ``http_proxy`` and ``https_proxy`` are supported. Generic and bypass "
-#| "variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy "
-#| "configuration, and VCS-specific proxy configuration are not supported."
 msgid ""
 "Only ``http_proxy`` and ``https_proxy`` are supported, together with "
 "``no_proxy`` listing hosts that are connected to directly. Generic variables "
 "such as ``all_proxy``, operating-system proxy configuration, and VCS-"
 "specific proxy configuration are not supported."
 msgstr ""
-"只支持 ``http_proxy`` 和 ``https_proxy`` 。 不支持通用和旁路变量（如 "
-"``all_proxy`` 和 ``no_proxy`` ）、操作系统代理配置和特定于 VCS 的代理配置。"
+"只支持 ``http_proxy`` 和 ``https_proxy`` ，以及直连的 ``no_proxy`` listing 主"
+"机。不支持通用变量（如 ``all_proxy`` ），操作系统代理配置，和 VCS 特定的代理"
+"配置。"
 
 msgid ""
 "``no_proxy`` is a comma-separated list of host names (also matching their "
@@ -12113,17 +12109,13 @@ msgid ""
 "of the storage service instead."
 msgstr ""
 
-#, fuzzy
-#| msgid "User-uploaded fonts, see :ref:`fonts`."
 msgid ""
 "User-uploaded fonts are not affected by this setting, see :ref:`font-"
 "storage`."
-msgstr "用户上传的字体，参见 :ref:`fonts`。"
+msgstr "用户上传的字体不受该设置影响，见 :ref:`font-storage`。"
 
-#, fuzzy
-#| msgid "Storing screenshots in object storage"
 msgid "Storing fonts in object storage"
-msgstr "在对象存储中存储屏幕截图"
+msgstr "在对象存储中存储字体"
 
 msgid ""
 "Uploaded :ref:`fonts` are stored in :setting:`DATA_DIR` ``/fonts`` unless "
@@ -15736,13 +15728,6 @@ msgid ""
 "documentation for more information."
 msgstr "以 Weblate 提供的示例作为配置的基础或者查看文档获取更多信息。"
 
-#, fuzzy
-#| msgid ""
-#| "The :file:`data` volume is mounted as :file:`/app/data` and is used to "
-#| "store Weblate persistent data such as cloned repositories or to customize "
-#| "Weblate installation. :setting:`DATA_DIR` describes in more detail what "
-#| "is stored here. Screenshots can be stored outside of this volume, "
-#| "see :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`."
 msgid ""
 "The :file:`data` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
@@ -15753,7 +15738,8 @@ msgid ""
 msgstr ""
 ":file:`data` 卷作为 :file:`/app/data` 装载并被用来储存克隆的仓库等 Weblate 持"
 "久数据或者定制 Weblate 安装。:setting:`DATA_DIR` 更详细描述了存储内容。可以在"
-"这个卷外面存储屏幕截图，见 :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND`。"
+"这个卷外面存储屏幕截图和字体，见 :envvar:`WEBLATE_MEDIA_STORAGE_BACKEND` 和 "
+":envvar:`WEBLATE_FONTS_STORAGE_BACKEND`。"
 
 msgid ""
 "The :file:`data` volume is also place to store Weblate customization such "
@@ -16313,23 +16299,17 @@ msgid ""
 "It can also deploy PostgreSQL and Redis for you."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "You can find the chart at <https://github.com/WeblateOrg/helm/> and it "
-#| "can be displayed at <https://artifacthub.io/packages/helm/weblate/"
-#| "weblate>."
 msgid ""
 "The chart is developed in the `Weblate Helm repository <https://github.com/"
 "WeblateOrg/helm/>`_ and published on `Artifact Hub <https://artifacthub.io/"
 "packages/helm/weblate/weblate>`_."
 msgstr ""
-"您可以在 <https://github.com/WeblateOrg/helm/> 找到图表，并可以在 <https://"
-"artifacthub.io/packages/helm/weblate/weblate> 显示。"
+"该图表使用 `Weblate Helm 仓库 <https://github.com/WeblateOrg/helm/>`_ 开发并"
+"发布在 `Artifact Hub <https://artifacthub.io/packages/helm/weblate/weblate>"
+"`_ 上。"
 
-#, fuzzy
-#| msgid "This is supported since Weblate 1.3."
 msgid "This guide uses features added in Weblate 2026.12."
-msgstr "从 Weblate 1.3 开始支持。"
+msgstr "本指南使用了 Weblate 2026.12 中添加的特性。"
 
 msgid ""
 "For anything beyond a quick test, keep your settings in a values file and "
@@ -16367,10 +16347,8 @@ msgid ""
 "``configOverride`` value is mounted as :ref:`docker-settings-override`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Weblate to database/datastore"
 msgid "Database and datastore"
-msgstr "Weblate 到数据库/数据存储"
+msgstr "数据库和数据存储"
 
 msgid ""
 "The bundled PostgreSQL and Redis are convenient for testing. In production, "
@@ -16386,10 +16364,8 @@ msgid ""
 "Secrets holding them."
 msgstr ""
 
-#, fuzzy
-#| msgid "API secret key"
 msgid "Secret key"
-msgstr "API 密钥"
+msgstr "Secret key"
 
 msgid ""
 "Weblate generates its :setting:`SECRET_KEY` on first start and stores it in "
@@ -16406,10 +16382,8 @@ msgid ""
 "Then pass the Secret to the container, see :envvar:`WEBLATE_SECRET_KEY`:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Datastore"
 msgid "Data volume"
-msgstr "数据存储"
+msgstr "数据卷"
 
 msgid ""
 "The pod keeps :setting:`DATA_DIR` in a persistent volume claim mounted "
@@ -16418,10 +16392,8 @@ msgid ""
 "backed up:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation string checks"
 msgid "Translations are stored in the database."
-msgstr "翻译字符串的检查"
+msgstr "翻译存储在该数据库中。"
 
 msgid ""
 "Git repository checkouts in :file:`vcs` can be rebuilt from the upstream "
@@ -16467,10 +16439,8 @@ msgid ""
 "persistence enabled unless you have a specific reason not to."
 msgstr ""
 
-#, fuzzy
-#| msgid "Overriding settings from the data volume"
 msgid "Recovering a lost data volume"
-msgstr "覆盖数据卷的设置"
+msgstr "恢复丢失的数据卷"
 
 msgid ""
 "When the data volume is lost, repository operations of components with a "
@@ -16483,14 +16453,10 @@ msgid ""
 "translations are kept in the database."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "The SSL/TLS support is automatically enabled based on "
-#| "the :envvar:`WEBLATE_EMAIL_PORT`."
 msgid ""
 "To recover automatically whenever the pod starts, "
 "set :envvar:`WEBLATE_RECOVER_GIT`:"
-msgstr "SSL/TLS支持是根据 :envvar:`WEBLATE_EMAIL_PORT` 自动启用的。"
+msgstr "要在 pod 每次启动时都自动恢复，请设置 :envvar:`WEBLATE_RECOVER_GIT`："
 
 msgid ""
 "Components with an existing checkout are skipped, so this is safe to keep "
@@ -17618,12 +17584,6 @@ msgstr ""
 msgid "Priority of machine translation and translation memory services"
 msgstr "机器翻译和翻译记忆库服务的优先级"
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-weblate-translation-memory` matches with 100% score take "
-#| "priority over machine translation services. If 100% match in translation "
-#| "memory is found, no machine translation is performed. If several 100% "
-#| "matches occur, the first one returned by the database is used."
 msgid ""
 ":ref:`mt-weblate-translation-memory` matches with 100% score take priority "
 "over machine translation services. If 100% match in translation memory is "
@@ -17632,7 +17592,7 @@ msgid ""
 msgstr ""
 "匹配度达 100% 的 :ref:`mt-weblate-translation-memory` 的优先级高于机器翻译服"
 "务。如果翻译记忆库中找到 100% 匹配的条目，那么将不会执行机器翻译。如果有几条 "
-"100% 匹配的条目，系统会使用数据库返回的第一个条目。"
+"100% 匹配的条目，系统首选和字符串上下文相同的匹配条目。"
 
 msgid ""
 "Each machine translation service has a predefined maximum score it can "
@@ -23333,10 +23293,8 @@ msgid ""
 "last page or constructing URLs to jump to an arbitrary page number."
 msgstr ""
 
-#, fuzzy
-#| msgid "Documenting automation operations"
 msgid "Migrating to background operations"
-msgstr "文档自动操作"
+msgstr "迁移到后台操作"
 
 msgid ""
 "Weblate 2027.1 will switch the following operations to background tasks. In "
@@ -23344,18 +23302,13 @@ msgid ""
 "handle :http:statuscode:`202` before upgrading."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "You can use repository endpoints for projects, components and "
-#| "translations to update individual repositories; see :http:post:`/api/"
-#| "projects/(string:project)/repository/` for documentation."
 msgid ""
 "For repository operations on projects, components, and translations, send "
 "``background`` in the request body. See :http:post:`/api/projects/"
 "(string:project)/repository/`."
 msgstr ""
-"可以为项目、部件和翻译使用仓库端点来更新各自的仓库；文档请参见 :http:post:`/"
-"api/projects/(string:project)/repository/`。"
+"对于针对项目、部件和翻译的仓库操作，在请求正文中发送 ``background`` 。见 "
+":http:post:`/api/projects/(string:project)/repository/`。"
 
 msgid ""
 "For automatic translation and for creating a translation in a component, "
@@ -23846,14 +23799,10 @@ msgid ""
 "recorded only on the first failure."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "You can find the list of supported tools in :ref:`machine-translation-"
-#| "setup`."
 msgid ""
 "Show supported features in the :ref:`translation service lists <machine-"
 "translation-setup>`."
-msgstr "您可以在 :ref:`machine-translation-setup` 中找到支持的工具列表。"
+msgstr "在 :ref:`翻译服务列表 <machine-translation-setup>` 中显示支持的特性。"
 
 msgid ""
 "Resume supported browser form submissions after :ref:`verifying your "
@@ -23871,14 +23820,10 @@ msgid ""
 "with :ref:`workspace-propagation-scope`."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ""
 "The :ref:`addon-weblate.gettext.django` add-on can exclude source "
 "directories when generating a POT file."
-msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（可选）。"
+msgstr ":ref:`addon-weblate.gettext.django` 附加组件可在生成 POT 文件时排除源目录。"
 
 msgid ""
 "Improved :ref:`merge conflict guidance <merge>` in component diagnostics and "
@@ -24226,13 +24171,12 @@ msgid ""
 "through linked components."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
 msgid ""
 "Fixed a regular expression denial of service in :ref:`Azure Repos webhooks "
 "<code-hosting-azure-repos-notifications>`."
-msgstr ":ref:`Azure Repos 通知 <code-hosting-azure-repos-notifications>`"
+msgstr ""
+"修复了 :ref:`Azure Repo webhooks <code-hosting-azure-repos-notifications>` 中"
+"的一处正则表达式拒绝服务。"
 
 msgid ""
 "Required repository access to set a path for a :ref:`repository-linked "
@@ -24257,12 +24201,10 @@ msgstr ""
 msgid "Bug fixes"
 msgstr "缺陷修复"
 
-#, fuzzy
-#| msgid "Improved validation when creating a component."
 msgid ""
 "Show template validation errors when :ref:`creating a component <adding-"
 "projects>`."
-msgstr "改进了新建部件时的验证。"
+msgstr ":ref:`创建部件 <adding-projects>` 时显示模板验证错误。"
 
 msgid ""
 "Restored Git-tracked executable bits and empty submodule directories when "
@@ -24285,17 +24227,13 @@ msgid ""
 "during :ref:`deployment checks <production-admins>`."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "More detailed error messages for :http:post:`/api/translations/"
-#| "(string:project)/(string:component)/(string:language)/file/`."
 msgid ""
 "Removed the separate upload rate limit for :http:post:`REST translation "
 "uploads </api/translations/(string:project)/(string:component)/"
 "(string:language)/file/>`."
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/"
-"(string:language)/file/` 更详细的错误消息。"
+"去除了 :http:post:`REST 翻译上传 </api/translations/(string:project)/"
+"(string:component)/(string:language)/file/>` 单独的上传大小限制。"
 
 msgid ""
 "Accepted quality check aliases in :ref:`flag settings <custom-checks>` and "
@@ -24413,10 +24351,8 @@ msgid ""
 "with parsing, allocation, and cumulative work limits."
 msgstr ""
 
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Upcoming compatibility changes in 2027.1"
-msgstr "与 Django 2.1 兼容。"
+msgstr "即将在 2027.1 到来的兼容性更改"
 
 msgid ""
 "Update API clients to :ref:`request background processing and follow task "
@@ -40592,10 +40528,8 @@ msgid ""
 "loss."
 msgstr ""
 
-#, fuzzy
-#| msgid "Other configurations"
 msgid "Git configuration"
-msgstr "其他配置"
+msgstr "Git 配置"
 
 msgid ""
 "Keep installation setup in the Git home under :setting:`DATA_DIR`. The "
@@ -54501,10 +54435,8 @@ msgid ""
 "or the Libre setup plan. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "This feature is unavailable on Hosted Weblate."
 msgid "A user requests a self-service trial on Hosted Weblate."
-msgstr "此功能在 Hosted Weblate 上不可用。"
+msgstr "一名用户请求在 Hosted Weblate 上试用自助服务。"
 
 msgid ""
 "An authenticated user can select another public, private, or internal "
@@ -57891,10 +57823,8 @@ msgstr "提取位置到 POT 文件"
 msgid "Do not extract locations"
 msgstr "不提取位置"
 
-#, fuzzy
-#| msgid "Enable source reviews"
 msgid "Excluded source directories"
-msgstr "启用原文审核"
+msgstr "排除源目录"
 
 msgid ""
 "Repository-relative directories to skip during extraction, one per line."
@@ -59243,10 +59173,8 @@ msgstr "跳过 :ref:`check-safe-mdx` 质量检查。"
 msgid "Skip the :ref:`check-same-plurals` quality check."
 msgstr "跳过 :ref:`check-same-plurals` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-mdx` quality check."
 msgid "Skip the :ref:`check-save-failed` quality check."
-msgstr "跳过 :ref:`check-safe-mdx` 质量检查。"
+msgstr "跳过 :ref:`check-save-failed` 质量检查。"
 
 msgid "Skip the :ref:`check-begin-newline` quality check."
 msgstr "跳过 :ref:`check-begin-newline` 质量检查。"
@@ -60939,10 +60867,8 @@ msgid ""
 "most languages they have to be different."
 msgstr "如果译文中某些复数形式重复，则检查失败。在大多数语言中，它们必须不同。"
 
-#, fuzzy
-#| msgid "String position in the translation file."
 msgid "The string could not be written to the translation file."
-msgstr "字符串在翻译文件中的位次。"
+msgstr "无法将该字符串写入翻译文件。"
 
 msgid "Starting newline"
 msgstr "换行符开头"
@@ -64344,10 +64270,8 @@ msgstr "带 gettext 扩展的 XLIFF 1.1 (``xliff``)"
 msgid "XLIFF 1.1 (``xliff11``)"
 msgstr "XLIFF 1.1 (``xliff11``)"
 
-#, fuzzy
-#| msgid "XLIFF 1.1 (``xliff11``)"
 msgid "XLIFF 1.1 (plain text) (``xliff11-plain``)"
-msgstr "XLIFF 1.1 (``xliff11``)"
+msgstr "XLIFF 1.1 (纯文本) (``xliff11-plain``)"
 
 msgid "TermBase eXchange (``tbx``)"
 msgstr "TermBase eXchange (``tbx``)"
@@ -66934,10 +66858,8 @@ msgid ""
 "This contextual description provides related info about the current string."
 msgstr "此上下文说明提供有关当前字符串的相关信息。"
 
-#, fuzzy
-#| msgid "whether the translation is approved"
 msgid "Last translator and last approver"
-msgstr "译文是否已核准"
+msgstr "上一名译者和上一名核准者"
 
 msgid ""
 "If you can view contributor identities, :guilabel:`String information` shows "
