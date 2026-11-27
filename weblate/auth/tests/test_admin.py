@@ -11,10 +11,11 @@ from django.contrib import admin
 from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import PermissionDenied
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
 from weblate.accounts.models import TeamAuditLog
+from weblate.accounts.utils import remove_user
 from weblate.auth.admin import WeblateGroupAdmin, WeblateUserAdmin
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Group, TeamMembership, User
@@ -141,6 +142,29 @@ class WeblateUserAdminTest(TestCase):
         self.assertNotEqual(self.user_admin.action_checkbox(project_token), "")
         self.assertTrue(self.user_admin.has_change_permission(request, project_token))
         self.assertTrue(self.user_admin.has_delete_permission(request, project_token))
+
+    @override_settings(INACTIVE_ACCOUNT_EXPIRY=0)
+    def test_manually_anonymized_account_is_read_only(self) -> None:
+        remove_user(self.target, None, actor=self.actor)
+        self.client.force_login(self.actor)
+        change_url = reverse("admin:weblate_auth_user_change", args=[self.target.pk])
+        response = self.client.get(change_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["has_change_permission"])
+        self.assertEqual(
+            self.client.post(change_url, {"email": "restored@example.org"}).status_code,
+            403,
+        )
+        password_url = reverse("admin:auth_user_password_change", args=[self.target.pk])
+        self.assertEqual(
+            self.client.post(
+                password_url, {"password1": "restored", "password2": "restored"}
+            ).status_code,
+            403,
+        )
+        self.target.refresh_from_db()
+        self.assertTrue(self.target.is_anonymized)
+        self.assertFalse(self.target.has_usable_password())
 
     def test_bulk_user_actions_exclude_acting_bot(self) -> None:
         self.actor.is_bot = True

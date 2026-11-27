@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{% if final %}{% blocktranslate %}Your inactive account at {{ site_title }} was removed{% endblocktranslate %}{% elif reminder %}{% blocktranslate %}Reminder to keep your account at {{ site_title }}{% endblocktranslate %}{% else %}{% blocktranslate %}Your inactive account at {{ site_title }} is scheduled for removal{% endblocktranslate %}{% endif %}

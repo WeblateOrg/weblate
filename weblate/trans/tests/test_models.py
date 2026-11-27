@@ -31,7 +31,9 @@ from django.utils.translation import activate
 from translate.storage.base import ParseError
 from translate.storage.fluent import FluentContentError
 
+from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.auth.bots import InternalBot
 from weblate.auth.models import Group, User, get_anonymous
 from weblate.checks.models import Check
 from weblate.formats.base import UnitNotFoundError
@@ -1322,6 +1324,35 @@ class ProjectTest(RepoTestCase):
 
 class TranslationTest(RepoTestCase):
     """Translation testing."""
+
+    def test_removal_flush_uses_removal_actor_and_preserves_git_author(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.order_by("pk").first()
+        if unit is None:
+            self.fail("Expected at least one translation unit.")
+        user = create_test_user()
+        author = user.get_author_name()
+        actor = InternalBot.ACCOUNT_CLEANUP.get_user()
+        previous_revisions = set(component.repository.get_outgoing_revisions())
+        unit.translate(user, "Pending account removal translation", STATE_TRANSLATED)
+        self.assertTrue(unit.pending_changes.exists())
+
+        remove_user(user, None, actor=actor)
+
+        self.assertFalse(unit.pending_changes.exists())
+        self.assertTrue(
+            translation.change_set.filter(
+                action=ActionEvents.COMMIT, user=actor
+            ).exists()
+        )
+        revisions = (
+            set(component.repository.get_outgoing_revisions()) - previous_revisions
+        )
+        self.assertEqual(len(revisions), 1)
+        self.assertEqual(
+            component.repository.get_revision_info(revisions.pop())["author"], author
+        )
 
     def test_pending_commit_reuses_translation(self) -> None:
         component = self.create_component()

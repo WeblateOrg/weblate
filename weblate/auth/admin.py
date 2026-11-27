@@ -12,11 +12,13 @@ from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import router, transaction
 from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
+from weblate.accounts.inactivity import account_expiry_days
 from weblate.accounts.utils import remove_user
 from weblate.auth.audit import (
     audit_membership_limits,
@@ -172,12 +174,13 @@ class WeblateUserChangeForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fields["email"].required = True
-        cast(
-            "UniqueUsernameField", self.fields["username"]
-        ).valid = self.instance.username
+        if email := self.fields.get("email"):
+            email.required = True
+        if username := self.fields.get("username"):
+            cast("UniqueUsernameField", username).valid = self.instance.username
         for name in self.instance.protected_account_fields:
-            self.fields[name].disabled = True
+            if field := self.fields.get(name):
+                field.disabled = True
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
@@ -269,8 +272,24 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     list_filter = ("is_superuser", "is_active", "is_bot")
     filter_horizontal = ()
 
+    @staticmethod
+    def locks_account_edit(request: HttpRequest) -> bool:
+        match = request.resolver_match
+        return bool(
+            request.method == "POST"
+            and match is not None
+            and match.url_name
+            in {
+                "weblate_auth_user_change",
+                "auth_user_password_change",
+            }
+            and account_expiry_days()
+        )
+
     def get_queryset(self, request):
         queryset = super().get_queryset(request).prefetch_related("groups")
+        if self.locks_account_edit(request):
+            queryset = queryset.select_for_update(of=("self",), no_key=True)
         if request.user.is_bot:
             queryset = queryset.annotate(is_own_bot=Q(pk=request.user.pk, is_bot=True))
         return queryset
@@ -294,6 +313,18 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         if obj and obj.account_edit_blocked(request.user):
             return False
         return super().has_change_permission(request, obj)
+
+    def user_change_password(
+        self,
+        request: HttpRequest,
+        id: str,  # ruff: ignore[builtin-argument-shadowing]  # Django's URL keyword.
+        form_url: str = "",
+    ):
+        # Django opens its own transaction for the regular change form.
+        if self.locks_account_edit(request):
+            with transaction.atomic(using=router.db_for_write(self.model)):
+                return super().user_change_password(request, id, form_url)
+        return super().user_change_password(request, id, form_url)
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
         if obj and obj.account_edit_blocked(request.user):

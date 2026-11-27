@@ -15,8 +15,9 @@ from urllib.parse import urlparse
 from appconf import AppConf
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import logout
 from django.contrib.auth.signals import user_logged_in
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -49,7 +50,7 @@ from weblate.accounts.notifications import (
     NOTIFICATIONS,
 )
 from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import User
+from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Category, Change, ComponentList, Translation
@@ -141,6 +142,7 @@ class WeblateAccountsConf(AppConf):
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = defaults.DEFAULT_AUDITLOG_EXPIRY
+    INACTIVE_ACCOUNT_EXPIRY = defaults.DEFAULT_INACTIVE_ACCOUNT_EXPIRY
 
     # Disable login support status check for superusers
     SUPPORT_STATUS_CHECK = defaults.DEFAULT_SUPPORT_STATUS_CHECK
@@ -708,6 +710,29 @@ class TeamAuditLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.event}: {self.team_name}"
+
+
+class AccountActivity(models.Model):
+    """Last observed account use and any pending inactivity removal."""
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True, related_name="activity_state"
+    )
+    last_activity = models.DateTimeField(null=True)
+    removal_at = models.DateTimeField(null=True)
+    reminded = models.BooleanField(default=False)
+
+    class Meta:
+        indexes = (
+            models.Index(
+                fields=("removal_at",),
+                condition=Q(removal_at__isnull=False),
+                name="accounts_pending_removal_idx",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return f"Activity for account {self.user_id}"
 
 
 class AuditLog(models.Model):
@@ -1743,6 +1768,16 @@ def post_login_handler(
 
     It sets user language and migrates profile if needed.
     """
+    from weblate.accounts.inactivity import record_account_activity  # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.utils import (  # ruff: ignore[import-outside-top-level]
+        SESSION_SENSITIVE_FACTOR_GRANT,
+        grant_sensitive_verification,
+    )
+
+    if not record_account_activity(user):
+        logout(request)
+        request.user = request.weblate_cached_user = get_anonymous()
+        raise PermissionDenied
     backend_name = getattr(user, "backend", "")
     is_email_auth = backend_name.endswith((".EmailAuth", ".WeblateUserBackend"))
 
@@ -1752,11 +1787,6 @@ def post_login_handler(
         request.session["show_set_password"] = True
     # A fresh e-mail sign-in proves control of the existing method for setup.
     # The UI flag above must never serve as an authorization grant.
-    from weblate.accounts.utils import (  # ruff: ignore[import-outside-top-level]
-        SESSION_SENSITIVE_FACTOR_GRANT,
-        grant_sensitive_verification,
-    )
-
     request.session.pop(SESSION_SENSITIVE_FACTOR_GRANT, None)
     if backend_name.endswith(".EmailAuth") and not user.has_usable_password():
         grant_sensitive_verification(request, user=user)

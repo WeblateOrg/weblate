@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 class InternalBot(Enum):
     TEAM_ASSIGNMENT = ("weblate", "team-assignment", "Automatic team assignment")
+    ACCOUNT_CLEANUP = ("weblate", "account-cleanup", "Inactive account cleanup")
     ALERTS = ("weblate", "alerts", "Automatic alerts")
     BACKUP = ("weblate", "backup", "Automatic backups")
     COMMIT = ("weblate", "commit", "Background commit")

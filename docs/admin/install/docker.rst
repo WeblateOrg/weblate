@@ -675,6 +675,11 @@ Generic settings
       * :ref:`production-site`
       * :setting:`SITE_DOMAIN`
 
+.. envvar:: WEBLATE_INACTIVE_ACCOUNT_EXPIRY
+
+   Configures :setting:`INACTIVE_ACCOUNT_EXPIRY` in days. The default of ``0``
+   disables automatic account removal.
+
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
 

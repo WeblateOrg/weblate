@@ -26,6 +26,7 @@ from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
+from weblate.accounts.inactivity import record_account_activity
 from weblate.auth.models import User
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
@@ -269,7 +270,7 @@ def authenticate(request: HttpRequest, auth: str) -> bool:
         except User.DoesNotExist:
             return False
 
-        if not user.is_active:
+        if not user.is_active or not record_account_activity(user):
             return False
 
         request.user = user
