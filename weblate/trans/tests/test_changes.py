@@ -887,8 +887,8 @@ class ChangesTest(ReusableViewTestCase):
                         (language_change, False),
                     ):
                         rows = document.xpath(
-                            '//tbody[@id="changes-list"]/tr[.//a[@title="View details" and @href=$url]]',
-                            url=change.get_absolute_url(),
+                            '//tbody[@id="changes-list"]/tr[.//a[@href=$url]]',
+                            url=reverse("change-detail", kwargs={"pk": change.pk}),
                         )
                         self.assertEqual(len(rows), 1)
                         icons = rows[0].xpath(

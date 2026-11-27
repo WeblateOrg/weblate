@@ -78,6 +78,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
     Change,
+    Comment,
     Component,
     ComponentList,
     ContributorAgreement,
@@ -3089,7 +3090,7 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
-    def test_zen_suggestions(self) -> None:
+    def test_zen_suggestions(self) -> None:  # ruff: ignore[too-many-statements]
         """Suggestions are handled in place in the Zen editor."""
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
@@ -3220,14 +3221,26 @@ class SeleniumTests(
             editor(),
         )
 
-        # Rejecting uses the reason typed next to the clicked suggestion
-        first_row = self.driver.find_element(
-            By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
-        ).find_element(By.XPATH, "ancestor::div[contains(@class, 'history-row')]")
-        first_row.find_element(By.CSS_SELECTOR, "input[name=rejection]").send_keys(
-            "not good"
+        def rejection_field(suggestion: Suggestion) -> tuple[WebElement, WebElement]:
+            row = self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'{row_selector} [data-suggestion-id="{suggestion.pk}"]',
+            )
+            toggle = row.find_element(By.CSS_SELECTOR, ".dropdown-toggle")
+            toggle.click()
+            return toggle, row.find_element(By.CSS_SELECTOR, "input[name=rejection]")
+
+        # The newest suggestion is displayed first. Each row has its own draft.
+        self.assertEqual(
+            [row.get_attribute("data-suggestion-id") for row in suggestion_rows()],
+            [str(second.pk), str(first.pk)],
         )
-        first_row.find_element(By.CSS_SELECTOR, 'button[name="delete"]').click()
+        toggle, other_rejection = rejection_field(second)
+        other_rejection.send_keys("Keep this draft", Keys.ESCAPE)
+        self.assertEqual(self.driver.switch_to.active_element, toggle)
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+        _, rejection = rejection_field(first)
+        rejection.send_keys("not good", Keys.ENTER)
         WebDriverWait(self.driver, 15).until(
             lambda _driver: len(suggestion_rows()) == 1
         )
@@ -3237,6 +3250,10 @@ class SeleniumTests(
         )
         change = Change.objects.get(action=ActionEvents.SUGGESTION_DELETE)
         self.assertEqual(change.details["rejection_reason"], "not good")
+        self.assertEqual(
+            self.driver.switch_to.active_element,
+            suggestion_rows()[0].find_element(By.CSS_SELECTOR, 'button[name="accept"]'),
+        )
         # Rejecting leaves the editor alone
         self.assertEqual(editor().get_attribute("value"), "")
 
@@ -3252,11 +3269,9 @@ class SeleniumTests(
 
         self.assertIn("Ahoj", diff_insertions())
         editor().send_keys("Ahoj")
-        rejection = self.driver.find_element(
-            By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
-        )
-        rejection.click()
-        rejection.send_keys("typed")
+        _, rejection = rejection_field(second)
+        self.assertEqual(rejection.get_attribute("value"), "Keep this draft")
+        rejection.send_keys(" typed")
         WebDriverWait(self.driver, 15).until(
             presence_of_element_located(
                 (By.CSS_SELECTOR, f"#row-edit-{unit.checksum}.translation-saved")
@@ -3268,7 +3283,7 @@ class SeleniumTests(
         rejection = self.driver.find_element(
             By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
         )
-        self.assertEqual(rejection.get_attribute("value"), "typed")
+        self.assertEqual(rejection.get_attribute("value"), "Keep this draft typed")
         self.assertEqual(self.driver.switch_to.active_element, rejection)
         rejection.clear()
         # Let the later edit wait for its own save
@@ -3286,6 +3301,7 @@ class SeleniumTests(
         )
         wait_idle()
         self.assertEqual(Suggestion.objects.count(), 0)
+        self.assertEqual(self.driver.switch_to.active_element, editor())
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Ahoj svete!\n")
         self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
@@ -3430,6 +3446,10 @@ class SeleniumTests(
         )
         indicator().click()
 
+        self.driver.find_element(
+            By.CSS_SELECTOR,
+            f'{row_selector} [data-suggestion-id="{first.pk}"] .dropdown-toggle',
+        ).click()
         self.driver.find_element(
             By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
         ).click()
@@ -4329,7 +4349,10 @@ class SeleniumTests(
         )
 
     def open_machinery_unit(
-        self, *identifiers: str, slugs: dict[str, str] | None = None
+        self,
+        *identifiers: str,
+        slugs: dict[str, str] | None = None,
+        activate: bool = True,
     ) -> Unit:
         """Open the machinery tab of a unit with given services enabled."""
         project = self.create_component()
@@ -4363,7 +4386,8 @@ class SeleniumTests(
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
 
-        self.click(htmlid="toggle-machinery")
+        if activate:
+            self.click(htmlid="toggle-machinery")
         return unit
 
     def wait_for_machinery_rows(self, count: int) -> None:
@@ -4378,6 +4402,141 @@ class SeleniumTests(
                 == count
                 and not driver.find_element(By.ID, "loading-machinery").is_displayed()
             )
+        )
+
+    @reuse_demo_fixture
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.trans.tests.test_selenium.SeleniumDummyTranslation",
+            "weblate.trans.tests.test_selenium.SeleniumMergeTranslation",
+        )
+    )
+    def test_machinery_actions_during_progressive_results(self) -> None:
+        self.open_machinery_unit(
+            SeleniumDummyTranslation.get_identifier(),
+            SeleniumMergeTranslation.get_identifier(),
+            activate=False,
+        )
+        self.driver.execute_script(
+            """
+            const originalFetch = window.fetch;
+            const link = document.getElementById("js-translate");
+            const endpoints = JSON.parse(link.dataset.services).map((service) =>
+                new URL(link.getAttribute("href").replace("__service__", service),
+                        location.href).href);
+            window.machineryResponses = {};
+            window.memoryDeletes = [];
+            window.fetch = (url, options) => {
+                const index = endpoints.indexOf(new URL(url, location.href).href);
+                if (index !== -1) {
+                    return new Promise((resolve) => {
+                        window.machineryResponses[index] = (translations) => resolve(
+                            Response.json({
+                                responseStatus: 200,
+                                lang: "cs",
+                                dir: "ltr",
+                                translations: translations.map((entry) => ({
+                                    html: entry.text, diff: entry.text, source_diff: entry.source,
+                                    plural_form: 0, service: "memory", ...entry,
+                                })),
+                            }));
+                    });
+                }
+                if (options?.method === "DELETE") {
+                    window.memoryDeletes.push(url);
+                    return Promise.resolve(new Response(null, { status: 204 }));
+                }
+                return originalFetch(url, options);
+            };
+            """
+        )
+        self.click(htmlid="toggle-machinery")
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(
+            lambda driver: driver.execute_script(
+                "return Object.keys(window.machineryResponses).length === 2;"
+            )
+        )
+
+        def deliver(index: int, *entries: dict[str, str | int]) -> None:
+            self.driver.execute_script(
+                "window.machineryResponses[arguments[0]](arguments[1]);",
+                index,
+                entries,
+            )
+
+        delete_url = "/api/memory/987654/"
+        deliver(
+            0,
+            {
+                "text": "Matching entry",
+                "source": "Source",
+                "quality": 75,
+                "delete_url": delete_url,
+                "origin": "Selected translation memory",
+            },
+            {"text": "Initial best match", "source": "Source", "quality": 80},
+        )
+        toggle = wait.until(
+            presence_of_element_located(
+                (By.CSS_SELECTOR, ".machinery-more-actions:not([hidden]) button")
+            )
+        )
+        toggle.send_keys(Keys.ARROW_DOWN)
+        delete = self.driver.switch_to.active_element
+        self.assertIn("js-delete-machinery", delete.get_attribute("class") or "")
+
+        deliver(
+            1,
+            {"text": "Late best match", "source": "Source", "quality": 100},
+            {"text": "Matching entry", "source": "Source", "quality": 90},
+            {"text": "Matching entry", "source": "Other source", "quality": 50},
+        )
+        self.wait_for_machinery_rows(4)
+        rows = self.driver.find_elements(By.CSS_SELECTOR, ".machinery-row")
+        self.assertEqual(
+            [
+                row.find_element(By.CSS_SELECTOR, ".machinery-target").text
+                for row in rows
+            ],
+            [
+                "Late best match",
+                "Matching entry",
+                "Initial best match",
+                "Matching entry",
+            ],
+        )
+        self.assertEqual(self.driver.switch_to.active_element, delete)
+        self.screenshot("editor-actions-automatic-suggestions.png")
+        self.assertFalse(
+            rows[-1]
+            .find_element(By.CSS_SELECTOR, ".machinery-more-actions")
+            .is_displayed()
+        )
+
+        dialog = self.driver.find_element(By.ID, "delete-url-modal")
+        cancel = dialog.find_element(By.CSS_SELECTOR, ".modal-footer button")
+        delete.send_keys(Keys.ENTER)
+        wait.until(lambda driver: driver.switch_to.active_element == cancel)
+        self.assertEqual(
+            [
+                option.get_attribute("value")
+                for option in dialog.find_elements(By.CSS_SELECTOR, ".form-check-input")
+            ],
+            [delete_url],
+        )
+        cancel.click()
+        wait.until(lambda driver: driver.switch_to.active_element == toggle)
+        self.assertEqual(self.driver.execute_script("return window.memoryDeletes;"), [])
+
+        toggle.send_keys(Keys.ARROW_DOWN)
+        delete.send_keys(Keys.ENTER)
+        wait.until(lambda driver: driver.switch_to.active_element == cancel)
+        dialog.find_element(By.CSS_SELECTOR, "[type=submit]").click()
+        wait.until(lambda driver: driver.switch_to.active_element == toggle)
+        self.assertEqual(
+            self.driver.execute_script("return window.memoryDeletes;"), [delete_url]
         )
 
     @reuse_demo_fixture
@@ -4720,6 +4879,118 @@ class SeleniumTests(
         self.assertTrue(
             self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
         )
+
+    def test_editor_content_actions(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Editor actions", slug="editor-actions", translation_review=True
+        )
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        user = self.do_login(superuser=True)
+        suggestion, _ = Suggestion.objects.add(unit, ["Ahoj světe!\n"], None, user=user)
+        assert suggestion is not None
+        comment = Comment.objects.create(
+            unit=unit, user=user, comment="Please check the punctuation."
+        )
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        self.click(htmlid="toggle-suggestions")
+        direct = self.driver.find_elements(
+            By.CSS_SELECTOR, "#suggestions .content-actions > button"
+        )
+        self.assertEqual(
+            [button.text for button in direct],
+            ["Accept", "Clone to translation", "Accept and approve"],
+        )
+        toggle = self.driver.find_element(
+            By.CSS_SELECTOR, "#suggestions .dropdown-toggle"
+        )
+        self.screenshot_viewport("editor-actions-suggestions-mobile.png", 390, 1850)
+        toggle.click()
+        self.screenshot_viewport(
+            "editor-actions-suggestions-menu-mobile.png", 390, 1850
+        )
+
+        self.driver.execute_cdp_cmd(
+            "Emulation.setDeviceMetricsOverride",
+            {"width": 320, "height": 1000, "deviceScaleFactor": 1, "mobile": False},
+        )
+        try:
+            self.assertEqual(
+                self.driver.execute_async_script(
+                    """
+                    const done = arguments[0];
+                    const row = document.querySelector("#suggestions .content-actions");
+                    row.querySelector(".js-copy-suggestion").textContent =
+                        "A deliberately long translated label that wraps across lines";
+                    const menu = row.querySelector(".dropdown-menu");
+                    const dropdown = bootstrap.Dropdown.getInstance(row.querySelector(".dropdown-toggle"));
+                    (async () => {
+                        const clipped = [];
+                        for (const direction of ["ltr", "rtl"]) {
+                            dropdown.hide();
+                            document.documentElement.dir = direction;
+                            dropdown.show();
+                            await new Promise((resolve) => requestAnimationFrame(resolve));
+                            for (const element of [...row.querySelectorAll(".btn"), menu]) {
+                                const bounds = element.getBoundingClientRect();
+                                if (bounds.left < 0 || bounds.right > innerWidth ||
+                                    (element.matches(".btn") && bounds.height < 44)) {
+                                    clipped.push([direction, element.className, bounds.toJSON()]);
+                                }
+                            }
+                        }
+                        return clipped;
+                    })().then(done);
+                    """
+                ),
+                [],
+            )
+        finally:
+            self.driver.execute_script('document.documentElement.dir = "ltr";')
+            self.driver.execute_cdp_cmd("Emulation.clearDeviceMetricsOverride", {})
+            self.driver.set_window_size(1200, 1024)
+        rejection = self.driver.find_element(
+            By.CSS_SELECTOR, "#suggestions input[name=rejection]"
+        )
+        rejection.send_keys(Keys.ESCAPE)
+        self.assertEqual(self.driver.switch_to.active_element, toggle)
+
+        self.click(htmlid="toggle-history")
+        self.screenshot("editor-actions-history.png")
+        change = Change.objects.get(suggestion=suggestion)
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'#history .content-actions > a[href="{reverse("change-detail", args=[change.pk])}"]',
+            ).click()
+        self.assertTrue(
+            self.driver.find_element(By.LINK_TEXT, "Open related item").is_displayed()
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(By.LINK_TEXT, "Open related item").click()
+
+        self.click(htmlid="toggle-comments")
+        self.screenshot("editor-actions-comments.png")
+        row = f"#comments__{comment.pk}"
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, f"{row} .content-actions > form button"
+            ).click()
+        comment.refresh_from_db()
+        self.assertTrue(comment.resolved)
+        self.click(htmlid="toggle-comments")
+        self.driver.find_element(By.CSS_SELECTOR, f"{row} .dropdown-toggle").click()
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, f"{row} .dropdown-menu button:not([name])"
+            ).click()
+        self.assertFalse(Comment.objects.filter(pk=comment.pk).exists())
 
     def test_string_details_stay_open(self) -> None:
         """The string details panel keeps its open state across strings."""

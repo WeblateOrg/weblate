@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<button type="button"
+        class="btn btn-outline-primary dropdown-toggle"
+        data-bs-toggle="dropdown"
+        {% if auto_close %}data-bs-auto-close="{{ auto_close }}"{% endif %}
+        aria-expanded="false">{% translate "More actions" %}</button>

@@ -300,7 +300,7 @@ WLT.Editor = (() => {
     // Remove unsaved changes warning when submitting
     for (const editor of this.editors) {
       editor.addEventListener("submit", (event) => {
-        if (event.target.matches(".result-page-form, .zen-suggestions-form")) {
+        if (event.target.matches(".result-page-form, .zen-suggestion-form")) {
           return;
         }
         for (const el of document.querySelectorAll(

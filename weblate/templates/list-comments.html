@@ -1,4 +1,4 @@
-{% load i18n icons permissions translations user_display %}
+{% load i18n permissions translations user_display %}
 
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
@@ -15,41 +15,6 @@
           {% endif %}
         </p>
       </div>
-      {% perm 'comment.delete' comment as user_can_delete_comment %}
-      {% perm 'comment.resolve' comment as user_can_resolve_comment %}
-      {% if user_can_delete_comment or user_can_resolve_comment %}
-        <div class="btn-float">
-          {% if user_can_resolve_comment and not comment.resolved %}
-            <form method="post"
-                  action="{% url 'resolve-comment' pk=comment.pk %}"
-                  class="auto-save-translation inlineform">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
-              <button class="btn btn-link green"
-                      title="{% translate "Resolve"|force_escape %}"
-                      type="submit">{% icon "check.svg" %}</button>
-            </form>
-          {% endif %}
-          {% if user_can_delete_comment %}
-            <form method="post"
-                  action="{% url 'delete-comment' pk=comment.pk %}"
-                  class="auto-save-translation inlineform">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ next_url }}" />
-              {% if has_antispam and comment.user != user %}
-                <button type="submit"
-                        class="btn btn-link red"
-                        name="spam"
-                        value="{{ suggestion.id }}"
-                        title="{% translate "Mark as spam"|force_escape %}">{% icon "spam.svg" %}</button>
-              {% endif %}
-              <button class="btn btn-link red"
-                      type="submit"
-                      title="{% translate "Delete"|force_escape %}">{% icon "delete.svg" %}</button>
-            </form>
-          {% endif %}
-        </div>
-      {% endif %}
       <div class="col-md-9 history-data comment-section">
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
              lang="{{ comment.unit.translation.language.code }}"
@@ -58,6 +23,39 @@
           <span class="float-end text-muted">{{ comment.timestamp|naturaltime }}</span>
           <div class="clearfix"></div>
         </div>
+        {% perm 'comment.delete' comment as user_can_delete_comment %}
+        {% perm 'comment.resolve' comment as user_can_resolve_comment %}
+        {% if user_can_delete_comment or user_can_resolve_comment and not comment.resolved %}
+          <div class="content-actions">
+            {% if user_can_resolve_comment and not comment.resolved %}
+              <form method="post"
+                    action="{% url 'resolve-comment' pk=comment.pk %}"
+                    class="auto-save-translation">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
+                <button class="btn btn-outline-primary" type="submit">{% translate "Resolve" %}</button>
+              </form>
+            {% endif %}
+            {% if user_can_delete_comment %}
+              <div class="dropdown">
+                {% include "snippets/content-actions-toggle.html" %}
+                <form method="post"
+                      action="{% url 'delete-comment' pk=comment.pk %}"
+                      class="dropdown-menu dropdown-menu-end shadow auto-save-translation">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ next_url }}" />
+                  <button class="dropdown-item text-danger" type="submit">{% translate "Delete comment" %}</button>
+                  {% if has_antispam and comment.user != user %}
+                    <button type="submit"
+                            class="dropdown-item text-danger"
+                            name="spam"
+                            value="1">{% translate "Mark as spam" %}</button>
+                  {% endif %}
+                </form>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}

@@ -886,7 +886,7 @@ form + .login-label {
 
 #suggestions,
 #machinery-translations {
-  margin-top: 55px;
+  margin-top: 20px;
 }
 
 #changes-table {
@@ -894,7 +894,6 @@ form + .login-label {
   width: 100%;
   display: block;
   max-width: 100%;
-  overflow-x: auto;
 }
 
 #changes-list {
@@ -904,49 +903,49 @@ form + .login-label {
   overflow-x: visible;
 }
 
-.btn-float {
+.content-actions {
   display: flex;
-  gap: 5px;
-  padding: 4px;
-  background-color: var(--wl-color-bg);
-  box-shadow: 0 2px 10px 0 var(--wl-color-shadow);
-  border-radius: 5px;
-  position: absolute;
-  right: 15px;
-  transform: translateY(-100%);
-  z-index: 10;
-  width: fit-content;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: end;
+  gap: 8px;
+  margin-block-start: 8px;
 }
 
-[dir="rtl"] .btn-float {
-  right: auto;
-  left: 15px;
+.content-actions > * {
+  max-inline-size: 100%;
 }
 
-.col-sm-9 .btn-float {
-  right: 25%;
+.content-actions :is(.btn, .dropdown-item) {
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  max-inline-size: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  align-content: center;
 }
 
-[dir="rtl"] .col-sm-9 .btn-float {
-  right: auto;
-  left: 25%;
+.content-actions .dropdown-menu {
+  max-width: min(24rem, calc(100vw - 2rem));
+}
+
+.content-actions :is(.btn, .dropdown-item, .form-control):focus-visible {
+  outline: 2px solid var(--wl-color-link);
+  outline-offset: 2px;
+}
+
+.content-actions .dropdown-item:focus-visible {
+  outline-offset: -2px;
 }
 
 #nearby,
 #keys,
 #others,
-#translations,
-#comments {
+#translations {
   overflow-x: auto;
 }
 
 @media only screen and (max-width: 600px) {
-  .btn-float {
-    box-shadow: none;
-    transform: none;
-    position: static;
-  }
-
   .comment-section {
     display: flex;
     flex-direction: column;
@@ -954,10 +953,6 @@ form + .login-label {
   }
 
   #changes-table {
-    margin-top: 20px;
-  }
-
-  #machinery-translations {
     margin-top: 20px;
   }
 
@@ -977,34 +972,9 @@ form + .login-label {
   }
 }
 
-.btn-float .btn,
 .btn-padded .btn {
   padding: 2px 4px !important;
   line-height: 0;
-}
-
-/* History view only: keep .btn-float compact on suggestions and comments. */
-#changes-table .btn-float {
-  gap: 10px;
-}
-
-#changes-table .btn-float .btn {
-  padding: 6px !important;
-  border: 1px solid var(--wl-color-border-strong);
-  border-radius: var(--border-radius-sm);
-  background-color: var(--wl-color-bg);
-}
-
-#changes-table .btn-float .btn:hover,
-#changes-table .btn-float .btn:focus,
-#changes-table .btn-float .btn:focus-visible {
-  background-color: var(--wl-color-row-hover);
-  border-color: var(--wl-color-border-strong);
-  text-decoration: none;
-}
-
-#changes-table .btn-float .btn:not(.red):focus-visible path {
-  fill: var(--wl-navi-color);
 }
 
 kbd {
@@ -3123,21 +3093,6 @@ table.zen.zen-hide-suggestions .zen-suggestions-row {
 .zen-suggestions-container .history-row {
   margin-left: 0;
   margin-right: 0;
-}
-
-.zen-suggestions-container .history-data {
-  position: relative;
-  padding-top: 32px;
-}
-
-.zen-suggestions-container .btn-float {
-  top: 28px;
-  right: 0;
-}
-
-[dir="rtl"] .zen-suggestions-container .btn-float {
-  right: auto;
-  left: 0;
 }
 
 .card-header > .card-title > .badge {

@@ -419,13 +419,7 @@
 
           {% if unit.suggestions %}
             <div class="tab-pane" id="suggestions">
-              <form action="{{ this_unit_url }}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="unit_id" value="{{ unit.pk }}" />
-                <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
-
-                {% include "snippets/suggestions.html" with suggestions=unit.suggestions %}
-              </form>
+              {% include "snippets/suggestions.html" with suggestions=unit.suggestions suggestion_url=this_unit_url %}
             </div>
           {% endif %}
 
@@ -524,7 +518,7 @@
           </div>
 
           <div class="tab-pane" id="history">
-            {% format_last_changes_content last_changes=last_changes user=user translate_url=object.get_translate_url %}
+            {% format_last_changes_content last_changes=last_changes user=user translate_url=object.get_translate_url editor_unit_id=unit.pk %}
 
             <a class="btn btn-link"
                href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
@@ -554,25 +548,23 @@
               </div>
               <div class="container-fluid container-gapped" id="machinery-translations"></div>
               <template id="machinery-actions">
-                <div class="btn-float">
+                <div class="content-actions">
                   <button type="button"
-                          class="btn btn-link green js-copy-machinery"
-                          title="{% translate "Clone to translation"|force_escape %}"
-                          aria-label="{% translate "Clone to translation"|force_escape %}">{% icon "clone.svg" %}</button>
+                          class="btn btn-outline-primary js-copy-save-machinery">{% translate "Accept" %}</button>
                   <button type="button"
-                          class="btn btn-link green js-copy-save-machinery"
-                          title="{% translate "Accept"|force_escape %}"
-                          aria-label="{% translate "Accept"|force_escape %}">{% icon "check.svg" %}</button>
+                          class="btn btn-outline-primary js-copy-machinery">{% translate "Clone to translation" %}</button>
                   <button type="button"
-                          class="btn btn-link green js-copy-approve-save-machinery"
-                          title="{% translate "Accept and approve"|force_escape %}"
-                          aria-label="{% translate "Accept and approve"|force_escape %}">{% icon "check-all.svg" %}</button>
-                  <button type="button"
-                          class="btn btn-link red js-delete-machinery"
-                          data-bs-toggle="modal"
-                          data-bs-target="#delete-url-modal"
-                          title="{% translate "Delete entry"|force_escape %}"
-                          aria-label="{% translate "Delete entry"|force_escape %}">{% icon "delete.svg" %}</button>
+                          class="btn btn-outline-primary js-copy-approve-save-machinery">{% translate "Accept and approve" %}</button>
+                  <div class="dropdown machinery-more-actions" hidden>
+                    {% include "snippets/content-actions-toggle.html" %}
+                    <div class="dropdown-menu dropdown-menu-end shadow">
+                      <button type="button"
+                              class="dropdown-item text-danger js-delete-machinery"
+                              data-bs-toggle="modal"
+                              data-focus="#cancel-delete-url"
+                              data-bs-target="#delete-url-modal">{% translate "Delete translation memory entry" %}</button>
+                    </div>
+                  </div>
                 </div>
               </template>
               <template id="machinery-row">
@@ -608,11 +600,15 @@
               <form action="" method="post" class="delete-url-form">
                 {% csrf_token %}
                 <input type="hidden" name="user" value="{{ user.username }}" />
-                <div class="modal fade" tabindex="-1" role="dialog" id="delete-url-modal">
+                <div class="modal fade"
+                     tabindex="-1"
+                     aria-labelledby="delete-url-modal-title"
+                     id="delete-url-modal">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                        <h4 class="modal-title"
+                            id="delete-url-modal-title">{% translate "Delete translation memory entry" %}</h4>
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
@@ -620,6 +616,10 @@
                       </div>
                       <div class="modal-body"></div>
                       <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                id="cancel-delete-url"
+                                data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                         <input type="submit"
                                class="btn btn-danger"
                                value="{% translate "Remove selected translation memory entries"|force_escape %}" />
