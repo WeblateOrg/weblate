@@ -19,7 +19,9 @@ import stat
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
+from glob import glob
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -29,6 +31,7 @@ from urllib.parse import urlsplit
 
 import httpx2
 import jsonschema.exceptions
+from celery.exceptions import Retry
 from crispy_forms.helper import FormHelper
 from crispy_forms.utils import render_crispy_form
 from django import forms
@@ -41,7 +44,7 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
-from django.db import connection
+from django.db import connection, connections
 from django.template import Context, Template, TemplateSyntaxError
 from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
@@ -69,6 +72,7 @@ from weblate.addons.forms import (
 )
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.formats.base import UpdateError
+from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.component_copy import copy_component_addons
@@ -90,6 +94,7 @@ from weblate.trans.models import (
     Vote,
     WorkflowSetting,
 )
+from weblate.trans.tasks import BackgroundTaskRequest
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     ReusableViewTestCase,
@@ -107,6 +112,7 @@ from weblate.trans.validators import MAX_NEW_TEXT_LENGTH
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.change_origin import acting_user_context, get_acting_user
 from weblate.utils.forms import FormFieldGroup
+from weblate.utils.lock import LockScope, WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.rst import FullWidthRow
 from weblate.utils.site import get_site_url
@@ -208,6 +214,8 @@ from .tasks import (
     daily_addons,
     language_consistency,
     parse_cdn_html,
+    publish_cdn_files,
+    read_component_file,
     run_addon_manually,
     update_addon_activity_log,
 )
@@ -8779,6 +8787,24 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.assertEqual(preview.action_count, 0)
         self.assertEqual(preview.failure_count, 0)
 
+    def test_consistency_installation_reports_busy_checkout(self) -> None:
+        self.make_manager()
+        self.client.force_login(self.user)
+        error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+        with patch.object(
+            LanguageConsistencyAddon, "get_installation_preview", side_effect=error
+        ):
+            response = self.client.post(
+                reverse("addons", kwargs={"path": self.project.get_url_path()}),
+                {"name": LanguageConsistencyAddon.name},
+            )
+
+        self.assertContains(
+            response, "Could not obtain the repository lock", status_code=423
+        )
+
     def test_consistency_preview_lists_actions(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -11466,6 +11492,32 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 14
         )
 
+    def test_extract_local_html_holds_checkout_lock(self) -> None:
+        repository = self.component.repository
+        resolve = repository.resolve_symlinks
+
+        def check_resolution(filename):
+            self.assertTrue(repository.lock.is_read_locked)
+            return resolve(filename)
+
+        def check_read(*args, **kwargs):
+            self.assertTrue(repository.lock.is_read_locked)
+            msg = "read failed"
+            raise OSError(msg)
+
+        with (
+            patch.object(
+                repository, "resolve_symlinks", side_effect=check_resolution
+            ) as check,
+            patch.object(Path, "read_text", side_effect=check_read) as read,
+            self.assertRaisesMessage(OSError, "read failed"),
+        ):
+            read_component_file(self.component, "html/en.html")
+
+        check.assert_called_once_with("html/en.html")
+        read.assert_called_once()
+        self.assertFalse(repository.lock.is_read_locked)
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_extract_reads_streamed_remote_html(self) -> None:
@@ -11485,9 +11537,13 @@ class CDNJSAddonTest(ViewTestCase):
             content=b"<html><body><div class='l10n'>Remote string</div></body></html>",
         )
 
+        def fetch_without_lock(*args, **kwargs):
+            self.assertFalse(self.component.repository.lock.is_read_locked)
+            return response
+
         with patch(
             "weblate.addons.tasks.fetch_restricted_asset_url",
-            return_value=response,
+            side_effect=fetch_without_lock,
         ):
             errors = parse_cdn_html(addon.instance, self.component)
 
@@ -12077,11 +12133,88 @@ class CDNFilesAddonTest(ViewTestCase):
         stale_file = Path(addon.cdn_path("de.json"))
         stale_file.write_text("stale", encoding="utf-8")
 
-        addon.component_update(self.component)
+        with self.captureOnCommitCallbacks(execute=True):
+            addon.component_update(self.component)
 
         self.assertFalse(stale_file.exists())
         self.assertTrue(os.path.isfile(addon.cdn_path("en.json")))
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_removes_rejected_outputs(self) -> None:
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self), component=self.component, configuration={}
+        )
+        checkout = Path(self.component.full_path)
+        target = checkout / self.get_translation().filename
+        lstat = Path.lstat
+
+        def simulate_symlink(path):
+            if path == target:
+                return SimpleNamespace(st_mode=stat.S_IFLNK)
+            return lstat(path)
+
+        with patch.object(Path, "lstat", simulate_symlink):
+            addon.post_update(self.component, "", False, [])
+        self.assert_manifest(addon, {"en": ["en.json"]})
+        self.assertFalse(Path(addon.cdn_path("cs.json")).exists())
+
+        def simulate_symlinked_directory(path):
+            if path == target.parent:
+                return SimpleNamespace(st_mode=stat.S_IFLNK)
+            return lstat(path)
+
+        with patch.object(Path, "lstat", simulate_symlinked_directory):
+            addon.post_update(self.component, "", False, [])
+        self.assert_manifest(addon, {})
+        self.assertFalse(Path(addon.cdn_path("en.json")).exists())
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_linked_cdn_files_holds_checkout_and_publication_locks(self) -> None:
+        linked = self.create_link_existing(
+            file_format=self.component.file_format,
+            filemask=self.component.filemask,
+            template=self.component.template,
+        )
+        repository_lock = linked.repository.lock
+        self.assertEqual(repository_lock.name, self.component.repository.lock.name)
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self),
+            component=linked,
+            configuration={},
+            run=False,
+        )
+        publication_lock = WeblateLock(scope=LockScope.CDN_FILES, key=addon.instance.pk)
+        copy_file = addon.copy_cdn_file
+        cleanup = addon.delete_stale_cdn_files
+
+        def assert_copy_locked(source: str, filename: str) -> None:
+            self.assertTrue(repository_lock.is_read_locked)
+            self.assertTrue(publication_lock.is_locked)
+            copy_file(source, filename)
+
+        def assert_cleanup_locked(expected: set[str]) -> None:
+            self.assertTrue(repository_lock.is_read_locked)
+            self.assertTrue(publication_lock.is_locked)
+            cleanup(expected)
+
+        with (
+            patch("weblate.addons.cdn.WeblateLock", return_value=publication_lock),
+            patch.object(
+                addon, "copy_cdn_file", side_effect=assert_copy_locked
+            ) as copy,
+            patch.object(
+                addon, "delete_stale_cdn_files", side_effect=assert_cleanup_locked
+            ) as remove,
+        ):
+            addon.publish_files(linked)
+
+        self.assertGreater(copy.call_count, 0)
+        remove.assert_called_once()
+        self.assertFalse(repository_lock.is_read_locked)
+        self.assertFalse(publication_lock.is_locked)
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -12145,7 +12278,8 @@ class CDNFilesAddonTest(ViewTestCase):
             return_value=[
                 SimpleNamespace(
                     language=self.translation.language,
-                    filenames=[addon.cdn_path("missing")],
+                    component=self.component,
+                    filename="missing.json",
                 )
             ],
         ):
@@ -12310,6 +12444,138 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
             content = Path(addon.cdn_path(entry["url"])).read_bytes()
             self.assertEqual(entry["sha256"], hashlib.sha256(content).hexdigest())
             self.assertEqual(entry["size"], len(content))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_checks_appstore_paths_before_discovery_and_copy(self) -> None:
+        translation = self.get_translation()
+        base = Path(self.component.full_path, translation.filename)
+        blocked_file = base / "title.txt"
+        blocked_directory = base / "changelogs"
+        blocked_file.write_text("Sample title", encoding="utf-8")
+        blocked_directory.mkdir(exist_ok=True)
+        (blocked_directory / "1.txt").write_text("Sample changelog", encoding="utf-8")
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self),
+            component=self.component,
+            configuration={},
+            run=False,
+        )
+        addon.publish_files(self.component)
+        locale = translation.language.code
+        self.assertTrue(Path(addon.cdn_path(f"{locale}/title.txt")).exists())
+        self.assertTrue(Path(addon.cdn_path(f"{locale}/changelogs/1.txt")).exists())
+        lstat = Path.lstat
+
+        def simulate_symlinks(path):
+            if path in {blocked_file, blocked_directory}:
+                return SimpleNamespace(st_mode=stat.S_IFLNK)
+            return lstat(path)
+
+        with (
+            patch.object(Path, "lstat", simulate_symlinks),
+            patch("weblate.formats.txt.glob", wraps=glob) as search_files,
+            patch("weblate.formats.txt.TextParser") as parser,
+        ):
+            addon.publish_files(self.component)
+
+        parser.assert_not_called()
+        self.assertFalse(
+            any(
+                Path(args[0]).parent == blocked_directory
+                for args, _ in search_files.call_args_list
+            )
+        )
+        self.assertFalse(Path(addon.cdn_path(f"{locale}/title.txt")).exists())
+        self.assertFalse(Path(addon.cdn_path(f"{locale}/changelogs/1.txt")).exists())
+        manifest = json.loads(Path(addon.cdn_path("manifest.json")).read_bytes())
+        urls = {entry["url"] for entry in manifest["locales"][locale]}
+        self.assertTrue(urls)
+        self.assertFalse({f"{locale}/title.txt", f"{locale}/changelogs/1.txt"} & urls)
+
+
+@override_settings(LOCALIZE_CDN_URL="http://localhost/")
+class CDNFilesPublicationTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_component_updates_publish_after_releasing_component_lock(self) -> None:
+        component = self.create_json_mono()
+        actor = get_test_actor(self)
+        addon = CDNFilesAddon.create(
+            acting_user=actor, component=component, configuration={}, run=False
+        )
+        source = component.source_translation
+        publish = CDNFilesAddon.publish_files
+
+        def check_publish(
+            instance: CDNFilesAddon, published_component: Component
+        ) -> None:
+            self.assertFalse(component.lock.is_locked)
+            publish(instance, published_component)
+
+        activity = AddonActivityLog.objects.filter(
+            addon=addon.instance, event=AddonEvent.EVENT_COMPONENT_UPDATE
+        )
+        with patch.object(
+            CDNFilesAddon, "publish_files", autospec=True, side_effect=check_publish
+        ) as run:
+            source.add_unit(None, "new-key", "New source string", None, author=actor)
+            run.assert_called_once()
+
+            run.reset_mock()
+            source.handle_upload(
+                BackgroundTaskRequest(actor),
+                NamedBytesIO("en.json", b'{"uploaded-key": "Uploaded source string"}'),
+                conflicts="",
+                method="add",
+                author=actor,
+            )
+            run.assert_called()
+
+        self.assertEqual(
+            list(activity.values_list("status", flat=True)),
+            [AddonActivityLogStatus.SUCCESS] * 2,
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_worker_retries_overlapping_publication(self) -> None:
+        component = self.create_json_mono()
+        addon = CDNFilesAddon.create(
+            acting_user=get_test_actor(self),
+            component=component,
+            configuration={},
+            run=False,
+        )
+        activity = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            status=AddonActivityLogStatus.PENDING,
+        )
+
+        def worker() -> None:
+            try:
+                publish_cdn_files.run(addon.instance.pk, component.pk, activity.pk)
+            finally:
+                connections.close_all()
+
+        with (
+            WeblateLock(scope=LockScope.CDN_FILES, key=addon.instance.pk),
+            patch.object(publish_cdn_files, "retry", side_effect=Retry) as retry,
+            ThreadPoolExecutor(max_workers=1) as executor,
+        ):
+            with self.assertRaises(Retry):
+                executor.submit(worker).result(timeout=10)
+            retry.assert_called_once()
+            activity.refresh_from_db()
+            self.assertEqual(activity.status, AddonActivityLogStatus.PENDING)
+
+        publish_cdn_files.run(addon.instance.pk, component.pk, activity.pk)
+        activity.refresh_from_db()
+        self.assertEqual(activity.status, AddonActivityLogStatus.SUCCESS)
 
 
 class SiteWideAddonsTest(ViewTestCase):

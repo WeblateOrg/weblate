@@ -2413,6 +2413,71 @@ class SeleniumTests(
         unit.refresh_from_db()
         self.assertEqual(unit.state, STATE_FUZZY)
 
+    def test_html_tag_insertion_and_translated_attributes(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="HTML attributes", slug="html-attributes")
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        tag = '<img src="save.svg" alt="Save" title=File>'
+        source_unit_id = unit.source_unit_id
+        assert source_unit_id is not None
+        Unit.objects.filter(pk__in=(unit.pk, source_unit_id)).update(
+            source=tag, target=tag, extra_flags="safe-html"
+        )
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        action = self.driver.find_element(
+            By.CSS_SELECTOR, ".source-language-group .html-insertion"
+        )
+        editor.clear()
+        self.assertEqual(action.tag_name, "button")
+        self.assertEqual(action.value_of_css_property("outline-style"), "dotted")
+        self.click(action)
+        self.assertEqual(editor.get_property("value"), tag)
+        editor.clear()
+        modifier = (
+            Keys.COMMAND
+            if self.driver.capabilities.get("platformName") == "mac"
+            else Keys.CONTROL
+        )
+        self.driver.execute_script(
+            """
+            window.digitEvents = [];
+            arguments[0].addEventListener("keydown", (event) => {
+                if (["1", "9", "0"].includes(event.key)) window.digitEvents.push(event);
+            });
+            """,
+            editor,
+        )
+        editor.send_keys(modifier, "1", "9", "0", Keys.NULL)
+        self.assertEqual(
+            self.driver.execute_script(
+                "return window.digitEvents.map(event => [event.key, event.defaultPrevented]);"
+            ),
+            [["1", True], ["9", True], ["0", False]],
+        )
+        self.assertEqual(editor.get_property("value"), tag)
+        translated = 'Outside "> ' + tag.replace("Save", "Uložit")
+        editor.send_keys(modifier, "a", Keys.NULL, translated)
+        overlay = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .highlighted-output"
+        )
+        self.assertEqual(
+            [
+                item.get_property("textContent")
+                for item in overlay.find_elements(By.CSS_SELECTOR, ".token.placeable")
+            ],
+            ['<img src="save.svg" alt="', '" title=File>'],
+        )
+        self.assertEqual(overlay.get_property("textContent"), translated)
+
     def test_long_translation_uses_plain_text_editor(self) -> None:
         fixture = RepoTestMixin()
         fixture.clone_test_repos()
@@ -2789,6 +2854,42 @@ class SeleniumTests(
                 """
             )
         )
+
+    def test_zen_loaded_html_insertion(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Zen HTML", slug="zen-html")
+        component = fixture.create_po(project=project, manage_units=True)
+        translation = component.translation_set.get(language_code="cs")
+        user = self.do_login(superuser=True)
+        for idx in range(21):
+            translation.add_unit(
+                None, "", f"ZenControl {idx} <br>", extra_flags="safe-html", author=user
+            )
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{zen_url}?q=ZenControl")
+        self.assertEqual(
+            len(self.driver.find_elements(By.CSS_SELECTOR, ".zen-unit")), 20
+        )
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        row = WebDriverWait(self.driver, 15).until(
+            lambda driver: driver.find_element(
+                By.CSS_SELECTOR, ".zen-unit:nth-of-type(21)"
+            )
+        )
+        control = row.find_element(By.CSS_SELECTOR, "button.html-insertion")
+        editor = row.find_element(By.CSS_SELECTOR, ".translation-editor")
+        self.assertEqual(control.get_property("tabIndex"), 0)
+        modifier = (
+            Keys.COMMAND
+            if self.driver.capabilities.get("platformName") == "mac"
+            else Keys.CONTROL
+        )
+        editor.send_keys(modifier, "1", Keys.NULL)
+        self.assertEqual(editor.get_property("value"), "<br>")
+        control.send_keys(Keys.ENTER)
+        self.assertEqual(editor.get_property("value"), "<br><br>")
 
     def test_zen_review_state_conflict(self) -> None:
         fixture = RepoTestMixin()

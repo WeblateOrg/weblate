@@ -81,7 +81,7 @@
         </li>
       </ul>
     </li>
-    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access or create_project_url %}
+    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access or create_project_url or can_access_integrations %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
         <ul class="dropdown-menu shadow">
@@ -106,7 +106,7 @@
               <a class="dropdown-item" href="{{ create_project_url }}">{% translate "Add new translation project" %}</a>
             </li>
           {% endif %}
-          {% if billing or can_edit_workspace or can_manage_access %}
+          {% if billing or can_edit_workspace or can_manage_access or can_access_integrations %}
             {% if bulk_state_form or autoform or create_project_url %}
               <li>
                 <hr class="dropdown-divider">
@@ -130,9 +130,11 @@
                 <a class="dropdown-item"
                    href="{% url 'workspace-machinery' workspace=workspace.pk %}">{% translate "Translation services" %}</a>
               </li>
+            {% endif %}
+            {% if can_access_integrations %}
               <li>
                 <a class="dropdown-item"
-                   href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting connections" %}</a>
+                   href="{% url 'workspace-integrations' workspace.pk %}">{% translate "Code-hosting connections" %}</a>
               </li>
             {% endif %}
             {% if can_manage_access %}

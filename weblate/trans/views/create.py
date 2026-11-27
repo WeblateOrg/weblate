@@ -61,16 +61,14 @@ from weblate.utils import messages
 from weblate.utils.celery import store_task_metadata
 from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
-from weblate.utils.views import create_component_from_doc, create_component_from_zip
-from weblate.vcs.base import RepositoryError
-from weblate.vcs.github import (
-    GitHubInstallation,
-    get_github_app_configurations,
-    get_github_repository_import_url,
-    github_app_is_configured,
+from weblate.utils.views import (
+    create_component_from_doc,
+    create_component_from_zip,
+    handle_repository_lock_timeout,
 )
+from weblate.vcs.base import RepositoryError
+from weblate.vcs.github import github_app_is_configured
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.permissions import github_app_installation_workspaces
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -680,6 +678,7 @@ class CreateComponent(BaseCreateView):
             for field in self.basic_fields
         )
 
+    @handle_repository_lock_timeout
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "new_base" in request.POST:
             self.stage = "create"
@@ -760,6 +759,7 @@ def component_wizard_state(request: AuthenticatedHttpRequest, query) -> str:
 
 
 @sensitive_operation("create-component")
+@handle_repository_lock_timeout
 def submit_component_creation(
     request: AuthenticatedHttpRequest,
     submission: Submission,
@@ -838,84 +838,17 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = kwargs["form"]
         else:
             kwargs["existing_form"] = kwargs["form"]
-        workspace_ids = list(
-            self.projects.filter(workspace__isnull=False)
-            .values_list("workspace_id", flat=True)
-            .distinct()
-        )
-        configured_hosts = set(get_github_app_configurations())
-        installations = GitHubInstallation.objects.filter(
-            enabled=True,
-            hostname__in=configured_hosts,
-            workspace_id__in=workspace_ids,
-        ).select_related("workspace")
-        selected_project_obj = None
-        if self.selected_project:
-            selected_project_obj = self.projects.filter(
-                pk=self.selected_project
-            ).first()
-            if selected_project_obj is not None and selected_project_obj.workspace_id:
-                installations = installations.filter(
-                    workspace_id=selected_project_obj.workspace_id
-                )
-            else:
-                installations = installations.none()
-        installations = installations.order_by(
-            "workspace__name", "target_login", "hostname"
-        )
-        kwargs["github_app_available"] = github_app_is_configured() or (
-            installations.exists()
-        )
-        repositories: list[dict] = []
-        for installation in installations:
-            for repo in installation.repositories:
-                if repo.get("archived", False):
-                    continue
-                entry = dict(repo)
-                entry["account_name"] = installation.target_login
-                entry["workspace_id"] = str(installation.workspace_id)
-                entry["workspace_name"] = installation.workspace.name
-                entry["import_url"] = get_github_repository_import_url(
-                    entry,
-                    installation_id=installation.pk,
-                    project_id=(
-                        selected_project_obj.pk
-                        if selected_project_obj is not None
-                        else None
-                    ),
-                    category_id=self.selected_category,
-                )
-                repositories.append(entry)
-        kwargs["github_app_repositories"] = repositories
-        install_workspace_id = None
-        installation_workspaces = github_app_installation_workspaces(self.request.user)
-        if (
-            github_app_is_configured()
-            and selected_project_obj is not None
-            and selected_project_obj.workspace_id
-            and installation_workspaces.filter(
-                pk=selected_project_obj.workspace_id
-            ).exists()
-        ):
-            install_workspace_id = selected_project_obj.workspace_id
-        elif (
-            github_app_is_configured()
-            and selected_project_obj is None
-            and len(workspace_ids) == 1
-            and installation_workspaces.filter(pk=workspace_ids[0]).exists()
-        ):
-            install_workspace_id = workspace_ids[0]
-
-        if install_workspace_id is not None:
-            kwargs["github_app_install_url"] = (
-                reverse("github-app-install")
-                + "?"
-                + urlencode(
-                    {
-                        "next": f"{self.request.get_full_path()}#github",
-                        "workspace": install_workspace_id,
-                    }
-                )
+        if github_app_is_configured():
+            kwargs["github_app_import_url"] = reverse(
+                "github-app-creation-repositories",
+                query={
+                    name: value
+                    for name, value in (
+                        ("project", self.selected_project),
+                        ("category", self.selected_category),
+                    )
+                    if value is not None
+                },
             )
         return kwargs
 

@@ -64,6 +64,9 @@ ANDROID_CODES = {
     "he": "iw",
     "id": "in",
     "yi": "ji",
+    # Valencian has no ISO 639-1 code of its own, so it is addressed through
+    # the BCP 47 "valencia" variant subtag of Catalan.
+    "ca@valencia": "b+ca+valencia",
 }
 LEGACY_CODES = {
     "zh_Hans": "zh_CN",

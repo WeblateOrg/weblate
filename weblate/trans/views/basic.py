@@ -90,6 +90,7 @@ from weblate.utils.stats import (
 )
 from weblate.utils.views import (
     get_paginator,
+    handle_repository_lock_timeout,
     optional_form,
     parse_path,
     parse_path_for_public_sharing,
@@ -981,6 +982,7 @@ def data_project(request: AuthenticatedHttpRequest, project: str) -> HttpRespons
 
 @never_cache
 @login_required
+@handle_repository_lock_timeout
 @transaction.atomic
 @session_ratelimit_post("language", logout_user=False)
 def new_language(request: AuthenticatedHttpRequest, path) -> HttpResponse:

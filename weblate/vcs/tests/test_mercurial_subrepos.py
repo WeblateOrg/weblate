@@ -16,7 +16,7 @@ from unittest.mock import patch
 
 from django.test import TestCase, override_settings
 
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryInternalError
 from weblate.vcs.mercurial import HgRepository
 
 
@@ -60,19 +60,60 @@ class MercurialSubrepositoryTest(TestCase):
             (root / "metadata-link" / ".hg").symlink_to(
                 external, target_is_directory=True
             )
-            (root / ".git").mkdir()
-            (root / ".git" / "HEAD").write_bytes(b"nested git history")
-
             repository = HgRepository(directory, local=True)
             with repository.lock:
                 self.assertFalse((root / "child" / ".hg").exists())
                 self.assertFalse((root / "child" / ".git").exists())
-                self.assertFalse((root / ".git").exists())
                 self.assertFalse((root / "metadata-link" / ".hg").is_symlink())
                 self.assertEqual(translation.read_bytes(), b"translated content")
                 self.assertEqual((metadata / "keep").read_bytes(), b"primary history")
                 self.assertEqual((external / "keep").read_bytes(), b"external history")
                 self.assertEqual((root / ".gitignore").read_bytes(), b"ignored")
+
+    def test_mixed_root_metadata_is_rejected_before_recovery_or_commands(self) -> None:
+        for git_name in (".git", ".Git", ".GIT"):
+            with self.subTest(git_name=git_name), TemporaryDirectory() as directory:
+                root = Path(directory)
+                metadata = root / ".hg"
+                metadata.mkdir()
+                (metadata / "requires").touch()
+                (metadata / "hgrc").write_text("[ui]\n", encoding="utf-8")
+                git_metadata = root / git_name
+                if git_name == ".git":
+                    git_metadata.mkdir()
+                elif git_name == ".Git":
+                    git_metadata.touch()
+                else:
+                    git_metadata.symlink_to(root / "missing")
+                repository = HgRepository(directory, local=True)
+                with (
+                    patch.object(repository, "cleanup_repo_temp_dir") as cleanup,
+                    patch.object(repository, "_popen") as popen,
+                    patch.object(repository, "get_config") as get_config,
+                ):
+                    with (
+                        self.assertRaisesRegex(RepositoryInternalError, "invalid"),
+                        repository.lock,
+                    ):
+                        self.fail("Recovery must reject mixed metadata")
+                    with self.assertRaisesRegex(RepositoryInternalError, "invalid"):
+                        repository.status()
+                    with self.assertRaisesRegex(RepositoryInternalError, "invalid"):
+                        repository.get_last_revision()
+                    with repository.lock.without_recovery(), repository.lock:
+                        with self.assertRaisesRegex(RepositoryInternalError, "invalid"):
+                            repository.configure_remote(
+                                "https://example.com/", "", "default"
+                            )
+                        with self.assertRaisesRegex(RepositoryInternalError, "invalid"):
+                            repository.status()
+                    cleanup.assert_not_called()
+                    popen.assert_not_called()
+                    get_config.assert_not_called()
+                self.assertTrue(os.path.lexists(git_metadata))
+                self.assertEqual(
+                    (metadata / "hgrc").read_text(encoding="utf-8"), "[ui]\n"
+                )
 
     def test_cleanup_requires_repository_lock(self) -> None:
         with TemporaryDirectory() as directory:

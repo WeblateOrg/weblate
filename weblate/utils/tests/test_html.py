@@ -28,6 +28,7 @@ from weblate.utils.html import (
     mail_quote_value,
     serialize_mdx_void_elements,
 )
+from weblate.utils.regex import builtin_regex_match
 
 
 class MarkdownLinkTest(SimpleTestCase):
@@ -371,6 +372,21 @@ class HtmlTestCase(SimpleTestCase):
 
     def test_auto_safe_html_malformed_tag(self) -> None:
         self.assertFalse(is_auto_safe_html_source("<a href=", Flags()))
+
+    def test_auto_safe_html_stops_at_first_uncovered_start(self) -> None:
+        source = '<br title="See <b>"><incomplete <br>'
+        with patch(
+            "weblate.utils.html.builtin_regex_match", wraps=builtin_regex_match
+        ) as match:
+            self.assertFalse(is_auto_safe_html_source(source, Flags()))
+        self.assertEqual(
+            [attempt.args[2] for attempt in match.call_args_list],
+            [0, source.index("<incomplete")],
+        )
+
+    def test_auto_safe_html_segment_timeout(self) -> None:
+        with patch("weblate.utils.regex.REGEX_TIMEOUT", 0):
+            self.assertFalse(is_auto_safe_html_source("<br>", Flags()))
 
     def test_auto_safe_html_unmatched_tag_text(self) -> None:
         self.assertFalse(is_auto_safe_html_source("Press <b to continue", Flags()))

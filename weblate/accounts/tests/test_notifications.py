@@ -2222,6 +2222,51 @@ class NotificationSubjectTest(SimpleTestCase):
 
 
 class SendMailsTest(SimpleTestCase):
+    @override_settings(
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+        EMAIL_USE_SSL=False,
+        EMAIL_USE_TLS=False,
+    )
+    def test_smtp_preserves_mailbox_domains(self) -> None:
+        with (
+            patch(
+                "django.core.mail.backends.smtp.DNS_NAME.get_fqdn",
+                return_value="localhost",
+            ),
+            patch("django.core.mail.backends.smtp.smtplib.SMTP") as smtp,
+        ):
+            send_mails(
+                [
+                    {
+                        "address": address,
+                        "subject": "Notification",
+                        "body": "<p>Notification</p>",
+                        "headers": {},
+                    }
+                    for address in (
+                        "Recipient@K.example",
+                        "Traductéur <Recipient@straße.example>",
+                        "équipe@example.test",
+                        "Other@xn--strae-oqa.example",
+                        "Third@EXAMPLE.COM",
+                    )
+                ]
+            )
+
+        sends = smtp.return_value.sendmail.call_args_list
+        self.assertEqual(
+            [send.args[1] for send in sends],
+            [
+                ["Recipient@xn--strae-oqa.example"],
+                ["Other@xn--strae-oqa.example"],
+                ["Third@EXAMPLE.COM"],
+            ],
+        )
+        message = BytesParser(policy=policy.default).parsebytes(sends[0].args[2])
+        self.assertEqual(
+            str(message["To"]), "Traductéur <Recipient@xn--strae-oqa.example>"
+        )
+
     @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
     def test_inline_images(self) -> None:
         subject = "Překlad změněn"

@@ -99,7 +99,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.change_origin import acting_user_context
 from weblate.utils.data import data_path
-from weblate.utils.files import remove_tree
+from weblate.utils.files import REPO_TEMP_DIRNAME, remove_tree
 from weblate.utils.forms import QueryField
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_filename
@@ -116,10 +116,13 @@ from weblate.utils.zip import (
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
+    RepositoryInternalError,
     is_valid_revision_hash,
 )
+from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import VCS_PARAMS
+from weblate.vcs.worktree import GitUpdateWorktree
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping, Sequence
@@ -974,11 +977,15 @@ class ProjectBackup:
 
         for folder, subfolders, filenames in os.walk(directory, onerror=onerror):
             is_root = folder == directory
+            is_git_metadata = folder == os.path.join(directory, ".git")
             subfolders[:] = [
                 name
                 for name in subfolders
-                if name.casefold() not in {".hg", ".git"}
-                or (is_root and name == metadata_dir_name)
+                if (
+                    name.casefold() not in {".hg", ".git"}
+                    or (is_root and name == metadata_dir_name)
+                )
+                and not (is_git_metadata and name in {REPO_TEMP_DIRNAME, "worktrees"})
             ]
             for filename in filenames:
                 if filename.casefold() in {".hg", ".git"}:
@@ -1180,9 +1187,18 @@ class ProjectBackup:
 
         # Compact the repository
         # Recovery can fail on damaged metadata before maintenance can handle it.
-        lock = component.repository.lock
+        repository = component.repository
+        lock = repository.lock
         with ExitStack() as reader:
             with lock.without_recovery(), lock:
+                if (
+                    isinstance(repository, GitRepository)
+                    and repository.isolates_branch_updates
+                    and os.path.lexists(GitUpdateWorktree(repository).marker)
+                ):
+                    raise RepositoryInternalError(
+                        1, "repository_branch_update_backup_pending"
+                    )
                 try:
                     os.stat(component.full_path)
                 except FileNotFoundError:

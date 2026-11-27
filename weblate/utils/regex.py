@@ -34,6 +34,13 @@ def builtin_regex_finditer(
     yield from _compile_builtin_regex(pattern).finditer(value, timeout=REGEX_TIMEOUT)
 
 
+def builtin_regex_match(
+    pattern: re.Pattern[str], value: str, pos: int = 0
+) -> regex.Match | None:
+    """Bound an anchored match of a built-in pattern at the given offset."""
+    return _compile_builtin_regex(pattern).match(value, pos, timeout=REGEX_TIMEOUT)
+
+
 def compile_regex(pattern: str) -> regex.Pattern:
     return regex.compile(pattern)
 

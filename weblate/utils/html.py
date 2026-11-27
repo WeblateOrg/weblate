@@ -7,7 +7,9 @@ from __future__ import annotations
 import re
 import threading
 from collections import defaultdict
+from functools import lru_cache
 from heapq import merge
+from html import unescape
 from html.parser import HTMLParser as StdHTMLParser
 from typing import TYPE_CHECKING, Any, NamedTuple
 
@@ -17,9 +19,14 @@ from django.utils.html import format_html, format_html_join
 from django.utils.translation import pgettext
 from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
+from translate.storage.html import htmlfile
 from turbohtml import Element, PlainText, Text, parse
 
-from weblate.utils.regex import regex_finditer
+from weblate.utils.regex import (
+    builtin_regex_finditer,
+    builtin_regex_match,
+    regex_finditer,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator
@@ -522,7 +529,7 @@ AUTO_SAFE_HTML_TAG_NAME = re.compile(
     re.IGNORECASE,
 )
 AUTO_SAFE_HTML_CUSTOM_ELEMENT = re.compile(
-    r"[a-z][a-z0-9._-]*-[a-z0-9._-]*\Z",
+    r"[a-z][a-z0-9._-]*",
 )
 AUTO_SAFE_HTML_STANDARD_TAG_NAMES = {
     "dialog",
@@ -637,29 +644,21 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
     if "md-text" in flags:
         source = MD_LINK.sub("", source)
 
-    if AUTO_SAFE_HTML_START.search(source) is None:
+    candidate = AUTO_SAFE_HTML_START.search(source)
+    if candidate is None:
         return True
 
-    segments = list(AUTO_SAFE_HTML_SEGMENT.finditer(source))
-    if not segments:
-        return False
-
-    segment_spans = [(segment.start(), segment.end()) for segment in segments]
-    segment_index = 0
-    for start_match in AUTO_SAFE_HTML_START.finditer(source):
-        position = start_match.start()
-        while (
-            segment_index < len(segment_spans)
-            and segment_spans[segment_index][1] <= position
-        ):
-            segment_index += 1
-        if (
-            segment_index == len(segment_spans)
-            or position < segment_spans[segment_index][0]
-        ):
-            return False
-
-    if not all(is_auto_safe_html_segment(segment.group(0)) for segment in segments):
+    # Every candidate must be covered. Anchor the match and stop at the first
+    # uncovered start instead of searching the same suffix for another tag.
+    try:
+        while candidate is not None:
+            segment = builtin_regex_match(
+                AUTO_SAFE_HTML_SEGMENT, source, candidate.start()
+            )
+            if segment is None or not is_auto_safe_html_segment(segment.group()):
+                return False
+            candidate = AUTO_SAFE_HTML_START.search(source, segment.end())
+    except TimeoutError:
         return False
 
     sanitizer = HTMLSanitizer()
@@ -687,9 +686,9 @@ def is_auto_safe_html_segment(segment: str) -> bool:
 def is_auto_safe_html_tag_name(tag_name: str) -> bool:
     """Check whether a tag name is HTML-like enough for auto-safe-html."""
     lower_name = tag_name.lower()
-    return (
-        lower_name in AUTO_SAFE_HTML_TAG_NAMES
-        or AUTO_SAFE_HTML_CUSTOM_ELEMENT.fullmatch(lower_name) is not None
+    return lower_name in AUTO_SAFE_HTML_TAG_NAMES or (
+        "-" in lower_name
+        and AUTO_SAFE_HTML_CUSTOM_ELEMENT.fullmatch(lower_name) is not None
     )
 
 
@@ -799,6 +798,90 @@ def serialize_mdx_void_elements(text: str) -> str:
         return f"{opening} />"
 
     return AUTO_SAFE_HTML_SEGMENT.sub(replace, text)
+
+
+HTML_ATTRIBUTE = re.compile(
+    r"""\s+([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?"""
+)
+
+
+class HTMLTag(NamedTuple):
+    start: int
+    end: int
+    name: str
+    closing: bool
+    standalone: bool
+    editable: tuple[tuple[int, int], ...]
+
+
+@lru_cache(maxsize=128)
+def editable_html_attributes(tag: str) -> tuple[str, ...]:
+    """Use the same attribute policy as Translate Toolkit's HTML extractor."""
+    if tag == "meta":
+        return ()
+    return (
+        *htmlfile.TRANSLATABLE_ATTRIBUTES,
+        *(
+            key
+            for key, tags in htmlfile.TRANSLATABLE_ATTRIBUTE_TAGS.items()
+            if tag in tags
+        ),
+    )
+
+
+def iter_html_tags(text: str, *, markdown: bool) -> Iterator[HTMLTag]:
+    """Find literal HTML tags, keeping original offsets even in quoted attributes."""
+    code = iter(iter_markdown_code_spans(text)) if markdown else iter(())
+    span = next(code, None)
+    for match in builtin_regex_finditer(AUTO_SAFE_HTML_SEGMENT, text):
+        start, end = match.span()
+        while span and span.end <= start:
+            span = next(code, None)
+        if span and span.start <= start:
+            continue
+        name_match = AUTO_SAFE_HTML_TAG_NAME.match(text, start, end)
+        if name_match is None:
+            continue
+        name = name_match["name"].lower()
+        position = name_match.end()
+        values = {}
+        ranges = []
+        while attr := HTML_ATTRIBUTE.match(text, position, end):
+            position = attr.end()
+            if attr.lastindex is not None and attr.lastindex > 1:
+                key = attr[1].lower()
+                if name == "meta" and key in {"name", "property"}:
+                    values[key] = unescape(attr[attr.lastindex])
+                # Unquoted values cannot safely expand to multiple words.
+                if attr.lastindex in {2, 3}:
+                    ranges.append((key, attr.span(attr.lastindex)))
+        # Reject incomplete attributes, Markdown autolinks and closing tags
+        # with attributes. Slash inside an unquoted value belongs to the value.
+        suffix = text[position : end - 1].strip()
+        closing = text.startswith("</", start)
+        if suffix not in {"", "/"} or (closing and position != name_match.end()):
+            continue
+        if name == "meta":
+            metadata = (values.get("name") or values.get("property", "")).lower()
+            editable = [
+                bounds
+                for key, bounds in ranges
+                if key == "content" and metadata in htmlfile.TRANSLATABLE_METADATA
+            ]
+        else:
+            editable = [
+                bounds
+                for key, bounds in ranges
+                if key in editable_html_attributes(name)
+            ]
+        yield HTMLTag(
+            start,
+            end,
+            name,
+            closing,
+            suffix == "/" or name in AUTO_SAFE_HTML_VOID_TAGS,
+            tuple(editable),
+        )
 
 
 class HTMLSanitizer:

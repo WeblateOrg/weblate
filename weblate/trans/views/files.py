@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import os
-from functools import wraps
 from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
@@ -34,13 +33,12 @@ from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import get_upload_message
-from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     download_translation_file,
+    handle_repository_lock_timeout,
     parse_path,
-    repository_lock_timeout_response,
     show_form_errors,
     write_zip_files,
     zip_download,
@@ -49,30 +47,14 @@ from weblate.utils.views import (
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Iterable
     from typing import Any
     from zipfile import ZipFile
 
     from django.db.models import Model, QuerySet
-    from django.http import HttpResponseBase
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.translation import TranslationQuerySet
-
-
-def handle_repository_lock_timeout[**P](
-    view: Callable[P, HttpResponseBase],
-) -> Callable[P, HttpResponseBase]:
-    """Convert repository lock timeouts only at the browser view boundary."""
-
-    @wraps(view)
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> HttpResponseBase:
-        try:
-            return view(*args, **kwargs)
-        except WeblateLockTimeoutError as error:
-            return repository_lock_timeout_response(error)
-
-    return wrapper
 
 
 def get_download_components(
@@ -165,9 +147,9 @@ def _group_download_translations(
 
 def get_auxiliary_download_permissions(
     user: User, components: dict[int, Component]
-) -> dict[tuple[int, str], bool]:
-    """Authorize auxiliary paths; an empty path records component-wide access."""
-    # Resolve paths and component-wide fallbacks without lazy project queries.
+) -> dict[int, dict[str, bool]]:
+    """Authorize configured filenames; an empty name records component-wide access."""
+    # Load component-wide fallbacks without lazy project queries.
     components = {
         component.pk: component
         for component in Component.objects.filter(pk__in=components).select_related(
@@ -178,24 +160,21 @@ def get_auxiliary_download_permissions(
     allowed = translations.filter_permission_scope(
         user, "translation.download"
     ).filter_permission_scope(user, "contribution.view_author")
-    result: dict[tuple[int, str], bool] = {
-        (component.pk, ""): bool(
-            user.has_perm("translation.download", component)
-            and user.has_perm("contribution.view_author", component)
-        )
+    result = {
+        component.pk: {
+            "": bool(
+                user.has_perm("translation.download", component)
+                and user.has_perm("contribution.view_author", component)
+            )
+        }
         for component in components.values()
     }
     for component_id, filename, authorized in translations.annotate(
         authorized=Exists(allowed.filter(pk=OuterRef("pk")))
     ).values_list("component_id", "filename", "authorized"):
         if filename:
-            key = (
-                component_id,
-                os.path.realpath(
-                    os.path.join(components[component_id].full_path, filename)
-                ),
-            )
-            result[key] = result.get(key, True) and authorized
+            permissions = result[component_id]
+            permissions[filename] = permissions.get(filename, True) and authorized
     return result
 
 
@@ -203,14 +182,15 @@ def _write_repository_download_files(
     zipfile: ZipFile,
     repo_component: Component,
     translations: Iterable[Translation],
-    auxiliary_permissions: dict[tuple[int, str], bool],
+    auxiliary_permissions: dict[int, dict[str, bool]],
 ) -> None:
     with repo_component.repository.lock.read():
         filenames: set[str] = set()
         components: set[int] = set()
         component_roots: set[str] = set()
         for translation in translations:
-            component_roots.add(translation.component.full_path)
+            component = translation.component
+            component_roots.add(component.full_path)
             if translation.filename:
                 filename = translation.get_filename()
                 if filename:
@@ -218,25 +198,34 @@ def _write_repository_download_files(
             if translation.component_id in components:
                 continue
             components.add(translation.component_id)
+            if not (component.template or component.new_base or component.intermediate):
+                continue
+
+            permissions = auxiliary_permissions.get(translation.component_id, {})
+            resolved_permissions: dict[str, bool] = {}
+            for name, authorized in permissions.items():
+                if name:
+                    resolved = os.path.realpath(os.path.join(component.full_path, name))
+                    resolved_permissions[resolved] = (
+                        resolved_permissions.get(resolved, True) and authorized
+                    )
             for getter in (
-                translation.component.get_template_filename,
-                translation.component.get_new_base_filename,
-                translation.component.get_intermediate_filename,
+                component.get_template_filename,
+                component.get_new_base_filename,
+                component.get_intermediate_filename,
             ):
                 try:
                     fullname = getter()
                 except ValidationError:
                     continue
-                if fullname and os.path.exists(fullname):
-                    authorized = auxiliary_permissions.get(
-                        (translation.component_id, os.path.realpath(fullname))
+                if (
+                    fullname
+                    and os.path.exists(fullname)
+                    and resolved_permissions.get(
+                        os.path.realpath(fullname), permissions.get("", False)
                     )
-                    if authorized is None:
-                        authorized = auxiliary_permissions.get(
-                            (translation.component_id, ""), False
-                        )
-                    if authorized:
-                        filenames.add(fullname)
+                ):
+                    filenames.add(fullname)
 
         write_zip_files(
             zipfile,
