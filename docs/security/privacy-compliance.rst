@@ -86,6 +86,9 @@ Data retention and deletion
 ---------------------------
 
 - Audit-log retention is configured using :setting:`AUDITLOG_EXPIRY`.
+- Site administrators can configure :setting:`INACTIVE_ACCOUNT_EXPIRY` to
+  anonymize inactive accounts after queuing advance notices for the account
+  holder.
 - To help administrators diagnose removed accounts, the account removal audit
   entry retains the former e-mail address until that entry expires.
 - Backups, reverse-proxy logs, mail server logs, and database retention are

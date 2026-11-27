@@ -15,8 +15,13 @@ from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request
 from django_otp.middleware import OTPMiddleware
 
+from weblate.accounts.inactivity import record_account_activity
 from weblate.accounts.models import set_lang_cookie
-from weblate.accounts.utils import adjust_session_expiry
+from weblate.accounts.utils import (
+    SESSION_EXPIRY_SCOPE_2FA,
+    adjust_session_expiry,
+    get_session_expiry_scope,
+)
 from weblate.auth.models import get_anonymous
 from weblate.utils.change_origin import acting_user_context, set_acting_user
 
@@ -84,9 +89,21 @@ class AuthenticationMiddleware(OTPMiddleware):
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
-        set_acting_user(user)
         request.auser = partial(aget_user, request)
         self._verify_user_sync(request, user)
+
+        if user.is_authenticated:
+            scope = get_session_expiry_scope(request=request, user=user, is_login=False)
+            if not record_account_activity(
+                user, record=scope != SESSION_EXPIRY_SCOPE_2FA
+            ):
+                auth.logout(request)
+                request.user = request.weblate_cached_user = user = get_anonymous()
+            else:
+                adjust_session_expiry(
+                    request=request, user=user, scope=scope, is_login=False
+                )
+        set_acting_user(user)
 
         # Get language to use in this request
         if user.is_authenticated and user.profile.language:
@@ -97,10 +114,6 @@ class AuthenticationMiddleware(OTPMiddleware):
         request.accepted_language = SimpleLazyObject(
             lambda: Language.objects.get_request_language(request)
         )
-
-        # Extend session expiry for authenticated users
-        if user.is_authenticated:
-            adjust_session_expiry(request=request, user=user, is_login=False)
 
         # Based on django.middleware.locale.LocaleMiddleware
         activate(language)

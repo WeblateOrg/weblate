@@ -43,11 +43,7 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.models.workflow import WorkflowSetting
 from weblate.trans.removal import get_current_removal_batch
-from weblate.trans.signals import (
-    component_post_update,
-    translation_post_add,
-    user_pre_delete,
-)
+from weblate.trans.signals import component_post_update, translation_post_add
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
 
@@ -391,11 +387,10 @@ def label_post_delete(sender, instance, **kwargs) -> None:
     transaction.on_commit(instance.project.cleanup_label_stats)
 
 
-@receiver(user_pre_delete)
-def user_commit_pending(sender, instance: User, **kwargs) -> None:
+def commit_pending_for_user(user: User, actor: User | None) -> None:
     """Commit pending changes for user on account removal."""
     # All user changes
-    all_changes = Change.objects.last_changes(instance).filter(user=instance)
+    all_changes = Change.objects.last_changes(user).filter(user=user)
 
     # Filter where project is active
     user_translation_ids = all_changes.values_list("translation", flat=True).distinct()
@@ -407,8 +402,8 @@ def user_commit_pending(sender, instance: User, **kwargs) -> None:
         except IndexError:
             # Non content changes
             continue
-        if last_author == instance:
-            translation.commit_pending("user delete", None)
+        if last_author == user:
+            translation.commit_pending("user delete", actor)
 
 
 @receiver(pre_delete, sender=settings.AUTH_USER_MODEL)

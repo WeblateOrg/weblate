@@ -271,20 +271,26 @@ def log_team_changes(
 
 def lock_team_for_audit(team: Group) -> None:
     """Follow Group.save's project-before-team lock order."""
-    using = router.db_for_write(Group, instance=team)
-    project_ids = (
-        {
-            value
-            for value in Group.objects.using(using)
-            .filter(pk=team.pk)
-            .values_list("defining_project_id", flat=True)
-            if value is not None
-        }
-        if team.pk
-        else set()
+    lock_teams_for_audit([team])
+
+
+def lock_teams_for_audit(teams: list[Group]) -> None:
+    """Lock project scopes first, then teams, in primary-key order."""
+    if not teams:
+        return
+    using = router.db_for_write(Group, instance=teams[0])
+    team_ids = {team.pk for team in teams if team.pk is not None}
+    groups = Group.objects.using(using).filter(pk__in=team_ids)
+    project_ids = {
+        team.defining_project_id
+        for team in teams
+        if team.defining_project_id is not None
+    }
+    project_ids.update(
+        groups.filter(defining_project_id__isnull=False).values_list(
+            "defining_project_id", flat=True
+        )
     )
-    if team.defining_project_id is not None:
-        project_ids.add(team.defining_project_id)
     if project_ids:
         list(
             Project.objects.using(using)
@@ -293,10 +299,11 @@ def lock_team_for_audit(team: Group) -> None:
             .select_for_update(no_key=True)
             .values_list("pk", flat=True)
         )
-    if team.pk is not None:
-        Group.objects.using(using).select_for_update(no_key=True).filter(
-            pk=team.pk
-        ).exists()
+    list(
+        groups.order_by("pk")
+        .select_for_update(no_key=True)
+        .values_list("pk", flat=True)
+    )
 
 
 @contextmanager

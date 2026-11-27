@@ -1,0 +1,19 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  {% if final %}
+    <p>
+      {% blocktranslate %}Your account at {{ site_title }} has been removed due to inactivity.{% endblocktranslate %}
+    </p>
+  {% else %}
+    <p>
+      {% blocktranslate with date=removal_at|date:"DATE_FORMAT" %}Your account at {{ site_title }} has been inactive and is scheduled for removal on {{ date }}.{% endblocktranslate %}
+    </p>
+    <p>{% translate "To keep your account, sign in or use your Weblate API token before that date." %}</p>
+    <p>
+      <a href="{{ current_site_url }}{{ login_url }}">{% translate "Sign in" %}</a>
+    </p>
+  {% endif %}
+{% endblock content %}

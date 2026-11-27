@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.utils.translation import gettext
 from drf_spectacular.authentication import SessionScheme
@@ -25,6 +25,8 @@ if TYPE_CHECKING:
     from rest_framework.authtoken.models import Token
     from rest_framework.request import Request
 
+    from weblate.auth.models import User
+
 
 class WeblateTokenAuthentication(TokenAuthentication):
     """Record the channel only after token authentication succeeds."""
@@ -32,6 +34,11 @@ class WeblateTokenAuthentication(TokenAuthentication):
     def authenticate(self, request: Request) -> tuple[AbstractBaseUser, Token] | None:
         result = super().authenticate(request)
         if result is not None:
+            from weblate.accounts.inactivity import record_account_activity  # ruff: ignore[import-outside-top-level]
+
+            if not record_account_activity(cast("User", result[0])):
+                msg = "User inactive or deleted."
+                raise AuthenticationFailed(msg)
             # Token.pk is currently the credential, not a safe token identifier.
             change_origin.set({"scope": "api"})
             set_acting_user(result[0])

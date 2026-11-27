@@ -5,6 +5,7 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added optional :setting:`automatic removal of inactive accounts <INACTIVE_ACCOUNT_EXPIRY>` with advance e-mail notices.
 * Added :ref:`ranked contributor lists <contributor-rankings>` for languages, workspaces, projects, categories, components, and translations.
 * Added a :ref:`plain-text XLIFF download <download>` for editing markup in external translation tools.
 * Added an option to sort languages by translation percentage in language bar chart widgets.

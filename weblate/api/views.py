@@ -76,6 +76,7 @@ from rest_framework.utils import formatting
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
+from weblate.accounts.inactivity import account_expiry_days
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.accounts.visibility import (
@@ -1431,6 +1432,9 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         if not user.is_authenticated:
             return User.objects.none()
         queryset = User.objects.order_by("id")
+        if self.action in {"update", "partial_update"} and account_expiry_days():
+            # Match the username against the same row the update will save.
+            queryset = queryset.select_for_update(of=("self",), no_key=True)
         if not user.has_perm("user.edit") and not user.has_perm("user.view"):
             return queryset
         return queryset.prefetch_related(
@@ -1585,6 +1589,10 @@ class UserViewSet(SensitiveSessionVerificationMixin, viewsets.ModelViewSet):
         instance = self.get_object()
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
+
+    def update(self, request: Request, *args, **kwargs):
+        with transaction.atomic() if account_expiry_days() else nullcontext():
+            return super().update(request, *args, **kwargs)
 
     def perform_update(self, serializer) -> None:
         serializer.instance.store_audit_state()

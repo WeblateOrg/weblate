@@ -238,6 +238,11 @@ historical records or repository commits. The removal audit entry retains the
 former e-mail address until it expires under :setting:`AUDITLOG_EXPIRY`.
 Operators also control retention in backups, server logs, and external systems.
 
+Site administrators can enable :setting:`INACTIVE_ACCOUNT_EXPIRY` to anonymize
+inactive accounts automatically. Weblate uses the same account removal process
+after queuing advance notices and giving the account holder time to resume
+activity.
+
 Review external authentication, machine translation, analytics, error reporting,
 logging, avatar, and repository integrations for the data they receive.
 Administrator-managed notifications and webhooks can retain contributor

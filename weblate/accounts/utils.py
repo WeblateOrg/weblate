@@ -14,6 +14,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponseBase, HttpResponseRedirect
 from django.urls import reverse
@@ -28,9 +29,11 @@ from django_otp_webauthn.models import WebAuthnCredential
 from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
-from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.models import User
+from weblate.accounts.models import AccountActivity, AuditLog, VerifiedEmail
+from weblate.auth.audit import audit_actor, lock_teams_for_audit
+from weblate.auth.models import Group, User
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.models import commit_pending_for_user
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
@@ -241,28 +244,85 @@ def reset_api_token(user: User) -> Token:
     return create_api_token(user)
 
 
+class RemovalScopeChangedError(Exception):
+    """The account acquired a team outside the locked removal scope."""
+
+
+def removal_teams(user: User) -> list[Group]:
+    return list(
+        Group.objects.filter(Q(user=user) | Q(admins=user)).distinct().order_by("pk")
+    )
+
+
 def remove_user(
     user: User,
     request: AuthenticatedHttpRequest | None,
     *,
     activity: str = "removed",
+    actor: User | None = None,
+    can_remove: Callable[[User], bool] | None = None,
     **params,
 ) -> None:
     """Remove user account."""
-    # Send signal (to commit any pending changes)
+    # Repository commits can lock the author row while holding a repository lock.
+    actor = audit_actor(request, actor)
+    commit_pending_for_user(user, actor)
+    while True:
+        try:
+            _anonymize_user(user, request, activity, actor, can_remove, **params)
+        except RemovalScopeChangedError:
+            # Roll back these locks before acquiring the expanded scope.
+            continue
+        return
+
+
+@transaction.atomic
+def _anonymize_user(
+    user: User,
+    request: AuthenticatedHttpRequest | None,
+    activity: str,
+    actor: User | None,
+    can_remove: Callable[[User], bool] | None,
+    **params,
+) -> None:
+    teams = removal_teams(user)
+    lock_teams_for_audit(teams)
+    # E-mail recovery can hold this row while waiting for an invitation's team.
+    # Scheduled removal can defer and let that sign-in finish.
+    try:
+        user.refresh_from_db(
+            from_queryset=User.objects.select_for_update(
+                skip_locked=can_remove is not None
+            )
+        )
+    except User.DoesNotExist:
+        if can_remove is None:
+            raise
+        return
+    current_teams = removal_teams(user)
+    locked_scopes = {(team.pk, team.defining_project_id) for team in teams}
+    if any(
+        (team.pk, team.defining_project_id) not in locked_scopes
+        for team in current_teams
+    ):
+        raise RemovalScopeChangedError
+    if user.is_anonymized:
+        return
+    if can_remove is not None and not can_remove(user):
+        return
+
+    # Revoke provider credentials in the same transaction as anonymization.
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
     if activity == "removed":
         params["email"] = user.email
-    AuditLog.objects.create(user, request, activity, **params)
+    AuditLog.objects.create(user, request, activity, actor=actor, **params)
 
     # Preserve the original identity and actor in each scope's membership log.
     # Acquire the audit locks before changing the account or its memberships.
-    for team in user.groups.select_related(
-        "defining_project", "defining_workspace"
-    ).order_by("defining_project_id", "pk"):
-        user.remove_team(request, team)
+    for team in current_teams:
+        user.remove_team(request, team, actor=actor)
 
     # Remove any email validation codes
     invalidate_reset_codes(user)
@@ -322,6 +382,7 @@ def remove_user(
 
     # Delete API tokens
     delete_api_tokens(user)
+    AccountActivity.objects.filter(user=user).delete()
 
 
 def lock_user(

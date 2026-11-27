@@ -169,6 +169,13 @@ def cleanup_totp_enrollments() -> None:
 
 
 @app.task(trail=False)
+def cleanup_inactive_accounts() -> None:
+    from weblate.accounts.inactivity import check_inactive_accounts  # ruff: ignore[import-outside-top-level]
+
+    check_inactive_accounts()
+
+
+@app.task(trail=False)
 def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
     # ruff: ignore[import-outside-top-level]
@@ -593,6 +600,11 @@ def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     )
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
+    sender.add_periodic_task(
+        crontab(hour=4, minute=0),
+        cleanup_inactive_accounts.s(),
+        name="inactive-account-cleanup",
+    )
     sender.add_periodic_task(
         3600, cleanup_totp_enrollments.s(), name="totp-enrollment-cleanup"
     )

@@ -1237,7 +1237,7 @@ class User(AbstractBaseUser):
 
     def save(self, *args, **kwargs) -> None:
         # ruff: ignore[import-outside-top-level]
-        from weblate.accounts.models import AuditLog
+        from weblate.accounts.models import AccountActivity, AuditLog
 
         original = None
         if self.pk:
@@ -1259,11 +1259,43 @@ class User(AbstractBaseUser):
             self.email = None
         if not self.is_active:
             self.date_expires = None
-        super().save(*args, **kwargs)
+        update_fields = kwargs.get("update_fields")
+        if (
+            original is not None
+            and original.email != self.email
+            and (update_fields is None or "email" in update_fields)
+            and not self.is_bot
+            and not self.is_anonymous
+            and (self.is_active or self.full_name != "Deleted User")
+        ):
+            from weblate.accounts.inactivity import account_expiry_days  # ruff: ignore[import-outside-top-level]
+
+            using = kwargs.get("using") or router.db_for_write(
+                type(self), instance=self
+            )
+            with transaction.atomic(using=using):
+                super().save(*args, **kwargs)
+                activity_fields = {
+                    "last_activity": timezone.now(),
+                    "removal_at": None,
+                    "reminded": False,
+                }
+                activity_states = AccountActivity.objects.using(using)
+                if account_expiry_days():
+                    activity_states.update_or_create(
+                        user_id=self.pk, defaults=activity_fields
+                    )
+                else:
+                    activity_states.filter(
+                        user_id=self.pk, removal_at__isnull=False
+                    ).update(**activity_fields)
+        else:
+            super().save(*args, **kwargs)
         self.clear_permissions_cache()
         if (
             original
             and original.is_active != self.is_active
+            and (update_fields is None or "is_active" in update_fields)
             and self.full_name != "Deleted User"
             and not self.is_anonymous
             and self._audit_state is None
@@ -1359,9 +1391,18 @@ class User(AbstractBaseUser):
     def is_internal(self):
         return self.is_anonymous or (self.is_bot and ":" in self.username)
 
+    @property
+    def is_anonymized(self) -> bool:
+        if self.is_active or self.full_name != "Deleted User":
+            return False
+        deleted_username = f"deleted-{self.pk}"
+        return self.username == deleted_username or self.username.startswith(
+            f"{deleted_username}-"
+        )
+
     def account_edit_blocked(self, actor: object) -> bool:
-        """Protect internal accounts and require another actor to edit a bot."""
-        return self.is_internal or (self.is_bot and self == actor)
+        """Protect internal and anonymized accounts and prevent bot self-edits."""
+        return self.is_internal or self.is_anonymized or (self.is_bot and self == actor)
 
     def _has_generated_token_identity(self, username_prefix: str) -> bool:
         return (
@@ -2105,11 +2146,15 @@ class User(AbstractBaseUser):
 
     @transaction.atomic
     def remove_team(
-        self, request: AuthenticatedHttpRequest | None, team: Group
+        self,
+        request: AuthenticatedHttpRequest | None,
+        team: Group,
+        *,
+        actor: User | None = None,
     ) -> None:
         from weblate.auth.audit import audit_actor, audit_team_changes  # ruff: ignore[import-outside-top-level]
 
-        actor = audit_actor(request)
+        actor = audit_actor(request, actor)
         if not self.team_memberships.filter(group=team).exists():
             return
         if actor is None:
@@ -2117,7 +2162,7 @@ class User(AbstractBaseUser):
         else:
             with audit_team_changes(team, actor, request):
                 self.groups.remove(team)
-        self._audit_team_change(request, team, activity="team-remove")
+        self._audit_team_change(request, team, activity="team-remove", actor=actor)
 
     def store_audit_state(
         self,
@@ -2840,7 +2885,16 @@ class Invitation(models.Model):
             msg = "Invitation expired on accept!"
             raise InvitationExpiredError(msg)
 
-        if not current.matches_user(user):
+        # An account removal can commit while this request waits for the team.
+        was_active = user.is_active
+        try:
+            user.refresh_from_db(
+                from_queryset=User.objects.select_for_update(no_key=True)
+            )
+        except User.DoesNotExist as error:
+            msg = "User mismatch on accept!"
+            raise InvitationUserMismatchError(msg) from error
+        if (was_active and not user.is_active) or not current.matches_user(user):
             msg = "User mismatch on accept!"
             raise InvitationUserMismatchError(msg)
 

@@ -56,6 +56,10 @@ SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", trans_defaults.DEFAULT_SITE_TITLE
 # Site domain
 SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 
+INACTIVE_ACCOUNT_EXPIRY = get_env_int(
+    "WEBLATE_INACTIVE_ACCOUNT_EXPIRY", accounts_defaults.DEFAULT_INACTIVE_ACCOUNT_EXPIRY
+)
+
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", trans_defaults.DEFAULT_ENABLE_HTTPS)
 

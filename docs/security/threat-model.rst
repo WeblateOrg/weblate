@@ -935,6 +935,9 @@ Security properties Weblate provides
        authenticated web-action rate-limit lockouts, and project or component
        setting changes in audit logs or history. Account-removal audit entries
        retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`.
+       The opt-in inactivity policy authorizes a system actor to use the same
+       removal flow after queuing advance notices and a fresh check for
+       activity. E-mail delivery is best effort.
        Detailed :ref:`team audit records <team-audit>` require the corresponding
        project or workspace administrative authority; site-wide and deleted-scope
        records require site administration. Sensitive membership history is not
@@ -947,7 +950,8 @@ Security properties Weblate provides
        retained beyond the configured audit-log expiry.
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
-       configured retention; correctness-only for minor event gaps.
+       configured retention or premature automatic account anonymization;
+       correctness-only for minor event gaps.
    * - New project moves enforce the destination billing plan's public-only
        rule on both project access and component restrictions, except for
        superusers. Existing incompatible data is retained for administrator

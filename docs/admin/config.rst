@@ -1405,6 +1405,38 @@ HIDE_VERSION
 Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to
 get the same behavior as ``VERSION_DISPLAY = "hide"``.
 
+.. setting:: INACTIVE_ACCOUNT_EXPIRY
+
+INACTIVE_ACCOUNT_EXPIRY
+-----------------------
+
+The number of days of inactivity before Weblate schedules account removal.
+The default is ``0``, which disables automatic account removal.
+
+Weblate checks active accounts with an e-mail address daily. It excludes bots,
+superusers, and accounts past their configured expiry. It queues a warning
+30 days before removal, a reminder at least five days before removal, and a
+final notice after anonymization. The notice periods start when Weblate queues
+each message. Delivery is best effort. Signing in or using an authenticated
+browser session or Weblate API token, including for Git exports, cancels
+pending removal. Changing the account's primary e-mail address also counts
+as activity and cancels pending removal.
+
+While the policy is enabled, Weblate records activity at most once per hour
+per account. Before scheduling or removing an account that appears stale,
+Weblate also checks the account's most recent recorded change. This can count
+activity from when the policy was disabled. Authenticated read-only API
+requests count as activity while the policy is enabled. Earlier browsing and
+read-only API requests may have left no activity record. Accounts with no
+recent activity on record can receive a warning on the first check.
+
+Disabling the policy clears pending removals at the next check.
+:setting:`AUDITLOG_EXPIRY` controls how long removal audit entries are retained.
+
+.. seealso::
+
+   :doc:`/admin/privacy`
+
 .. setting:: INTERNAL_BOT_EMAIL_TEMPLATE
 
 INTERNAL_BOT_EMAIL_TEMPLATE

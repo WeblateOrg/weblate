@@ -17,7 +17,8 @@ from django.db import close_old_connections, connection, transaction
 from django.http import Http404
 from django.test import TransactionTestCase
 
-from weblate.auth.audit import audit_team_changes
+from weblate.accounts.utils import remove_user
+from weblate.auth.audit import audit_team_changes, lock_team_for_audit
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -295,3 +296,55 @@ class GroupConcurrencyTest(TransactionTestCase):
         self.assertFalse(
             TeamMembership.objects.filter(user=member, group_id=team_id).exists()
         )
+
+    def test_account_removal_and_superuser_invitation_lock_team_first(self) -> None:
+        actor = User.objects.create_user("manager", "manager@example.org")
+        member = User.objects.create_user("member", "member@example.org")
+        team = Group.objects.create(
+            name="Invitation team", defining_project=self.project
+        )
+        member.add_team(None, team)
+        invitation = Invitation.objects.create(
+            author=actor, user=member, group=team, is_superuser=True
+        )
+        team_locked = Event()
+        release = Event()
+        removal_pid: Queue[int] = Queue()
+
+        def accept_invitation() -> None:
+            try:
+                with transaction.atomic():
+                    lock_team_for_audit(team)
+                    team_locked.set()
+                    self.assertTrue(release.wait(timeout=10))
+                    invitation.accept(None, User.objects.get(pk=member.pk))
+            finally:
+                connection.close()
+
+        def remove_account() -> None:
+            try:
+                self.assertTrue(team_locked.wait(timeout=10))
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT pg_backend_pid()")
+                    removal_pid.put(cursor.fetchone()[0])
+                with acting_user_context(actor):
+                    remove_user(User.objects.get(pk=member.pk), None, actor=actor)
+            finally:
+                connection.close()
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            accepted = executor.submit(accept_invitation)
+            removed = executor.submit(remove_account)
+            try:
+                self.wait_for_blocked_connection(removal_pid.get(timeout=10))
+                with transaction.atomic():
+                    User.objects.select_for_update(nowait=True).get(pk=member.pk)
+            finally:
+                release.set()
+            accepted.result(timeout=10)
+            removed.result(timeout=10)
+
+        member.refresh_from_db()
+        self.assertFalse(member.is_active)
+        self.assertFalse(member.groups.filter(pk=team.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())

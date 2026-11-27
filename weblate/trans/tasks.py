@@ -1688,6 +1688,7 @@ def cleanup_project_tokens(project: Project, user: User | None) -> None:
         remove_user(
             token_user,
             None,
+            actor=user,
             activity="token-removed",
             project=project.name,
             username=username,
