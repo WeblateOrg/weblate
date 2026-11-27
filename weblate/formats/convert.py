@@ -83,7 +83,9 @@ class MarkdownTranslatorLike(Protocol):
     extract_frontmatter: bool
     no_placeholders: bool
 
-    def lookup(self, string: str) -> str: ...
+    def _lookup(self, string: str) -> str: ...
+
+    def _lookup_translation(self, string: str) -> str | None: ...
 
 
 # TODO: the type ignore is wrong, we probably need some shared base class
@@ -436,7 +438,6 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     @staticmethod
     def get_parser_class() -> type[Any]:
         """Return parser class."""
-        # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
         from translate.storage.markdown import MarkdownFile
 
@@ -445,7 +446,6 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     @staticmethod
     def get_translator_class() -> type[Any]:
         """Return translator class."""
-        # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
         from translate.convert.po2md import MarkdownTranslator
 
@@ -453,21 +453,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
     def get_save_translator_class(self) -> type[Any]:
         """Return translator class for saving."""
-        translator_class = self.get_translator_class()
-
-        class WeblateMarkdownTranslator(translator_class):  # type: ignore[valid-type, misc]
-            def lookup(self, string: str) -> str:
-                unit = self.inputstore.sourceindex.get(string, None)
-                if unit is None:
-                    return string
-                unit = unit[0]
-                if unit.istranslated():
-                    return unit.target
-                if self.includefuzzy and unit.isfuzzy():
-                    return unit.target
-                return unit.source
-
-        return WeblateMarkdownTranslator
+        return self.get_translator_class()
 
     def translate_markdown(
         self,
@@ -483,7 +469,8 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
         outputstore = self.get_parser_class()(
             inputfile=templatefile,
-            callback=converter.lookup,
+            callback=converter._lookup,  # ruff: ignore[private-member-access]
+            lookup_callback=converter._lookup_translation,  # ruff: ignore[private-member-access]
             max_line_length=converter.maxlength if converter.maxlength > 0 else None,
             extract_code_blocks=converter.extract_code_blocks,
             extract_frontmatter=converter.extract_frontmatter,
@@ -498,8 +485,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
     ) -> S:
-        # Hold Markdown lock because this is not thread-safe, see
-        # https://github.com/miyuchina/mistletoe/issues/210
+        # The shared markdown-it-py parsers populate their rule caches lazily.
         with MARKDOWN_LOCK:
             # Fake input file with a blank filename
             mdparser = self.get_parser_class()(
@@ -529,8 +515,6 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        # Hold Markdown lock because this is not thread-safe, see
-        # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
             converter = self.get_save_translator_class()(
                 inputstore=self.store,
@@ -587,7 +571,6 @@ class MDXFormat(MarkdownFormat):
     @staticmethod
     def get_parser_class() -> type[Any]:
         """Return parser class."""
-        # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
         from translate.storage.mdxfile import MDXFile
 
@@ -596,7 +579,6 @@ class MDXFormat(MarkdownFormat):
     @staticmethod
     def get_translator_class() -> type[Any]:
         """Return translator class."""
-        # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
         from translate.convert.po2mdx import MDXTranslator
 
@@ -607,7 +589,6 @@ class MDXFormat(MarkdownFormat):
         if MergeDuplicates.get_value(self.file_format_params):
             return super().get_save_translator_class()
 
-        # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
         from translate.convert.po2mdx import MDXTranslator
 
@@ -632,23 +613,26 @@ class MDXFormat(MarkdownFormat):
                     no_placeholders,
                 )
                 self._source_units: dict[str, deque[pounit]] = defaultdict(deque)
+                self._last_lookup: tuple[str, str | None] | None = None
                 for unit in self.inputstore.units:
                     if not unit.isheader():
                         self._source_units[get_string(unit.source)].append(unit)
 
-            def lookup(self, string: str) -> str:
-                units = self._source_units.get(string)
-                if not units:
-                    return string
-                unit = units.popleft()
-                if unit.istranslated():
-                    return get_string(unit.target)
-                if self.includefuzzy and unit.isfuzzy():
-                    return get_string(unit.target)
-                return get_string(unit.source)
-
             def _lookup(self, string: str) -> str:
-                return self.lookup(string)
+                target = None
+                units = self._source_units.get(string)
+                if units:
+                    unit = units.popleft()
+                    if unit.istranslated() or (self.includefuzzy and unit.isfuzzy()):
+                        target = get_string(unit.target)
+                self._last_lookup = (string, target)
+                return string if target is None else target
+
+            def _lookup_translation(self, string: str) -> str | None:
+                # The parser can check whether the current occurrence had a target.
+                if self._last_lookup is not None and self._last_lookup[0] == string:
+                    return self._last_lookup[1]
+                return super()._lookup_translation(string)
 
         return ContextMDXTranslator
 

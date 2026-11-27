@@ -144,6 +144,11 @@ For application-developer workflows and broader product integration guidance, us
 - Be careful with repository, webhook, and file-handling code; validate inputs
   and avoid introducing path traversal, command injection, or script injection
   risks.
+- Review regexes over user or repository data for worst-case cost across the
+  whole operation, including failed matches and repeated searches. Prefer a
+  forward-only scan where practical. For backtracking searches without a clear
+  bound, use the timeout helpers in `weblate/utils/regex.py` and handle timeout
+  explicitly. Add a focused regression test for the relevant failure path.
 - Create and update repository files atomically using existing interfaces:
   `TranslationFormat.save_atomic()` for format writers and
   `BaseAddon.write_repo_file()` for add-ons. Stage external-tool output before

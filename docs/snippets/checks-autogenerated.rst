@@ -2357,6 +2357,12 @@ The translation uses unsafe HTML markup. This check has to be enabled using
 ``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
 autofixer which can automatically sanitize the markup.
 
+When this check is active, the translation editor highlights HTML tags such as
+``<br>``. Click a tag in the source or use its numbered keyboard shortcut to
+insert the entire tag. You can translate text in attributes such as ``alt`` and
+``title``. The editor highlights the surrounding markup as you edit the value.
+Escaped text such as ``&lt;br&gt;`` is displayed as text.
+
 .. hint::
 
    When ``md-text`` flag is also used, the Markdown style links are also allowed.

@@ -1166,6 +1166,11 @@ real_patterns = [
         weblate.wladmin.views.discovery_callback,
         name="manage-discovery-callback",
     ),
+    re_path(
+        r"^\.well-known/weblate-discovery/(?P<nonce>[0-9a-f]{64})/$",
+        login_not_required(weblate.wladmin.views.discovery_verification),
+        name="discovery-verification",
+    ),
     path("manage/alerts/", weblate.wladmin.views.alerts, name="manage-alerts"),
     path("manage/repos/", weblate.wladmin.views.repos, name="manage-repos"),
     path("manage/ssh/", weblate.wladmin.views.ssh, name="manage-ssh"),

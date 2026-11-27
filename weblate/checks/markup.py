@@ -54,6 +54,7 @@ from weblate.utils.html import (
     MD_REFLINK,
     HTMLSanitizer,
     extract_html_attributes,
+    iter_html_tags,
     iter_markdown_syntax,
 )
 from weblate.utils.xml import parse_xml
@@ -740,6 +741,33 @@ class SafeHTMLCheck(TargetCheck):
     description = gettext_lazy("The translation uses unsafe HTML markup.")
     default_disabled = True
     extra_enable_strings = ("auto-safe-html",)
+
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
+        if "<" not in source or self.should_skip(unit):
+            return []
+        flags = unit.all_flags
+        if not flags.is_active("safe-html", source):
+            return []
+        try:
+            tags = list(iter_html_tags(source, markdown="md-text" in flags))
+        except TimeoutError:
+            return []
+        highlights = []
+        for tag in tags:
+            position = tag.start
+            for start, end in [*tag.editable, (tag.end, tag.end)]:
+                if position < start:
+                    highlights.append(
+                        Highlight(
+                            position,
+                            start,
+                            source[position:start],
+                            kind="markup",
+                            html_tag=tag,
+                        )
+                    )
+                position = end
+        return pair_markup_highlights(highlights, group_prefix="html")
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         flags = unit.all_flags

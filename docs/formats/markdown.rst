@@ -8,6 +8,10 @@ Markdown files
 The translatable content is extracted from the Markdown files and offered for the translation.
 For Markdown files with JSX syntax, use :ref:`mdx`.
 
+When a heading has an explicit ID such as ``## Installation {#install}``,
+Weblate extracts the heading text and preserves ``{#install}`` in the output.
+This keeps links to the heading working when its text is translated.
+
 Markdown units automatically get the ``md-text``, ``auto-safe-html`` and ``strict-same`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and
 custom elements while avoiding HTML cleanup on non-HTML angle-bracket syntax
@@ -42,7 +46,7 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | File format                    | `Markdown file`                     |
 +--------------------------------+-------------------------------------+
-| File format parameters         | ``markdown_merge_duplicates=True``  |
+| File format parameters         | ``merge_duplicates=True``           |
 +--------------------------------+-------------------------------------+
 
 .. _markdown-duplicates:

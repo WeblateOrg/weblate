@@ -33,9 +33,10 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from translate.storage.pypo import pofile
+    from translate.storage.pypo import pofile, pounit
 
     from weblate.formats.base import TranslationFormat
+    from weblate.formats.convert import ConvertPoUnit
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
@@ -131,6 +132,33 @@ class HTMLFormatTest(ConvertFormatTest):
     def test_import_existing(self) -> None:
         storage = self.parse_file(HTML_FILE_TRANSLATED, HTML_FILE)
         self.assertEqual(storage.all_units[4].target, "Díky za Weblate.")
+
+    def test_translate_attributes(self) -> None:
+        content = (
+            '<html><body><p id="label">Label</p>'
+            '<button aria-label="Open" aria-labelledby="label" '
+            'data-error="Missing" data-translate-attribute="data-error">'
+            "OK</button></body></html>"
+        )
+        template = Path(self.tempdir) / "template.html"
+        translation = Path(self.tempdir) / "translation.html"
+        template.write_text(content, encoding="utf-8")
+        translation.write_text(content, encoding="utf-8")
+        storage = self.parse_file(str(translation), str(template))
+        units = {unit.source: unit for unit in storage.content_units}
+        self.assertEqual(set(units), {"Label", "Open", "Missing", "OK"})
+        units["Open"].set_target("Ouvrir")
+        units["Missing"].set_target('Erreur "introuvable" & réessayer')
+
+        storage.save()
+
+        self.assertEqual(
+            translation.read_text(encoding="utf-8"),
+            '<html><body><p id="label">Label</p>'
+            '<button aria-label="Ouvrir" aria-labelledby="label" '
+            'data-error="Erreur &quot;introuvable&quot; &amp; réessayer" '
+            'data-translate-attribute="data-error">OK</button></body></html>',
+        )
 
 
 class MarkdownFormatTest(ConvertFormatTest):
@@ -480,6 +508,40 @@ const messages = { hello: "Hello" }
 
 
 class MDXFormatSaveTest(SimpleTestCase):
+    def test_duplicate_headings_preserve_identity_translation(self) -> None:
+        content = "### Name {#first}\n\n### Name {#second}\n"
+        for translate_values in (False, True):
+            with (
+                self.subTest(translate_values=translate_values),
+                TemporaryDirectory() as tempdir,
+            ):
+                template = Path(tempdir) / "template.mdx"
+                translation = Path(tempdir) / "translation.mdx"
+                template.write_text(content, encoding="utf-8")
+                translation.write_text(content, encoding="utf-8")
+
+                storage = MDXFormat(
+                    str(translation),
+                    template_store=MDXFormat(str(template), is_template=True),
+                    file_format_params={
+                        "merge_duplicates": False,
+                        "md_frontmatter_translate_values": translate_values,
+                    },
+                )
+                first, second = storage.content_units
+                self.assertEqual((first.source, second.source), ("Name", "Name"))
+                first.set_target("Translated")
+                first.set_state(STATE_TRANSLATED)
+                second.set_target("Name")
+                second.set_state(STATE_TRANSLATED)
+
+                storage.save()
+
+                self.assertEqual(
+                    translation.read_text(encoding="utf-8"),
+                    "### Translated {#first}\n\n### Name {#second}\n",
+                )
+
     def test_duplicate_sources_save_distinct_targets(self) -> None:
         content = """import Box from "./Box"
 
@@ -522,6 +584,43 @@ First translation
 
 Second translation
 """,
+            )
+
+
+class MarkdownFormatSaveTest(SimpleTestCase):
+    def test_frontmatter_values_save_prefers_current_heading_key(self) -> None:
+        content = "---\ntitle: Page title\n---\n\n### Name {#name}\n"
+        params: FileFormatParams = {"md_frontmatter_translate_values": True}
+        with TemporaryDirectory() as tempdir:
+            template = Path(tempdir) / "template.md"
+            translation = Path(tempdir) / "translation.md"
+            template.write_text(content, encoding="utf-8")
+            translation.write_text(content, encoding="utf-8")
+            storage: MarkdownFormat[pofile, pounit, ConvertPoUnit] = MarkdownFormat(
+                str(translation),
+                template_store=MarkdownFormat(
+                    str(template), is_template=True, file_format_params=params
+                ),
+                file_format_params=params,
+            )
+            frontmatter, heading = storage.content_units
+            frontmatter.set_target("Title translation")
+            heading.set_target("")
+            storage.store.addsourceunit("Name {#name}").target = "Heading translation"
+
+            storage.save()
+
+            self.assertEqual(
+                translation.read_text(encoding="utf-8"),
+                "---\ntitle: Title translation\n---\n\n### Heading translation {#name}\n",
+            )
+
+            heading.set_target("Name")
+            storage.save()
+
+            self.assertEqual(
+                translation.read_text(encoding="utf-8"),
+                "---\ntitle: Title translation\n---\n\n### Name {#name}\n",
             )
 
 

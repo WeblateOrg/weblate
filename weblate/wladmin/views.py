@@ -24,11 +24,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.crypto import salted_hmac
 from django.utils.decorators import method_decorator
 from django.utils.html import format_html
 from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
-from django.views.decorators.http import require_POST
+from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
 
@@ -135,6 +137,7 @@ from weblate.workspaces.views import WorkspaceListBase
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.forms import ModelForm
+    from django.http import HttpRequest
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
@@ -467,6 +470,18 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                 transaction.on_commit(support_status_update.delay)
                 messages.success(request, gettext("Discover Weblate enabled."))
     return redirect("manage")
+
+
+@require_GET
+@never_cache
+def discovery_verification(request: HttpRequest, nonce: str) -> HttpResponse:
+    support = SupportStatus.objects.get_current()
+    if not support.discoverable or not support.secret:
+        raise Http404
+    proof = salted_hmac(
+        "weblate.discovery", nonce, secret=support.secret, algorithm="sha256"
+    ).hexdigest()
+    return HttpResponse(proof, content_type="text/plain")
 
 
 def _get_support_action_messages(*, refresh: bool) -> tuple[str, str, str, str]:

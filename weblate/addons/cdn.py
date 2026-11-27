@@ -8,7 +8,9 @@ import contextlib
 import json
 import os
 import shutil
+import stat
 import tempfile
+from functools import cache, partial
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
@@ -16,6 +18,7 @@ from urllib.parse import quote
 from uuid import uuid4
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -28,14 +31,18 @@ from weblate.addons.events import (
     AddonEventOutcome,
 )
 from weblate.addons.forms import CDNJSForm
-from weblate.addons.tasks import cdn_parse_html
+from weblate.addons.tasks import cdn_parse_html, publish_cdn_files
+from weblate.formats.txt import AppStoreParser
 from weblate.utils.cdn import CDNFileMetadata, content_metadata
+from weblate.utils.lock import LockScope, WeblateLock
 from weblate.utils.state import STATE_TRANSLATED
 
 CDN_JS_FILENAME = "weblate.js"
 CDN_MANIFEST_FILENAME = "manifest.json"
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from django.http import HttpRequest
 
     from weblate.addons.models import Addon
@@ -374,15 +381,65 @@ class CDNFilesAddon(CDNBaseAddon):
                 gettext("The translation files CDN add-on cannot publish weblate.js.")
             )
 
+    @staticmethod
+    def is_publication_path(
+        component: Component, filename: str, *, directory: bool = False
+    ) -> bool:
+        """Validate each path entry without following symlinks in the checkout."""
+        root = Path(component.full_path)
+        path = Path(filename)
+        check_mode = stat.S_ISDIR if directory else stat.S_ISREG
+        try:
+            relative = path.relative_to(root)
+            if (
+                relative.parts
+                and ".." not in relative.parts
+                and all(
+                    stat.S_ISDIR((root / parent).lstat().st_mode)
+                    for parent in reversed(relative.parents[:-1])
+                )
+                and check_mode(path.lstat().st_mode)
+            ):
+                component.check_file_is_valid(filename)
+                return True
+        except (FileNotFoundError, NotADirectoryError):
+            return False
+        except (ValidationError, ValueError):
+            pass
+        component.log_warning("CDN publication skipped an unsafe checkout path")
+        return False
+
+    def iter_publication_files(self, translation: Translation) -> Iterator[str]:
+        component = translation.component
+        filename = os.path.join(component.full_path, translation.filename)
+        if component.file_format_cls.simple_filename:
+            if self.is_publication_path(component, filename):
+                yield filename
+            return
+
+        accept_directory = cache(
+            partial(self.is_publication_path, component, directory=True)
+        )
+        if not accept_directory(filename):
+            return
+        matches = AppStoreParser.iter_file_matches(
+            filename, accept_directory=accept_directory
+        )
+        for match in dict.fromkeys(match for match, _flags in matches):
+            if self.is_publication_path(component, match):
+                yield match
+
     def publish_files(self, component: Component) -> None:
+        publication_lock = WeblateLock(scope=LockScope.CDN_FILES, key=self.instance.pk)
+        with component.repository.lock.read(), publication_lock:
+            self._publish_files(component)
+
+    def _publish_files(self, component: Component) -> None:
         self.ensure_cdn_dir()
 
         outputs: list[tuple[str, str, str]] = []
         for translation in self.get_translations(component):
-            filenames = translation.filenames
-            for filename in filenames:
-                if not os.path.isfile(filename):
-                    continue
+            for filename in self.iter_publication_files(translation):
                 output_filename = self.get_output_filename(
                     translation,
                     filename,
@@ -412,8 +469,11 @@ class CDNFilesAddon(CDNBaseAddon):
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
-        self.publish_files(component)
+    ) -> AddonEventOutcome:
+        publish_cdn_files.delay_on_commit(
+            self.instance.pk, component.pk, activity_log_id
+        )
+        return AddonEventOutcome.pending()
 
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None

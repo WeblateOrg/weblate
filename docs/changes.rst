@@ -20,6 +20,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* New :ref:`discover-weblate` listings verify the instance over HTTPS.
+
 * :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.
 * The :ref:`addon-weblate.gettext.msgmerge` add-on refreshes the ``Language-Team`` header using the current translation URL when the ``po_set_language_team`` :ref:`file_format_params` parameter is enabled.
 * Show per-string write errors as a persistent :ref:`quality check <check-save-failed>` and limit failed pending edits to one retry per week, with history recorded only on the first failure.
@@ -28,6 +30,9 @@ Weblate 2026.12
 * Resume supported browser form submissions after :ref:`verifying your identity <sensitive-action-verification>`.
 
 * Switched :ref:`comment Markdown rendering <user-comments>` to markdown-it-py. Raw HTML tags appear as text, and links and images with disallowed destinations show only their labels.
+* :ref:`HTML files <html>` extract more human-readable attributes, including ARIA labels and custom attributes marked with ``data-translate-attribute``.
+* Preserve distinct translations when saving repeated headings in :ref:`MDX files <mdx>`.
+* When :ref:`translating Markdown front matter values <markdown-frontmatter-values>`, keep heading translations that match the source and use older heading keys when the current translation is missing.
 * Reduced check contention and component settings update time with :ref:`workspace-propagation-scope`.
 
 * The :ref:`addon-weblate.gettext.django` add-on can exclude source directories when generating a POT file.
@@ -42,10 +47,13 @@ Weblate 2026.12
 * Restoring a :ref:`projectbackup` preserves automated translation authors and can inherit regional plural rules. Importers can skip duplicate target translations and their Weblate data while keeping the archived repository files.
 
 * The :ref:`C# format <check-c-sharp-format>` check now also recognizes named placeholders used by C# string interpolation, such as ``There are {count} apples``, including member access (``{user.Name}``) and alignment/format components, while treating doubled braces (``{{``/``}}``) as escapes.
+* Highlight :ref:`HTML tags <check-safe-html>` in the translation editor so translators can insert a complete tag with one click and edit quoted attribute values while the surrounding markup stays highlighted.
+
 * Added a choice to :ref:`connect an existing GitHub App installation to another workspace <code-hosting-github-app-connect>`.
 * Allow five minutes to assign strings to newly uploaded :ref:`screenshots` before raising an unused screenshot alert.
 * Show the last translator and approver in the :ref:`translation editor <source-context>`.
 * Keep the original editor search when merging a translation from the :ref:`translation context <source-context>`.
+* Show a lock icon beside the path of currently locked components in :ref:`translation-history`.
 
 * Link to SSH key replacement instructions in :ref:`component diagnostics <alerts>` when Azure DevOps reports an expired key.
 * Show commit counts, occurrence totals, file-format evidence, and the last recorded translation change in the relevant :ref:`component diagnostics <alerts>`.
@@ -88,6 +96,7 @@ Weblate 2026.12
 * Enforced :setting:`AUTH_LOCK_ATTEMPTS` for password and :ref:`two-factor <2fa>` sign-ins even when requests arrive concurrently.
 * Protected translation file operations, :ref:`downloads <download>`, and :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` extraction against races with concurrent repository updates.
 * Prevented :ref:`Mercurial <vcs-mercurial>` from using metadata in leftover Git checkouts and cleaned up remote checkouts created by failed API component validation.
+* Excluded symlinked files and directories from the :ref:`Translation files CDN <addon-weblate.cdn.files>`.
 * Prevented bot accounts from editing themselves and protected the generated account identities of :ref:`project API tokens <project-api>`.
 * Required recent browser verification to view or change :ref:`translation service configurations <machine-translation-setup>` or change exclusions.
 * Removed internal filesystem paths and raw command output from gettext and script :ref:`add-on alerts <alerts>`.
@@ -104,6 +113,7 @@ Weblate 2026.12
 * Prevented component creation from writing translation templates outside its repository.
 * Applied :setting:`VCS_RESTRICT_PRIVATE` and trusted-host exemptions to :ref:`GitHub App manifest-code and OAuth exchanges <code-hosting-github-app-register>` and API requests, including redirects and pagination URLs.
 * Revoked stale OAuth e-mail recovery addresses and reconciled the :ref:`account e-mail <user-profile>` when its last verification is removed.
+* Preserved internationalized recipient domains when sending :ref:`account e-mails <user-profile>` and other notifications.
 * Filtered the site-wide changes listings and feeds by workspace visibility, so workspaces the viewer cannot access no longer appear there.
 * Restricted :ref:`webhook matching <hooks-target-matching>` to repository owners, preventing generic deliveries from triggering GitHub App updates through linked components.
 * Fixed a regular expression denial of service in :ref:`Azure Repos webhooks <code-hosting-azure-repos-notifications>`.
@@ -114,6 +124,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Generate a valid Android resource directory for Valencian by using the BCP 47 ``b+ca+valencia`` form instead of the unsupported ``values-ca@valencia``.
 * Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
 * Isolated Git merges and rebases in temporary worktrees so conflicts leave the live checkout available for :ref:`repository operations <repository-maintenance>`.
@@ -122,6 +133,7 @@ Weblate 2026.12
 * Removed the separate upload rate limit for :http:post:`REST translation uploads </api/translations/(string:project)/(string:component)/(string:language)/file/>`.
 * Accepted quality check aliases in :ref:`flag settings <custom-checks>` and made them searchable in the flag editor.
 * Limited repository automation :ref:`alerts <alerts>` to components that own a remote repository and skipped screenshot coverage guidance for glossaries.
+* Delayed :ref:`repository browser <component-repoweb>` and :ref:`project website <project-web>` alerts for HTTP 5xx responses until failures persist for three days.
 * Applied changes to :setting:`VCS_ALLOW_SCHEMES` and the :setting:`default Git committer <DEFAULT_COMMITER_NAME>` after restarting Weblate, including for existing repositories.
 * Applied :ref:`enforced checks <enforcing-checks>` when changing a string's state through :ref:`bulk editing <bulk-edit>`.
 * Preserved draft edits and explained how to save them when submitting a :ref:`suggestion <suggestions>` with changes to a glossary explanation.

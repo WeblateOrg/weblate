@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
@@ -691,6 +692,55 @@ class OpenValidatedURLTest(SimpleTestCase):
 class GetUriErrorTest(SimpleTestCase):
     def setUp(self) -> None:
         cache.clear()
+
+    @http_mock.activate
+    @patch("weblate.utils.requests.time")
+    def test_get_uri_error_reports_persistent_server_errors(self, clock: Mock) -> None:
+        url = "https://example.com/source"
+        http_mock.register("GET", url, status_code=503)
+        day = 24 * 3600
+
+        cache_clock = SimpleNamespace(time=clock)
+        with (
+            patch("django.core.cache.backends.base.time", cache_clock),
+            patch("django.core.cache.backends.locmem.time", cache_clock),
+        ):
+            for check in range(3):
+                clock.return_value = check * day
+                self.assertIsNone(get_uri_error(url))
+                # Reuse the result during the retry interval.
+                self.assertIsNone(get_uri_error(url))
+
+            clock.return_value = 3 * day
+            self.assertIn("503", get_uri_error(url) or "")
+            self.assertEqual(len(http_mock.calls), 4)
+
+            # A long gap starts a new grace period.
+            clock.return_value += 2 * day
+            self.assertIsNone(get_uri_error(url))
+            self.assertEqual(len(http_mock.calls), 5)
+
+    @http_mock.activate
+    @patch("weblate.utils.requests.time")
+    def test_get_uri_error_resets_server_error_grace_period(self, clock: Mock) -> None:
+        url = "https://example.com/source"
+        statuses = iter((502, 502, 502, 502, 502, 200, 503, 404))
+        http_mock.register_callback(
+            "GET", url, lambda _request: httpx2.Response(next(statuses))
+        )
+        cycle = 12 * 3600
+
+        cache_clock = SimpleNamespace(time=clock)
+        with (
+            patch("django.core.cache.backends.base.time", cache_clock),
+            patch("django.core.cache.backends.locmem.time", cache_clock),
+        ):
+            for check in range(7):
+                clock.return_value = check * cycle
+                self.assertIsNone(get_uri_error(url))
+            clock.return_value = 7 * cycle
+            self.assertIn("404", get_uri_error(url) or "")
+        self.assertEqual(len(http_mock.calls), 8)
 
     @http_mock.activate
     def test_get_uri_error_allows_internal_host_by_default(self) -> None:

@@ -11,7 +11,7 @@ import json
 from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from hashlib import sha256
-from time import monotonic
+from time import monotonic, time
 from typing import TYPE_CHECKING, cast
 from urllib.parse import urlparse
 
@@ -59,6 +59,10 @@ DEFAULT_RESPONSE_SIZE = 2 * 1024 * 1024
 MACHINERY_RESPONSE_SIZE = 1024 * 1024
 VCS_RESPONSE_SIZE = 16 * 1024 * 1024
 TESSERACT_RESPONSE_SIZE = 64 * 1024 * 1024
+URI_CHECK_RETRY_INTERVAL = 3600
+URI_CHECK_SERVER_ERROR_GRACE_PERIOD = 3 * 24 * 3600
+# Component alerts are checked daily. Allow for variation in the schedule.
+URI_CHECK_SERVER_ERROR_MAX_GAP = 36 * 3600
 
 
 class ResponseTooLarge(httpx2.DecodingError):
@@ -903,7 +907,7 @@ def _uri_error_cache_key(
     private_allowlist: list[str] | tuple[str, ...],
 ) -> str:
     policy = f"{allow_private_targets}:{tuple(sorted(private_allowlist))}:{uri}"
-    return f"uri-check-{sha256(policy.encode()).hexdigest()}"
+    return f"uri-check-v2-{sha256(policy.encode()).hexdigest()}"
 
 
 def format_validation_error(error: ValidationError) -> str:
@@ -920,7 +924,7 @@ def get_uri_error(
     allow_private_targets: bool = True,
     private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> str | None:
-    """Return error for fetching the URL or None if it works."""
+    """Return an error for fetching the URL if it should be reported."""
     if uri.startswith("https://nonexisting.weblate.org/"):
         return "Non existing test URL"
     cache_key = _uri_error_cache_key(
@@ -930,11 +934,12 @@ def get_uri_error(
     )
     cached = cache.get(cache_key)
     if cached is True:
-        LOGGER.debug("URL check for %s, cached success", uri)
+        LOGGER.debug("URL check for %s, cached without error", uri)
         return None
     if cached:
         LOGGER.debug("URL check for %s, cached failure", uri)
         return cached
+    server_error_key = f"{cache_key}-server-error"
     try:
         _probe_validated_url(
             uri,
@@ -944,15 +949,31 @@ def get_uri_error(
             ),
         )
     except (httpx2.HTTPError, ValidationError) as error:
-        if getattr(getattr(error, "response", None), "status_code", 0) == 429:
-            return None
+        response = error.response if isinstance(error, httpx2.HTTPStatusError) else None
+        if response is not None and response.is_server_error:
+            now = time()
+            first_error = cache.get_or_set(
+                server_error_key, now, URI_CHECK_SERVER_ERROR_MAX_GAP
+            )
+            cache.touch(server_error_key, URI_CHECK_SERVER_ERROR_MAX_GAP)
+            if (
+                first_error is None
+                or now - first_error < URI_CHECK_SERVER_ERROR_GRACE_PERIOD
+            ):
+                cache.set(cache_key, True, URI_CHECK_RETRY_INTERVAL)
+                return None
+        else:
+            cache.delete(server_error_key)
+            if response is not None and response.status_code == 429:
+                return None
         result = (
             format_validation_error(error)
             if isinstance(error, ValidationError)
             else str(error)
         )
-        cache.set(cache_key, result, 3600)
+        cache.set(cache_key, result, URI_CHECK_RETRY_INTERVAL)
         return result
+    cache.delete(server_error_key)
     cache.set(cache_key, True, 12 * 3600)
     LOGGER.debug("URL check for %s, tested success", uri)
     return None
