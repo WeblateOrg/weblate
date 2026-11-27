@@ -117,6 +117,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Generate a valid Android resource directory for Valencian by using the BCP 47 ``b+ca+valencia`` form instead of the unsupported ``values-ca@valencia``.
 * Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.
 * Isolated Git merges and rebases in temporary worktrees so conflicts leave the live checkout available for :ref:`repository operations <repository-maintenance>`.

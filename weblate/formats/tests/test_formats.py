@@ -833,6 +833,21 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
                     TranslationFormat.get_language_googleplay(code), "no-NO"
                 )
 
+    def test_valencian_android_language_code(self) -> None:
+        # Valencian has no ISO 639-1 code and no region code, so a plain
+        # Android qualifier would keep the "@" and produce a directory name
+        # the resource compiler rejects.
+        self.assertEqual(
+            AndroidFormat.get_language_android("ca@valencia"), "b+ca+valencia"
+        )
+        self.assertEqual(
+            AndroidFormat.get_language_filename(
+                "res/values-*/strings.xml",
+                AndroidFormat.get_language_code("ca@valencia"),
+            ),
+            "res/values-b+ca+valencia/strings.xml",
+        )
+
     CSV_PLURAL_CONTENT: ClassVar[bytes] = (
         b'"source","target","context","source_plural_form",'
         b'"target_plural_form","id_hash"\n'
