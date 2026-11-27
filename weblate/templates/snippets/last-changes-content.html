@@ -3,6 +3,7 @@
 {% translate "Origin:" context "Change metadata badge label" as origin_prefix %}
 {% translate "IP address:" context "Change metadata badge label" as ip_prefix %}
 {% translate "IP address recorded for this change." context "Change metadata tooltip" as ip_description %}
+{% translate "This translation is locked." as lock_description %}
 
 <table id="changes-table" class="table table-autowidth container-fluid">
   <tbody id="changes-list">
@@ -24,6 +25,16 @@
           <ul class="breadcrumb">
             {% if item.change.path_object %}
               {% path_object_breadcrumbs item.change.path_object flags=False %}
+            {% endif %}
+            {% if not in_email and item.change.component_id and item.change.component.locked %}
+              <li class="ms-1">
+                <span class="state-icon history-lock"
+                      role="img"
+                      aria-label="{{ lock_description }}"
+                      title="{{ lock_description }}"
+                      tabindex="0"
+                      data-bs-toggle="tooltip">{% icon "state/lock.svg" %}</span>
+              </li>
             {% endif %}
           </ul>
         </td>
