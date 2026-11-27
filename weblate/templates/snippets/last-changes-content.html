@@ -39,40 +39,9 @@
           </ul>
         </td>
         <td class="history-data col-md-9">
-          {% if not in_email %}
-            <div class="btn-float">
-              {% if item.permissions.can_revert %}
-                <form method="post"
-                      class="d-inline"
-                      action="{{ translate_url|default:item.change.translation.get_translate_url }}{% querystring query_params offset=offset checksum=item.change.unit.checksum %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="checksum" value="{{ item.change.unit.checksum }}" />
-                  <button class="btn btn-link"
-                          type="submit"
-                          name="revert"
-                          value="{{ item.change.id }}"
-                          aria-label="{% translate "Revert"|force_escape %}"
-                          title="{% translate "Revert"|force_escape %}">{% icon "undo.svg" %}</button>
-                </form>
-              {% endif %}
-              {% if item.permissions.can_block_user %}
-                <a class="btn btn-link red"
-                   href="{% url 'manage-access' project=item.change.project.slug %}?block_user={{ item.change.user.username }}#block-user"
-                   title="{% translate "Block user"|force_escape %}">{% icon "account-cancel.svg" %}</a>
-              {% endif %}
-              {% if debug %}
-                <a class="btn btn-link"
-                   href="{% url 'show_change' pk=item.change.pk %}"
-                   title="{% translate "View notification"|force_escape %}">{% icon "bell.svg" %}</a>
-              {% endif %}
-              <a class="btn btn-link"
-                 href="{{ item.change.get_absolute_url }}"
-                 title="{% translate "View details"|force_escape %}">{% icon "magnify-plus-outline.svg" %}</a>
-            </div>
-          {% endif %}
           <div class="comment-content">
             {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
-            {% if item.history_data.preview_truncated %}
+            {% if in_email and item.history_data.preview_truncated %}
               <a href="{% url 'change-detail' pk=item.change.pk %}">{% translate "View full change" %}</a>
             {% endif %}
             {% for history_field in item.history_data.change_details_fields %}
@@ -87,6 +56,52 @@
           </div>
           {% if in_email %}
             <a class="button" href="{{ item.change.get_absolute_url }}">{% translate "View" %}</a>
+          {% elif not full_content or item.can_open_related or item.permissions.can_revert or item.permissions.can_block_user or debug %}
+            <div class="content-actions">
+              {% if not full_content %}
+                <a class="btn btn-outline-primary"
+                   href="{% url 'change-detail' pk=item.change.pk %}">
+                  {% if item.history_data.preview_truncated %}
+                    {% translate "View full change" %}
+                  {% else %}
+                    {% translate "View change" %}
+                  {% endif %}
+                </a>
+              {% elif item.can_open_related %}
+                <a class="btn btn-outline-primary"
+                   href="{{ item.change.get_absolute_url }}">{% translate "Open related item" %}</a>
+              {% endif %}
+              {% if item.permissions.can_revert or item.permissions.can_block_user or debug or item.can_open_related and not full_content %}
+                <div class="dropdown">
+                  {% include "snippets/content-actions-toggle.html" %}
+                  <div class="dropdown-menu dropdown-menu-end shadow">
+                    {% if item.can_open_related and not full_content %}
+                      <a class="dropdown-item"
+                         href="{{ item.change.get_absolute_url }}">{% translate "Open related item" %}</a>
+                    {% endif %}
+                    {% if item.permissions.can_revert %}
+                      <form method="post"
+                            action="{{ translate_url|default:item.change.translation.get_translate_url }}{% querystring query_params offset=offset checksum=item.change.unit.checksum %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="checksum" value="{{ item.change.unit.checksum }}" />
+                        <button class="dropdown-item"
+                                type="submit"
+                                name="revert"
+                                value="{{ item.change.id }}">{% translate "Revert" %}</button>
+                      </form>
+                    {% endif %}
+                    {% if debug %}
+                      <a class="dropdown-item"
+                         href="{% url 'show_change' pk=item.change.pk %}">{% translate "View notification" %}</a>
+                    {% endif %}
+                    {% if item.permissions.can_block_user %}
+                      <a class="dropdown-item text-danger"
+                         href="{% url 'manage-access' project=item.change.project.slug %}?block_user={{ item.change.user.username|urlencode:"" }}#block-user">{% translate "Block user" %}</a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
           {% endif %}
         </td>
       </tr>

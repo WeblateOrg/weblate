@@ -19,6 +19,7 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Added labeled, touch-friendly actions to :ref:`translation editor <translating>` history, suggestions, automatic suggestions, and comments.
 * New :ref:`discover-weblate` listings verify the instance over HTTPS.
 
 * :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.

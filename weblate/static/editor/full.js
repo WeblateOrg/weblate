@@ -95,47 +95,7 @@
       submitForm({ target: this.translationArea[0] });
     });
 
-    /* Delete machinery results */
-    delegate(this.editors, "click", ".js-delete-machinery", (e) => {
-      const deleteButton = e.target.closest(".js-delete-machinery");
-      const self = this;
-
-      /* Delete Url dialog */
-      let deleteEntriesDialog = null;
-      delegate(
-        self.editors,
-        "shown.bs.modal",
-        "#delete-url-modal",
-        function () {
-          deleteEntriesDialog = this;
-          const modalBody = deleteEntriesDialog.querySelector(".modal-body");
-          modalBody.replaceChildren();
-          const text = getRawData(deleteButton.closest(".machinery-row")).text;
-          modalBody.append(self.machinery.renderDeleteUrls(text));
-        },
-      );
-
-      delegate(self.editors, "hidden.bs.modal", "#delete-url-modal", () => {
-        deleteEntriesDialog = null;
-      });
-
-      delegate(self.editors, "submit", ".delete-url-form", function (ev) {
-        ev.preventDefault();
-        const deleteEntries = this.querySelectorAll(
-          "input.form-check-input:checked",
-        );
-        if (deleteEntriesDialog === null) {
-          return;
-        }
-        bootstrap.Modal.getInstance(deleteEntriesDialog)?.hide();
-
-        for (const entry of deleteEntries) {
-          if (entry.id) {
-            self.removeTranslationEntry(entry.id);
-          }
-        }
-      });
-    });
+    this.initMachineryDeleteDialog();
 
     hotkeys("alt+end", () => {
       const button = document.getElementById("button-end");
@@ -406,7 +366,10 @@
       e.preventDefault();
 
       this.startMachineryRequest();
-      this.machinery.setState({ translations: [] });
+      this.machinery.setState({
+        translations: [],
+        weblateTranslationMemory: new Set(),
+      });
       document.getElementById("machinery-translations").replaceChildren();
       fetch(form.getAttribute("action"), {
         method: "POST",
@@ -467,6 +430,51 @@
           }
           break;
         }
+      }
+    });
+  };
+
+  FullEditor.prototype.initMachineryDeleteDialog = function () {
+    const dialog = document.getElementById("delete-url-modal");
+    if (!dialog) {
+      return;
+    }
+    let result = null;
+    dialog.addEventListener("show.bs.modal", (event) => {
+      result = getRawData(event.relatedTarget?.closest(".machinery-row"));
+      if (!result) {
+        event.preventDefault();
+        return;
+      }
+      dialog
+        .querySelector(".modal-body")
+        .replaceChildren(this.machinery.renderDeleteUrls(result));
+    });
+    dialog.addEventListener("hidden.bs.modal", () => {
+      if (!result) {
+        return;
+      }
+      const rows = machineryRows(
+        document.getElementById("machinery-translations"),
+      );
+      const row = rows.find((row) =>
+        this.machinery.matchesResult(getRawData(row), result),
+      );
+      const toggle = row?.querySelector(
+        ".machinery-more-actions:not([hidden]) .dropdown-toggle",
+      );
+      (toggle ?? document.getElementById("memory-search-input"))?.focus();
+      result = null;
+    });
+    dialog.closest("form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!result) {
+        return;
+      }
+      const selected = dialog.querySelectorAll(".form-check-input:checked");
+      bootstrap.Modal.getInstance(dialog).hide();
+      for (const entry of selected) {
+        this.removeTranslationEntry(entry.value);
       }
     });
   };
@@ -555,7 +563,6 @@
         ...this.machinery.state.translations,
         ...data.translations,
       ],
-      weblateTranslationMemory: new Set(),
       lang: data.lang,
       dir: data.dir,
     });
@@ -914,9 +921,7 @@
       if (!WLT.Config.HAS_REVIEW_WORKFLOW) {
         actions.querySelector(".js-copy-approve-save-machinery").remove();
       }
-      if (!this.state.weblateTranslationMemory.has(el.text)) {
-        actions.querySelector(".js-delete-machinery").remove();
-      }
+      this.updateDeleteAction(actions, el);
       return actions;
     }
 
@@ -952,7 +957,7 @@
       this.renderOrigins(row, el.origins);
       this.renderContext(row, el.contexts);
 
-      row.querySelector(".history-data").prepend(this.renderActions(el));
+      row.querySelector(".history-data").append(this.renderActions(el));
 
       return row;
     }
@@ -1120,52 +1125,62 @@
       );
     }
 
-    renderDeleteUrls(text) {
-      const translations = this.state.translations;
-      const modalBody = document.createElement("label");
+    resultKey(el) {
+      return JSON.stringify([el.text, el.source]);
+    }
 
-      translations.forEach((translation) => {
-        if (
-          text === translation.text &&
-          typeof translation.delete_url !== "undefined"
-        ) {
-          const inputElement = document.createElement("input");
-          inputElement.className = "form-check-input";
-          inputElement.type = "checkbox";
-          inputElement.value = "";
-          inputElement.id = translation.delete_url;
-          inputElement.checked = true;
-          const labelElement = document.createElement("label");
-          labelElement.className = "form-check-label";
-          labelElement.setAttribute("for", translation.delete_url);
-          labelElement.textContent = translation.origin;
-          const divElement = document.createElement("div");
-          divElement.className = "form-check";
-          divElement.append(inputElement, labelElement);
-          modalBody.append(divElement);
+    matchesResult(el, other) {
+      return el.text === other.text && el.source === other.source;
+    }
+
+    updateDeleteAction(row, el) {
+      row.querySelector(".machinery-more-actions").hidden =
+        !this.state.weblateTranslationMemory.has(this.resultKey(el));
+    }
+
+    renderDeleteUrls(result) {
+      const options = document.createDocumentFragment();
+      const seen = new Set();
+      for (const translation of this.state.translations) {
+        const url = translation.delete_url;
+        if (!url || seen.has(url) || !this.matchesResult(translation, result)) {
+          continue;
         }
-      });
-      return modalBody;
+        seen.add(url);
+        const input = document.createElement("input");
+        input.className = "form-check-input";
+        input.type = "checkbox";
+        input.value = url;
+        input.checked = true;
+        const label = document.createElement("label");
+        label.className = "form-check d-block";
+        label.append(
+          input,
+          document.createTextNode(translation.origin ?? translation.service),
+        );
+        options.append(label);
+      }
+      return options;
     }
 
     render(translations) {
       const translationsEl = document.getElementById("machinery-translations");
       translations.forEach((translation) => {
         if (translation.delete_url) {
-          this.state.weblateTranslationMemory.add(translation.text);
+          this.state.weblateTranslationMemory.add(this.resultKey(translation));
         }
         const origin = this.originEntry(translation);
         let service = null;
         let insertBefore = null;
         let done = false;
+        let previousActions = null;
+        let focusedAction = null;
+        let recreateMenu = false;
 
         /* This is the merging and insert sort logic */
         for (const row of machineryRows(translationsEl)) {
           const base = getRawData(row);
-          if (
-            base.text === translation.text &&
-            base.source === translation.source
-          ) {
+          if (this.matchesResult(base, translation)) {
             // Add plural
             if (!base.plural_forms.includes(translation.plural_form)) {
               base.plural_forms.push(translation.plural_form);
@@ -1188,12 +1203,22 @@
               if (!insertBefore) {
                 insertBefore = row.nextElementSibling;
               }
+              previousActions = row.querySelector(".content-actions");
+              const active = document.activeElement;
+              if (previousActions.contains(active)) {
+                focusedAction = active;
+                recreateMenu = active.closest(".dropdown-menu") !== null;
+              }
+              bootstrap.Dropdown.getInstance(
+                previousActions.querySelector(".dropdown-toggle"),
+              )?.hide();
               row.remove();
               break;
             }
             setRawData(row, base);
             this.renderOrigins(row, base.origins);
             this.renderContext(row, base.contexts);
+            this.updateDeleteAction(row, base);
             done = true;
             break;
           }
@@ -1205,11 +1230,23 @@
 
         if (!done) {
           const newRow = this.renderTranslation(translation, service);
+          if (previousActions) {
+            newRow
+              .querySelector(".content-actions")
+              .replaceWith(previousActions);
+            this.updateDeleteAction(previousActions, translation);
+          }
           if (insertBefore) {
             insertBefore.before(newRow);
           } else {
             translationsEl.append(newRow);
           }
+          if (recreateMenu) {
+            bootstrap.Dropdown.getOrCreateInstance(
+              previousActions.querySelector(".dropdown-toggle"),
+            ).show();
+          }
+          focusedAction?.focus();
         }
       });
     }

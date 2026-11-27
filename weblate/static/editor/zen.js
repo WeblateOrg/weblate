@@ -395,7 +395,7 @@
   const getUnitVersion = (unit) => unit?._zenVersion ?? 0;
 
   const suggestionKey = (el) =>
-    el.closest(".history-row")?.querySelector("button[value]")?.value;
+    el.closest("[data-suggestion-id]")?.dataset.suggestionId;
 
   /* Clone suggestion into the editor of the same unit */
   delegate(
@@ -412,7 +412,7 @@
     },
   );
 
-  delegate(document, "submit", ".zen-suggestions-form", function (e) {
+  delegate(document, "submit", ".zen-suggestion-form", function (e) {
     e.preventDefault();
     handleSuggestionAction(this, e.submitter);
   });
@@ -458,9 +458,7 @@
     payload.append("checksum", checksum);
     payload.append(mode, button.value);
     if (mode === "delete" || mode === "spam") {
-      const rejection = button
-        .closest(".history-row")
-        ?.querySelector("input[name=rejection]");
+      const rejection = form.elements.namedItem("rejection");
       payload.append("rejection", rejection?.value ?? "");
     }
 
@@ -509,6 +507,8 @@
       key: suggestionKey(active),
       name: active.getAttribute("name"),
       index: rows.indexOf(row),
+      clone: active.matches(".js-copy-suggestion"),
+      inMenu: active.closest(".dropdown-menu") !== null,
     };
   }
 
@@ -520,21 +520,27 @@
     const rows = container
       ? [...container.querySelectorAll(".history-row")]
       : [];
-    let row =
-      focus.key === undefined
-        ? null
-        : (container
-            ?.querySelector(`button[value="${CSS.escape(focus.key)}"]`)
-            ?.closest(".history-row") ?? null);
-    // The suggestion is gone, move to the one which took its place
-    if (!row && rows.length) {
-      row = rows[Math.min(Math.max(focus.index, 0), rows.length - 1)];
+    const previousRow = rows.find(
+      (row) => row.dataset.suggestionId === focus.key,
+    );
+    const row = previousRow ?? rows[Math.min(focus.index, rows.length - 1)];
+    const toggle = row?.querySelector(".dropdown-toggle");
+    const previousAction = focus.name
+      ? previousRow?.querySelector(`[name="${CSS.escape(focus.name)}"]`)
+      : focus.clone
+        ? previousRow?.querySelector(".js-copy-suggestion")
+        : previousRow?.querySelector(".dropdown-toggle");
+    if (
+      previousAction &&
+      focus.inMenu &&
+      previousAction.closest(".dropdown-menu")
+    ) {
+      bootstrap.Dropdown.getOrCreateInstance(toggle).show();
     }
     const target =
-      (focus.name
-        ? row?.querySelector(`[name="${CSS.escape(focus.name)}"]`)
-        : null) ??
-      row?.querySelector("button[name]") ??
+      previousAction ??
+      row?.querySelector(".content-actions > button") ??
+      toggle ??
       getUnitEditors(unit)[0];
     target?.focus();
   }
@@ -557,6 +563,7 @@
           }
         }
 
+        disposeSuggestionMenus(container);
         container.innerHTML = data.suggestions_html;
         WLT.Editor.initHighlightControls(unit);
         initHighlight(container);
@@ -572,10 +579,20 @@
         restoreSuggestionFocus(unit, container, focus);
       }
     } else {
+      disposeSuggestionMenus(container);
       unit.querySelector(".zen-suggestions-row")?.remove();
       restoreSuggestionFocus(unit, null, focus);
     }
     updateSuggestionsIndicator(unit, data.has_suggestions ? container : null);
+  }
+
+  function disposeSuggestionMenus(container) {
+    for (const toggle of container?.querySelectorAll(".dropdown-toggle") ??
+      []) {
+      const dropdown = bootstrap.Dropdown.getInstance(toggle);
+      dropdown?.hide();
+      dropdown?.dispose();
+    }
   }
 
   /* Keep the per-string suggestion count in sync */
@@ -676,25 +693,24 @@
     }
   }
 
-  function fetchZenUnit(form) {
-    const unit = form.closest(".zen-unit");
-    const url = form.dataset.unitUrl;
+  function fetchZenUnit(list) {
+    const unit = list.closest(".zen-unit");
+    const { unitUrl: url, checksum, unitId } = list.dataset;
     if (!unit || !url) {
       return Promise.resolve();
     }
-    const checksum = form.querySelector("[name=checksum]")?.value ?? "";
     const statusdiv = getStatusCell(unit, checksum);
     // Guard: a running save would make the response outdated on arrival
     if (statusdiv?.classList.contains("unit-state-saving")) {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(fetchZenUnit(form)); // Reinvoke
+          resolve(fetchZenUnit(list)); // Reinvoke
         }, 100);
       });
     }
     const params = new URLSearchParams({
       checksum,
-      unit_id: form.querySelector("[name=unit_id]")?.value ?? "",
+      unit_id: unitId,
     });
     const version = getUnitVersion(unit);
     return fetch(`${url}?${params}`, {
@@ -723,13 +739,13 @@
   }
 
   function refreshZenSuggestions() {
-    const [first, ...rest] = document.querySelectorAll(".zen-suggestions-form");
+    const [first, ...rest] = document.querySelectorAll(".zen-suggestion-list");
     if (!first) {
       return;
     }
     fetchZenUnit(first).then(() => {
-      for (const form of rest) {
-        fetchZenUnit(form);
+      for (const list of rest) {
+        fetchZenUnit(list);
       }
     });
   }

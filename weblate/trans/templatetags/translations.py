@@ -1266,6 +1266,8 @@ def format_last_changes_content(
     offset: int | None = None,
     translate_url: str | None = None,
     full_content: bool = False,
+    *,
+    editor_unit_id: int | None = None,
 ) -> dict[str, Any]:
     """
     Format last changes content for display.
@@ -1297,6 +1299,12 @@ def format_last_changes_content(
         processed_changes.append(
             {
                 "change": change,
+                "can_open_related": not in_email
+                and (
+                    change.unit_id != editor_unit_id
+                    if change.unit_id
+                    else bool(change.screenshot_id or change.path_object)
+                ),
                 "permissions": {
                     "can_revert": can_revert,
                     "can_block_user": can_block_user,
@@ -1321,6 +1329,7 @@ def format_last_changes_content(
         "profile_viewer": user,
         "subscription_user": user if in_email else None,
         "in_email": in_email,
+        "full_content": full_content,
         "debug": debug,
         "query_params": QueryDict(search_url or ""),
         "offset": offset if search_url else None,

@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<button type="submit"
+        class="{{ button_class }}"
+        name="upvote"
+        value="{{ suggestion.pk }}">{% translate "Vote for" %}</button>
+<button type="submit"
+        class="{{ button_class }}"
+        name="downvote"
+        value="{{ suggestion.pk }}">{% translate "Vote against" %}</button>

@@ -2993,7 +2993,7 @@ onReady(() => {
 
   /* Suggestion rejection */
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") {
+    if (event.key !== "Enter" || event.isComposing) {
       return;
     }
     const input = event.target.closest?.(".rejection-reason");
@@ -3001,8 +3001,7 @@ onReady(() => {
       return;
     }
     event.preventDefault();
-    const scope = input.closest(".history-row") ?? input.closest("form");
-    scope?.querySelector("[name='delete']")?.click();
+    input.form.requestSubmit(input.form.elements.namedItem("delete"));
   });
 
   /* Notifications removal */
