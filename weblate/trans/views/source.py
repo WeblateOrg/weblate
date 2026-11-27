@@ -94,7 +94,11 @@ def edit_context(request: AuthenticatedHttpRequest, pk):
             flags.remove(flag)
         else:
             flags.merge(flag)
-        target.update_extra_flags(flags.format(), request.user)
+        extra_flags = flags.format()
+        if reason := target.get_flag_action_error(action, flag, extra_flags):
+            messages.error(request, reason)
+            return redirect_next(request.POST.get("next"), unit.get_absolute_url())
+        target.update_extra_flags(extra_flags, request.user)
         if action == "promoteflag":
             # The source save has updated this translation's derived state.
             unit.refresh_from_db()

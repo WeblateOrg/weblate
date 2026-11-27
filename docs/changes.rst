@@ -19,6 +19,8 @@ Weblate 2026.12
 
 .. rubric:: Improvements
 
+* Grouped :ref:`glossary Tools actions <glossary>` by language scope, prevented conflicting Untranslatable and Forbidden flag changes from the menu, and displayed untranslatable status separately from edit restrictions.
+
 * New :ref:`discover-weblate` listings verify the instance over HTTPS.
 
 * :ref:`translation-memory` entries matching the source text exactly score 100% regardless of their context; entries with the same context are preferred and shown as a context match.

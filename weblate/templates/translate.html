@@ -39,7 +39,6 @@
   {% include "snippets/component/state.html" with object=unit.translation.component %}
 
   {% perm 'unit.edit' unit as user_can_translate %}
-  {% perm 'unit.delete' unit as user_can_delete %}
   {% perm 'unit.review' unit as user_can_review %}
   {% perm 'suggestion.add' unit as user_can_suggest %}
   {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
@@ -221,8 +220,8 @@
                 <p>{{ user_can_translate.reason }}</p>
               {% endif %}
               <div>
-                {% with flag_actions=flag_actions %}
-                  {% if source_edit_form or user_can_delete or flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
+                {% with is_glossary=unit.translation.component.is_glossary %}
+                  {% if source_edit_form or unit_tools.can_delete or unit_tools.actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
                     <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
@@ -232,7 +231,8 @@
                               id="unit_tools_dropdown">
                         {% translate "Tools" %} <span class="caret"></span>
                       </button>
-                      <ul class="dropdown-menu shadow">
+                      <ul class="dropdown-menu shadow{% if is_glossary %} dropdown-menu-end glossary-tools-menu{% endif %}"
+                          aria-labelledby="unit_tools_dropdown">
                         {% if source_edit_form %}
                           <li>
                             <button type="button"
@@ -241,24 +241,9 @@
                                     data-bs-target="#source-edit-modal">{% translate "Edit source" %}</button>
                           </li>
                         {% endif %}
-                        {% if user_can_delete %}
-                          <li>
-                            <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
-                            <a href=""
-                               class="dropdown-item link-post"
-                               data-href="{% url "delete-unit" unit_id=unit.pk %}"
-                               data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% translate "Delete string" %}</a>
-                          </li>
-                        {% endif %}
-                        {% if flag_actions %}
-                          {% for action, value, name, scope in flag_actions %}
-                            <li>
-                              <a href=""
-                                 class="dropdown-item link-post"
-                                 data-href="{% url 'edit_context' pk=unit.pk %}"
-                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "scope": "{{ scope|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
-                            </li>
-                          {% endfor %}
+                        {% if not is_glossary %}
+                          {% translate "Delete string" as delete_label %}
+                          {% include "snippets/unit-tools-actions.html" with actions=unit_tools.actions heading="" can_delete=unit_tools.can_delete %}
                         {% endif %}
                         {% if user_can_add_unit %}
                           <li>
@@ -273,6 +258,18 @@
                             <a class="dropdown-item add-alternative-post"
                                href="">{% translate "Add alternative translation" %}</a>
                           </li>
+                        {% endif %}
+                        {% if is_glossary %}
+                          {% if unit_tools.can_delete_translation or unit_tools.translation_actions %}
+                            {% translate "This translation" as heading %}
+                            {% translate "Delete this string in this language" as delete_label %}
+                            {% include "snippets/unit-tools-actions.html" with actions=unit_tools.translation_actions can_delete=unit_tools.can_delete_translation %}
+                          {% endif %}
+                          {% if unit_tools.can_delete_source or unit_tools.source_actions %}
+                            {% translate "All languages" as heading %}
+                            {% translate "Delete this string in all languages" as delete_label %}
+                            {% include "snippets/unit-tools-actions.html" with actions=unit_tools.source_actions can_delete=unit_tools.can_delete_source %}
+                          {% endif %}
                         {% endif %}
                       </ul>
                     </div>

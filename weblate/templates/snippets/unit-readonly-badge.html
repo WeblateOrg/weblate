@@ -12,7 +12,10 @@
   {% elif unit.is_source %}
     <span class="badge text-bg-secondary"
           title="{% translate "The source string cannot be edited."|force_escape %}">{% translate "Source string" %}</span>
-  {% else %}
+  {% elif not unit.translation.component.is_glossary or not unit.untranslatable %}
     <span class="badge text-bg-secondary">{% translate "Read-only" %}</span>
   {% endif %}
+{% endif %}
+{% if unit.translation.component.is_glossary and unit.untranslatable %}
+  <span class="badge text-bg-secondary">{% translate "Untranslatable term" %}</span>
 {% endif %}
