@@ -1,3 +1,13 @@
+Weblate 2026.12.1
+-----------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Gitea, Forgejo, and Codeberg sign-in now refreshes verified secondary e-mail addresses from the provider; see :ref:`gitea_auth`.
+
+
 Weblate 2026.12
 ---------------
 

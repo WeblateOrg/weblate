@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import inspect
 import os
 import re
 from datetime import timedelta
@@ -30,6 +31,7 @@ from django.utils import timezone
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
 from social_core.backends.email import EmailAuth
+from social_core.backends.gitea import GiteaOAuth2
 from social_core.pipeline.social_auth import social_names
 from social_django.models import Code, DjangoStorage, Partial, UserSocialAuth
 
@@ -98,6 +100,14 @@ GH_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
+
+GITEA_BACKENDS = (
+    "social_core.backends.email.EmailAuth",
+    "social_core.backends.gitea.GiteaOAuth2",
+    "weblate.accounts.auth.WeblateUserBackend",
+)
+
+GITEA_OAUTH_Fetches_EMAILS = "/emails" in inspect.getsource(GiteaOAuth2.user_data)
 
 SAML_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -2398,31 +2408,75 @@ class RegistrationTest(BaseRegistrationTest):
         # We should fallback to default URL
         self.assertRedirects(response, "/accounts/profile/#account")
 
+    def mock_oauth_json(
+        self,
+        token_url: str,
+        user_url: str,
+        emails_url: str,
+        user_json: dict[str, object],
+        emails: list[dict[str, object]],
+    ) -> None:
+        responses.add(
+            responses.POST,
+            token_url,
+            json={"access_token": "123", "token_type": "bearer"},
+        )
+        responses.add(responses.GET, user_url, json=user_json)
+        responses.add(responses.GET, emails_url, json=emails)
+
+    def complete_oauth_login(self, provider: str) -> _MonkeyPatchedWSGIResponse:
+        response = self.client.post(reverse("social:begin", args=(provider,)))
+        self.assertEqual(response.status_code, 302)
+        query = parse_qs(urlparse(response["Location"]).query)
+        return_query = parse_qs(urlparse(query["redirect_uri"][0]).query)
+        with self.captureOnCommitCallbacks(execute=True):
+            return self.client.get(
+                reverse("social:complete", args=(provider,)),
+                {
+                    "state": query["state"][0] or return_query["state"][0],
+                    "code": "XXX",
+                },
+                follow=True,
+            )
+
+    def finish_oauth_tos(
+        self, response: _MonkeyPatchedWSGIResponse
+    ) -> _MonkeyPatchedWSGIResponse:
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            with self.captureOnCommitCallbacks(execute=True):
+                return self.confirm_tos(self.client, response)
+        return response
+
+    def assert_verified_emails(self, expected: set[tuple[str, bool]]) -> User:
+        user = User.objects.get(username="weblate")
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social__user=user).values_list(
+                    "email", "is_deliverable"
+                )
+            ),
+            expected,
+        )
+        return user
+
     @responses.activate
     @social_core_override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False, blocked=False) -> None:
         """Test GitHub integration."""
         if self.client.session.get(SESSION_KEY):
             self.verify_sensitive_password("x")
-        responses.add(
-            responses.POST,
+        emails_url = "https://api.github.com/user/emails"
+        self.mock_oauth_json(
             "https://github.com/login/oauth/access_token",
-            json={"access_token": "123", "token_type": "bearer"},
-        )
-        responses.add(
-            responses.GET,
             "https://api.github.com/user",
-            json={
+            emails_url,
+            {
                 "email": "",
                 "login": "weblate",
                 "id": 1,
                 "name": "Test Weblate Name",
             },
-        )
-        responses.add(
-            responses.GET,
-            "https://api.github.com/user/emails",
-            json=[
+            [
                 {
                     "email": "noreply@users.noreply.github.com",
                     "verified": True,
@@ -2449,23 +2503,8 @@ class RegistrationTest(BaseRegistrationTest):
                 },
             ],
         )
-        response = self.client.post(reverse("social:begin", args=("github",)))
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(
-            response["Location"].startswith("https://github.com/login/oauth/authorize")
-        )
-        query = parse_qs(urlparse(response["Location"]).query)
-        return_query = parse_qs(urlparse(query["redirect_uri"][0]).query)
-        with self.captureOnCommitCallbacks(execute=True):
-            response = self.client.get(
-                reverse("social:complete", args=("github",)),
-                {
-                    "state": query["state"][0] or return_query["state"][0],
-                    "code": "XXX",
-                },
-                follow=True,
-            )
-        responses.assert_call_count("https://api.github.com/user/emails", 1)
+        response = self.complete_oauth_login("github")
+        responses.assert_call_count(emails_url, 1)
         if fail:
             self.assertContains(response, "is already in use for another account")
             return
@@ -2484,26 +2523,73 @@ class RegistrationTest(BaseRegistrationTest):
                 response = self.client.post(
                     reverse("confirm"), {"password": confirm}, follow=True
                 )
-        # Accept terms if using legal
-        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
-            with self.captureOnCommitCallbacks(execute=True):
-                response = self.confirm_tos(self.client, response)
+        response = self.finish_oauth_tos(response)
         self.assertContains(response, "Test Weblate Name")
-        user = User.objects.get(username="weblate")
-        self.assertEqual(user.full_name, "Test Weblate Name")
-        self.assertEqual(user.email, "noreply-weblate@example.org")
-        self.assertEqual(
-            set(
-                VerifiedEmail.objects.filter(social__user=user).values_list(
-                    "email", "is_deliverable"
-                )
-            ),
+        user = self.assert_verified_emails(
             {
                 ("noreply-other@example.org", True),
                 ("noreply-weblate@example.org", True),
                 ("noreply@users.noreply.github.com", False),
-            },
+            }
         )
+        self.assertEqual(user.full_name, "Test Weblate Name")
+        self.assertEqual(user.email, "noreply-weblate@example.org")
+
+    @responses.activate
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=GITEA_BACKENDS,
+        SOCIAL_AUTH_GITEA_KEY="test",
+        SOCIAL_AUTH_GITEA_SECRET="test",
+    )
+    def test_gitea(self) -> None:
+        """Test Gitea integration and verified secondary e-mails."""
+        if not GITEA_OAUTH_Fetches_EMAILS:
+            self.skipTest(
+                "Requires social-auth-core release with Gitea /api/v1/user/emails"
+            )
+        if self.client.session.get(SESSION_KEY):
+            self.verify_sensitive_password("x")
+        emails_url = "https://gitea.com/api/v1/user/emails"
+        self.mock_oauth_json(
+            "https://gitea.com/login/oauth/access_token",
+            "https://gitea.com/api/v1/user",
+            emails_url,
+            {
+                "email": "primary@example.org",
+                "login": "weblate",
+                "id": 1,
+                "full_name": "Test Gitea Name",
+            },
+            [
+                {
+                    "email": "primary@example.org",
+                    "verified": True,
+                    "primary": True,
+                },
+                {
+                    "email": "secondary@example.org",
+                    "verified": True,
+                    "primary": False,
+                },
+                {
+                    "email": "unverified@example.org",
+                    "verified": False,
+                    "primary": False,
+                },
+            ],
+        )
+        response = self.complete_oauth_login("gitea")
+        responses.assert_call_count(emails_url, 1)
+        response = self.finish_oauth_tos(response)
+        self.assertContains(response, "Test Gitea Name")
+        user = self.assert_verified_emails(
+            {
+                ("primary@example.org", True),
+                ("secondary@example.org", True),
+            }
+        )
+        self.assertEqual(user.full_name, "Test Gitea Name")
+        self.assertEqual(user.email, "primary@example.org")
 
     @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=False)
     def test_store_email_policy(self) -> None:

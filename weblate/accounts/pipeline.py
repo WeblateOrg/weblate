@@ -157,10 +157,11 @@ def get_valid_invitation(
     return invitation
 
 
-def parse_github_emails(
+def parse_provider_emails(
     data: Iterable[GitHubEmailData],
+    backend_name: str,
 ) -> tuple[str | None, VerifiedEmailList]:
-    """Parse GitHub e-mails fetched by python-social-auth."""
+    """Parse e-mails fetched by python-social-auth (GitHub and Gitea)."""
     email: str | None = None
     primary: str | None = None
     public: str | None = None
@@ -171,7 +172,7 @@ def parse_github_emails(
             continue
 
         # Skip noreply e-mail only if we need deliverable e-mails
-        if address.endswith("@users.noreply.github.com"):
+        if backend_name == "github" and address.endswith("@users.noreply.github.com"):
             # Add E-Mail and set is_deliverable to false
             emails.append((address, False))
             continue
@@ -250,10 +251,10 @@ def require_email(
     **kwargs: object,
 ) -> dict[str, bool] | None:
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github":
+    if backend.name in {"github", "gitea"}:
         response = cast("Mapping[str, Any]", kwargs["response"])
         if "emails" in response:
-            email, emails = parse_github_emails(response["emails"])
+            email, emails = parse_provider_emails(response["emails"], backend.name)
             details["verified_emails"] = emails
             if email is not None:
                 details["email"] = email
