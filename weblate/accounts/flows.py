@@ -4,11 +4,18 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.core import signing
 from django.core.signing import BadSignature, SignatureExpired
 
 from weblate.utils.email import email_key
+
+if TYPE_CHECKING:
+    from social_core.strategy import BaseStrategy
+
+EMAIL_SENT_SESSION = "registration-email-sent"
 
 # ruff: ignore[hardcoded-password-string]
 PASSWORD_RESET_EMAIL_SESSION = "password_reset_email"
@@ -27,6 +34,19 @@ PASSWORD_RESET_SCOPE_WEBLATE_SERVICES = "weblate-services"
 PASSWORD_RESET_SCOPES = frozenset({PASSWORD_RESET_SCOPE_WEBLATE_SERVICES})
 
 
+def get_email_link_lifetime(strategy: BaseStrategy[object], backend: str) -> int | None:
+    """Return the shorter enabled lifetime for the code and its paused flow."""
+    code_lifetime = settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD
+    partial_lifetime = (
+        strategy.setting(
+            "PARTIAL_PIPELINE_EXPIRED_THRESHOLD", 7 * 24 * 60 * 60, backend=backend
+        )
+        if strategy.EXPIRE_PARTIAL_PIPELINES_ON_LOAD
+        else None
+    )
+    return min(filter(None, (code_lifetime, partial_lifetime)), default=None)
+
+
 def sign_password_reset_scope(scope: str, email: str) -> str:
     """Sign password reset scope for the given e-mail address."""
     if scope not in PASSWORD_RESET_SCOPES:
@@ -43,7 +63,7 @@ def get_signed_password_reset_scope(token: str, email: str | None = None) -> str
     try:
         data = signing.loads(
             token,
-            max_age=settings.AUTH_TOKEN_VALID,
+            max_age=settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD or None,
             salt=PASSWORD_RESET_SCOPE_SIGNING_SALT,
         )
     except (BadSignature, SignatureExpired):

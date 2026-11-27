@@ -33,8 +33,10 @@ from social_core.pipeline.social_auth import (
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
 from weblate.accounts.flows import (
+    EMAIL_SENT_SESSION,
     PASSWORD_RESET_SCOPE_SESSION,
     PASSWORD_RESET_USER_SESSION,
+    get_email_link_lifetime,
 )
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
@@ -324,13 +326,13 @@ def send_validation(strategy, backend, code, partial_token) -> None:
     session = strategy.request.session
     if not session.session_key:
         session.create()
-    session["registration-email-sent"] = True
+    session[EMAIL_SENT_SESSION] = backend.name
 
     url = f"{reverse('social:complete', args=(backend.name,))}?verification_code={code.code}&partial_token={partial_token}"
 
     context = {
         "url": url,
-        "validity": settings.AUTH_TOKEN_VALID // 3600,
+        "validity": get_email_link_lifetime(strategy, backend.name),
         "password_reset_scope": session.get(PASSWORD_RESET_SCOPE_SESSION, ""),
     }
 

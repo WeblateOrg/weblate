@@ -38,6 +38,7 @@ from weblate.accounts.flows import (
     PASSWORD_RESET_EMAIL_SESSION,
     PASSWORD_RESET_SCOPE_TOKEN_PARAM,
     PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
+    get_signed_password_reset_scope,
     sign_password_reset_scope,
 )
 from weblate.accounts.forms import UniqueEmailMixin
@@ -267,13 +268,28 @@ class WeblateStrategyTest(SimpleTestCase):
         )
 
     @override_settings(AUTH_TOKEN_VALID=60)
-    def test_code_expiry_uses_auth_token_valid(self) -> None:
+    def test_code_expiry_uses_native_setting(self) -> None:
         strategy = WeblateStrategy(DjangoStorage)
-        self.assertEqual(strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 60)
-        with override_settings(AUTH_TOKEN_VALID=120):
+        self.assertEqual(strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 172800)
+        with override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=120):
             self.assertEqual(
                 strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 120
             )
+
+    @override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=60)
+    def test_reset_scope_token_uses_native_lifetime(self) -> None:
+        with patch("django.core.signing.time") as signing_time:
+            signing_time.time.return_value = 1000
+            token = sign_password_reset_scope(
+                PASSWORD_RESET_SCOPE_WEBLATE_SERVICES, "test@example.com"
+            )
+            signing_time.time.return_value = 1061
+            self.assertEqual(get_signed_password_reset_scope(token), "")
+            with override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=0):
+                self.assertEqual(
+                    get_signed_password_reset_scope(token),
+                    PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
+                )
 
     def test_password_reset_request_data_uses_session_email(self) -> None:
         """Password reset social auth can continue without e-mail in request data."""
@@ -470,7 +486,10 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
     def expire_invitation(self, invitation: Invitation) -> None:
         Invitation.objects.filter(pk=invitation.pk).update(
-            timestamp=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID + 1)
+            timestamp=timezone.now()
+            - timedelta(
+                seconds=settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD + 1
+            )
         )
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
@@ -2754,12 +2773,98 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, url)
 
 
+class EmailLinkLifetimeTest(BaseRegistrationTest):
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_confirmation_link_advertises_effective_lifetime(self) -> None:
+        for overrides, duration in (
+            ({}, "48 hours"),
+            (
+                {"SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD": 14 * 86400},
+                "168 hours",
+            ),
+            (
+                {"SOCIAL_AUTH_EMAIL_PARTIAL_PIPELINE_EXPIRED_THRESHOLD": 60},
+                "1 minute",
+            ),
+            (
+                {
+                    "SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD": 0,
+                    "SOCIAL_AUTH_PARTIAL_PIPELINE_EXPIRED_THRESHOLD": None,
+                },
+                None,
+            ),
+        ):
+            with self.subTest(overrides=overrides), override_settings(**overrides):
+                reset_rate_limit("registration", address="127.0.0.1")
+                mail.outbox.clear()
+                response = self.do_register()
+                self.assertContains(response, REGISTRATION_SUCCESS)
+                self.assert_registration_mailbox()
+                if duration is None:
+                    self.assertNotContains(response, "valid for up to")
+                    self.assertNotIn("valid for up to", mail.outbox[0].body)
+                else:
+                    message = f"The confirmation link is valid for up to {duration}."
+                    self.assertContains(response, message)
+                    self.assertIn(message, mail.outbox[0].body)
+
+    @override_settings(
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        SOCIAL_AUTH_EMAIL_PARTIAL_PIPELINE_EXPIRED_THRESHOLD=90,
+    )
+    def test_simulated_registration_advertises_same_lifetime(self) -> None:
+        message = "The confirmation link is valid for up to 90 seconds."
+        self.assertContains(self.do_register(), message)
+        self.assert_registration_mailbox()
+        self.assertIn(message, mail.outbox[0].body)
+        partial = Partial.objects.get(backend="email")
+
+        User.objects.create_user("existing", REGISTRATION_DATA["email"])
+
+        response = self.do_register()
+
+        self.assertContains(response, message)
+        self.assertEqual(
+            list(Partial.objects.values_list("pk", flat=True)), [partial.pk]
+        )
+
+
 class CookieRegistrationTest(BaseRegistrationTest):
     def test_register(self) -> None:
         self.perform_registration()
 
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_registration_link_without_code_binding_requires_restart(self) -> None:
+        self.do_register()
+        url = self.assert_registration_mailbox()
+        query = parse_qs(urlparse(url).query)
+        partial = cast("Partial", Partial.objects.get(token=query["partial_token"][0]))
+        del partial.data["kwargs"]["email_validation_code_hash"]
+        partial.save(update_fields=["data"])
+
+        response = self.confirm_registration_url(url)
+
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(response, "confirmation link probably expired")
+        code = DjangoStorage.code.get_code(query["verification_code"][0])
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+
+        mail.outbox.clear()
+        self.do_register()
+        self.assert_registration()
+        self.assertTrue(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+
     @override_settings(
-        REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=60,
     )
     def test_expired_registration_code(self) -> None:
         self.do_register()
@@ -2782,7 +2887,10 @@ class CookieRegistrationTest(BaseRegistrationTest):
             User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
         )
 
-    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60)
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=60,
+    )
     def test_expired_password_reset_code(self) -> None:
         user = User.objects.create_user("testuser", "test@example.com", "old-password")
         self.client.post(reverse("password_reset"), {"email": user.email}, follow=True)

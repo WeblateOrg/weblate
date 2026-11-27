@@ -113,11 +113,13 @@ from weblate.accounts.data import (
     NotificationScope,
 )
 from weblate.accounts.flows import (
+    EMAIL_SENT_SESSION,
     PASSWORD_RESET_EMAIL_SESSION,
     PASSWORD_RESET_SCOPE_SESSION,
     PASSWORD_RESET_SCOPE_TOKEN_PARAM,
     PASSWORD_RESET_SCOPE_TOKEN_SESSION,
     PASSWORD_RESET_USER_SESSION,
+    get_email_link_lifetime,
     get_signed_password_reset_scope,
 )
 from weblate.accounts.forms import (
@@ -301,11 +303,14 @@ class EmailSentView(TemplateView):
 
     do_password_reset: bool
     do_account_remove: bool
+    email_backend: str
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
-        context["validity"] = settings.AUTH_TOKEN_VALID // 3600
+        context["validity"] = get_email_link_lifetime(
+            load_strategy(self.request), self.email_backend
+        )
         context["is_reset"] = False
         context["is_remove"] = False
         context["is_email_verification"] = False
@@ -324,9 +329,11 @@ class EmailSentView(TemplateView):
         return context
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if not request.session.get("registration-email-sent"):
+        backend = request.session.pop(EMAIL_SENT_SESSION, None)
+        if not backend:
             return redirect("home")
 
+        self.email_backend = backend if isinstance(backend, str) else "email"
         self.do_password_reset = request.session["password_reset"]
         self.do_account_remove = request.session["account_remove"]
 
@@ -335,8 +342,6 @@ class EmailSentView(TemplateView):
         # with multiple registrations from single browser.
         if not request.user.is_authenticated:
             request.session.flush()
-        else:
-            request.session.pop("registration-email-sent")
 
         return super().get(request, *args, **kwargs)
 
@@ -1502,7 +1507,7 @@ class WeblateLogoutView(TemplateView):
 
 def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
     """Fake redirect to e-mail sent page."""
-    request.session["registration-email-sent"] = True
+    request.session[EMAIL_SENT_SESSION] = "email"
     request.session["password_reset"] = reset
     request.session["account_remove"] = False
     return redirect("email-sent")

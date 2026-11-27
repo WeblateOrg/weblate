@@ -2768,8 +2768,9 @@ class Invitation(models.Model):
         return reverse("invitation", kwargs={"pk": self.uuid})
 
     def is_expired(self) -> bool:
-        return self.timestamp <= timezone.now() - timedelta(
-            seconds=settings.AUTH_TOKEN_VALID
+        lifetime = settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD
+        return bool(
+            lifetime and self.timestamp <= timezone.now() - timedelta(seconds=lifetime)
         )
 
     def matches_email(self, email: str) -> bool:
@@ -2800,7 +2801,10 @@ class Invitation(models.Model):
             [email],
             "invite",
             info=f"{self}",
-            context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+            context={
+                "invitation": self,
+                "validity": settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD,
+            },
             user=self.user,
         )
 

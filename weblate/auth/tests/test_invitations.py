@@ -9,9 +9,8 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest.mock import patch
 
-from django.conf import settings
 from django.template.loader import render_to_string
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import timezone
 
 from weblate.auth.invitations import create_team_invitation
@@ -25,6 +24,7 @@ from weblate.auth.models import (
     User,
     UserBlock,
 )
+from weblate.auth.tasks import cleanup_invitations
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 
@@ -110,16 +110,31 @@ class TeamAdminInvitationTest(TestCase):
 
         self.assert_not_granted()
 
+    @override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=60)
     def test_expired(self) -> None:
         invitation = self.create_invitation()
         Invitation.objects.filter(pk=invitation.pk).update(
-            timestamp=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
+            timestamp=timezone.now() - timedelta(seconds=61)
         )
 
         with self.assertRaises(InvitationExpiredError):
             invitation.accept(None, self.user)
 
         self.assert_not_granted()
+        cleanup_invitations()
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    @override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=0)
+    def test_invitations_with_disabled_expiry(self) -> None:
+        invitation = self.create_invitation()
+        Invitation.objects.filter(pk=invitation.pk).update(
+            timestamp=timezone.now() - timedelta(days=30)
+        )
+
+        cleanup_invitations()
+        invitation.accept(None, self.user)
+
+        self.assertTrue(self.team.admins.filter(pk=self.user.pk).exists())
 
     def test_mismatched_user(self) -> None:
         invitation = self.create_invitation()
