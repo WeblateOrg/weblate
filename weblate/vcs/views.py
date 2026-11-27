@@ -102,6 +102,7 @@ from weblate.vcs.permissions import (
     github_app_installation_workspaces,
     managed_workspaces,
     user_can_install_github_app_in_workspace,
+    user_can_use_github_app_in_workspace,
 )
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import (
@@ -517,9 +518,9 @@ def _user_can_manage_installation(user, installation: GitHubInstallation) -> boo
 
 async def _auser_can_use_installation(user, installation: GitHubInstallation) -> bool:
     await user.aprepare_permissions()
-    if user.has_perm("management.use"):
-        return True
-    return await managed_workspaces(user).filter(pk=installation.workspace_id).aexists()
+    return await sync_to_async(user_can_use_github_app_in_workspace)(
+        user, installation.workspace
+    )
 
 
 async def _auser_can_manage_installation(

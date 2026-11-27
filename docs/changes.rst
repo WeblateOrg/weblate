@@ -88,6 +88,7 @@ Weblate 2026.12
 
 .. rubric:: Security fixes
 
+* Enforced GitHub App repository and push settings when restoring a :ref:`projectbackup`.
 * Enforced :setting:`AUTH_LOCK_ATTEMPTS` for password and :ref:`two-factor <2fa>` sign-ins even when requests arrive concurrently.
 * Protected translation file operations, :ref:`downloads <download>`, and :ref:`JavaScript localization CDN <addon-weblate.cdn.cdnjs>` extraction against races with concurrent repository updates.
 * Prevented :ref:`Mercurial <vcs-mercurial>` from using metadata in leftover Git checkouts and cleaned up remote checkouts created by failed API component validation.

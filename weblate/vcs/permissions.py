@@ -43,6 +43,12 @@ def github_app_installation_workspaces(user: User) -> WorkspaceQuerySet:
     return user.workspaces_with_perm("workspace.edit")
 
 
+def user_can_use_github_app_in_workspace(user: User, workspace: Workspace) -> bool:
+    return bool(user.has_perm("management.use")) or (
+        managed_workspaces(user).filter(pk=workspace.pk).exists()
+    )
+
+
 def user_can_install_github_app_in_workspace(
     user: User, workspace: Workspace
 ) -> PermissionResult | bool:

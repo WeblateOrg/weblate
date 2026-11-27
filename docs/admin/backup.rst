@@ -114,6 +114,12 @@ strings.
 
 Use the generated file to import project when :ref:`adding-projects` or in :wladmin:`import_projectbackup`.
 
+To restore components using the :ref:`Weblate GitHub App <code-hosting-github-app-connect>`,
+select a destination workspace with an enabled installation that includes the
+source repositories. The importer must have permission to use the workspace's
+GitHub App installations. Weblate discards archived push URLs and push branches.
+Restored components push to the source repository URL.
+
 The preview lists files that resolve to the same language on the destination.
 To preserve each translation, check the destination language definitions and
 :setting:`SIMPLIFY_LANGUAGES`. To proceed with duplicate target languages,
