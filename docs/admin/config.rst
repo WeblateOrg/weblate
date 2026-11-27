@@ -355,16 +355,19 @@ Codeberg's Forgejo-backed avatar service)::
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
 
-.. setting:: AUTH_TOKEN_VALID
+.. setting:: SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD
 
-AUTH_TOKEN_VALID
-----------------
+SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD
+----------------------------------------------
 
-How long the authentication token and temporary password from password reset e-mails is valid for.
-Set in number of seconds, defaulting to 172800 (2 days).
-E-mail validation codes are checked against this lifetime when used, even if
-scheduled cleanup has not yet removed them. This does not set a deadline for
-other authentication pipeline steps.
+Lifetime in seconds for e-mail verification codes, team invitations, and
+signed password-reset scope tokens. Defaults to ``172800`` (two days).
+Set it to ``0`` or ``None`` to disable expiry for those items.
+Weblate checks expiry when they are used, independently of scheduled cleanup.
+Confirmation links can expire sooner if the
+:ref:`paused authentication flow <authentication-storage-cleanup>` expires first.
+
+In Docker, use :envvar:`WEBLATE_SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD`.
 
 
 AUTH_PASSWORD_DAYS

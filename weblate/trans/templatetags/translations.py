@@ -231,6 +231,22 @@ def show_message(tags, message):
     }
 
 
+@register.filter
+def auth_link_duration(seconds: int) -> str:
+    """Format an authentication lifetime without rounding."""
+    if seconds % 3600 == 0:
+        count = seconds // 3600
+        return ngettext("%(count)s hour", "%(count)s hours", count) % {"count": count}
+    if seconds % 60 == 0:
+        count = seconds // 60
+        return ngettext("%(count)s minute", "%(count)s minutes", count) % {
+            "count": count
+        }
+    return ngettext("%(count)s second", "%(count)s seconds", seconds) % {
+        "count": seconds
+    }
+
+
 @register.filter(is_safe=True)
 def naturaltime(value: float | datetime, microseconds: bool = False) -> SafeString:
     """

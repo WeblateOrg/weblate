@@ -198,7 +198,10 @@ class AutoGroupTest(TestCase):
         with self.assertRaises(InvitationUserMismatchError):
             invitation.accept(None, other)
         Invitation.objects.filter(pk=invitation.pk).update(
-            timestamp=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID + 1)
+            timestamp=timezone.now()
+            - timedelta(
+                seconds=settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD + 1
+            )
         )
         with self.assertRaises(InvitationExpiredError):
             invitation.accept(None, user)

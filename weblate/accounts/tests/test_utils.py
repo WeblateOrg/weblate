@@ -221,17 +221,21 @@ class SessionExpiryTest(TestCase):
 
 
 class TasksTest(TestCase):
+    @override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=60)
     def test_cleanup_social_auth(self) -> None:
         timestamp = now()
-        expired = timestamp - timedelta(seconds=settings.AUTH_TOKEN_VALID + 1)
+        expired = timestamp - timedelta(seconds=61)
         old_code = Code.objects.create(email="expired@example.com")
         Code.objects.filter(pk=old_code.pk).update(timestamp=expired)
         active_code = Code.objects.create(email="active@example.com")
         verified_code = Code.objects.create(email="verified@example.com", verified=True)
         Code.objects.filter(pk=verified_code.pk).update(timestamp=expired)
-        old_partial = Partial.objects.create()
-        Partial.objects.filter(pk=old_partial.pk).update(timestamp=expired)
-        active_partial = Partial.objects.create()
+        old_partial = Partial.objects.create(backend="email")
+        Partial.objects.filter(pk=old_partial.pk).update(
+            timestamp=timestamp - timedelta(days=8)
+        )
+        active_partial = Partial.objects.create(backend="email")
+        Partial.objects.filter(pk=active_partial.pk).update(timestamp=expired)
         for handle, secret, lifetime in (
             ("expired-nonce", "", 60),
             ("active-nonce", "", 1800),
@@ -262,6 +266,29 @@ class TasksTest(TestCase):
         self.assertEqual(
             list(Partial.objects.values_list("pk", flat=True)), [active_partial.pk]
         )
+
+    @override_settings(SOCIAL_AUTH_GITHUB_PARTIAL_PIPELINE_EXPIRED_THRESHOLD=60)
+    def test_cleanup_social_auth_uses_backend_partial_lifetime(self) -> None:
+        github_partial = Partial.objects.create(backend="github")
+        email_partial = Partial.objects.create(backend="email")
+        Partial.objects.filter(pk__in=[github_partial.pk, email_partial.pk]).update(
+            timestamp=now() - timedelta(minutes=2)
+        )
+
+        cleanup_social_auth()
+
+        self.assertEqual(
+            list(Partial.objects.values_list("pk", flat=True)), [email_partial.pk]
+        )
+
+    @override_settings(SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD=None)
+    def test_cleanup_preserves_codes_with_disabled_expiry(self) -> None:
+        code = Code.objects.create(email="active@example.com")
+        Code.objects.filter(pk=code.pk).update(timestamp=now() - timedelta(days=30))
+
+        cleanup_social_auth()
+
+        self.assertTrue(Code.objects.filter(pk=code.pk).exists())
 
     def test_cleanup_auditlog(self) -> None:
         cleanup_auditlog()

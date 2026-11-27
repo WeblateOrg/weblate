@@ -181,14 +181,32 @@ to properly credit contributions users make.
 
     :doc:`Python Social Auth backend <psa:backends/index>`
 
+.. _authentication-storage-cleanup:
+
 Authentication storage cleanup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Weblate removes expired OpenID protocol associations and OpenID Connect login
 nonces in its hourly authentication cleanup task. OIDC login attempts have a
 30-minute nonce lifetime by default; expiry is enforced during login even before
-the next cleanup runs. Linked accounts are preserved. Verification codes and
-partial pipelines retain their existing :setting:`AUTH_TOKEN_VALID` policy.
+the next cleanup runs. Linked accounts are preserved.
+
+Verification codes expire after
+:setting:`SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD`. Paused
+authentication flows expire seven days after they first pause by default.
+Python Social Auth uses the same lifetime at resume time and during hourly
+cleanup. To set a different lifetime in seconds, use
+``SOCIAL_AUTH_PARTIAL_PIPELINE_EXPIRED_THRESHOLD`` or a backend-specific
+setting such as ``SOCIAL_AUTH_GITHUB_PARTIAL_PIPELINE_EXPIRED_THRESHOLD``.
+Set the threshold to ``0`` or ``None`` to disable partial expiry.
+
+A confirmation link requires both a valid code and a valid paused flow.
+The e-mail and the :guilabel:`Check your e-mail` page show the shorter enabled lifetime.
+A flow that paused before the code was issued can expire sooner.
+
+If a confirmation link issued before the upgrade fails, start the affected
+action again to request a fresh link. Verification codes are now bound to the
+flow that issued them.
 
 The social-auth database migration gives existing undated OIDC nonces a
 30-minute grace period from upgrade. Follow the usual upgrade procedure with
@@ -549,9 +567,10 @@ deployments.
 
 Weblate can be configured to use common or specific tenants for authentication.
 
-The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
-for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
-for tenant-specific authentication.
+Use ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/`` as the
+redirect URL for the ``azuread-oauth2`` backend. Use
+``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/`` for
+``azuread-tenant-oauth2``.
 
 You will need following:
 
@@ -593,6 +612,29 @@ You will need following:
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ""
     # Directory (tenant) ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
+
+For ``azuread-tenant-oauth2``, set
+``SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID`` to the directory GUID to
+restrict sign-in to one tenant. Use ``common`` for the common authority or
+``organizations`` for the multi-tenant authority limited to organizational
+accounts.
+
+When upgrading a deployment that uses a multi-tenant authority, configure
+trusted directory GUIDs for each policy you use. Use the settings for your
+backend.
+
+* With ``azuread-oauth2``, set ``SOCIAL_AUTH_AZUREAD_OAUTH2_EMAIL_TENANT_IDS``
+  and ``SOCIAL_AUTH_AZUREAD_OAUTH2_GROUPS_TENANT_IDS`` as applicable.
+* With ``azuread-tenant-oauth2``, set
+  ``SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_EMAIL_TENANT_IDS`` and
+  ``SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_GROUPS_TENANT_IDS`` as applicable.
+
+An e-mail or domain allowlist requires the ``EMAIL_TENANT_IDS`` setting.
+Group and role checks, including :ref:`sso-team-sync`, require the
+``GROUPS_TENANT_IDS`` setting. On a multi-tenant authority, sign-in fails if
+an enabled policy needs a list that is unset. For group and role checks
+only, you can set ``GROUPS_ALLOW_ANY_TENANT`` with the same backend prefix
+to ``True`` to trust assignments from any tenant accepted by the authority.
 
 .. include:: /snippets/oauth-site.rst
 
@@ -908,6 +950,13 @@ Please follow the Python Social Auth instructions for configuration. Notable dif
 * Following settings are automatically filled in:
   ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``,
   ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``
+
+If you rely on default SAML identifier selection, verify sign-in with existing
+linked accounts when upgrading. Python Social Auth now prefers a persistent
+NameID over the login name. It migrates a legacy login-name association to
+the persistent NameID only when the saved NameID matches. If the saved
+identity is missing or conflicts, use an existing sign-in or account recovery
+method to recover access.
 
 Example configuration:
 

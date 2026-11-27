@@ -50,10 +50,12 @@
     </p>
 
     <p>
-      {% if is_email_verification %}
-        {% blocktranslate count count=validity %}If you receive a verification link, it will expire after {{ count }} hour.{% plural %}If you receive a verification link, it will expire after {{ count }} hours.{% endblocktranslate %}
-      {% else %}
-        {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% if validity %}
+        {% if is_email_verification %}
+          {% blocktranslate with duration=validity|auth_link_duration %}If you receive a verification link, it is valid for up to {{ duration }}.{% endblocktranslate %}
+        {% else %}
+          {% blocktranslate with duration=validity|auth_link_duration %}The confirmation link is valid for up to {{ duration }}.{% endblocktranslate %}
+        {% endif %}
       {% endif %}
       {% if is_reset or is_remove %}
         {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}

@@ -77,13 +77,11 @@ def get_registration_attempt_password_reset_url(activity: str) -> str | None:
 @app.task(trail=False)
 def cleanup_social_auth() -> None:
     """Clean expired social authentication data and protocol associations."""
-    age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
-    # Delete old not verified codes
-    Code.objects.filter(verified=False, timestamp__lt=age).delete()
+    if lifetime := settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD:
+        age = now() - timedelta(seconds=lifetime)
+        Code.objects.filter(verified=False, timestamp__lte=age).delete()
 
-    # Delete old partial data
-    Partial.objects.filter(timestamp__lt=age).delete()
-
+    Partial.cleanup_expired()
     Association.cleanup_expired()
 
 

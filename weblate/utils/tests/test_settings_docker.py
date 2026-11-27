@@ -32,6 +32,32 @@ class DockerTranslationMaxUnitsTest(SimpleTestCase):
             self.assertEqual(configuration["TRANSLATION_MAX_UNITS"], limit)
 
 
+class DockerEmailValidationExpiryTest(SimpleTestCase):
+    def test_default_fallback_and_precedence(self) -> None:
+        native = "WEBLATE_SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD"
+        legacy = "WEBLATE_AUTH_TOKEN_VALID"
+        environment = {
+            "WEBLATE_SITE_DOMAIN": "example.com",
+            "WEBLATE_DATABASES": "0",
+            "WEBLATE_SECRET_KEY": "environment-secret",
+        }
+        for overrides, lifetime in (
+            ({}, 172800),
+            ({legacy: "7200"}, 7200),
+            ({native: "3600"}, 3600),
+            ({native: "0", legacy: "7200"}, 0),
+        ):
+            with (
+                self.subTest(overrides=overrides),
+                patch.dict(os.environ, environment | overrides, clear=True),
+            ):
+                configuration = run_module("weblate.settings_docker")
+                self.assertEqual(
+                    configuration["SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD"],
+                    lifetime,
+                )
+
+
 class DockerSecretKeyTest(SimpleTestCase):
     def setUp(self) -> None:
         super().setUp()

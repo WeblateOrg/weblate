@@ -10,9 +10,11 @@
       <a class="button" href="{{ invitation.get_absolute_url }}">{% translate "View invitation" %}</a>
     </div>
 
-    <p>
-      {% blocktranslate count count=validity %}The invitation will expire after {{ count }} hour.{% plural %}The invitation will expire after {{ count }} hours.{% endblocktranslate %}
-    </p>
+    {% if validity %}
+      <p>
+        {% blocktranslate with duration=validity|auth_link_duration %}The invitation expires after {{ duration }}.{% endblocktranslate %}
+      </p>
+    {% endif %}
   {% else %}
     {% include "mail/shared-registration.html" with url=invitation.get_absolute_url action="invite" %}
   {% endif %}

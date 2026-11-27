@@ -1899,6 +1899,13 @@ Authentication settings
 
    The e-mail based authentication is turned on unless disabled by :envvar:`WEBLATE_NO_EMAIL_AUTH`.
 
+.. envvar:: WEBLATE_SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD
+
+   Sets :setting:`SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD` in seconds.
+   The default is ``172800`` (two days). Set it to ``0`` to disable expiry.
+   When this variable is absent, Docker also accepts ``WEBLATE_AUTH_TOKEN_VALID``
+   as a fallback for upgrades.
+
 LDAP
 ~~~~
 

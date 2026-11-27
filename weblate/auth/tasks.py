@@ -28,9 +28,10 @@ def disable_expired() -> None:
 
 @app.task(trail=False)
 def cleanup_invitations() -> None:
-    Invitation.objects.filter(
-        timestamp__lte=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
-    ).delete()
+    if lifetime := settings.SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD:
+        Invitation.objects.filter(
+            timestamp__lte=timezone.now() - timedelta(seconds=lifetime)
+        ).delete()
 
 
 @app.on_after_finalize.connect

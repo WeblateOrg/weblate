@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n translations %}
 
 <p>
   {% blocktranslate %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktranslate %}
@@ -8,9 +8,11 @@
   {{ current_site_url }}{{ url }}
 </code>
 
-<p>
-  {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
-</p>
+{% if validity %}
+  <p>
+    {% blocktranslate with duration=validity|auth_link_duration %}The confirmation link is valid for up to {{ duration }}.{% endblocktranslate %}
+  </p>
+{% endif %}
 
 <div class="line buttons">
   {% if action == "reset" %}
