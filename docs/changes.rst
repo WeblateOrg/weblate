@@ -5,6 +5,7 @@ Weblate 2026.12
 
 .. rubric:: New features
 
+* Added :ref:`site-wide API tokens <site-api-tokens>` in the management interface for instance-level automation such as :http:get:`/api/metrics/` scraping. Unavailable on Hosted Weblate.
 * Added :ref:`ranked contributor lists <contributor-rankings>` for languages, workspaces, projects, categories, components, and translations.
 * Added a :ref:`plain-text XLIFF download <download>` for editing markup in external translation tools.
 * Added an option to sort languages by translation percentage in language bar chart widgets.

@@ -661,6 +661,7 @@ class ManagementAccessControlTest(ViewTestCase):
         for url_name in (
             "manage-users",
             "manage-teams",
+            "manage-api-tokens",
             "manage-memory",
             "manage-memory-download",
             "manage-machinery",

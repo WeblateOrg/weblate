@@ -34461,7 +34461,8 @@ paths:
   /api/users/{username}/groups/:
     post:
       operationId: api_users_groups_create
-      description: Bot accounts cannot change their own memberships.
+      description: Bot accounts cannot change their own memberships. Site-wide API
+        tokens are managed only in the management interface.
       summary: Associate groups with a user.
       parameters:
       - in: path
@@ -34631,7 +34632,8 @@ paths:
     delete:
       operationId: api_users_groups_destroy
       description: A project token must remain assigned to at least one team. Bot
-        accounts cannot change their own memberships.
+        accounts cannot change their own memberships. Site-wide API tokens are managed
+        only in the management interface.
       summary: Remove a user from a group and return the updated user.
       parameters:
       - in: path
@@ -45336,7 +45338,9 @@ components:
         Each user has a personal access token which they can get from their respective
         user profile. These tokens have the `wlu_` prefix.\n- It is possible to create
         project tokens whose access to the API is limited to operations to their associated
-        project. These tokens have the `wlp_` prefix.\n        "
+        project. These tokens have the `wlp_` prefix.\n- Site administrators can create
+        site-wide tokens in the management interface. These tokens have the `wls_`
+        prefix and are unavailable on Hosted Weblate.\n        "
     cookieAuth:
       type: apiKey
       in: cookie
@@ -45350,7 +45354,9 @@ components:
         Each user has a personal access token which they can get from their respective
         user profile. These tokens have the `wlu_` prefix.\n- It is possible to create
         project tokens whose access to the API is limited to operations to their associated
-        project. These tokens have the `wlp_` prefix.\n        "
+        project. These tokens have the `wlp_` prefix.\n- Site administrators can create
+        site-wide tokens in the management interface. These tokens have the `wls_`
+        prefix and are unavailable on Hosted Weblate.\n        "
 servers:
 - url: 'http:'
   description: Weblate

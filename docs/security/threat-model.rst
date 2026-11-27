@@ -60,6 +60,13 @@ feature inventory. *(maintainer)*
      - Same application effects as the token permissions allow
      - In scope as authenticated actors with delegated project scope.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Site-wide API tokens
+     - Tokens created in management :guilabel:`API tokens`
+     - Same application effects as the token's site-wide team permissions allow.
+       :http:get:`/api/metrics/` returns whole-server counts for any authenticated token.
+     - In scope as authenticated actors with delegated site-wide team scope.
+       Unavailable on Hosted Weblate.
+       *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhooks
      - :ref:`hooks`, project :ref:`project-enable_hooks`,
        :ref:`code-hosting-github-app-webhook`
@@ -701,6 +708,13 @@ Adversary model
        :ref:`projectbackup`)
      - Access projects, components, or site-wide functions outside its scope.
        *(documented)* (source: :doc:`/admin/access`)
+   * - Site-wide API token holder
+     - Use API permissions assigned to its site-wide team memberships.
+       :http:get:`/api/metrics/` returns whole-server counts and is not limited
+       by team membership.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Act outside assigned team permissions without exploiting a Weblate flaw.
+       *(documented)* (source: :doc:`/admin/access`)
    * - Webhook sender
      - Send forged, replayed, malformed, or high-volume webhook requests to
        enabled hook endpoints and observe documented matching diagnostics.
@@ -837,6 +851,19 @@ Security properties Weblate provides
      - A scoped automatic assignment grants membership without acceptance.
      - Security-critical. Pending invitations remain visible to team managers,
        and matching rules can send unsolicited invitation e-mails.
+   * - Site-wide API tokens use assigned site-wide team permissions for scoped
+       API operations. :http:get:`/api/metrics/` returns whole-server counts
+       and is not limited by team membership. Tokens are managed only from the
+       management interface.
+       *(documented)* (source: :doc:`/api`, :ref:`site-api-tokens`)
+     - Token is created, revoked, or has team membership changed from the
+       browser by a site administrator with ``user.edit`` after recent
+       credential verification. Accounts with 2FA use a second factor; other
+       accounts confirm their password or an existing sign-in provider.
+     - Token can act outside assigned team scope, or tokens can be managed
+       without ``user.edit``, or a stale browser session can create, revoke, or
+       alter site-wide tokens without recent credential verification.
+     - Security-critical.
    * - Authentication and session controls protect browser sessions when HTTPS
        and proxy settings are correct. Pending second-factor sessions are bound
        to the current password authentication state, and repeated rejected
@@ -844,8 +871,8 @@ Security properties Weblate provides
        :setting:`AUTH_LOCK_ATTEMPTS`. Password and second-factor verification
        for the same account are serialized so concurrent requests cannot
        continue verifying against credentials or pending sessions invalidated
-       by the lockout. Access to personal API tokens and
-       changes to authentication credentials, access permissions, project
+       by the lockout. Access to personal API tokens, creation and revocation of site-wide API tokens, and changes to site-wide
+       token team membership, changes to authentication credentials, access permissions, project
        and component visibility, account status, and bulk user-contribution
        cleanup require recent credential verification for browser sessions.
        Reading full translation service configurations and changing installations

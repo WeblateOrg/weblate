@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.utils import timezone
 from django.utils.translation import gettext
 from drf_spectacular.authentication import SessionScheme
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
@@ -28,6 +29,15 @@ if TYPE_CHECKING:
 
 class WeblateTokenAuthentication(TokenAuthentication):
     """Record the channel only after token authentication succeeds."""
+
+    def authenticate_credentials(self, key: str) -> tuple[AbstractBaseUser, Token]:
+        user, token = super().authenticate_credentials(key)
+        # reject expired tokens when date has passed instead of waiting for cleanup
+        expires = getattr(user, "date_expires", None)
+        if expires is not None and expires <= timezone.now():
+            msg = "Invalid token."
+            raise AuthenticationFailed(msg)
+        return user, token
 
     def authenticate(self, request: Request) -> tuple[AbstractBaseUser, Token] | None:
         result = super().authenticate(request)
@@ -98,10 +108,14 @@ class BearerScheme(OpenApiAuthenticationExtension):
         project_token = gettext(
             "It is possible to create project tokens whose access to the API is limited to operations to their associated project. These tokens have the `wlp_` prefix."
         )
+        site_token = gettext(
+            "Site administrators can create site-wide tokens in the management interface. These tokens have the `wls_` prefix and are unavailable on Hosted Weblate."
+        )
         return f"""{intro}
 
 - {user_token}
 - {project_token}
+- {site_token}
         """
 
     def get_security_definition(self, auto_schema: AutoSchema) -> dict[str, str]:

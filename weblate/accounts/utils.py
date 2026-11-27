@@ -29,8 +29,13 @@ from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.models import User
+from weblate.auth.models import (
+    BOT_NOREPLY_EMAIL_SUFFIX,
+    SITE_BOT_USERNAME_PREFIX,
+    User,
+)
 from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.email import email_key, email_key_expression
 from weblate.utils.token import get_token
@@ -38,6 +43,7 @@ from weblate.utils.token import get_token
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from django.db.models import QuerySet
     from django.http import HttpRequest
     from django_otp.models import Device
 
@@ -223,11 +229,28 @@ def require_sensitive_verification(
     return wrapped
 
 
+BOT_USERNAME_COLLISION_SUFFIX_LENGTH = 5
+
+
+def bound_bot_basename(basename: str) -> str:
+    """Truncate a bot username base so collision suffixes still fit."""
+    limit = USERNAME_LENGTH - BOT_USERNAME_COLLISION_SUFFIX_LENGTH
+    return basename if len(basename) <= limit else basename[:limit]
+
+
 def create_api_token(user: User) -> Token:
-    """Create an API token for a user."""
-    return Token.objects.create(
-        user=user, key=get_token("wlp" if user.is_bot else "wlu")
-    )
+    """
+    Create an API token for a user.
+
+    The key prefix is chosen here so every token kind is defined in one place.
+    """
+    if user.is_site_api_token_bot:
+        prefix = "wls"
+    elif user.is_bot:
+        prefix = "wlp"
+    else:
+        prefix = "wlu"
+    return Token.objects.create(user=user, key=get_token(prefix))
 
 
 def delete_api_tokens(user: User) -> None:
@@ -241,15 +264,26 @@ def reset_api_token(user: User) -> Token:
     return create_api_token(user)
 
 
+def get_site_api_tokens() -> QuerySet[User]:
+    """Return site-wide API token bots."""
+    return User.objects.filter(
+        is_bot=True,
+        username__startswith=SITE_BOT_USERNAME_PREFIX,
+        email__endswith=BOT_NOREPLY_EMAIL_SUFFIX,
+    )
+
+
 def remove_user(
     user: User,
     request: AuthenticatedHttpRequest | None,
     *,
     activity: str = "removed",
+    actor: User | None = None,
     **params,
 ) -> None:
     """Remove user account."""
-    # Send signal (to commit any pending changes)
+    # Send signal (to commit any pending changes). This stays outside the
+    # membership actor so pending commits keep the commit bot.
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
@@ -262,7 +296,7 @@ def remove_user(
     for team in user.groups.select_related(
         "defining_project", "defining_workspace"
     ).order_by("defining_project_id", "pk"):
-        user.remove_team(request, team)
+        user.remove_team(request, team, actor=actor)
 
     # Remove any email validation codes
     invalidate_reset_codes(user)

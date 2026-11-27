@@ -27,6 +27,7 @@ from weblate.accounts.continuation import (
     sensitive_operation,
     stage_sensitive_submission,
 )
+from weblate.accounts.forms import UserManageForm
 from weblate.accounts.models import AuditLog, TeamAuditLog
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
@@ -53,7 +54,6 @@ from weblate.trans.forms import (
     ProjectUserGroupForm,
     UserBlockForm,
     UserContributionCleanupForm,
-    UserManageForm,
 )
 from weblate.trans.models import Project
 from weblate.trans.tasks import (
@@ -540,7 +540,12 @@ def delete_user(
             obj.remove_user(user)
             if user.is_bot:
                 redirect_url = "#api"
-                if not user.groups.filter(defining_project__isnull=False).exists():
+                # Site-wide tokens keep their account when detached from a
+                # project. Revoking them requires the global user.edit permission.
+                if (
+                    not user.is_site_api_token_bot
+                    and not user.groups.filter(defining_project__isnull=False).exists()
+                ):
                     remove_user(
                         user,
                         request,

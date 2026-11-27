@@ -57,6 +57,11 @@ class FormFieldGroup:
         )
 
 
+class FieldDocsMixin(forms.Form):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        raise NotImplementedError
+
+
 class QueryField(forms.CharField):
     def __init__(
         self,
