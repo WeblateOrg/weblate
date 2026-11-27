@@ -32,7 +32,7 @@ from weblate.accounts.continuation import (
 from weblate.accounts.utils import (
     has_recent_sensitive_verification,
 )
-from weblate.trans.backups import ProjectBackup
+from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.trans.component_creation import (
     get_creation_components,
     get_creation_projects,
@@ -277,16 +277,28 @@ class ImportProject(CreateProject):
                     form.cleaned_data["workspace"].pk
                 )
             return redirect("create-project-import")
+        projectbackup = self.projectbackup
+        if projectbackup is None:
+            msg = "Project backup preview is required before importing."
+            raise TypeError(msg)
         workspace = form.cleaned_data["workspace"]
         billing = self.get_billing(workspace)
+        try:
+            approved_repositories = projectbackup.validate_repository_integrations(
+                workspace, actor=self.request.user
+            )
+        except ValidationError as error:
+            form.add_error(None, ValidationError(format_backup_error(error)))
+            return self.form_invalid(form)
         task = import_project_backup.delay(
             project_name=form.cleaned_data["name"],
             project_slug=form.cleaned_data["slug"],
             user_id=self.request.user.id,
-            filename=self.projectbackup.filename,
+            filename=projectbackup.filename,
             duplicate_scope=form.cleaned_data.get("duplicate_scope", ""),
             billing_id=billing.pk if billing else None,
             workspace_id=str(workspace.pk) if workspace else None,
+            approved_repositories=approved_repositories,
         )
         store_task_metadata(task.id, user_id=self.request.user.id)
         messages.success(

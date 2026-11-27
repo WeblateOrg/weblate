@@ -219,8 +219,8 @@ if [ "$zero_plurals_migrate" -eq 0 ]; then
     check
 fi
 
-# Seed invalid GitHub App push settings before the cleanup migration.
-semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.11.2"
+# Seed invalid GitHub App push settings, including on releases after the API fix.
+semver_compare "2026.7" "<=" "$1" && semver_compare "$1" "<" "2026.12"
 github_app_push_migrate=$?
 if [ "$github_app_push_migrate" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-github-app-push.py"

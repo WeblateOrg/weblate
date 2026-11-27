@@ -779,7 +779,10 @@ Security properties Weblate provides
        remove its GitHub App installations; removing the final workspace
        connection can uninstall the App from GitHub. GitHub App component
        migration separately requires edit permission for every selected
-       component.
+       component. Project backup restore requires permission to use the
+       destination workspace's GitHub App installations before it can restore
+       components backed by those installations. Their Git pushes are bound to
+       the integration-managed source repository. See :ref:`projectbackup`.
        Linking a repository extends this trust to administrators of every
        linked component for the complete shared checkout. Permissions for
        explicit VCS actions are checked on the repository-owning component.

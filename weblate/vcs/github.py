@@ -1405,6 +1405,28 @@ class GithubAppRepository(GithubRepository):
         # a static settings dict; satisfy the base API with an empty mapping.
         return {}
 
+    @staticmethod
+    def _get_app_repository_identity(repo: str) -> tuple[str, str] | None:
+        try:
+            parsed = urlparse(repo)
+            port = parsed.port
+        except ValueError:
+            return None
+        full_name = get_github_repository_full_name(
+            parsed.path.strip("/").removesuffix(".git")
+        )
+        if (
+            parsed.scheme != "https"
+            or not parsed.hostname
+            or parsed.username is not None
+            or parsed.password is not None
+            or port not in {None, 443}
+            or any((parsed.params, parsed.query, parsed.fragment))
+            or full_name is None
+        ):
+            return None
+        return parsed.hostname, full_name
+
     @classmethod
     def validate_component(cls, component: Component) -> None:
         if component.project_id is None or component.project.workspace_id is None:
@@ -1415,15 +1437,8 @@ class GithubAppRepository(GithubRepository):
                     )
                 }
             )
-        parsed = urlparse(component.repo)
-        full_name = parsed.path.strip("/").removesuffix(".git")
-        if (
-            parsed.scheme != "https"
-            or not parsed.hostname
-            or parsed.username
-            or parsed.password
-            or full_name.count("/") != 1
-        ):
+        identity = cls._get_app_repository_identity(component.repo)
+        if identity is None:
             raise ValidationError(
                 {
                     "repo": gettext(
@@ -1434,9 +1449,7 @@ class GithubAppRepository(GithubRepository):
 
         if (
             GitHubInstallation.objects.get_for_repo(
-                parsed.hostname.lower(),
-                full_name,
-                workspace=component.project.workspace,
+                *identity, workspace=component.project.workspace
             )
             is None
         ):
@@ -1472,25 +1485,38 @@ class GithubAppRepository(GithubRepository):
         # translated branch directly.
         if self.creates_merge_request() and (not branch or branch == self.branch):
             branch = self.get_fork_branch_name()
+        self.ensure_push_destination()
         return super().push(branch, force=force)
+
+    def ensure_push_destination(self) -> None:
+        """Remove obsolete checkout overrides and verify Git's effective target."""
+        component = self.component
+        if component is None:
+            raise RepositoryInternalError(0, "github_app_workspace_required")
+        if component.push or component.push_branch:
+            raise RepositoryInternalError(0, "github_app_push_destination_mismatch")
+
+        with self.lock:
+            self.config_update(('remote "origin"', "pushurl", None))
+            destinations = self.execute(
+                ["remote", "get-url", "--push", "--all", "origin"],
+                remote_op="none",
+                merge_err=False,
+            ).splitlines()
+            if destinations != [component.repo]:
+                raise RepositoryInternalError(0, "github_app_push_destination_mismatch")
 
     @classmethod
     def _resolve_github_app_credentials_for_repo(
         cls, repo: str, *, workspace: Workspace
     ) -> dict[str, str] | None:
         """Resolve an installation access token for a GitHub HTTPS repo URL."""
-        parsed = urlparse(repo)
-        if parsed.scheme != "https" or not parsed.hostname:
-            return None
-        if parsed.username or parsed.password:
-            return None
-
-        path = parsed.path.strip("/").removesuffix(".git")
-        if path.count("/") != 1:
+        identity = cls._get_app_repository_identity(repo)
+        if identity is None:
             return None
 
         installation = GitHubInstallation.objects.get_for_repo(
-            parsed.hostname.lower(), path, workspace=workspace
+            *identity, workspace=workspace
         )
         if installation is None:
             return None

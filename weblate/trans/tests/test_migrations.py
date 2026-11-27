@@ -89,9 +89,19 @@ class ContributorCommentsMigrationTest(TransactionTestCase):
 
 class GitHubAppPushMigrationTest(TransactionTestCase):
     def test_cleanup_existing_push_settings(self) -> None:
+        self.check_push_settings_cleanup(
+            "0120_change_addon_redact_autotranslate_component"
+        )
+
+    def test_cleanup_push_settings_restored_after_api_fix(self) -> None:
+        self.check_push_settings_cleanup(
+            "0122_backupauthorclaim_change_backup_author_claim_and_more"
+        )
+
+    def check_push_settings_cleanup(self, migration: str) -> None:
         executor = MigrationExecutor(connection)
         latest = executor.loader.graph.leaf_nodes()
-        old = [("trans", "0120_change_addon_redact_autotranslate_component")]
+        old = [("trans", migration)]
         scripts = Path(__file__).resolve().parents[3] / "ci" / "migrate-scripts"
         try:
             executor.migrate(old)

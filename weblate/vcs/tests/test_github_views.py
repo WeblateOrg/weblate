@@ -1671,6 +1671,21 @@ class GitHubInstallationViewTest(ReusableViewTestCase):
             self.client.session["session_component"]["repo"], repo["clone_url"]
         )
 
+        self.project.add_user(manager, "Administration")
+        category = Category.objects.create(
+            project=self.project, name="Import target", slug="import-target"
+        )
+        for scope in ({"project": self.project.pk}, {"category": category.pk}):
+            with self.subTest(scope=scope):
+                self.assertRedirects(
+                    self.client.get(_import_url(installation, repo, **scope)),
+                    reverse("create-component-vcs", query={"session_component": 1}),
+                    fetch_redirect_response=False,
+                )
+                params = self.client.session["session_component"]
+                self.assertEqual(params["project"], self.project.pk)
+                self.assertEqual(params.get("category"), scope.get("category"))
+
     def test_repository_import_link_preselects_github_app_vcs(self) -> None:
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         installation = GitHubInstallation.objects.create(

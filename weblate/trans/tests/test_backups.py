@@ -118,6 +118,7 @@ from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryCommandError, RepositoryInternalError
 from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.worktree import GitUpdateWorktree, Publication
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
@@ -5526,6 +5527,166 @@ class BackupsTest(ReusableViewTestCase):
             self.assertEqual(kwargs["user_id"], self.user.id)
             self.assertIsNone(kwargs["billing_id"])
             self.assertFalse(Project.objects.filter(slug="import-test").exists())
+
+
+class GitHubAppBackupTest(ReusableViewTestCase):
+    def github_app_backup(self) -> str:
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://github.com/example/translations.git",
+            push="https://private.example/obsolete.git",
+            vcs="github-app",
+            branch="main",
+            push_branch="translations",
+        )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        return backup.filename
+
+    @staticmethod
+    def github_app_installation(workspace: Workspace) -> GitHubInstallation:
+        return GitHubInstallation.objects.create(
+            workspace=workspace,
+            hostname="github.com",
+            installation_id="12345",
+            repositories=[{"full_name": "example/translations"}],
+        )
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo", side_effect=resolve_private_example
+    )
+    def test_restore_github_app_uses_managed_push_settings(self, dns: Mock) -> None:
+        workspace = Workspace.objects.create(name="GitHub workspace")
+        self.github_app_installation(workspace)
+        self.user.is_superuser = True
+        temp_name = self.github_app_backup()
+        with remove_file_after(temp_name):
+            backup = ProjectBackup(temp_name)
+            backup.validate()
+            approved = backup.validate_repository_integrations(
+                workspace, actor=self.user
+            )
+            project = backup.restore(
+                "Restored GitHub App",
+                "restored-app",
+                self.user,
+                workspace=workspace,
+                approved_repositories=approved,
+            )
+
+        component = project.component_set.get(slug=self.component.slug)
+        self.assertEqual(component.vcs, "github-app")
+        self.assertEqual(component.push, "")
+        self.assertEqual(component.push_branch, "")
+        self.assertEqual(
+            component.repository.execute(
+                ["remote", "get-url", "--push", "--all", "origin"],
+                remote_op="none",
+                needs_lock=False,
+            ).splitlines(),
+            [component.repo],
+        )
+        self.assertNotIn(
+            "private.example", [call.args[0] for call in dns.call_args_list]
+        )
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo", side_effect=resolve_private_example
+    )
+    def test_restore_github_app_requires_approved_destination(self, _dns: Mock) -> None:
+        workspace = Workspace.objects.create(name="GitHub workspace")
+        other_workspace = Workspace.objects.create(name="Other workspace")
+        self.github_app_installation(other_workspace)
+        self.user.is_superuser = True
+        temp_name = self.github_app_backup()
+        project = Project(name="Restored GitHub App", slug="restored-app")
+        with remove_file_after(temp_name):
+            backup = ProjectBackup(temp_name)
+            backup.validate()
+            for destination, error in (
+                (None, "require a project with a workspace"),
+                (workspace, "not available from a connected GitHub account"),
+            ):
+                with (
+                    self.subTest(workspace=destination),
+                    self.assertRaisesMessage(ValidationError, error),
+                ):
+                    backup.restore(
+                        project.name, project.slug, self.user, workspace=destination
+                    )
+
+            installation = self.github_app_installation(workspace)
+            installation.enabled = False
+            installation.save(update_fields=["enabled"])
+            with self.assertRaisesMessage(
+                ValidationError, "not available from a connected GitHub account"
+            ):
+                backup.restore(
+                    project.name, project.slug, self.user, workspace=workspace
+                )
+
+            installation.enabled = True
+            installation.save(update_fields=["enabled"])
+            with self.assertRaisesMessage(
+                ValidationError, "changed after import was authorized"
+            ):
+                backup.restore(
+                    project.name,
+                    project.slug,
+                    self.user,
+                    workspace=workspace,
+                    approved_repositories=[],
+                )
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
+        self.assertFalse(Path(project.full_path).exists())
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo", side_effect=resolve_private_example
+    )
+    @patch("weblate.trans.views.create.import_project_backup.delay")
+    def test_view_restore_github_app_requires_installation_access(
+        self, delay: Mock, _dns: Mock
+    ) -> None:
+        workspace = Workspace.objects.create(name="GitHub workspace")
+        self.github_app_installation(workspace)
+        self.user.add_team(
+            None, workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        self.user.clear_permissions_cache()
+        url = reverse("create-project-import")
+        temp_name = self.github_app_backup()
+        with remove_file_after(temp_name), open(temp_name, "rb") as handle:
+            preview = self.client.post(
+                url, {"zipfile": handle, "workspace": workspace.pk}, follow=True
+            )
+        self.assertEqual(preview.status_code, 200)
+        self.addCleanup(
+            Path(self.client.session["import_project"]).unlink, missing_ok=True
+        )
+
+        submission = {
+            "name": "Restored GitHub App",
+            "slug": "restored-app",
+            "workspace": workspace.pk,
+        }
+        response = self.client.post(url, submission)
+        self.assertContains(
+            response, "You cannot use GitHub App installations in this workspace."
+        )
+        delay.assert_not_called()
+
+        workspace.add_owner(self.user)
+        delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
+        self.assertRedirects(
+            self.client.post(url, submission),
+            reverse("home"),
+            fetch_redirect_response=False,
+        )
+        delay.assert_called_once()
+        self.assertEqual(delay.call_args.kwargs["workspace_id"], str(workspace.pk))
+        self.assertEqual(
+            delay.call_args.kwargs["approved_repositories"],
+            ["https://github.com/example/translations.git"],
+        )
 
 
 class GitWorktreeBackupTest(ReusableViewTestCase):

@@ -6184,6 +6184,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )
                 raise ValidationError({"push_branch": msg})
 
+    def clear_inapplicable_repository_fields(self) -> tuple[str, ...]:
+        """Clear settings managed by the repository backend."""
+        fields = self.repository_class.component_clear_fields
+        for field in fields:
+            setattr(self, field, "")
+        return fields
+
+    def clean_repository_integration(self) -> None:
+        """Validate integration settings without accessing the checkout or remote."""
+        self.clear_inapplicable_repository_fields()
+        if self.repository_class.component_requires_branch and not self.branch:
+            raise ValidationError(
+                {
+                    "branch": gettext(
+                        "Repository branch is required for this integration."
+                    )
+                }
+            )
+        self.repository_class.validate_component(self)
+
     def clean_repo(
         self,
         *,
@@ -6208,19 +6228,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
 
-        for field in self.repository_class.component_clear_fields:
-            setattr(self, field, "")
-
-        if self.repository_class.component_requires_branch and not self.branch:
-            raise ValidationError(
-                {
-                    "branch": gettext(
-                        "Repository branch is required for this integration."
-                    )
-                }
-            )
-
-        self.repository_class.validate_component(self)
+        self.clean_repository_integration()
 
         self.clean_branches()
         self.clean_push_branch_settings()

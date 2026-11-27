@@ -122,6 +122,7 @@ from weblate.vcs.base import (
 from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import VCS_PARAMS
+from weblate.vcs.permissions import user_can_use_github_app_in_workspace
 from weblate.vcs.worktree import GitUpdateWorktree
 
 if TYPE_CHECKING:
@@ -1449,6 +1450,12 @@ class ProjectBackup:
     ) -> None:
         component = data["component"]
         path = filename
+        backend = VCS_REGISTRY.get(component["vcs"])
+        if backend is not None and backend.component_clear_fields:
+            settings_component = Component(vcs=component["vcs"], repo=component["repo"])
+            if not settings_component.is_repo_link:
+                for field in settings_component.clear_inapplicable_repository_fields():
+                    component[field] = getattr(settings_component, field)
         for field in ("local_revision", "remote_revision"):
             revision = component[field]
             if revision and not is_valid_revision_hash(revision):
@@ -3306,6 +3313,47 @@ class ProjectBackup:
             self.categories_cache[self.full_slug_without_project(obj)] = obj
             self.restore_categories(nested_categories, obj)
 
+    def validate_repository_integrations(
+        self, workspace: Workspace | None, *, actor: User | None
+    ) -> list[str]:
+        """Validate integration-managed repositories for the restore destination."""
+        # Like archive validation, use an in-memory project for model checks.
+        project = Project(pk=-1, workspace=workspace)
+        repositories: set[str] = set()
+        for filename, data in self.component_data.items():
+            component = data["component"]
+            if VCS_REGISTRY[component["vcs"]].manual_component_creation:
+                continue
+            candidate = Component(
+                project=project,
+                vcs=component["vcs"],
+                repo=component["repo"],
+                branch=component["branch"],
+            )
+            if candidate.is_repo_link:
+                continue
+            if (
+                not repositories
+                and actor is not None
+                and workspace is not None
+                and not user_can_use_github_app_in_workspace(actor, workspace)
+            ):
+                raise ValidationError(
+                    {
+                        f"{filename}.component.repo": gettext(
+                            "You cannot use GitHub App installations in this workspace."
+                        )
+                    }
+                )
+            try:
+                candidate.clean_repository_integration()
+            except ValidationError as error:
+                raise self.contextualize_validation_error(
+                    error, f"{filename}.component"
+                ) from error
+            repositories.add(candidate.repo)
+        return sorted(repositories)
+
     def restore(
         self,
         project_name: str,
@@ -3316,6 +3364,7 @@ class ProjectBackup:
         progress_callback: Callable[[int, int], None] | None = None,
         *,
         duplicate_scope: str = "",
+        approved_repositories: list[str] | None = None,
     ) -> Project:
         if not self.filename:
             msg = "Need a filename string."
@@ -3356,6 +3405,18 @@ class ProjectBackup:
                 target_project_slug=project_slug,
                 validate_roles=True,
             )
+            repositories = self.validate_repository_integrations(
+                workspace, actor=user if approved_repositories is None else None
+            )
+            if (
+                approved_repositories is not None
+                and repositories != approved_repositories
+            ):
+                raise ValidationError(
+                    gettext(
+                        "The repositories in this backup changed after import was authorized."
+                    )
+                )
             if self.duplicate_scope != duplicate_scope:
                 raise ValidationError(
                     [

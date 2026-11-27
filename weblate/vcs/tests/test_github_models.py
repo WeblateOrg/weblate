@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import socket
 from base64 import b64decode
+from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -19,7 +20,7 @@ from django.test import SimpleTestCase, TestCase, override_settings
 from weblate.trans.models import Component, Project
 from weblate.utils.tests import http_mock
 from weblate.utils.tests.network import mock_dns
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryInternalError
 from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubAppNotConfiguredError,
@@ -184,6 +185,21 @@ class TestGitHubInstallationManager(TestCase):
                 repository.get_credentials_by_hostname("GITHUB.COM"),
                 resolve.return_value,
             )
+
+    def test_app_repository_requires_standard_https_endpoint(self) -> None:
+        component = self._make_component("https://github.com:443/test-org/repo1.git")
+        GithubAppRepository.validate_component(component)
+        component.repo = "https://github.com:8443/test-org/repo1.git"
+
+        with self.assertRaisesMessage(ValidationError, "GitHub HTTPS repository URL"):
+            GithubAppRepository.validate_component(component)
+        repository = self._make_app_repository(component.repo)
+        with (
+            patch.object(GitHubInstallation, "get_access_token") as get_token,
+            self.assertRaises(RepositoryInternalError),
+        ):
+            repository.get_auth_environment()
+        get_token.assert_not_called()
 
     def test_get_for_repo(self) -> None:
         self.assertEqual(
@@ -641,6 +657,7 @@ class TestGitHubInstallationManager(TestCase):
         repository = self._make_app_repository()
 
         with (
+            patch.object(GithubAppRepository, "ensure_push_destination"),
             patch.object(GithubAppRepository, "execute", return_value="") as execute,
             patch.object(GithubAppRepository, "create_pull_request"),
             patch.object(GithubAppRepository, "validate_pull_url"),
@@ -666,6 +683,7 @@ class TestGitHubInstallationManager(TestCase):
         repository = self._make_app_repository()
 
         with (
+            patch.object(GithubAppRepository, "ensure_push_destination"),
             patch.object(GithubAppRepository, "execute", return_value="") as execute,
             patch.object(
                 GithubAppRepository, "create_pull_request"
@@ -695,6 +713,7 @@ class TestGitHubInstallationManager(TestCase):
         )
 
         with (
+            patch.object(GithubAppRepository, "ensure_push_destination"),
             patch.object(GithubAppRepository, "execute", return_value="") as execute,
             patch.object(
                 GithubAppRepository, "create_pull_request"
@@ -710,6 +729,44 @@ class TestGitHubInstallationManager(TestCase):
         self.assertNotIn("main:weblate-test-component", push_args)
         self.assertNotIn("--force", push_args)
         create_pull_request.assert_not_called()
+
+    def test_github_repository_clears_stale_push_destination(self) -> None:
+        component = self._make_component()
+        with TemporaryDirectory() as directory:
+            repository = GithubAppRepository(
+                directory, branch="main", component=component
+            )
+            repository.create_blank_repository(directory)
+            repository.configure_remote(
+                component.repo, "https://example.com/obsolete.git", "main"
+            )
+            repository.ensure_push_destination()
+            self.assertEqual(
+                repository.execute(
+                    ["remote", "get-url", "--push", "--all", "origin"],
+                    remote_op="none",
+                    needs_lock=False,
+                ).strip(),
+                component.repo,
+            )
+
+    def test_github_repository_checks_destination_before_getting_token(self) -> None:
+        component = self._make_component()
+        with TemporaryDirectory() as directory:
+            repository = GithubAppRepository(
+                directory, branch="main", component=component
+            )
+            repository.create_blank_repository(directory)
+            repository.configure_remote("https://example.com/obsolete.git", "", "main")
+            with (
+                patch.object(GitHubInstallation, "get_access_token") as get_token,
+                self.assertRaises(RepositoryInternalError) as error,
+            ):
+                repository.push("")
+            self.assertEqual(
+                error.exception.code, "github_app_push_destination_mismatch"
+            )
+            get_token.assert_not_called()
 
     @http_mock.activate
     def test_github_repository_remote_compatibility_deepen_uses_installation_token(

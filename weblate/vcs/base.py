@@ -175,6 +175,7 @@ type RepositoryErrorCode = Literal[
     "github_app_installation_invalid",
     "github_app_installation_missing",
     "github_app_installation_missing_for_host",
+    "github_app_push_destination_mismatch",
     "github_app_token_failed",
     "github_app_workspace_required",
     "gitlab_project_failed",
@@ -298,6 +299,9 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "github_app_installation_missing_for_host": gettext_noop(
         "No Weblate GitHub app installation available for %(hostname)s"
+    ),
+    "github_app_push_destination_mismatch": gettext_noop(
+        "The Git push destination does not match the GitHub App repository."
     ),
     "github_app_token_failed": gettext_noop(
         "Could not obtain GitHub App access token: %(error)s"

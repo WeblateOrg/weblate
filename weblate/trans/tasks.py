@@ -2223,6 +2223,8 @@ def restore_project_backup(
     billing_id: int | None,
     workspace_id: str | None = None,
     duplicate_scope: str = "",
+    *,
+    approved_repositories: list[str] | None = None,
 ) -> tuple[Project, list[str]]:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.backups import ProjectBackup
@@ -2253,6 +2255,7 @@ def restore_project_backup(
         workspace=workspace,
         progress_callback=report_restore_component_progress,
         duplicate_scope=duplicate_scope,
+        approved_repositories=approved_repositories,
     )
     report_task_progress(95)
     return project, restore.get_restore_warnings()
@@ -2267,6 +2270,8 @@ def import_project_backup(
     billing_id: int | None = None,
     workspace_id: str | None = None,
     duplicate_scope: str = "",
+    *,
+    approved_repositories: list[str] | None = None,
 ) -> dict[str, Any]:
     try:
         project, restore_warnings = restore_project_backup(
@@ -2277,6 +2282,7 @@ def import_project_backup(
             billing_id,
             workspace_id,
             duplicate_scope,
+            approved_repositories=approved_repositories,
         )
     finally:
         with suppress(OSError):
