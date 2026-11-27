@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+import re
 from time import monotonic
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 
@@ -12,8 +13,8 @@ from django.contrib.postgres.search import TrigramSimilarity
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import DatabaseError, connection, transaction
-from django.db.models import Count
-from django.db.models.functions import Length
+from django.db.models import Count, F, OuterRef, Q, Subquery, TextField, Value
+from django.db.models.functions import Coalesce, Length, Replace
 from django.http import FileResponse, JsonResponse, QueryDict
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -35,7 +36,7 @@ from weblate.screenshots.forms import (
     ScreenshotSelectSearchForm,
     SearchForm,
 )
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.models import Screenshot, ScreenshotOCR
 from weblate.screenshots.ocr import ensure_ocr
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
@@ -537,6 +538,7 @@ OCR_MATCH_CANDIDATE_LIMIT = 16
 OCR_MATCH_RESULT_LIMIT = 250
 OCR_MATCH_DEADLINE = 2
 OCR_MATCH_STATEMENT_TIMEOUT_MS = 1000
+OCR_PICKER_QUERY_LENGTH = 512
 
 
 def ocr_match_parts(data: dict[str, Any]) -> Iterator[str]:
@@ -740,7 +742,7 @@ def get_sources(request: AuthenticatedHttpRequest, pk):
 def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpResponse:
     unit = get_object_or_404(
         Unit.objects.filter_access(request.user).select_related(
-            "translation__component__project"
+            "translation__component__project", "translation__component__source_language"
         ),
         pk=unit_id,
     )
@@ -804,8 +806,41 @@ def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpRe
             screenshots = screenshots.annotate(**annotations).filter(filters).distinct()
     else:
         screenshots = screenshots.none()
+    source_phrase = " ".join(unit.effective_source_string.split())
+    if len(source_phrase) <= OCR_PICKER_QUERY_LENGTH and any(
+        character.isalnum() for character in source_phrase
+    ):
+        # A scalar lookup checks the cache for each filtered screenshot by ID.
+        first_pass: F | Replace = F("first_pass_text")
+        second_pass: F | Replace = F("second_pass_text")
+        pattern = re.escape(source_phrase)
+        if unit.effective_source_language.uses_whitespace():
+            pattern = rf"(?<![[:alnum:]_]){pattern}(?![[:alnum:]_])"
+        elif " " not in source_phrase and not source_phrase.isascii():
+            # OCR line breaks in scripts without word spaces can split a phrase.
+            first_pass = Replace(
+                "first_pass_text", Value(" "), Value(""), output_field=TextField()
+            )
+            second_pass = Replace(
+                "second_pass_text", Value(" "), Value(""), output_field=TextField()
+            )
+        matching_cache = (
+            ScreenshotOCR.objects.filter(pk=OuterRef("pk"), error="")
+            .alias(first_pass=first_pass, second_pass=second_pass)
+            .filter(Q(first_pass__iregex=pattern) | Q(second_pass__iregex=pattern))
+            .annotate(matches=Value(True))
+            .values("matches")[:1]
+        )
+        screenshots = screenshots.annotate(
+            ocr_match=Coalesce(Subquery(matching_cache), Value(False))
+        )
+    else:
+        screenshots = screenshots.annotate(ocr_match=Value(False))
     page = Paginator(
-        screenshots.select_related("translation__language").order_by("name", "pk"), 48
+        screenshots.select_related("translation__language").order_by(
+            "-ocr_match", "name", "pk"
+        ),
+        48,
     ).get_page(request.GET.get("page"))
     return render(
         request,

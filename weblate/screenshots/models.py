@@ -249,6 +249,29 @@ class ScreenshotOCR(models.Model):
     requested_at = models.DateTimeField(null=True)
     error = models.CharField(max_length=16, blank=True)
 
+    first_pass_text = models.GeneratedField(
+        expression=models.Func(
+            "data",
+            models.Value(0),
+            function="weblate_ocr_pass_text",
+            output_field=models.TextField(),
+        ),
+        output_field=models.TextField(),
+        db_persist=True,
+        null=True,
+    )
+    second_pass_text = models.GeneratedField(
+        expression=models.Func(
+            "data",
+            models.Value(1),
+            function="weblate_ocr_pass_text",
+            output_field=models.TextField(),
+        ),
+        output_field=models.TextField(),
+        db_persist=True,
+        null=True,
+    )
+
     def __str__(self) -> str:
         return f"Text recognition for screenshot {self.screenshot_id}"
 

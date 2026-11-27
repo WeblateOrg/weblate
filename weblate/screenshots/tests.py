@@ -42,6 +42,7 @@ from weblate.screenshots.models import Screenshot, ScreenshotOCR
 from weblate.screenshots.ocr import (
     OCR_LINE_LIMIT,
     OCR_TEXT_LENGTH_LIMIT,
+    OCR_WORDS_PER_LINE_LIMIT,
     TESSERACT_DOWNLOAD_ATTEMPTS,
     TESSERACT_DOWNLOAD_TIMEOUT,
     OCRLine,
@@ -2859,12 +2860,211 @@ class ScreenshotSelectTest(LanguageScopedScreenshotMixin, FixtureTestCase):
             name="Target preview", translation=self.unit.translation
         )
 
+    def cache_text(self, screenshot: Screenshot, *lines: str, error: str = "") -> None:
+        ScreenshotOCR.objects.create(
+            screenshot=screenshot,
+            data={"passes": [{"lines": [{"text": line} for line in lines]}]},
+            error=error,
+        )
+
+    def test_ocr_matches_before_other_screenshots(self) -> None:
+        self.cache_text(self.source_screenshot, "Hello")
+        self.cache_text(self.target_screenshot, "HELLO,", "world!")
+        pending = Screenshot.objects.create(
+            name="Pending preview", translation=self.unit.translation
+        )
+        ScreenshotOCR.objects.create(screenshot=pending)
+        failed = Screenshot.objects.create(
+            name="Failed preview", translation=self.unit.translation
+        )
+        self.cache_text(failed, "Hello, world!", error="failed")
+
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.target_screenshot, failed, pending, self.source_screenshot],
+        )
+        document = html.fromstring(response.content)
+        self.assertEqual(
+            document.xpath('//label[.//span[text()="Image text match"]]/@for'),
+            [f"screenshot-choice-{self.target_screenshot.pk}"],
+        )
+        self.assertFalse(document.xpath('//input[@name="screenshot"][@checked]'))
+
+        response = self.client.get(self.url, {"q": "Source"})
+        self.assertEqual(list(response.context["page_obj"]), [self.source_screenshot])
+        self.assertNotContains(response, "Image text match")
+
+    def test_ocr_match_order_across_pages(self) -> None:
+        self.source_screenshot.name = self.target_screenshot.name
+        self.source_screenshot.save(update_fields=["name"])
+        for screenshot in (self.source_screenshot, self.target_screenshot):
+            self.cache_text(screenshot, "Hello, world!")
+
+        params = {"page": 1}
+        # Warm page-level caches before comparing query counts.
+        self.client.get(self.url, params)
+        with CaptureQueriesContext(connection) as small_list:
+            self.assertEqual(self.client.get(self.url, params).status_code, 200)
+
+        unmatched = Screenshot.objects.bulk_create(
+            Screenshot(name=f"Earlier {index:02}", translation=self.unit.translation)
+            for index in range(47)
+        )
+        with CaptureQueriesContext(connection) as full_page:
+            response = self.client.get(self.url, params)
+        self.assertEqual(len(full_page), len(small_list))
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.source_screenshot, self.target_screenshot, *unmatched[:46]],
+        )
+        response = self.client.get(self.url, {"page": 2})
+        self.assertEqual(list(response.context["page_obj"]), unmatched[46:])
+
+    def test_ocr_match_requires_an_ordered_phrase_in_one_pass(self) -> None:
+        Unit.objects.filter(pk=self.unit.pk).update(source="Hello world")
+        self.cache_text(self.source_screenshot, "Hello draft", "Discard world")
+        self.cache_text(self.target_screenshot, "world Hello")
+        split = Screenshot.objects.create(
+            name="Split between passes", translation=self.unit.translation
+        )
+        ScreenshotOCR.objects.create(
+            screenshot=split,
+            data={
+                "passes": [
+                    {"lines": [{"text": "Hello"}]},
+                    {"lines": [{"text": "world"}]},
+                ]
+            },
+        )
+        matching = Screenshot.objects.create(
+            name="Wrapped phrase on second pass", translation=self.unit.translation
+        )
+        ScreenshotOCR.objects.create(
+            screenshot=matching,
+            data={
+                "passes": [
+                    {"lines": [{"text": "world Hello"}]},
+                    {"lines": [{"text": "Hello"}, {"text": "world"}]},
+                ]
+            },
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [matching, self.source_screenshot, split, self.target_screenshot],
+        )
+        self.assertContains(response, "Image text match", count=1)
+
+    def test_ocr_match_with_large_cache(self) -> None:
+        # Exercise a cache near the worker's line and word limits.
+        lines = [
+            {
+                "text": " ".join(
+                    f"prefix{number:05d}aaaaaaaaaa-suffix{number:05d}bbbbbbbbbb"
+                    for number in range(start, start + OCR_WORDS_PER_LINE_LIMIT)
+                )
+            }
+            for start in range(
+                0,
+                2 * OCR_LINE_LIMIT * OCR_WORDS_PER_LINE_LIMIT,
+                OCR_WORDS_PER_LINE_LIMIT,
+            )
+        ]
+        ScreenshotOCR.objects.create(
+            screenshot=self.target_screenshot,
+            data={
+                "passes": [
+                    {"lines": [{"text": "Hello, world!"}, *lines[1:OCR_LINE_LIMIT]]},
+                    {
+                        "lines": [
+                            *lines[OCR_LINE_LIMIT:-1],
+                            {"text": "Outside byte budget"},
+                        ]
+                    },
+                ]
+            },
+        )
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.target_screenshot, self.source_screenshot],
+        )
+        self.assertContains(response, "Image text match", count=1)
+
+        Unit.objects.filter(pk=self.unit.pk).update(source="Outside byte budget")
+        self.assertNotContains(self.client.get(self.url), "Image text match")
+
+    def test_ocr_matches_text_without_word_spaces(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            source_language=Language.objects.get(code="zh_Hans")
+        )
+        Unit.objects.filter(pk=self.unit.pk).update(source="保存设置")
+        self.cache_text(self.source_screenshot, "点击保存设置继续")
+        self.cache_text(self.target_screenshot, "点击保存", "设置继续")
+
+        response = self.client.get(self.url)
+        self.assertContains(response, "Image text match", count=2)
+
+    def test_ocr_match_keeps_symbols_and_word_boundaries(self) -> None:
+        Unit.objects.filter(pk=self.unit.pk).update(source="C++")
+        self.cache_text(self.source_screenshot, "C#, C++17 and XC++")
+        self.cache_text(self.target_screenshot, "Learn C#")
+        self.assertNotContains(self.client.get(self.url), "Image text match")
+        ScreenshotOCR.objects.filter(screenshot=self.target_screenshot).update(
+            data={
+                "passes": [
+                    {"lines": [{"text": "Learn"}, {"text": "c++ for beginners"}]}
+                ]
+            }
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.target_screenshot, self.source_screenshot],
+        )
+        self.assertContains(response, "Image text match", count=1)
+        response = self.client.get(self.url, {"q": "Source"})
+        self.assertNotContains(response, "Image text match")
+
+    def test_ocr_match_without_searchable_source(self) -> None:
+        self.cache_text(self.target_screenshot, "Hello world")
+        Unit.objects.filter(pk=self.unit.pk).update(source="?!")
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.source_screenshot, self.target_screenshot],
+        )
+        self.assertNotContains(response, "Image text match")
+
+    def test_ocr_match_skips_oversized_source(self) -> None:
+        # The first 512 characters appear in OCR but are only part of the source.
+        prefix = "Hello " * 85 + "wo"
+        Unit.objects.filter(pk=self.unit.pk).update(source=f"{prefix}rld")
+        self.cache_text(self.target_screenshot, prefix)
+        response = self.client.get(self.url)
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            [self.source_screenshot, self.target_screenshot],
+        )
+        self.assertNotContains(response, "Image text match")
+
     def test_candidates(self) -> None:
         other = self.component.translation_set.exclude(
             pk__in=[self.unit.translation_id, self.unit.source_unit.translation_id]
         ).first()
         assert other is not None
-        Screenshot.objects.create(name="Other language preview", translation=other)
+        other_screenshot = Screenshot.objects.create(
+            name="Other language preview", translation=other
+        )
+        for screenshot in (
+            other_screenshot,
+            self.source_screenshot,
+            self.target_screenshot,
+        ):
+            self.cache_text(screenshot, "Hello, world!")
         response = self.client.get(self.url)
         self.assertContains(response, "Source preview")
         self.assertContains(response, "Target preview")
@@ -2959,6 +3159,7 @@ class ScreenshotSelectTest(LanguageScopedScreenshotMixin, FixtureTestCase):
         Translation.objects.bulk_create([translation])
         screenshot = Screenshot(name="Other component preview", translation=translation)
         Screenshot.objects.bulk_create([screenshot])
+        self.cache_text(screenshot, "Hello, world!")
         response = self.client.get(self.url)
         self.assertNotContains(response, "Other component preview")
         response = self.client.post(self.url, {"screenshot": screenshot.pk})
@@ -2984,6 +3185,7 @@ class ScreenshotSelectTest(LanguageScopedScreenshotMixin, FixtureTestCase):
 
     def test_language_scope(self) -> None:
         self.make_language_scoped_user("cs", "screenshot.edit")
+        self.cache_text(self.source_screenshot, "Hello, world!")
 
         response = self.client.get(self.url)
         self.assertContains(response, "Target preview")

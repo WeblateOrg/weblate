@@ -32,6 +32,9 @@
               {{ screenshot.name }}
             </span>
             <span class="text-body-secondary">{{ screenshot.translation.language }}</span>
+            {% if screenshot.ocr_match %}
+              <span class="badge text-bg-secondary align-self-start mt-2">{% translate "Image text match" %}</span>
+            {% endif %}
             <span class="screenshot-selected d-flex align-items-center gap-1 small fw-semibold mt-2"
                   aria-hidden="true">{% icon "check.svg" %} {% translate "Selected" %}</span>
           </label>
