@@ -81,7 +81,7 @@ from . import defaults
 from .types import ThemeChoices
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable, Collection, Iterable
 
     from django.contrib.auth.models import AnonymousUser
     from django.http.request import HttpRequest
@@ -1659,7 +1659,7 @@ class Profile(models.Model):
         )
 
     @staticmethod
-    def _get_second_factors(user_ids: Iterable[int]) -> Iterable[Device]:
+    def _get_second_factors(user_ids: Collection[int]) -> Iterable[Device]:
         backend: type[Device]
         for backend in (StaticDevice, TOTPDevice, WebAuthnCredential):
             devices = backend.objects.filter(user_id__in=user_ids)
