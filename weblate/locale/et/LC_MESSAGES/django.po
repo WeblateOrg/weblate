@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
 "PO-Revision-Date: 2026-11-13 08:11+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -34,6 +34,11 @@ msgstr "Puudub"
 
 msgid "User avatar"
 msgstr "Kasutaja profiilipilt"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Soovitatud tõlked"
 
 msgid "No notification"
 msgstr "Teavitusi pole"
@@ -1529,11 +1534,6 @@ msgstr ""
 msgid "Notification diagnostics for %(user)s"
 msgstr "Summuta %(object)s teavitused"
 
-#, fuzzy
-#| msgid "The translation base language can not be edited."
-msgid "This user can not be edited."
-msgstr "Tõlke aluskeel pole toimetatav."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2317,6 +2317,18 @@ msgstr ""
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
+msgstr ""
+
+#, fuzzy
+#| msgid "Username"
+msgid "Excluded source directories"
+msgstr "Kasutajanimi"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
 msgstr ""
 
 #, fuzzy
@@ -3292,6 +3304,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invited to {project} by {username}."
+msgid "Filter by username."
+msgstr "{username} saatis kutse projekti {project}."
+
 msgid "Allowed number of requests to perform"
 msgstr ""
 
@@ -3528,6 +3551,11 @@ msgstr "Ei saa puhastada %s varamut."
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "Ei saa puhastada %s varamut."
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "This user can not be edited."
+msgstr "Tõlke aluskeel pole toimetatav."
 
 msgid "Expected an object."
 msgstr ""
@@ -5083,7 +5111,7 @@ msgstr "Arvelduse ülevaade"
 
 #, fuzzy
 #| msgid "Return to the component"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Tagasi osise juurde"
 
 #, fuzzy
@@ -6281,6 +6309,16 @@ msgstr ""
 msgid "Source and translation are identical."
 msgstr "Lähtelausend ja tõlge on identsed."
 
+#, fuzzy
+#| msgid "Default component list"
+msgid "Saving string failed"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "The string could not be written to the translation file."
+msgstr "Heakskiidetud tõlge %(translation)s"
+
 msgid "Unpluralised"
 msgstr ""
 
@@ -6479,6 +6517,11 @@ msgstr "Tõlke võti"
 msgid "XLIFF 1.1"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation key"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "Tõlke võti"
+
 msgid "TBX"
 msgstr ""
 
@@ -6521,6 +6564,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "Ei saa uuendada varamut."
+
+#, fuzzy
+#| msgid "This translation is locked."
+msgid "The workbook header row is empty."
+msgstr "See tõlge on lukustatud."
 
 #, python-format
 msgid ""
@@ -6846,6 +6894,10 @@ msgid "App store metadata files"
 msgstr "App Store'i metaandmete failid"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -8099,6 +8151,22 @@ msgstr "Osise lähtekeel"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Projekti või osise teisene keel"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "Õigused on puudu"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation comment"
+msgid "Translation context"
+msgstr "Tõlke kommentaar"
 
 #, fuzzy
 #| msgid "repository wide"
@@ -9510,21 +9578,6 @@ msgstr ""
 "API-võtit võid kasutada autentimisel Weblate'i automaatselt eksporditud Giti "
 "lähtekoodi hoidlas."
 
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "Code-hosting connections"
-msgstr "Soovitatud tõlked"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Manage code-hosting connections"
-msgstr "Haldamine"
-
 msgid "Pending invitation"
 msgstr "Ootel kutse"
 
@@ -10935,13 +10988,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "Lisa osise teade"
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Add a project to get started"
+msgstr "Lisatekst"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "View affected components"
+msgstr "Vaikimisi komponentide nimekiri"
 
 msgid "Customer"
 msgstr "Klient"
@@ -11408,6 +11477,13 @@ msgstr "Vaikimisi komponentide nimekiri"
 #| msgid "Watched projects"
 msgid "Share in projects"
 msgstr "Jälgitavad projektid"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr ""
+"Küsi tasuta tõlkemajutust ja -haldust avatud lähtekoodil põhinevale "
+"projektile"
 
 msgid "dismissed"
 msgstr ""
@@ -13332,7 +13408,9 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
 msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
@@ -14268,6 +14346,21 @@ msgid "Delete announcement"
 msgstr "Uus teadaanne"
 
 #, fuzzy
+#| msgid "Contributor stats"
+msgid "Contributors"
+msgstr "Panustaja statistika"
+
+#, fuzzy
+#| msgid "Contributor agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Kaastöötaja leping on eemaldatud."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Hiljutist kaastööd ei leidunud."
+
+#, fuzzy
 #| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
@@ -14345,6 +14438,16 @@ msgstr ""
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First"
+msgid "First page"
+msgstr "Esimene"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Eelmine"
+
 msgid "Click to edit position"
 msgstr ""
 
@@ -14362,6 +14465,16 @@ msgstr ""
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Järgmine"
+
+#, fuzzy
+#| msgid "Past due date"
+msgid "Last page"
+msgstr "Hilinenud tähtaeg"
 
 msgid "Labels"
 msgstr "Sildid"
@@ -15091,6 +15204,11 @@ msgstr ""
 msgid "Most active translators"
 msgstr "Kõige toimekamad tõlkijad"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Uus kaasautor"
+
 msgid "Browse all users"
 msgstr "Sirvi kõiki kasutajaid"
 
@@ -15187,11 +15305,6 @@ msgstr "Möödunud 30 päeva tegevus"
 
 msgid "Quick numbers"
 msgstr ""
-
-#, fuzzy
-#| msgid "Contributor stats"
-msgid "Contributors"
-msgstr "Panustaja statistika"
 
 msgid "Translations"
 msgstr "Tõlked"
@@ -15568,6 +15681,21 @@ msgid "Refresh results"
 msgstr "varamu ülene"
 
 #, fuzzy
+#| msgid "Personal info"
+msgid "Original file"
+msgstr "Isiklik info"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Varamus tehti toiming"
+
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -15766,6 +15894,22 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "Kopeerisin varamu aadressi lõikelauale."
 
+msgid "Strings"
+msgstr "Lausendid"
+
+#, python-format
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Translation key"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Tõlke võti"
+msgstr[1] "Tõlke võti"
+
 msgid "Suggestion added"
 msgstr "Ettepanek lisatud"
 
@@ -15833,9 +15977,6 @@ msgstr "Tõlgitud"
 
 msgid "Translation status"
 msgstr "Tõlke seis"
-
-msgid "Strings"
-msgstr "Lausendid"
 
 msgid "Words"
 msgstr ""
@@ -16015,9 +16156,6 @@ msgstr "Seadista lisamoodul"
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
-msgid "The following occurrences were found:"
-msgstr ""
-
 #, fuzzy
 #| msgid "Default component list"
 msgid "Command"
@@ -16039,6 +16177,9 @@ msgid ""
 "use the code of the individual language instead."
 msgstr ""
 
+msgid "The following occurrences were found:"
+msgstr ""
+
 msgid "Suggested individual language codes"
 msgstr ""
 
@@ -16056,6 +16197,16 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -16160,6 +16311,9 @@ msgstr ""
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
+msgstr ""
+
+msgid "Replace the expired SSH key in Azure DevOps"
 msgstr ""
 
 msgid ""
@@ -16420,8 +16574,10 @@ msgstr ""
 msgid "Template for new translations"
 msgstr "Soovitatud tõlked"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr ""
+#, fuzzy
+#| msgid "Weblate could not push changes to the upstream repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
+msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 
 msgid ""
 "Any publicly available project should have defined license to indicate what "
@@ -16466,6 +16622,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr ""
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 
@@ -16500,10 +16667,13 @@ msgid ""
 "repository."
 msgstr ""
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, python-format
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -16530,6 +16700,19 @@ msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
 msgid "Push the repository"
 msgstr "Ei saa panustada varamusse."
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -16544,6 +16727,19 @@ msgstr "Ei saa uuendada varamut."
 #| msgid "Could not push the repository."
 msgid "Reset the repository"
 msgstr "Ei saa panustada varamusse."
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -16575,6 +16771,15 @@ msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "Projektis pole tehtud ühtegi tõlget %(count)s päeva jooksul."
 msgstr[1] "Projektis pole tehtud ühtegi tõlget %(count)s päeva jooksul."
+
+#, python-format
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "No translation changes have been recorded."
+msgstr "Tõlke võti"
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
@@ -16763,40 +16968,13 @@ msgid ""
 "%(link_start)supload it%(link_end)s."
 msgstr ""
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
 
 #, fuzzy
-#| msgid "Default component list"
-msgid "Add or configure account"
-msgstr "Vaikimisi komponentide nimekiri"
-
-#, fuzzy
-#| msgid "Recent changes"
-msgid "Visibility"
-msgstr "Viimased muudatused"
-
-#, fuzzy
-#| msgid "Watched projects"
-msgid "Import"
-msgstr "Jälgitavad projektid"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#| msgid "Following components matched existing ones"
+msgid "Browse connected repositories"
+msgstr "Järgmistele osistele leidusid olemasolevad vasted"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16913,44 +17091,19 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
-msgstr ""
-
 msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
 msgstr ""
 
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
+msgid "How to resolve merge conflicts"
 msgstr ""
 
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
+msgid "How to avoid merge conflicts"
 msgstr ""
-
-msgid "Add Weblate exported repository as a remote."
-msgstr ""
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
-
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Tühista sisemise koodivaramu muutused"
-
-msgid "Push changes into upstream repository."
-msgstr "Panusta muudatused ülesvoo-varamusse."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Weblate näeb nüüd uuendatud varamut ning sa võid selle avada."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "Vaata võimalikku lahendust KKK loendist."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
@@ -17069,6 +17222,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Tõlkefailide korrastamine"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 #, fuzzy
@@ -17403,6 +17566,16 @@ msgstr "Lisa kuvatõmmis"
 msgid "String information"
 msgstr "Teave"
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Last translator"
+msgstr "Soovitatud tõlked"
+
+#, fuzzy
+#| msgid "Translation key"
+msgid "Last approver"
+msgstr "Tõlke võti"
+
 msgid "No explanation currently provided."
 msgstr "Hetkel selgitusi ei leidu."
 
@@ -17553,19 +17726,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr ""
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr ""
 
@@ -17584,80 +17744,6 @@ msgid ""
 msgstr ""
 "Teadet näidatakse kõigile tõlgetele osise sees, kuni sätestatud aegumiseni, "
 "või jäädavalt kuni kustutamiseni."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitation"
-msgid "Code-hosting app"
-msgstr "Ootel kutse"
-
-#, fuzzy
-#| msgid "Project name"
-msgid "Not registered"
-msgstr "Projekti nimi"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connect accounts"
-msgstr "Kustuta kasutajakonto"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connected accounts"
-msgstr "Kustuta kasutajakonto"
-
-#, fuzzy
-#| msgid "Provider"
-msgid "Provider ID"
-msgstr "Pakkuja"
-
-#, fuzzy
-#| msgid "repository wide"
-msgid "Repositories"
-msgstr "varamu ülene"
-
-msgid "Refresh"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "No connected accounts yet."
-msgstr "Kustuta kasutajakonto"
-
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "Code-hosting integrations"
-msgstr "Soovitatud tõlked"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -17689,11 +17775,6 @@ msgstr "Kustuta see konto"
 msgid "Refresh repositories"
 msgstr "varamu ülene"
 
-#, fuzzy
-#| msgid "Default component list"
-msgid "Migrate selected components"
-msgstr "Vaikimisi komponentide nimekiri"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -17714,6 +17795,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "Tõlke seis"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Uus hoiatus %(component)s osises"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "GitHubi täht"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -17724,8 +17817,18 @@ msgstr "Vaid lugemisõigusega"
 msgid "Repository access needed"
 msgstr "Koodivaramu haru"
 
+#, fuzzy
+#| msgid "Default component list"
+msgid "Migrate selected components"
+msgstr "Vaikimisi komponentide nimekiri"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Code-hosting connections"
+msgstr "Soovitatud tõlked"
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -17798,11 +17901,128 @@ msgstr "Sinu nimi"
 msgid "Continue to %(host)s"
 msgstr "Summuta %(object)s teavitused"
 
+#, fuzzy
+#| msgid "Default component list"
+msgid "Migrate eligible components"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Migrate these components"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Component name"
+msgid "No components are ready to migrate."
+msgstr "Osise nimi"
+
+#, fuzzy
+#| msgid "Edit component settings"
+msgid "Back to connections"
+msgstr "Muuda osiste seadistusi"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected accounts"
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "Provider"
+msgid "Provider ID"
+msgstr "Pakkuja"
+
+#, fuzzy
+#| msgid "repository wide"
+msgid "Repositories"
+msgstr "varamu ülene"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No connected accounts yet."
+msgstr "Kustuta kasutajakonto"
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Delete this account"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Kustuta see konto"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "Kustuta see konto"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Accounts from workspaces you own"
+msgstr "Tõlgitud keeled"
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Other accounts"
+msgstr "Kustuta see konto"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "Tõendamine"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "Jätka"
 
 #, fuzzy
 #| msgctxt "Label on engage page"
@@ -17824,6 +18044,11 @@ msgstr "Summuta %(object)s teavitused"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Add or configure account"
+msgstr "Vaikimisi komponentide nimekiri"
 
 #, python-format
 msgid ""
@@ -17849,6 +18074,16 @@ msgstr "Hilinenud tähtaeg"
 msgid "Available Repositories"
 msgstr "varamu ülene"
 
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Visibility"
+msgstr "Viimased muudatused"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Import"
+msgstr "Jälgitavad projektid"
+
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -17870,6 +18105,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Ühtegi autentimisrakendust pole veel registreeritud."
 
 #, fuzzy
 #| msgid "Remove"
@@ -17898,10 +18138,22 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Kustuta kasutajakonto"
+msgstr[1] "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "View connections"
+msgstr "Soovitatud tõlked"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "View all connections"
+msgstr "Soovitatud tõlked"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -17912,6 +18164,19 @@ msgstr "Kustuta kasutajakonto"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "Kustuta kasutajakonto"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove connected account?"
+msgid "Repositories from these accounts"
+msgstr "Kas eemaldad ühendatud kasutajakonto?"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17925,9 +18190,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 #, fuzzy
@@ -17939,6 +18202,94 @@ msgstr "Tõlke võti"
 #| msgid "Could not push the repository."
 msgid "Try refreshing the repository list."
 msgstr "Ei saa panustada varamusse."
+
+#, fuzzy, python-format
+#| msgid "Get support"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Otsi abi"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Find projects and workspaces"
+msgstr "Lisatekst"
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "Projects moved to these workspaces:"
+msgstr "See osis on hetkel lukustatud."
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Projects without a workspace"
+msgstr "Lisatekst"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You currently do not have permission to create projects."
+msgid "You do not have permission to create workspaces."
+msgstr "Sul hetkel pole õigusi projektide algatamiseks."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "All protected projects"
+msgid "Move selected projects"
+msgstr "Kõik kaitstud projektid"
+
+msgid "No projects without a workspace match your search."
+msgstr ""
+
+#, fuzzy
+#| msgid "Revoke administration"
+msgid "Workspaces without a connection"
+msgstr "Keela haldamise õigus"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No unconnected workspaces match your search."
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Connected workspaces"
+msgstr "Weblate'i võtmed"
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Review component migration"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect another account"
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No connected workspaces match your search."
+msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "Migrate all eligible components across workspaces"
+msgstr "See osis on hetkel lukustatud."
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Haldamine"
 
 msgid "Remove connected account?"
 msgstr "Kas eemaldad ühendatud kasutajakonto?"
@@ -17968,6 +18319,46 @@ msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "%(count)s lausend vajab tähelepanu %(component)s osises"
 msgstr[1] "%(count)s lausendit vajavad tähelepanu %(component)s osises"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Find a workspace"
+msgstr "Tõlgitud keeled"
+
+#, fuzzy
+#| msgid "No invoices found."
+msgid "No workspaces match your search."
+msgstr "Arveid ei leitud."
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Default component list"
+msgid "Migrate all eligible components"
+msgstr "Vaikimisi komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Pending invitation"
+msgid "Code-hosting app"
+msgstr "Ootel kutse"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Not registered"
+msgstr "Projekti nimi"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 #, fuzzy
 #| msgid "Administration"
@@ -18696,11 +19087,6 @@ msgstr "Kategooria"
 #| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not save a changed string."
 msgstr "Weblate ei saa panustada muudatusi ülesvoo-varamusse."
-
-#, fuzzy
-#| msgid "Default component list"
-msgid "Saving string failed"
-msgstr "Vaikimisi komponentide nimekiri"
 
 #, fuzzy
 #| msgid "String added in the repository"
@@ -19459,6 +19845,24 @@ msgstr "Pilt on liiga suur."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
 
+#, python-format
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -19480,6 +19884,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "Kasutaja on kutsutud liituma selle projektiga."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -19513,6 +19925,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -19533,10 +19951,26 @@ msgstr "Erimärgid"
 msgid "File format parameters"
 msgstr "Faili vorming"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "This translation does not yet exist."
 msgid "The project repository directory already exists."
 msgstr "Seda tõlget pole veel olemas."
+
+#, fuzzy
+#| msgid "Confirm deleting all translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Kinnita kõikide tõlkemälu kirjete kustuamine"
 
 #, fuzzy
 #| msgid "Manage users"
@@ -20372,10 +20806,21 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 #, fuzzy
 #| msgid "Source strings"
 msgid "Source string explanation"
 msgstr "Lähtelausendid"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -20874,6 +21319,21 @@ msgstr ""
 #| msgid "No matching components were found!"
 msgid "No matching workspace found."
 msgstr "Ühelegi osisele ei leitud vastet!"
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Topelttõlge."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 #, fuzzy
 #| msgid "Suggested translations"
@@ -21568,11 +22028,6 @@ msgstr "Osise nimi"
 #| msgid "Component name"
 msgid "Component created via document upload"
 msgstr "Osise nimi"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -24065,6 +24520,12 @@ msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr ""
 
@@ -25299,6 +25760,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr ""
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Could not clean the repository on %s."
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -25433,6 +25908,39 @@ msgstr "Osise nimi"
 #| msgid "Component list"
 msgid "Select at least one component to migrate."
 msgstr "Komponentide nimekiri"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Projects to move"
+msgstr "Projekti nimi"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Create workspaces"
+msgstr "Weblate'i võtmed"
+
+#, fuzzy
+#| msgid "Add new projects"
+msgid "One workspace per project"
+msgstr "Lisa uusi projekte"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "One shared workspace"
+msgstr "Halda kasutajaid"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Shared workspace name"
+msgstr "Tõlgitud keeled"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Enter a name for the shared workspace."
+msgstr "Tõlgitud keeled"
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -25913,12 +26421,26 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "GitHub did not return a valid installation ID."
+msgstr "Registreerimist ei õnnestunud lõpetada."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
+msgstr ""
+
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr ""
+
+msgid ""
+"Weblate could not confirm that you can administer this GitHub installation. "
+"Start the installation again with a GitHub user who owns the account or can "
+"administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
 msgstr ""
 
 #, fuzzy
@@ -25926,20 +26448,9 @@ msgstr ""
 msgid "You do not have permission to connect GitHub to this workspace."
 msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele."
 
-#, fuzzy
-#| msgid "Could not complete registration."
-msgid "GitHub did not return a valid installation ID."
-msgstr "Registreerimist ei õnnestunud lõpetada."
-
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
-msgstr ""
-
-msgid ""
-"Weblate could not confirm that you can administer this GitHub installation. "
-"Start the installation again with a GitHub user who owns the account or can "
-"administer the organization."
 msgstr ""
 
 msgid ""
@@ -25958,25 +26469,42 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Kustuta see konto"
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse translation base file: %s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Registreerimist ei õnnestunud lõpetada."
+
+#, fuzzy, python-format
+#| msgid "Could not parse translation base file: %s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] ""
 msgstr[1] ""
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-msgstr[1] ""
-
 #, fuzzy, python-format
-#| msgid "Could not parse translation base file: %s"
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Ei õnnestunud sirvida tõlke alusfaili: %s"
+#| msgid "Lock component, preventing translations"
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Lukusta osis ja takista sellega tõlkimist"
+msgstr[1] "Lukusta osis ja takista sellega tõlkimist"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -26287,18 +26815,13 @@ msgstr ""
 msgid "%(filename)s — %(report)s"
 msgstr "%(project)s projekti sõnastik %(language)s keeles"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Veateate avamine ei õnnestunud, palun proovi hiljem uuesti."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
@@ -26589,6 +27112,32 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Allikas on eemaldatud."
 
+#, fuzzy
+#~| msgid "Reset changes in the internal repository"
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "Tühista sisemise koodivaramu muutused"
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Panusta muudatused ülesvoo-varamusse."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr "Weblate näeb nüüd uuendatud varamut ning sa võid selle avada."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "Vaata võimalikku lahendust KKK loendist."
+
+#, fuzzy
+#~| msgid "Remove account"
+#~ msgid "Connect accounts"
+#~ msgstr "Kustuta kasutajakonto"
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Soovitatud tõlked"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Sirvi %(name)s sõnastikke"
@@ -26665,11 +27214,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Machame"
 #~ msgid "Manage machinery"
 #~ msgstr "matšame"
-
-#, fuzzy
-#~| msgid "Default component list"
-#~ msgid "Preview component ID"
-#~ msgstr "Vaikimisi komponentide nimekiri"
 
 #, fuzzy
 #~| msgid "Recent changes"
@@ -26796,11 +27340,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "All components"
 #~ msgid "Skipped components:"
 #~ msgstr "Kõik osised"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "Õigused on puudu"
 
 #~ msgid "Similarity"
 #~ msgstr "Sarnasus"
@@ -26965,13 +27504,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "New password confirmation"
 #~ msgid "Manage VCS integrations"
 #~ msgstr "Uue parooli kinnitus"
-
-#, fuzzy
-#~| msgctxt "Label on engage page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "GitHubi täht"
 
 #, fuzzy
 #~| msgid "Administration"
@@ -27413,9 +27945,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "New string to translate"
 #~ msgstr "Uus tõlkimist ootav lausend"
 
-#~ msgid "New contributor"
-#~ msgstr "Uus kaasautor"
-
 #~ msgid "New announcement"
 #~ msgstr "Uus teadaanne"
 
@@ -27816,11 +28345,6 @@ msgstr "Allikas on eemaldatud."
 #~ msgid "Translatable words"
 #~ msgstr "Tõlgitud"
 
-#, fuzzy
-#~| msgid "Translation key"
-#~ msgid "Number of characters"
-#~ msgstr "Tõlke võti"
-
 #~ msgid "Base file for new translations not found."
 #~ msgstr "Uute tõlgete alusfaili ei leidunud."
 
@@ -27915,9 +28439,6 @@ msgstr "Allikas on eemaldatud."
 #~| msgid "Additional message"
 #~ msgid "New whiteboard message"
 #~ msgstr "Lisatekst"
-
-#~ msgid "Add a component message"
-#~ msgstr "Lisa osise teade"
 
 #, fuzzy
 #~| msgid "Additional message"

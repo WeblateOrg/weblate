@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-20 07:43+0000\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
+"PO-Revision-Date: 2026-11-27 06:42+0000\n"
 "Last-Translator: Matthaiks <kityn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -41,6 +41,11 @@ msgstr "Nikt"
 
 msgid "User avatar"
 msgstr "Awatar użytkownika"
+
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr ""
+"Zapisane zgłoszenie nie mogło zostać sfinalizowane. Prosimy o ponowne "
+"przesłanie."
 
 msgid "No notification"
 msgstr "Brak powiadomienia"
@@ -1498,9 +1503,6 @@ msgstr "Bezpłatna wersja próbna"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Diagnostyka powiadomień dla %(user)s"
 
-msgid "This user can not be edited."
-msgstr "Tego użytkownika nie można edytować."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2274,6 +2276,18 @@ msgid ""
 msgstr ""
 "Dodatek Meson oczekuje mesonowego katalogu gettext z meson.build i POTFILES "
 "lub POTFILES.in."
+
+msgid "Excluded source directories"
+msgstr "Wykluczone katalogi źródłowe"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+"Katalogi względem repozytorium, które należy pominąć podczas rozpakowywania, "
+"jeden na wiersz."
+
+msgid "Enter a repository-relative directory path."
+msgstr "Wprowadź ścieżkę do katalogu względem repozytorium."
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "Komponent musi określać szablon gettext dla nowych tłumaczeń."
@@ -3168,6 +3182,19 @@ msgstr ""
 "Filtruj według działania zmiany. Powtórz ten parametr, aby filtrować według "
 "wielu działań."
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+"Wymień zmiany wprowadzone w momencie wskazanym przez ten znacznik czasu ISO "
+"8601 lub po nim."
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+"Wymień zmiany wprowadzone przed lub w momencie wprowadzenia znacznika czasu "
+"ISO 8601."
+
+msgid "Filter by username."
+msgstr "Filtruj według nazwy użytkownika."
+
 msgid "Allowed number of requests to perform"
 msgstr "Dozwolona liczba żądań do wykonania"
 
@@ -3372,6 +3399,9 @@ msgid ""
 msgstr ""
 "Nie udało się uzyskać blokady %(scope)s dla %(origin)s w celu wykonania "
 "operacji."
+
+msgid "This user can not be edited."
+msgstr "Tego użytkownika nie można edytować."
 
 msgid "Expected an object."
 msgstr "Oczekiwano obiektu."
@@ -4363,7 +4393,7 @@ msgstr "Wybierz komponent dla tej automatyzacji."
 
 msgid "The component is outside this add-on's scope or is incompatible."
 msgstr ""
-"Składnik wykracza poza zakres tego dodatku lub jest z nim niekompatybilny."
+"Komponent wykracza poza zakres tego dodatku lub jest z nim niekompatybilny."
 
 msgid "Select a change for this automation."
 msgstr "Wybierz zmianę dla tej automatyzacji."
@@ -4440,7 +4470,7 @@ msgid "Enter an automation definition as YAML or JSON."
 msgstr "Wpisz definicję automatyzacji w formacie YAML lub JSON."
 
 msgid "Component ID"
-msgstr "Identyfikator składnika"
+msgstr "Identyfikator komponentu"
 
 msgid "Required for inherited automations."
 msgstr "Wymagane w przypadku dziedziczonych automatyzacji."
@@ -4729,8 +4759,8 @@ msgstr "Rozliczenia"
 msgid "Billing event"
 msgstr "Zdarzenie płatności"
 
-msgid "Project has no components."
-msgstr "Projekt nie zawiera żadnych komponentów."
+msgid "Workspace has no components."
+msgstr "Obszar roboczy nie zawiera żadnych komponentów."
 
 msgid "monthly"
 msgstr "miesięcznie"
@@ -5861,6 +5891,12 @@ msgstr "Niezmienione tłumaczenie"
 msgid "Source and translation are identical."
 msgstr "Źródło i tłumaczenie są identyczne."
 
+msgid "Saving string failed"
+msgstr "Zapisywanie ciągu nie powiodło się"
+
+msgid "The string could not be written to the translation file."
+msgstr "Nie udało się zapisać ciągu znaków do pliku tłumaczenia."
+
 msgid "Unpluralised"
 msgstr "Niespluralizowane"
 
@@ -6045,6 +6081,9 @@ msgstr "XLIFF 1.1 z rozszerzeniami gettext"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.1 (zwykły tekst)"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6083,6 +6122,9 @@ msgstr "Excel Open XML"
 
 msgid "Could not open the workbook archive."
 msgstr "Nie udało się otworzyć archiwum skoroszytu."
+
+msgid "The workbook header row is empty."
+msgstr "Wiersz nagłówka w skoroszycie jest pusty."
 
 #, python-format
 msgid ""
@@ -6373,6 +6415,11 @@ msgstr "Pliki metadanych sklepu z aplikacjami"
 msgid "File validation is required for directory-based formats."
 msgstr ""
 "W przypadku formatów opartych na katalogach wymagana jest walidacja plików."
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr ""
+"Nagłówek skoroszytu przekracza maksymalną szerokość wynoszącą %d kolumn."
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -7559,6 +7606,18 @@ msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Język dodatkowy zdefiniowany w projekcie lub komponencie"
 
+msgid "Rephrasing"
+msgstr "Przeformułowanie"
+
+msgid "Rephrasing (requires Pro)"
+msgstr "Przeformułowanie (wymaga wersji Pro)"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr "Przeformułowanie wymaga DeepL Pro."
+
+msgid "Translation context"
+msgstr "Kontekst tłumaczenia"
+
 msgid "Rate limit reset."
 msgstr "Reset limitu zapytań."
 
@@ -8523,7 +8582,7 @@ msgid ""
 "exceptions."
 msgstr ""
 "Brak odziedziczonej subskrypcji. Ustawienia dopasowywania wymieniono w "
-"sekcji wyjątków dla składników."
+"sekcji wyjątków dla komponentów."
 
 msgid "Overridden subscriptions"
 msgstr "Zastąpione subskrypcje"
@@ -8539,7 +8598,7 @@ msgid ""
 "These components have no matching subscription, so this notification will "
 "not be sent."
 msgstr ""
-"Dla tych składników nie ma pasującej subskrypcji, więc to powiadomienie nie "
+"Dla tych komponentów nie ma pasującej subskrypcji, więc to powiadomienie nie "
 "zostanie wysłane."
 
 msgid ""
@@ -8875,20 +8934,6 @@ msgid ""
 msgstr ""
 "Klucz API służy również do uwierzytelniania w automatycznie eksportowanych "
 "repozytoriach Git."
-
-msgid "Code-hosting connections"
-msgstr "Połączenia z hostingiem kodu"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"Zarządzaj kontami hostingu kodu połączonymi z administrowanymi przez Ciebie "
-"obszarami roboczymi. Te połączenia są odrębne od tożsamości używanych do "
-"logowania."
-
-msgid "Manage code-hosting connections"
-msgstr "Zarządzaj połączeniami z hostingiem kodu"
 
 msgid "Pending invitation"
 msgstr "Oczekujące zaproszenie"
@@ -10330,10 +10375,11 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
-"Rozwiąż poniższe problemy do %(date)s, aby zachować hosting Libre dla "
-"swojego projektu."
+"Rozwiąż poniższe problemy do %(date)s, aby zachować hosting w planie Libre "
+"dla swojego obszaru roboczego."
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
@@ -10341,6 +10387,15 @@ msgid ""
 msgstr ""
 "Weblate blokuje istniejące komponenty do tłumaczenia, gdy wyświetli to "
 "ostrzeżenie. Opiekunowie projektu mogą je odblokować."
+
+msgid "Add a component to keep Libre hosting"
+msgstr "Dodaj komponent, aby utrzymać hosting Libre"
+
+msgid "Add a project to get started"
+msgstr "Dodaj projekt, aby rozpocząć"
+
+msgid "View affected components"
+msgstr "Wyświetl elementy, których dotyczy problem"
 
 msgid "Customer"
 msgstr "Klient"
@@ -10746,6 +10801,9 @@ msgstr "Zduplikuj ten komponent"
 
 msgid "Share in projects"
 msgstr "Udostępniony w projektach"
+
+msgid "May affect Libre hosting"
+msgstr "Może mieć wpływ na hosting Libre"
 
 msgid "dismissed"
 msgstr "odrzucony"
@@ -12573,8 +12631,12 @@ msgstr ""
 "Po włączeniu weblate.org wyświetla szczegóły Twojej witryny oraz projekty "
 "publiczne lub chronione."
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Twój Weblate jest widoczny na stronie weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
+"Funkcja odkrywania jest włączona. Nowe wpisy pojawiają się po tym, jak "
+"weblate.org zweryfikuje tę instancję."
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Twojego Weblate nie ma na liście weblate.org"
@@ -13366,6 +13428,15 @@ msgstr "Zaimportuj pamięć tłumaczeń"
 msgid "Delete announcement"
 msgstr "Usuń ogłoszenie"
 
+msgid "Contributors"
+msgstr "Współpracownicy"
+
+msgid "Contributor rankings are being prepared."
+msgstr "Trwają przygotowania do sporządzenia rankingów współtwórców."
+
+msgid "No contributors found."
+msgstr "Nie znaleziono współtwórców."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -13452,6 +13523,12 @@ msgstr "Autoryzuj"
 msgid "Deny"
 msgstr "Odmów"
 
+msgid "First page"
+msgstr "Pierwsza strona"
+
+msgid "Previous page"
+msgstr "Poprzednia strona"
+
 msgid "Click to edit position"
 msgstr "Kliknij, aby edytować pozycję"
 
@@ -13469,6 +13546,12 @@ msgstr "Przejdź do"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+msgid "Next page"
+msgstr "Następna strona"
+
+msgid "Last page"
+msgstr "Ostatnia strona"
 
 msgid "Labels"
 msgstr "Etykiety"
@@ -14101,6 +14184,9 @@ msgstr "Rozróżnianie wielkości liter"
 msgid "Most active translators"
 msgstr "Najaktywniejsi tłumacze"
 
+msgid "Browse contributors"
+msgstr "Przeglądaj autorów"
+
 msgid "Browse all users"
 msgstr "Przeglądaj wszystkich użytkowników"
 
@@ -14179,9 +14265,6 @@ msgstr "Trendy z ostatnich 30 dni"
 
 msgid "Quick numbers"
 msgstr "Szybkie liczby"
-
-msgid "Contributors"
-msgstr "Współpracownicy"
 
 msgid "Translations"
 msgstr "Tłumaczenia"
@@ -14540,6 +14623,18 @@ msgstr "Zapytanie"
 msgid "Refresh results"
 msgstr "Odśwież wyniki"
 
+msgid "Original file"
+msgstr "Oryginalny plik"
+
+msgid "File in its original format, as stored in the repository."
+msgstr "Plik w oryginalnym formacie, w jakim jest przechowywany w repozytorium."
+
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"Pliki przekonwertowane i wzbogacone o komentarze; przystosowane do "
+"tłumaczenia w trybie offline."
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -14715,6 +14810,23 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "Adres IP skopiowano do schowka"
 
+msgid "Strings"
+msgstr "Ciągi"
+
+#, python-format
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(number)s słowo"
+msgstr[1] "%(number)s słowa"
+msgstr[2] "%(number)s słów"
+
+#, python-format
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "%(number)s znak"
+msgstr[1] "%(number)s znaki"
+msgstr[2] "%(number)s znaków"
+
 msgid "Suggestion added"
 msgstr "Dodano sugestię"
 
@@ -14774,9 +14886,6 @@ msgstr "Terminy docelowe"
 
 msgid "Translation status"
 msgstr "Stan tłumaczenia"
-
-msgid "Strings"
-msgstr "Ciągi"
 
 msgid "Words"
 msgstr "Słowa"
@@ -14933,9 +15042,6 @@ msgstr "Konfiguruj %(addon)s"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate nie mógł uruchomić dodatku skryptowego."
 
-msgid "The following occurrences were found:"
-msgstr "Znaleziono następujące zdarzenia:"
-
 msgid "Command"
 msgstr "Polecenia"
 
@@ -14960,6 +15066,9 @@ msgstr ""
 "Te kody językowe wskazują na makrojęzyk i zwykle lepiej jest użyć kodów "
 "poszczególnych języków."
 
+msgid "The following occurrences were found:"
+msgstr "Znaleziono następujące zdarzenia:"
+
 msgid "Suggested individual language codes"
 msgstr "Proponowane indywidualne kody językowe"
 
@@ -14983,6 +15092,26 @@ msgid ""
 msgstr ""
 "Komponent wygląda, jakby zawierał zwykłe pliki PO gettext, ale jest "
 "skonfigurowany jako jednojęzyczny plik PO gettext."
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+"W próbce z pliku bazowego <code>%(sampled_template)s</code> znajduje się %"
+"(count)s element, w którym ciąg źródłowy jest pusty, a kontekst wygląda jak "
+"tekst źródłowy."
+msgstr[1] ""
+"W próbce z pliku bazowego <code>%(sampled_template)s</code> znajduje się %"
+"(count)s elementy, w których ciąg źródłowy jest pusty, a kontekst wygląda "
+"jak tekst źródłowy."
+msgstr[2] ""
+"W próbce z pliku bazowego <code>%(sampled_template)s</code> znajduje się %"
+"(count)s elementów, w których ciąg źródłowy jest pusty, a kontekst wygląda "
+"jak tekst źródłowy."
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15126,6 +15255,9 @@ msgid ""
 msgstr ""
 "Nie znaleziono repozytorium nadrzędnego. Sprawdź, czy istnieje i czy jest "
 "dostępny dla Weblate."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr "Zastąp wygasły klucz SSH w usłudze Azure DevOps"
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -15438,9 +15570,10 @@ msgstr "Następujące pliki nie są już obecne w repozytorium:"
 msgid "Template for new translations"
 msgstr "Szablon dla nowych tłumaczeń"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
-"Weblate nie mógł scalić zmian ze źródła podczas aktualizacji repozytorium."
+"Weblate nie był w stanie zintegrować zmian z repozytorium nadrzędnego ze "
+"swoim lokalnym repozytorium."
 
 msgid ""
 "Any publicly available project should have defined license to indicate what "
@@ -15483,6 +15616,21 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "Komponent tłumaczenia wygląda jednojęzycznie, ale nie jest ustawiony."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+"W pliku <code>%(example_filename)s</code> żaden z ciągów źródłowych nie "
+"zawiera spacji, podczas gdy niektóre ciągi przetłumaczone je zawierają."
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+"W jednym z tłumaczeń żaden z ciągów źródłowych nie zawiera spacji, podczas "
+"gdy niektóre ciągi przetłumaczone je zawierają."
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "Dodaj jednojęzyczny plik języka bazowego do ustawień komponentu."
 
@@ -15519,13 +15667,16 @@ msgstr ""
 "Jeśli tłumaczenia już istnieją, sprawdź, czy maska pliku <code>%(filemask)s</"
 "code> pasuje do plików w repozytorium systemu kontroli wersji."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Tylko jeden z %(count)s wystąpień jest wyświetlany."
-msgstr[1] "Tylko niektóre z %(count)s wystąpień są wyświetlane."
-msgstr[2] "Tylko niektóre z %(count)s wystąpień są wyświetlane."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr "Wyświetlanie pierwszych %(shown)s z %(total)s wystąpień."
+
+#, python-format
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Znaleziono %(total)s wystąpienie."
+msgstr[1] "Znaleziono %(total)s wystąpienia."
+msgstr[2] "Znaleziono %(total)s wystąpień."
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -15555,6 +15706,28 @@ msgstr "Weblate nie mógł wypchnąć zmian do repozytorium nadrzędnego."
 msgid "Push the repository"
 msgstr "Wypchnij repozytorium"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+"W repozytorium znajduje się %(count)s commit oczekujący na wysłanie w "
+"porównaniu ze śledzoną gałęzią nadrzędną."
+msgstr[1] ""
+"W repozytorium znajdują się %(count)s commity oczekujące na wysłanie w "
+"porównaniu ze śledzoną gałęzią nadrzędną."
+msgstr[2] ""
+"W repozytorium znajduje się %(count)s commitów oczekujących na wysłanie w "
+"porównaniu ze śledzoną gałęzią nadrzędną."
+
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"Proszę scalić zmiany ręcznie lub skonfigurować operację push w celu "
+"automatyzacji tego procesu."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -15567,6 +15740,28 @@ msgstr "Weblate nie mógł odzyskać przerwanej operacji na repozytorium."
 
 msgid "Reset the repository"
 msgstr "Zresetuj repozytorium"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+"W lokalnym repozytorium brakuje %(count)s commitu względem śledzonej gałęzi "
+"nadrzędnej."
+msgstr[1] ""
+"W lokalnym repozytorium brakuje %(count)s commitów względem śledzonej gałęzi "
+"nadrzędnej."
+msgstr[2] ""
+"W lokalnym repozytorium brakuje %(count)s commitów względem śledzonej gałęzi "
+"nadrzędnej."
+
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"Proszę scalić zmiany ręcznie lub skonfigurować hooki w celu zautomatyzowania "
+"tego procesu."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -15609,6 +15804,13 @@ msgid_plural ""
 msgstr[0] "Komponent nie otrzymał żadnego tłumaczenia w ciągu %(count)s dnia."
 msgstr[1] "Komponent nie otrzymał żadnego tłumaczenia w ciągu %(count)s dni."
 msgstr[2] "Komponent nie otrzymał żadnego tłumaczenia w ciągu %(count)s dni."
+
+#, python-format
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr "Ostatnia odnotowana zmiana w tłumaczeniu miała miejsce %(date)s."
+
+msgid "No translation changes have been recorded."
+msgstr "Nie odnotowano żadnych zmian w tłumaczeniu."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "Rozważ usunięcie komponentu, jeśli nie jest już przydatny."
@@ -15797,43 +15999,13 @@ msgstr ""
 "Utwórz plik ZIP zawierający wszystkie istniejące pliki tłumaczeń, które "
 "posiadasz, i %(link_start)s prześlij do%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
-"Wybierz repozytorium z połączonego konta. Formularz tworzenia komponentu "
-"będzie wstępnie wypełniony adresem URL klonu, domyślną gałęzią i pasującym "
-"sterownikiem VCS."
+"Wybierz połączone repozytorium, aby wstępnie wypełnić formularz tworzenia "
+"komponentu."
 
-msgid "Add or configure account"
-msgstr "Dodaj lub skonfiguruj konto"
-
-msgid "Visibility"
-msgstr "Widoczność"
-
-msgid "Import"
-msgstr "Import"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-"Brak dostępnych repozytoriów. Połącz konto z hostingiem kodu, aby udostępnić "
-"repozytoria tutaj."
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-"Dla tego obszaru roboczego projektu nie są dostępne żadne repozytoria z "
-"połączonych kont."
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
-"Wybierz projekt z obszarem roboczym, aby połączyć konto lub zaimportować "
-"repozytoria z istniejącego połączenia."
+msgid "Browse connected repositories"
+msgstr "Przeglądaj połączone repozytoria"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -15891,8 +16063,8 @@ msgid ""
 "component and its directly related content. Translation memory is handled "
 "separately below."
 msgstr ""
-"Tej czynności nie można cofnąć. Spowoduje ona trwałe usunięcie składnika "
-"%(object)s oraz bezpośrednio powiązanych z nim treści. Kwestia pamięci "
+"Tej czynności nie można cofnąć. Spowoduje ona trwałe usunięcie komponentu %"
+"(object)s oraz bezpośrednio powiązanych z nim treści. Kwestia pamięci "
 "tłumaczeniowej została ujęta oddzielnie poniżej."
 
 msgid ""
@@ -15900,7 +16072,7 @@ msgid ""
 "retained entries might become visible to other project or workspace members. "
 "Select the translation memory deletion option below to remove these entries."
 msgstr ""
-"Pamięć tłumaczeń jest domyślnie zachowywana. Jeśli dostęp do tego składnika "
+"Pamięć tłumaczeń jest domyślnie zachowywana. Jeśli dostęp do tego komponentu "
 "jest ograniczony, zachowane wpisy mogą stać się widoczne dla innych członków "
 "projektu lub obszaru roboczego. Wybierz poniższą opcję usuwania pamięci "
 "tłumaczeń, aby usunąć te wpisy."
@@ -15968,55 +16140,24 @@ msgstr ""
 "Odkrywanie tłumaczeń osiągnęło limit zasobów. Wyniki mogą być niekompletne. "
 "Brakujące pliki tłumaczeń można skonfigurować ręcznie."
 
-msgid "Typical workflow for fixing merge conflicts"
-msgstr "Typowy przepływ pracy do rozwiązywania konfliktów scalania"
-
 msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
 msgstr ""
-"Wyeksportowane repozytorium Weblate może być domyślnie płytkie, wtedy ten "
-"przepływ pracy działa najlepiej z aktualnego checkoutu upstream. Klonowanie "
-"z wyeksportowanego repozytorium Weblate lub przy użyciu nieaktualnej wersji "
-"upstream może się nie powieść, nawet jeśli Weblate i upstream są "
-"zsynchronizowane. Szczegółowe informacje można znaleźć w poniższym FAQ."
+"Aby zachować zmiany z obu repozytoriów, użyj opcji „Zablokuj” i „Zatwierdź” "
+"w konserwacji repozytorium. Scal zatwierdzenia Weblate z aktualnym pobraniem "
+"i rozwiąż tam konflikt plików. Dokonaj scalenia bezpośrednio lub za pomocą "
+"żądania ściągnięcia, które zachowa zatwierdzenia Weblate. Następnie użyj "
+"opcji „Aktualizuj” i „Odblokuj” w konserwacji repozytorium."
 
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr "Otwórz istniejący checkout repozytorium nadrzędnego lub wykonaj nowy."
+msgid "How to resolve merge conflicts"
+msgstr "Jak rozwiązywać konflikty scalania"
 
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Scommituj wszystkie oczekujące zmiany w Weblate i zablokuj komponent "
-"tłumaczenia."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Dodaj wyeksportowane repozytorium Weblate jako zdalne."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Połącz zmiany Weblate i rozwiąż wszelkie konflikty."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Wykonaj rebase zmian Weblate na repozytorium nadrzędnym i rozwiąż wszelkie "
-"konflikty."
-
-msgid "Push changes into upstream repository."
-msgstr "Wypchnij zmiany do repozytorium nadrzędnego."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Weblate powinien teraz widzieć zaktualizowane repozytorium i możesz je "
-"odblokować."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr ""
-"Sprawdź najczęściej zadawane pytania, aby dowiedzieć się, jak rozwiązać ten "
-"problem."
+msgid "How to avoid merge conflicts"
+msgstr "Jak unikać konfliktów przy scalaniu"
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "Można używać znaczników szablonów Django w opisach commitów."
@@ -16138,6 +16279,17 @@ msgstr ""
 "Jeśli plan rozliczeniowy wybranego obszaru roboczego wymaga, aby zawartość "
 "była publiczna, projekt oraz wymienione poniżej ograniczone komponenty staną "
 "się po imporcie publicznie dostępne:"
+
+msgid "Conflicting translation files"
+msgstr "Konfliktujące pliki tłumaczeń"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
+msgstr ""
+"Wiele języków zapasowych jest przypisywanych do jednego języka docelowego. "
+"Sprawdź języki docelowe oraz parametr SIMPLIFY_LANGUAGES, aby zachować "
+"wszystkie tłumaczenia."
 
 msgid "Token copied to clipboard."
 msgstr "Token skopiowano do schowka."
@@ -16412,6 +16564,12 @@ msgstr "Prześlij zrzut ekranu"
 msgid "String information"
 msgstr "Informacje dotyczące ciągu znaków"
 
+msgid "Last translator"
+msgstr "Ostatni tłumacz"
+
+msgid "Last approver"
+msgstr "Ostatni zatwierdzający"
+
 msgid "No explanation currently provided."
 msgstr "Obecnie nie podano żadnego objaśnienia."
 
@@ -16559,23 +16717,6 @@ msgstr ""
 "wkład, i wymagać dodatkowego zezwolenia. Do tłumaczenia offline należy "
 "skorzystać z wygenerowanego poniżej pliku eksportu."
 
-msgid "File in original format as translated in the repository"
-msgstr "Plik w oryginalnym formacie przetłumaczony w repozytorium"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"Wszystkie ciągi, przekonwertowane pliki wzbogacone komentarzami; nadaje się "
-"do tłumaczenia offline"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"Niedokończone ciągi, przekonwertowane pliki wzbogacone komentarzami; nadaje "
-"się do tłumaczenia offline"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Przesłany plik zostanie scalony z bieżącym tłumaczeniem."
 
@@ -16592,76 +16733,6 @@ msgid ""
 msgstr ""
 "Wiadomość jest wyświetlana na stronie tłumaczenia, aż do jej wygaśnięcia lub "
 "usunięcia."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-"Nie zarządzasz żadnymi obszarami roboczymi. Konta VCS mogą być połączone "
-"tylko z obszarami roboczymi, którymi zarządzasz."
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-"Brak dostępnych połączeń z hostingiem kodu. Administrator strony musi "
-"najpierw zarejestrować aplikację hostującą kod."
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"Połącz konta hostingowe kodu z %(workspace)s. Kont tych można następnie "
-"używać podczas tworzenia komponentów z poziomu kontroli wersji."
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"Połącz konta hostingowe kodu z zarządzanymi przez siebie obszarami "
-"roboczymi. Kont tych można następnie używać podczas tworzenia komponentów z "
-"poziomu kontroli wersji."
-
-msgid "Code-hosting app"
-msgstr "Aplikacja hostingu kodu"
-
-msgid "Not registered"
-msgstr "Niezarejestrowano"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"Dane uwierzytelniające hostingu kodu nie są zarejestrowane dla %(hostname)s. "
-"Istniejące połączone konta można usunąć, ale nowych kont nie można połączyć, "
-"dopóki administrator witryny nie zarejestruje aplikacji ponownie."
-
-msgid "Connect accounts"
-msgstr "Połącz konta"
-
-msgid "Connect GitHub account"
-msgstr "Połącz konto serwisu GitHub"
-
-msgid "Connected accounts"
-msgstr "Połączone konta"
-
-msgid "Provider ID"
-msgstr "Identyfikator dostawcy"
-
-msgid "Repositories"
-msgstr "Repozytoria"
-
-msgid "Refresh"
-msgstr "Odśwież"
-
-msgid "No connected accounts yet."
-msgstr "Nie ma jeszcze połączonych kont."
-
-msgid "Code-hosting integrations"
-msgstr "Integracje z hostingiem kodu"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -16692,9 +16763,6 @@ msgstr "Połączone konta GitHub:"
 msgid "Refresh repositories"
 msgstr "Odśwież repozytoria"
 
-msgid "Migrate selected components"
-msgstr "Migracja wybranych komponentów"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -16719,16 +16787,29 @@ msgstr ""
 msgid "Migration status"
 msgstr "Stan migracji"
 
+#, python-format
+msgid "Select %(component)s"
+msgstr "Wybierz %(component)s"
+
+msgid "Using GitHub App"
+msgstr "Korzystanie z aplikacji GitHub"
+
 msgid "Ready"
 msgstr "Gotowe"
 
 msgid "Repository access needed"
 msgstr "Potrzebny dostęp do repozytorium"
 
+msgid "Migrate selected components"
+msgstr "Migracja wybranych komponentów"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
 "W tym obszarze roboczym nie ma żadnych komponentów GitHub, które można "
 "migrować."
+
+msgid "Code-hosting connections"
+msgstr "Połączenia z hostingiem kodu"
 
 msgid "Register Weblate GitHub App"
 msgstr "Zarejestruj aplikację Weblate GitHub"
@@ -16799,6 +16880,91 @@ msgstr "Nazwa aplikacji"
 msgid "Continue to %(host)s"
 msgstr "Kontynuuj w %(host)s"
 
+msgid "Migrate eligible components"
+msgstr "Migruj kwalifikujące się komponenty"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+"Znaleziono ponad %(batch_size)s potencjalnych komponentów. Przejrzyj proces "
+"migracji w każdej z powiązanych przestrzeni roboczych."
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"Poniższe komponenty będą korzystać z aplikacji GitHub. Adresy URL ich "
+"repozytoriów zostaną zastąpione kanonicznymi adresami URL w formacie HTTPS, "
+"a osobne adresy URL do operacji push zostaną usunięte."
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+"Ta partia zawiera %(batch_size)s elementów. Po ich przeniesieniu wróć tutaj, "
+"aby przejrzeć kolejną partię."
+
+msgid "Migrate these components"
+msgstr "Migruj te komponenty"
+
+msgid "No components are ready to migrate."
+msgstr "Żadne komponenty nie są gotowe do migracji."
+
+msgid "Back to connections"
+msgstr "Powrót do połączeń"
+
+msgid "Connected accounts"
+msgstr "Połączone konta"
+
+msgid "Provider ID"
+msgstr "Identyfikator dostawcy"
+
+msgid "Repositories"
+msgstr "Repozytoria"
+
+msgid "No connected accounts yet."
+msgstr "Nie ma jeszcze połączonych kont."
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "Utwórz obszar roboczy przed połączeniem konta GitHub."
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+"Administrator witryny musi zarejestrować aplikację GitHub dla tego hosta, "
+"zanim będzie można połączyć konto."
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr "Wybierz obszar roboczy, z którym chcesz się połączyć na %(hostname)s"
+
+msgid "Connect GitHub account"
+msgstr "Połącz konto serwisu GitHub"
+
+#, python-format
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Połącz konto GitHub z %(workspace)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+"Wybierz istniejącą instalację, aby zapewnić temu obszarowi roboczemu dostęp "
+"do wybranych w niej repozytoriów."
+
+msgid "Install on another GitHub account"
+msgstr "Zainstaluj na innym koncie GitHub"
+
+msgid "Accounts from workspaces you own"
+msgstr "Konta z obszarów roboczych, których jesteś właścicielem"
+
+msgid "Other accounts"
+msgstr "Inne konta"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -16808,6 +16974,26 @@ msgstr ""
 "zainstalować lub poprosić o tę aplikację. Jeśli brakuje organizacji, sprawdź "
 "swoją rolę w organizacji i ograniczenia instalacji aplikacji GitHub w "
 "serwisie GitHub."
+
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr ""
+"GitHub odrzucił kod autoryzacyjny. Autoryzuj ponownie, aby dokończyć "
+"łączenie tej instalacji."
+
+msgid "Authorize again"
+msgstr "Autoryzuj ponownie"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+"Wybierz obszar roboczy, który ma mieć dostęp do repozytoriów w tej "
+"instalacji, a następnie autoryzuj Weblate w serwisie GitHub."
+
+msgid "Authorize on GitHub"
+msgstr "Autoryzuj w serwisie GitHub"
 
 msgid "Choose GitHub host"
 msgstr "Wybierz hosta GitHub"
@@ -16826,6 +17012,9 @@ msgstr "Zainstaluj w %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Połączone konto GitHub: %(login)s"
+
+msgid "Add or configure account"
+msgstr "Dodaj lub skonfiguruj konto"
 
 #, python-format
 msgid ""
@@ -16846,6 +17035,12 @@ msgstr "Repozytoria zaktualizowano"
 
 msgid "Available Repositories"
 msgstr "Repozytoria dostępne"
+
+msgid "Visibility"
+msgstr "Widoczność"
+
+msgid "Import"
+msgstr "Import"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -16876,6 +17071,9 @@ msgstr ""
 "używa do komunikacji z dostawcami hostingu kodu. Połącz konto z każdą "
 "aplikacją, aby zaimportować repozytoria z tego konta."
 
+msgid "No code-hosting app is registered yet."
+msgstr "Nie zarejestrowano jeszcze żadnej aplikacji do hostowania kodu."
+
 msgid "Remove app"
 msgstr "Usuń aplikację"
 
@@ -16903,18 +17101,37 @@ msgstr ""
 "Sama aplikacja pozostaje zainstalowana w serwisie GitHub. Usuń ją z stamtąd "
 "osobno, jeśli już jej nie potrzebujesz."
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
-"Brak połączonych kont. Użyj powyższego przycisku, aby połączyć organizację "
-"lub konto użytkownika."
+#, python-format
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Jedno połączone konto"
+msgstr[1] "%(count)s połączone konta"
+msgstr[2] "%(count)s połączonych kont"
+
+msgid "View connections"
+msgstr "Wyświetl połączenia"
+
+msgid "View all connections"
+msgstr "Wyświetl wszystkie połączenia"
 
 msgid "From connected account"
 msgstr "Z połączonego konta"
 
 msgid "Import from connected account"
 msgstr "Importuj z połączonego konta"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"Przed połączeniem konta wybierz projekt z obszarem roboczym. Konta hostujące "
+"kod są połączone z obszarami roboczymi."
+
+msgid "Refresh"
+msgstr "Odśwież"
+
+msgid "Repositories from these accounts"
+msgstr "Repozytoria z tych kont"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -16932,12 +17149,8 @@ msgstr ""
 "Zainstaluj aplikację Weblate GitHub, aby połączyć się z organizacją lub "
 "kontem użytkownika."
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"Przed połączeniem konta wybierz projekt z obszarem roboczym. Konta hostujące "
-"kod są połączone z obszarami roboczymi."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "Poproś właściciela obszaru roboczego o połączenie konta GitHub."
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr ""
@@ -16945,6 +17158,80 @@ msgstr ""
 
 msgid "Try refreshing the repository list."
 msgstr "Spróbuj odświeżyć listę repozytoriów."
+
+#, python-format
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Migruj do aplikacji GitHub na %(host)s"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+"Połącz konta i przejrzyj komponenty jako administrator witryny albo pozostaw "
+"te czynności administratorom projektu. Łączenie konta wymaga posiadania "
+"uprawnień do zarządzania obszarem roboczym."
+
+msgid "Find projects and workspaces"
+msgstr "Znajdź projekty i obszary robocze"
+
+msgid "Projects moved to these workspaces:"
+msgstr "Projekty przeniesione do tych obszarów roboczych:"
+
+msgid "Projects without a workspace"
+msgstr "Projekty bez obszaru roboczego"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+"Tworzenie obszarów roboczych w tym serwisie jest powiązane z rozliczeniami."
+
+msgid "You do not have permission to create workspaces."
+msgstr "Nie masz uprawnień do tworzenia obszarów roboczych."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+"Administratorzy projektów stają się właścicielami nowego obszaru roboczego "
+"swojego projektu. Jeśli wybierzesz współdzielony obszar roboczy, po jego "
+"utworzeniu możesz przekazać prawo własności innej osobie. Właściciele mogą "
+"zarządzać wszystkimi połączeniami z serwisem GitHub w ramach swojego obszaru "
+"roboczego."
+
+msgid "Move selected projects"
+msgstr "Przenieś wybrane projekty"
+
+msgid "No projects without a workspace match your search."
+msgstr ""
+"Brak projektów przypisanych do obszaru roboczego odpowiadających Twojemu "
+"wyszukiwaniu."
+
+msgid "Workspaces without a connection"
+msgstr "Przestrzenie robocze bez połączenia"
+
+msgid "No unconnected workspaces match your search."
+msgstr ""
+"Brak niepołączonych obszarów roboczych odpowiadających Twojemu wyszukiwaniu."
+
+msgid "Connected workspaces"
+msgstr "Połączone obszary robocze"
+
+msgid "Review component migration"
+msgstr "Przegląd migracji komponentów"
+
+msgid "Connect another account"
+msgstr "Połącz kolejne konto"
+
+msgid "No connected workspaces match your search."
+msgstr "Żadne połączone obszary robocze nie odpowiadają Twojemu wyszukiwaniu."
+
+msgid "Migrate all eligible components across workspaces"
+msgstr ""
+"Migruj wszystkie kwalifikujące się komponenty pomiędzy obszarami roboczymi"
+
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Wybierz obszar roboczy dla połączeń służących do hostowania kodu"
 
 msgid "Remove connected account?"
 msgstr "Usunąć połączone konto?"
@@ -16979,6 +17266,43 @@ msgid_plural "and %(counter)s more components"
 msgstr[0] "i jeszcze %(counter)s komponent"
 msgstr[1] "i jeszcze %(counter)s komponenty"
 msgstr[2] "i jeszcze %(counter)s komponentów"
+
+msgid "Find a workspace"
+msgstr "Znajdź obszar roboczy"
+
+msgid "No workspaces match your search."
+msgstr "Żadne obszary robocze nie odpowiadają Twojemu wyszukiwaniu."
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+"Administrator witryny musi najpierw zarejestrować aplikację do hostowania "
+"kodu."
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+"Użyj połączonych kont, aby zaimportować repozytoria i przeprowadzić migrację "
+"istniejących komponentów."
+
+msgid "Migrate all eligible components"
+msgstr "Migruj wszystkie kwalifikujące się komponenty"
+
+msgid "Code-hosting app"
+msgstr "Aplikacja hostingu kodu"
+
+msgid "Not registered"
+msgstr "Niezarejestrowano"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"Dane uwierzytelniające hostingu kodu nie są zarejestrowane dla %(hostname)s. "
+"Istniejące połączone konta można usunąć, ale nowych kont nie można połączyć, "
+"dopóki administrator witryny nie zarejestruje aplikacji ponownie."
 
 msgid "Invitations"
 msgstr "Zaproszenia"
@@ -17511,9 +17835,6 @@ msgstr "Przeniesiono kategorię"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate nie mógł zapisać zmienionego ciągu."
-
-msgid "Saving string failed"
-msgstr "Zapisywanie ciągu nie powiodło się"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "Znaleziono nowy ciąg podczas synchronizacji z repozytorium."
@@ -18104,6 +18425,32 @@ msgstr "Przesłany plik jest za duży."
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Nie można zweryfikować zrzutu ekranu: %(error)s"
 
+#, python-format
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Wiele plików odnosi się do języka źródłowego %(language)s."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+"Nie można ustalić, który plik komponentu przeskanuje jako pierwszy dla %"
+"(language)s."
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) oraz %(code)s (%(filename)"
+"s) odnoszą się do tego samego języka: %(language)s. Zachowanie pliku %"
+"(kept_filename)s powoduje usunięcie pliku %(filename)s z systemu Weblate "
+"(jednostki: %(units)d, komentarze: %(comments)d, sugestie: %(suggestions)d, "
+"głosy: %(votes)d, testy: %(checks)d, oczekujące edycje: %(pending)d, zrzuty "
+"ekranu: %(screenshots)d)."
+
 msgid "Referenced component does not exist."
 msgstr "Podany komponent nie istnieje."
 
@@ -18119,6 +18466,16 @@ msgstr "Dane repozytorium nie należą do przywróconego komponentu."
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
 "Komponenty powiązane z repozytorium nie mogą zawierać danych repozytorium."
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+"Wiele języków zapasowych jest przypisywanych do jednego języka docelowego. "
+"Sprawdź parametr SIMPLIFY_LANGUAGES."
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr "Sprawdź definicje języków docelowych oraz parametr SIMPLIFY_LANGUAGES."
 
 msgid "Imported authors"
 msgstr "Importowani autorzy"
@@ -18158,6 +18515,14 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+"Pominięto przypisanie autorstwa użytkownikowi %(username)s, ponieważ konto "
+"lokalne jest sprzeczne z wewnętrzną definicją bota."
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -18178,8 +18543,26 @@ msgstr "Parametry kontroli wersji"
 msgid "File format parameters"
 msgstr "Parametry formatu pliku"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+"Brak zgodnej reguły liczby mnogiej dla języka %(language)s i źródła liczby "
+"mnogiej %(source)s."
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+"Kolejność skanowania repozytoriów nie odpowiada zduplikowanym tłumaczeniom w "
+"podglądzie."
+
 msgid "The project repository directory already exists."
 msgstr "Katalog repozytorium projektu już istnieje."
+
+msgid "Review the duplicate translations before importing."
+msgstr "Przejrzyj zduplikowane tłumaczenia przed zaimportowaniem."
 
 msgid "Invalid search type."
 msgstr "Nieprawidłowy typ wyszukiwania."
@@ -18337,7 +18720,7 @@ msgid "The source and destination checkouts must be different."
 msgstr "Kasy źródłowe i docelowe muszą być różne."
 
 msgid "This component does not exist or you cannot access it."
-msgstr "Ten składnik nie istnieje lub nie masz do niego dostępu."
+msgstr "Ten komponent nie istnieje lub nie masz do niego dostępu."
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
@@ -18949,8 +19332,21 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Dodatkowe objaśnienie w celu wyjaśnienia znaczenia lub użycia ciągu znaków."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr "Aby zaproponować zmianę wyjaśnienia, zostaw komentarz."
+
 msgid "Source string explanation"
 msgstr "Wyjaśnienie ciągu źródłowego"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+"Sugestie mogą jedynie zmienić tłumaczenie. Aby zaproponować tłumaczenie, "
+"przywróć oryginalne wyjaśnienie."
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr "Aby zapisać wyjaśnienie bezpośrednio, użyj opcji „Zapisz i zostań”."
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "W międzyczasie zmienił się ciąg źródłowy. Sprawdź zmiany."
@@ -19369,6 +19765,23 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "Nie odnaleziono pasującego obszaru roboczego."
+
+msgid "Skip duplicate target translations"
+msgstr "Pomiń zduplikowane tłumaczenia docelowe"
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+"Pliki repozytorium zostają zachowane. Dane Weblate dotyczące pominiętych "
+"tłumaczeń zostaną usunięte."
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
+"Sprzeczne tłumaczenia uległy zmianie. Odśwież tę stronę, aby zobaczyć "
+"zaktualizowany podgląd."
 
 msgid "ZIP file containing project backup"
 msgstr "Plik ZIP zawierający kopię zapasową projektu"
@@ -20009,11 +20422,6 @@ msgstr "Utworzono komponent poprzez przesłanie pliku ZIP"
 
 msgid "Component created via document upload"
 msgstr "Utworzono komponent poprzez przesłanie dokumentu"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -22357,6 +22765,14 @@ msgid "You do not have permission to add projects to the target workspace."
 msgstr ""
 "Nie masz uprawnień do dodawania projektów do docelowego obszaru roboczego."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+"Wpis %(index)d w sekcji ADMINS nie jest poprawnym odbiorcą SMTP. Należy użyć "
+"zwykłego adresu e-mail lub ująć nazwę wyświetlaną w cudzysłów."
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg został ukończony z ostrzeżeniami i bez żadnego wyniku."
 
@@ -23511,6 +23927,26 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Repozytorium ma przerwaną operację Git %(operation)s."
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+"Stan repozytorium Git uległ zmianie podczas aktualizacji. Sprawdź aktywną "
+"gałąź i spróbuj ponownie."
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+"W repozytorium Git występują śledzone zmiany. Przed aktualizacją zatwierdź "
+"te ścieżki lub przywróć ich stan: %(paths)s"
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+"Przed utworzeniem kopii zapasowej projektu należy sfinalizować przerwany "
+"proces aktualizacji Git."
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "Nie można odzyskać przerwanej operacji Git %(operation)s."
@@ -23643,6 +24079,27 @@ msgstr "Komponenty do migracji"
 
 msgid "Select at least one component to migrate."
 msgstr "Wybierz co najmniej jeden komponent do migracji."
+
+msgid "Projects to move"
+msgstr "Projekty do przeniesienia"
+
+msgid "Create workspaces"
+msgstr "Utwórz obszary robocze"
+
+msgid "One workspace per project"
+msgstr "Jeden obszar roboczy na projekt"
+
+msgid "One shared workspace"
+msgstr "Jeden współdzielony obszar roboczy"
+
+msgid "Shared workspace name"
+msgstr "Nazwa współdzielonego obszaru roboczego"
+
+msgid "Required when creating a shared workspace."
+msgstr "Wymagane podczas tworzenia współdzielonego obszaru roboczego."
+
+msgid "Enter a name for the shared workspace."
+msgstr "Wprowadź nazwę dla współdzielonego obszaru roboczego."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -24089,8 +24546,8 @@ msgstr "Przed połączeniem konta GitHub wybierz obszar roboczy."
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "Aplikacja Weblate GitHub nie jest skonfigurowana dla wybranego hosta."
 
-msgid "Connected GitHub account updated."
-msgstr "Zaktualizowano połączone konto GitHub."
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub nie zwrócił prawidłowego identyfikatora instalacji."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -24099,19 +24556,10 @@ msgstr ""
 "Link do instalacji aplikacji Weblate GitHub jest już nieaktualny. Rozpocznij "
 "instalację ponownie."
 
-msgid "You do not have permission to connect GitHub to this workspace."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
-"Nie masz uprawnień do połączenia serwisu GitHub z tym obszarem roboczym."
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub nie zwrócił prawidłowego identyfikatora instalacji."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
-"Zbyt wiele prób połączenia z kontem GitHub. Instalacja GitHub nie została "
-"połączona i może nadal być w toku. Spróbuj połączyć konto ponownie później."
+"Weblate nie był w stanie zweryfikować instalacji w serwisie GitHub. Spróbuj "
+"ponownie później."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -24121,6 +24569,20 @@ msgstr ""
 "Weblate nie mógł potwierdzić, że możesz administrować tą instalacją GitHub. "
 "Rozpocznij instalację ponownie z użytkownikiem serwisu GitHub, który jest "
 "właścicielem konta lub może administrować organizacją."
+
+msgid "Connected GitHub account updated."
+msgstr "Zaktualizowano połączone konto GitHub."
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr ""
+"Nie masz uprawnień do połączenia serwisu GitHub z tym obszarem roboczym."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"Zbyt wiele prób połączenia z kontem GitHub. Instalacja GitHub nie została "
+"połączona i może nadal być w toku. Spróbuj połączyć konto ponownie później."
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -24141,6 +24603,20 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Dodano połączone konto GitHub."
 
+msgid "The project selection changed. Select the projects again."
+msgstr "Wybór projektów uległ zmianie. Wybierz projekty ponownie."
+
+#, python-format
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Nie udało się przenieść projektów do %(workspace)s: %(error)s"
+
+msgid "Could not lock a component for migration."
+msgstr "Nie udało się zablokować komponentów do celów migracji."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nie można migrować %(component)s: %(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
@@ -24149,24 +24625,18 @@ msgstr[1] "Wymigrowano %(count)d komponenty do aplikacji Weblate GitHub."
 msgstr[2] "Wymigrowano %(count)d komponentów do aplikacji Weblate GitHub."
 
 #, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-"Jeden komponent nie został zmigrowany, ponieważ jego repozytorium nie jest "
-"już dostępne."
-msgstr[1] ""
-"%(count)d komponenty nie zostały zmigrowane, ponieważ ich repozytoria nie są "
-"już dostępne."
-msgstr[2] ""
-"%(count)d komponentów nie zostało zmigrowanych, ponieważ ich repozytoria nie "
-"są już dostępne."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "Jeden komponent nie kwalifikował się już do migracji."
+msgstr[1] "%(count)d komponenty nie kwalifikowały się już do migracji."
+msgstr[2] "%(count)d komponentów nie kwalifikowało się już do migracji."
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Nie można migrować %(component)s: %(error)s"
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "Podgląd migracji wygasł. Otwórz go ponownie, aby kontynuować."
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
+"Niektóre komponenty w tym podglądzie nie kwalifikują się już do migracji."
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Wpisz prawidłową nazwę aplikacji GitHub i hosta."
@@ -24454,18 +24924,11 @@ msgstr "Raport z dnia %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s — %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
-msgstr ""
-"Ważność Twojej weryfikacji tożsamości wygasła. Potwierdź swoją tożsamość, a "
-"następnie ponownie wybierz i prześlij raport w formacie CSV."
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "Wybierz raport w formacie CSV o rozmiarze maksymalnie 10 MiB."
 
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Nie udało się zapisać zaszyfrowanego pliku. Spróbuj ponownie."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr "Wybierz raport w formacie CSV o rozmiarze maksymalnie 10 MiB."
 
 msgid "Could not read the uploaded report. Upload it again."
 msgstr "Nie udało się odczytać przesłanego raportu. Prześlij go ponownie."
@@ -24705,6 +25168,170 @@ msgstr "Nie można usunąć obszaru roboczego, ponieważ jest on nadal używany.
 msgid "The workspace has been removed."
 msgstr "Obszar roboczy został usunięty."
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "Zarządzaj kontami hostingu kodu połączonymi z administrowanymi przez "
+#~ "Ciebie obszarami roboczymi. Te połączenia są odrębne od tożsamości "
+#~ "używanych do logowania."
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Twój Weblate jest widoczny na stronie weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "Tylko jeden z %(count)s wystąpień jest wyświetlany."
+#~ msgstr[1] "Tylko niektóre z %(count)s wystąpień są wyświetlane."
+#~ msgstr[2] "Tylko niektóre z %(count)s wystąpień są wyświetlane."
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "Wybierz repozytorium z połączonego konta. Formularz tworzenia komponentu "
+#~ "będzie wstępnie wypełniony adresem URL klonu, domyślną gałęzią i "
+#~ "pasującym sterownikiem VCS."
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr ""
+#~ "Brak dostępnych repozytoriów. Połącz konto z hostingiem kodu, aby "
+#~ "udostępnić repozytoria tutaj."
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr ""
+#~ "Dla tego obszaru roboczego projektu nie są dostępne żadne repozytoria z "
+#~ "połączonych kont."
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "Wyeksportowane repozytorium Weblate może być domyślnie płytkie, wtedy ten "
+#~ "przepływ pracy działa najlepiej z aktualnego checkoutu upstream. "
+#~ "Klonowanie z wyeksportowanego repozytorium Weblate lub przy użyciu "
+#~ "nieaktualnej wersji upstream może się nie powieść, nawet jeśli Weblate i "
+#~ "upstream są zsynchronizowane. Szczegółowe informacje można znaleźć w "
+#~ "poniższym FAQ."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "Otwórz istniejący checkout repozytorium nadrzędnego lub wykonaj nowy."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Scommituj wszystkie oczekujące zmiany w Weblate i zablokuj komponent "
+#~ "tłumaczenia."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Dodaj wyeksportowane repozytorium Weblate jako zdalne."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Połącz zmiany Weblate i rozwiąż wszelkie konflikty."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Wykonaj rebase zmian Weblate na repozytorium nadrzędnym i rozwiąż "
+#~ "wszelkie konflikty."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Wypchnij zmiany do repozytorium nadrzędnego."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Weblate powinien teraz widzieć zaktualizowane repozytorium i możesz je "
+#~ "odblokować."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr ""
+#~ "Sprawdź najczęściej zadawane pytania, aby dowiedzieć się, jak rozwiązać "
+#~ "ten problem."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "Niedokończone ciągi, przekonwertowane pliki wzbogacone komentarzami; "
+#~ "nadaje się do tłumaczenia offline"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr ""
+#~ "Nie zarządzasz żadnymi obszarami roboczymi. Konta VCS mogą być połączone "
+#~ "tylko z obszarami roboczymi, którymi zarządzasz."
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "Połącz konta hostingowe kodu z %(workspace)s. Kont tych można następnie "
+#~ "używać podczas tworzenia komponentów z poziomu kontroli wersji."
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "Połącz konta hostingowe kodu z zarządzanymi przez siebie obszarami "
+#~ "roboczymi. Kont tych można następnie używać podczas tworzenia komponentów "
+#~ "z poziomu kontroli wersji."
+
+#~ msgid "Connect accounts"
+#~ msgstr "Połącz konta"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Integracje z hostingiem kodu"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr ""
+#~ "Brak połączonych kont. Użyj powyższego przycisku, aby połączyć "
+#~ "organizację lub konto użytkownika."
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] ""
+#~ "Jeden komponent nie został zmigrowany, ponieważ jego repozytorium nie "
+#~ "jest już dostępne."
+#~ msgstr[1] ""
+#~ "%(count)d komponenty nie zostały zmigrowane, ponieważ ich repozytoria nie "
+#~ "są już dostępne."
+#~ msgstr[2] ""
+#~ "%(count)d komponentów nie zostało zmigrowanych, ponieważ ich repozytoria "
+#~ "nie są już dostępne."
+
+#~ msgid ""
+#~ "Your identity verification has expired. Confirm your identity, then "
+#~ "select and upload the CSV report again."
+#~ msgstr ""
+#~ "Ważność Twojej weryfikacji tożsamości wygasła. Potwierdź swoją tożsamość, "
+#~ "a następnie ponownie wybierz i prześlij raport w formacie CSV."
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Przeglądaj słownik %(name)s"
@@ -24829,9 +25456,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Zarządzaj maszynami"
-
-#~ msgid "Preview component ID"
-#~ msgstr "Identyfikator komponentu podglądu"
 
 #~ msgid "Preview change ID"
 #~ msgstr "Identyfikator zmiany podglądu"
@@ -25107,9 +25731,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Skipped components:"
 #~ msgstr "Pominięte komponenty:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "Wymagane uprawnienie na:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -25469,9 +26090,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Manage VCS integrations"
 #~ msgstr "Zarządzaj integracjami VCS"
 
-#~ msgid "GitHub App"
-#~ msgstr "Aplikacja GitHub"
-
 #~ msgid "VCS Installations"
 #~ msgstr "Instalacje VCS"
 
@@ -25615,9 +26233,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Return to the component"
 #~ msgstr "Wróć do komponentu"
-
-#~ msgid "View all alerts"
-#~ msgstr "Wyświetl wszystkie alerty"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Przejrzyj wytyczne z listy kontrolnej lokalizacji społeczności."
@@ -26361,13 +26976,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Tłumaczenie w słowniku: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s słowo"
-#~ msgstr[1] "%(count)s słowa"
-#~ msgstr[2] "%(count)s słów"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "Wybierz główny adres e-mail ze zweryfikowanych adresów."
 
@@ -26434,9 +27042,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Nowy ciąg do przetłumaczenia"
-
-#~ msgid "New contributor"
-#~ msgstr "Nowy współpracownik"
 
 #~ msgid "New announcement"
 #~ msgstr "Nowe ogłoszenie"
@@ -26782,9 +27387,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Token value to use in API"
 #~ msgstr "Wartość tokena do użycia w API"
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Nie odnaleziono pasującego ciągu!"
 
 #, python-format
 #~ msgid ""
@@ -27322,9 +27924,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Translatable words"
 #~ msgstr "Tłumaczone słowa"
 
-#~ msgid "Number of characters"
-#~ msgstr "Liczba znaków"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Liczba tekstów źródłowych"
 
@@ -27596,9 +28195,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgstr ""
 #~ "Widoczne publicznie, możliwe do przetłumaczenia tylko dla wybranych "
 #~ "użytkowników"
-
-#~ msgid "Add a component message"
-#~ msgstr "Dodaj wiadomość komponentową"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "Nowa wiadomość na tablicy %(project)s"
@@ -30451,9 +31047,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Avatar dla %s"
-
-#~ msgid "First name"
-#~ msgstr "Imię"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

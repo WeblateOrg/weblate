@@ -34,9 +34,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-20 08:23+0000\n"
-"Last-Translator: Lee Vincent <leevincent@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
+"PO-Revision-Date: 2026-11-27 02:47+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -52,6 +53,12 @@ msgstr "無"
 
 msgid "User avatar"
 msgstr "使用者大頭貼"
+
+#, fuzzy
+#| msgid ""
+#| "Authentication could not be completed. Please contact the administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "無法完成身分驗證。請聯絡管理員。"
 
 msgid "No notification"
 msgstr "無通知"
@@ -1271,7 +1278,8 @@ msgstr "此邀請只能由邀請者指定的電子郵件地址接受，無法透
 msgid ""
 "Your e-mail no longer belongs to a verified account, it has been changed to "
 "{0}."
-msgstr "您原先的電子郵件地址已不再對應到已驗證的帳號。帳號的電子郵件地址已改為 {0}。"
+msgstr ""
+"您原先的電子郵件地址已不再對應到已驗證的帳號。帳號的電子郵件地址已改為 {0}。"
 
 msgid ""
 "Your account e-mail is no longer verified and has been removed. Add and "
@@ -1390,9 +1398,6 @@ msgstr "免費試用"
 #, python-format
 msgid "Notification diagnostics for %(user)s"
 msgstr "%(user)s 的通知診斷"
-
-msgid "This user can not be edited."
-msgstr "無法編輯此使用者。"
 
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
@@ -2083,6 +2088,18 @@ msgid ""
 msgstr ""
 "Meson 附加元件需要包含 meson.build 以及 POTFILES 或 POTFILES.in 的 Meson "
 "gettext 目錄。"
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "啟用來源檢閱"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
 msgstr "組件必須為新翻譯定義 gettext 範本。"
@@ -2917,6 +2934,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr "依變更動作過濾。重複使用此參數，即可依多個動作過濾。"
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "被 {username} 觸發。"
+
 msgid "Allowed number of requests to perform"
 msgstr "允許執行的請求數"
 
@@ -3102,6 +3130,9 @@ msgstr "無法取得組件 %s 的更新鎖定來執行操作。"
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "無法取得 %(origin)s 的 %(scope)s 鎖定來執行操作。"
+
+msgid "This user can not be edited."
+msgstr "無法編輯此使用者。"
 
 msgid "Expected an object."
 msgstr "預期為物件。"
@@ -4396,7 +4427,9 @@ msgstr "帳務"
 msgid "Billing event"
 msgstr "帳單事件"
 
-msgid "Project has no components."
+#, fuzzy
+#| msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "專案沒有任何組件。"
 
 msgid "monthly"
@@ -5470,6 +5503,14 @@ msgstr "未變更的翻譯"
 msgid "Source and translation are identical."
 msgstr "翻譯與來源文字相同。"
 
+msgid "Saving string failed"
+msgstr "儲存字串失敗"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "只有核可的翻譯才會寫進翻譯檔案。"
+
 msgid "Unpluralised"
 msgstr "未複數化"
 
@@ -5645,6 +5686,11 @@ msgstr "XLIFF 1.1 附 gettext 擴充"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "XLIFF 1.2 翻譯檔案"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -5683,6 +5729,11 @@ msgstr "Excel Open XML"
 
 msgid "Could not open the workbook archive."
 msgstr "無法開啟活頁簿壓縮檔。"
+
+#, fuzzy
+#| msgid "The report is empty."
+msgid "The workbook header row is empty."
+msgstr "報告內容空白。"
 
 #, python-format
 msgid ""
@@ -5962,6 +6013,11 @@ msgstr "App Store 詮釋資料檔案"
 
 msgid "File validation is required for directory-based formats."
 msgstr "以目錄為單位的格式必須驗證檔案。"
+
+#, fuzzy, python-format
+#| msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
+msgid "Workbook header exceeds the maximum width of %d columns."
+msgstr "活頁簿壓縮檔解壓縮後的大小超過 %d 位元組上限。"
 
 #, python-format
 msgid "Workbook archive exceeds the maximum expanded size of %d bytes."
@@ -7056,6 +7112,20 @@ msgstr "組件來源語言"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "專案或組件中定義的第二語言"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission required on:"
+msgid "Rephrasing (requires Pro)"
+msgstr "需要權限的組件:"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+msgid "Translation context"
+msgstr "翻譯情境"
 
 msgid "Rate limit reset."
 msgstr "已重設速率限制。"
@@ -8244,18 +8314,6 @@ msgid ""
 "repositories."
 msgstr "API 金鑰也用於向自動匯出的 Git 儲存庫驗證身分。"
 
-msgid "Code-hosting connections"
-msgstr "程式碼代管連結"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-"管理已連結至您所管理工作空間的程式碼代管帳號。這些連線與登入身分分開管理。"
-
-msgid "Manage code-hosting connections"
-msgstr "管理程式碼代管連結"
-
 msgid "Pending invitation"
 msgstr "待回應的邀請函"
 
@@ -8713,8 +8771,8 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
-"請使用可存取通行密鑰 (passkey) 的裝置，或接上已註冊的安全金鑰 (security key)"
-"。換了電腦或瀏覽器後，通行密鑰可能無法使用。"
+"請使用可存取通行密鑰 (passkey) 的裝置，或接上已註冊的安全金鑰 (security "
+"key)。換了電腦或瀏覽器後，通行密鑰可能無法使用。"
 
 msgid "Sign in using a passkey or security key"
 msgstr "使用通行密鑰或安全金鑰登入"
@@ -9526,15 +9584,35 @@ msgid ""
 "above or purchase a subscription."
 msgstr "此訂購不合自由軟體方案，請修正上方的錯誤，或是購買正式約期訂購。"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Resolve the issues below by %(date)s to keep Libre hosting for your "
+#| "project."
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr "請於 %(date)s 前處理下列問題，以保留專案的自由軟體託管服務。"
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
-msgstr "Weblate 發出這項警告時，會鎖定現有組件，暫停翻譯。專案維護者可以解除鎖定。"
+msgstr ""
+"Weblate 發出這項警告時，會鎖定現有組件，暫停翻譯。專案維護者可以解除鎖定。"
+
+#, fuzzy
+#| msgid "Add a component message"
+msgid "Add a component to keep Libre hosting"
+msgstr "新增組件訊息"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "新增專案至工作空間"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "View affected components"
+msgstr "受影響的組件"
 
 msgid "Customer"
 msgstr "客戶"
@@ -9915,6 +9993,11 @@ msgstr "再製此組件"
 
 msgid "Share in projects"
 msgstr "分享專案"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "申請自由軟體代管服務"
 
 msgid "dismissed"
 msgstr "已忽略"
@@ -11550,8 +11633,10 @@ msgid ""
 "projects."
 msgstr "啟用後，weblate.org 會列出您的網站詳細資料，以及公開或受保護的專案。"
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "您的 Weblate 正列在 weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "您的 Weblate 未列在 weblate.org"
@@ -12288,6 +12373,19 @@ msgstr "匯入翻譯記憶"
 msgid "Delete announcement"
 msgstr "刪除公告"
 
+msgid "Contributors"
+msgstr "貢獻者"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "已經移除貢獻者授權協議。"
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "最近沒有貢獻。"
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -12361,6 +12459,16 @@ msgstr "授權"
 msgid "Deny"
 msgstr "拒絕"
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "名字"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "上一頁"
+
 msgid "Click to edit position"
 msgstr "點按可編輯位置"
 
@@ -12378,6 +12486,16 @@ msgstr "跳至"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "下一頁"
+
+#, fuzzy
+#| msgid "Last update"
+msgid "Last page"
+msgstr "上次更新"
 
 msgid "Labels"
 msgstr "標籤"
@@ -12947,6 +13065,11 @@ msgstr "區分大小寫"
 msgid "Most active translators"
 msgstr "最活躍的翻譯者"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "有新貢獻者"
+
 msgid "Browse all users"
 msgstr "瀏覽所有使用者"
 
@@ -13025,9 +13148,6 @@ msgstr "近 30 天趨勢"
 
 msgid "Quick numbers"
 msgstr "快速統計"
-
-msgid "Contributors"
-msgstr "貢獻者"
 
 msgid "Translations"
 msgstr "翻譯"
@@ -13362,6 +13482,25 @@ msgstr "查詢"
 msgid "Refresh results"
 msgstr "重新整理結果"
 
+#, fuzzy
+#| msgctxt "Translation memory scope"
+#| msgid "Personal file"
+msgid "Original file"
+msgstr "個人檔案"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "儲存庫中已經翻譯的原始格式檔案"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr "所有字串，包含評論的已轉換檔案。適合離線翻譯"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -13521,6 +13660,22 @@ msgstr "Weblate 使用下面列出的 IP 位址來存取儲存庫或發起 Webho
 msgid "IP address copied to clipboard."
 msgstr "已經將 IP 位址複製至剪貼簿。"
 
+msgid "Strings"
+msgstr "字串"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s 個單字"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "字元數"
+
 msgid "Suggestion added"
 msgstr "新增了建議"
 
@@ -13578,9 +13733,6 @@ msgstr "目標語言術語"
 
 msgid "Translation status"
 msgstr "翻譯狀態"
-
-msgid "Strings"
-msgstr "字串"
 
 msgid "Words"
 msgstr "單字"
@@ -13723,9 +13875,6 @@ msgstr "設定 %(addon)s"
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate 無法執行指令稿附加元件。"
 
-msgid "The following occurrences were found:"
-msgstr "找到下列出現位置："
-
 msgid "Command"
 msgstr "指令"
 
@@ -13745,6 +13894,9 @@ msgid ""
 "use the code of the individual language instead."
 msgstr "這些語言代碼代表巨集語言，通常最好改用各自語言的代碼。"
 
+msgid "The following occurrences were found:"
+msgstr "找到下列出現位置："
+
 msgid "Suggested individual language codes"
 msgstr "建議的個別語言代碼"
 
@@ -13763,6 +13915,15 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr "此組件看起來包含一般 gettext PO 檔案，但已設定為單語 gettext PO。"
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -13883,6 +14044,9 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr "找不到上游儲存庫。請檢查其是否存在且 Weblate 可存取之。"
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -14148,7 +14312,10 @@ msgstr "下列檔案已經不在儲存庫中："
 msgid "Template for new translations"
 msgstr "新翻譯的範本"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr "Weblate 無法在更新儲存庫時合併上游變更。"
 
 msgid ""
@@ -14186,6 +14353,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "此翻譯組件看起來是單語言的，但該組件尚未設定為單語言。"
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "請在組件設定中新增單語言基底語言檔案。"
 
@@ -14217,11 +14395,15 @@ msgstr ""
 "如果翻譯已存在，請檢查檔案遮罩 <code>%(filemask)s</code> 是否符合版本控制系統"
 "儲存庫中的檔案。"
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "只顯示出 %(count)s 個符合結果的一部分。"
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "上次出現"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -14247,6 +14429,24 @@ msgstr "Weblate 無法將變更推送至上游儲存庫。"
 msgid "Push the repository"
 msgstr "推送儲存庫"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"相較於上游，VCS 儲存庫已有許多變更。請手動合併變更，或是設定推送自動完成作"
+"業。"
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -14259,6 +14459,22 @@ msgstr "Weblate 無法復原中斷的儲存庫操作。"
 
 msgid "Reset the repository"
 msgstr "重設儲存庫"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr "VCS 儲存庫與上游間沒有同步。請手動合併變更，或是設定掛鈎自動完成作業。"
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -14293,6 +14509,17 @@ msgid "The component has not received any translation within %(count)s day."
 msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "此組件在 %(count)s 天內未收到任何翻譯。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Weblate has pending translation changes for these projects since %(date)s."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr "自 %(date)s 起，Weblate 對這些專案有未決的翻譯變更。"
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "翻譯已經移除。"
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "如果組件已經不再使用，可以考慮將其移除。"
@@ -14459,36 +14686,17 @@ msgid ""
 msgstr ""
 "建立包含您擁有之所有現存翻譯檔案的 ZIP 檔，並%(link_start)s上傳%(link_end)s。"
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
-msgstr ""
-"從已連結的帳號選擇儲存庫。組件建立表單會預先填入 clone URL、預設分支及相符的 "
-"VCS 驅動程式。"
+#, fuzzy
+#| msgid ""
+#| "Select a repository to import. This will pre-fill the component creation "
+#| "form with the repository URL and branch."
+msgid "Choose a connected repository to pre-fill the component creation form."
+msgstr "選取要匯入的儲存庫。這會在組件建立表單預先填入儲存庫 URL 及分支。"
 
-msgid "Add or configure account"
-msgstr "新增或設定帳號"
-
-msgid "Visibility"
-msgstr "可見性"
-
-msgid "Import"
-msgstr "匯入"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr "尚無可用的儲存庫。連結程式碼代管帳號後，即可在此使用儲存庫。"
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr "此專案工作空間的已連結帳號沒有可用的儲存庫。"
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr "選取具有工作空間的專案，以連結帳號或從現有連結匯入儲存庫。"
+#, fuzzy
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "顯示有連結儲存庫的組件"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -14606,45 +14814,21 @@ msgid ""
 msgstr ""
 "搜尋翻譯檔案時已達資源上限，結果可能不完整。你可以手動設定遺漏的翻譯檔案。"
 
-msgid "Typical workflow for fixing merge conflicts"
-msgstr "修正合併衝突的典型工作流程"
-
 msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
 msgstr ""
-"預設情況下，匯出的 Weblate 儲存庫可能是淺層的，因此這個工作流程最適合在最新的"
-"上游 checkout 下執行。即使 Weblate 和上游已經同步，從匯出的 Weblate 儲存庫 "
-"clone 或使用過時的上游 checkout 可能會失敗。請參閱下方的 FAQ 以取得詳細資訊。"
 
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr "開啟上游儲存庫的現有 checkout 或執行新的 checkout。"
+msgid "How to resolve merge conflicts"
+msgstr ""
 
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr "提交 Weblate 所有待提交的變更並鎖定翻譯組件。"
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "將 Weblate 已匯出的儲存庫作為遠端來源新增。"
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "合併 Weblate 的變更並解決衝突。"
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "合併（Rebase） Weblate 的變更並解決任何衝突。"
-
-msgid "Push changes into upstream repository."
-msgstr "將變更推送至上游儲存庫。"
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Weblate 應該現在就能看到更新過的儲存庫，接著您就能解鎖該元件。"
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "請見常見問答集 FAQ 瞭解此問題的解決資訊。"
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
+msgstr "修正合併衝突的典型工作流程"
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "您可以在提交訊息中使用 Django 範本標記。"
@@ -14751,6 +14935,16 @@ msgid ""
 msgstr ""
 "若所選工作空間的計費方案要求內容公開，匯入後，任何人都能存取這個專案及下列受"
 "限組件："
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "清理翻譯檔案"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
+msgstr ""
 
 msgid "Token copied to clipboard."
 msgstr "已將權杖複製至剪貼簿。"
@@ -15001,6 +15195,16 @@ msgstr "上傳螢幕擷圖"
 msgid "String information"
 msgstr "字串資訊"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "目標翻譯"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "核可了翻譯"
+
 msgid "No explanation currently provided."
 msgstr "目前未提供解釋。"
 
@@ -15138,19 +15342,6 @@ msgstr ""
 "原始檔案可能包含貢獻者身分資訊，需額外權限才能存取。如需離線翻譯，請使用下方"
 "產生的匯出檔案。"
 
-msgid "File in original format as translated in the repository"
-msgstr "儲存庫中已經翻譯的原始格式檔案"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr "所有字串，包含評論的已轉換檔案。適合離線翻譯"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr "未完成字串，包含評論的已轉換檔案。適合離線翻譯"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "上傳的檔案會與目前的翻譯合併。"
 
@@ -15163,69 +15354,6 @@ msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
 msgstr "此訊息將顯示在翻譯頁面上，持續直到指定時間到期，或刪除為止。"
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr "您未管理任何工作空間。只能將 VCS 帳號連結至您所管理的工作空間。"
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr "沒有可用的程式碼代管連結。網站管理員必須先註冊程式碼代管 App。"
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-"將程式碼代管帳號連結至 %(workspace)s。建立版本控制組件時即可使用這些帳號。"
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-"將程式碼代管帳號連結至您所管理的工作空間。建立版本控制組件時即可使用這些帳"
-"號。"
-
-msgid "Code-hosting app"
-msgstr "程式碼代管應用程式"
-
-msgid "Not registered"
-msgstr "未註冊"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-"%(hostname)s 尚未註冊程式碼代管 App 憑證。可移除現有的已連結帳號，但在網站管"
-"理員重新註冊 App 前，無法連結新帳號。"
-
-msgid "Connect accounts"
-msgstr "連結帳號"
-
-msgid "Connect GitHub account"
-msgstr "連結 GitHub 帳號"
-
-msgid "Connected accounts"
-msgstr "已連結的帳號"
-
-msgid "Provider ID"
-msgstr "服務提供者 ID"
-
-msgid "Repositories"
-msgstr "儲存庫"
-
-msgid "Refresh"
-msgstr "重新整理"
-
-msgid "No connected accounts yet."
-msgstr "尚未連結任何帳號。"
-
-msgid "Code-hosting integrations"
-msgstr "程式碼託管整合"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -15253,9 +15381,6 @@ msgstr "已連結的 GitHub 帳號："
 msgid "Refresh repositories"
 msgstr "重新整理儲存庫"
 
-msgid "Migrate selected components"
-msgstr "移轉選取的組件"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -15278,14 +15403,32 @@ msgstr ""
 msgid "Migration status"
 msgstr "移轉狀態"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "%(component)s 有新警告"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "GitHub 星數"
+
 msgid "Ready"
 msgstr "準備就緒"
 
 msgid "Repository access needed"
 msgstr "需要儲存庫存取權"
 
+msgid "Migrate selected components"
+msgstr "移轉選取的組件"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr "此工作空間中沒有可移轉的 GitHub 組件。"
+
+msgid "Code-hosting connections"
+msgstr "程式碼代管連結"
 
 msgid "Register Weblate GitHub App"
 msgstr "註冊 Weblate GitHub App"
@@ -15349,6 +15492,104 @@ msgstr "App 名稱"
 msgid "Continue to %(host)s"
 msgstr "繼續前往 %(host)s"
 
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate eligible components"
+msgstr "移轉選取的組件"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Select existing Git or GitHub components to use the Weblate GitHub App. "
+#| "Their repository URLs will be replaced by canonical HTTPS URLs, and "
+#| "separate push URLs will be removed."
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+"選取現有的 Git 或 GitHub 組件，以使用 Weblate GitHub App。這些組件的儲存庫 "
+"URL 將替換為標準 HTTPS URL，並移除個別的推送 URL。"
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate these components"
+msgstr "移轉選取的組件"
+
+#, fuzzy
+#| msgid "Components to migrate"
+msgid "No components are ready to migrate."
+msgstr "要移轉的組件"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "回到帳號設定"
+
+msgid "Connected accounts"
+msgstr "已連結的帳號"
+
+msgid "Provider ID"
+msgstr "服務提供者 ID"
+
+msgid "Repositories"
+msgstr "儲存庫"
+
+msgid "No connected accounts yet."
+msgstr "尚未連結任何帳號。"
+
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Create a workspace before connecting a GitHub account."
+msgstr "連結 GitHub 帳號前，請先選取工作空間。"
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr "連結 GitHub 帳號"
+
+#, fuzzy, python-format
+#| msgid "Connected GitHub account: %(login)s"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "已連結的 GitHub 帳號：%(login)s"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect or update GitHub account"
+msgid "Install on another GitHub account"
+msgstr "連結或更新 GitHub 帳號"
+
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Accounts from workspaces you own"
+msgstr "繼承自工作空間"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "其他組件"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
@@ -15356,6 +15597,28 @@ msgid ""
 msgstr ""
 "GitHub 只會顯示您的 GitHub 使用者可安裝或要求安裝此 App 的帳號。若缺少某個組"
 "織，請在 GitHub 檢查您的組織角色及 GitHub App 安裝限制。"
+
+#, fuzzy
+#| msgid "GitHub rejected the registration code. Start the registration again."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "GitHub 拒絕了註冊碼。請重新開始註冊。"
+
+#, fuzzy
+#| msgid "Authorize application"
+msgid "Authorize again"
+msgstr "授權應用程式"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue to GitHub"
+msgid "Authorize on GitHub"
+msgstr "繼續前往 GitHub"
 
 msgid "Choose GitHub host"
 msgstr "選擇 GitHub 主機"
@@ -15374,6 +15637,9 @@ msgstr "安裝至 %(hostname)s"
 msgid "Connected GitHub account: %(login)s"
 msgstr "已連結的 GitHub 帳號：%(login)s"
 
+msgid "Add or configure account"
+msgstr "新增或設定帳號"
+
 #, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
@@ -15391,6 +15657,12 @@ msgstr "已更新儲存庫"
 
 msgid "Available Repositories"
 msgstr "可用的儲存庫"
+
+msgid "Visibility"
+msgstr "可見性"
+
+msgid "Import"
+msgstr "匯入"
 
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
@@ -15416,6 +15688,11 @@ msgstr ""
 "下方 App 提供 Weblate 與程式碼代管服務提供者通訊所需的憑證。請將帳號連結至每"
 "個 App，以從該帳號匯入儲存庫。"
 
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "尚未註冊驗證器應用程式。"
+
 msgid "Remove app"
 msgstr "移除 App"
 
@@ -15440,16 +15717,41 @@ msgid ""
 "if you no longer need it."
 msgstr "App 本身仍會安裝在 GitHub 上。若不再需要，請另外從 GitHub 刪除。"
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr "尚未連結任何帳號。使用上方按鈕連結組織或使用者帳號。"
+#, fuzzy, python-format
+#| msgid "From connected account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "來自已連結的帳號"
+
+#, fuzzy
+#| msgid "Broker connection"
+msgid "View connections"
+msgstr "訊息代理伺服器連線"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "檢視所有通知"
 
 msgid "From connected account"
 msgstr "來自已連結的帳號"
 
 msgid "Import from connected account"
 msgstr "從已連結的帳號匯入"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+"連結帳號前，請先選取具有工作空間的專案。程式碼代管帳號會連結至工作空間。"
+
+msgid "Refresh"
+msgstr "重新整理"
+
+#, fuzzy
+#| msgid "No repositories available from connected accounts."
+msgid "Repositories from these accounts"
+msgstr "已連結的帳號沒有可用的儲存庫。"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -15463,17 +15765,107 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr "安裝 Weblate GitHub App 以連結組織或使用者帳號。"
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
-msgstr ""
-"連結帳號前，請先選取具有工作空間的專案。程式碼代管帳號會連結至工作空間。"
+#, fuzzy
+#| msgid "Select a workspace before connecting a GitHub account."
+msgid "Ask a workspace owner to connect a GitHub account."
+msgstr "連結 GitHub 帳號前，請先選取工作空間。"
 
 msgid "Weblate GitHub app is not registered on this Weblate instance."
 msgstr "此 Weblate 執行個體尚未註冊 Weblate GitHub App。"
 
 msgid "Try refreshing the repository list."
 msgstr "請嘗試重新整理儲存庫清單。"
+
+#, fuzzy, python-format
+#| msgid "Migrate to GitHub App"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "移轉至 GitHub App"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "新增專案至工作空間"
+
+#, fuzzy
+#| msgid "A project was moved into or out of a workspace."
+msgid "Projects moved to these workspaces:"
+msgstr "專案已移入或移出工作空間。"
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "新增專案至工作空間"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to edit the current workspace."
+msgid "You do not have permission to create workspaces."
+msgstr "您沒有編輯目前工作空間的權限。"
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "Affected projects"
+msgid "Move selected projects"
+msgstr "受影響的專案"
+
+#, fuzzy
+#| msgid "Creating a project without a workspace is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "不允許建立不屬於工作空間的專案。"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Workspace administration"
+msgid "Workspaces without a connection"
+msgstr "工作空間管理"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "找不到您搜尋的字串！"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Connected workspaces"
+msgstr "Weblate 工作空間"
+
+#, fuzzy
+#| msgid "Preview component ID"
+msgid "Review component migration"
+msgstr "預覽用組件 ID"
+
+#, fuzzy
+#| msgid "Connected accounts"
+msgid "Connect another account"
+msgstr "已連結的帳號"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "找不到您搜尋的字串！"
+
+#, fuzzy
+#| msgid "All eligible components in current workspace"
+msgid "Migrate all eligible components across workspaces"
+msgstr "目前工作空間中所有符合資格的組件"
+
+#, fuzzy
+#| msgid "Manage code-hosting connections"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "管理程式碼代管連結"
 
 msgid "Remove connected account?"
 msgstr "要移除已連結的帳號嗎？"
@@ -15500,6 +15892,52 @@ msgstr[0] "下列 %(counter)s 個組件將失去其儲存庫的存取權："
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "以及另外 %(counter)s 個組件"
+
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Find a workspace"
+msgstr "新增工作空間"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "找不到您搜尋的字串！"
+
+#, fuzzy
+#| msgid ""
+#| "No code-hosting connections are available. A site administrator needs to "
+#| "register a code-hosting app first."
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr "沒有可用的程式碼代管連結。網站管理員必須先註冊程式碼代管 App。"
+
+#, fuzzy
+#| msgid ""
+#| "Select a project with a workspace to connect an account or import "
+#| "repositories from an existing connection."
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr "選取具有工作空間的專案，以連結帳號或從現有連結匯入儲存庫。"
+
+#, fuzzy
+#| msgid "Migrate selected components"
+msgid "Migrate all eligible components"
+msgstr "移轉選取的組件"
+
+msgid "Code-hosting app"
+msgstr "程式碼代管應用程式"
+
+msgid "Not registered"
+msgstr "未註冊"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
+"%(hostname)s 尚未註冊程式碼代管 App 憑證。可移除現有的已連結帳號，但在網站管"
+"理員重新註冊 App 前，無法連結新帳號。"
 
 msgid "Invitations"
 msgstr "邀請"
@@ -16013,9 +16451,6 @@ msgstr "移動了類別"
 
 msgid "Weblate could not save a changed string."
 msgstr "Weblate 無法儲存已變更的字串。"
-
-msgid "Saving string failed"
-msgstr "儲存字串失敗"
 
 msgid "A new string was found while synchronizing from the repository."
 msgstr "從儲存庫同步時發現新字串。"
@@ -16576,6 +17011,25 @@ msgstr "上傳的檔案過大。"
 msgid "Could not validate screenshot: %(error)s"
 msgstr "無法驗證螢幕截圖：%(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "將字串改加到來源語言。"
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 msgid "Referenced component does not exist."
 msgstr "參照的組件不存在。"
 
@@ -16590,6 +17044,14 @@ msgstr "儲存庫資料不屬於已還原的組件。"
 
 msgid "Repository-linked components can not contain repository data."
 msgstr "與儲存庫連結的組件不得包含儲存庫資料。"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
+msgstr ""
 
 msgid "Imported authors"
 msgstr "匯入的作者"
@@ -16622,6 +17084,15 @@ msgstr ""
 "使用者 %(username)s 尚未接受邀請。在接受前，從備份匯入的貢獻仍會以匿名方式顯"
 "示。"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "User %(username)s was skipped because no eligible local account matches "
+#| "the backup."
+msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr "找不到與備份相符且符合資格的本站帳號，因此已略過使用者 %(username)s。"
+
 #, python-format
 msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
@@ -16641,8 +17112,24 @@ msgstr "版本控制參數"
 msgid "File format parameters"
 msgstr "檔案格式參數"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 msgid "The project repository directory already exists."
 msgstr "專案儲存庫目錄已存在。"
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "移除選取的翻譯記憶項目"
 
 msgid "Invalid search type."
 msgstr "搜尋類型無效。"
@@ -17341,8 +17828,19 @@ msgstr "這個字串無法使用此檢閱狀態。請重新載入編輯器，並
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "用來闡明意義或字串用法的額外解釋。"
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "來源字串解釋"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "此刻來源字串已經變更。請檢查您的變更。"
@@ -17728,6 +18226,21 @@ msgstr ""
 
 msgid "No matching workspace found."
 msgstr "找不到相符的工作空間。"
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "重複翻譯。"
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "包含專案備份的 ZIP 檔案"
@@ -18298,11 +18811,6 @@ msgstr "透過上傳 ZIP 建立了組件"
 
 msgid "Component created via document upload"
 msgstr "透過文件上傳建立了組件"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(user)s 在 %(time)s 對 %(translation)s %(action)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -20329,6 +20837,12 @@ msgstr "您沒有編輯目標工作空間的權限。"
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "您沒有將專案新增至目標工作空間的權限。"
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr "Borg 已完成，但出現警告且無任何輸出。"
 
@@ -21372,6 +21886,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "儲存庫中有已中斷的 Git %(operation)s 作業。"
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr "無法復原已中斷的 Git %(operation)s 作業。"
@@ -21487,6 +22015,41 @@ msgstr "要移轉的組件"
 
 msgid "Select at least one component to migrate."
 msgstr "至少選取一個要移轉的組件。"
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "要移除的專案"
+
+#, fuzzy
+#| msgid "Weblate workspaces"
+msgid "Create workspaces"
+msgstr "Weblate 工作空間"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Add workspace projects"
+msgid "One workspace per project"
+msgstr "新增工作空間專案"
+
+#, fuzzy
+#| msgid "Manage workspaces"
+msgid "One shared workspace"
+msgstr "管理工作空間"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "工作空間名稱"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "輸入服務帳號的 JSON 金鑰。"
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -21898,26 +22461,20 @@ msgstr "連結 GitHub 帳號前，請先選取工作空間。"
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr "所選主機尚未設定 Weblate GitHub App。"
 
-msgid "Connected GitHub account updated."
-msgstr "已更新已連結的 GitHub 帳號。"
+msgid "GitHub did not return a valid installation ID."
+msgstr "GitHub 未傳回有效的安裝 ID。"
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr "Weblate GitHub App 安裝連結已失效。請重新開始安裝。"
 
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "您沒有將 GitHub 連結至此工作空間的權限。"
-
-msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub 未傳回有效的安裝 ID。"
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
-msgstr ""
-"GitHub 帳號連結嘗試次數過多。GitHub 安裝項目未完成連結，且可能仍在等候處理。"
-"請稍後再嘗試連結帳號。"
+#, fuzzy
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
+msgstr "Weblate 無法在更新翻譯時解析翻譯檔案。"
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
@@ -21926,6 +22483,19 @@ msgid ""
 msgstr ""
 "Weblate 無法確認您有權管理此 GitHub 安裝項目。請使用擁有該帳號或可管理該組織"
 "的 GitHub 使用者重新開始安裝。"
+
+msgid "Connected GitHub account updated."
+msgstr "已更新已連結的 GitHub 帳號。"
+
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "您沒有將 GitHub 連結至此工作空間的權限。"
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
+msgstr ""
+"GitHub 帳號連結嘗試次數過多。GitHub 安裝項目未完成連結，且可能仍在等候處理。"
+"請稍後再嘗試連結帳號。"
 
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
@@ -21943,22 +22513,42 @@ msgstr "已儲存 GitHub 帳號連結，但重新整理儲存庫清單失敗。�
 msgid "Connected GitHub account added."
 msgstr "已新增連結的 GitHub 帳號。"
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "無法取得 GitLab 專案 (%(status)s)：%(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "無法完成註冊。"
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "無法移轉 %(component)s：%(error)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] "已將 %(count)d 個組件移轉至 Weblate GitHub App。"
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] "%(count)d 個組件因其儲存庫已無法使用而未移轉。"
+#, fuzzy, python-format
+#| msgid "A component was unlocked for translation."
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "已解除組件的翻譯鎖定。"
 
-#, python-format
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "無法移轉 %(component)s：%(error)s"
+#, fuzzy
+#| msgid ""
+#| "The authentication response has expired. Please try signing in again."
+msgid "The migration preview has expired. Open it again to continue."
+msgstr "身分驗證回應已過期。請嘗試重新登入。"
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "請輸入有效的 GitHub App 名稱與主機名稱。"
@@ -22224,16 +22814,11 @@ msgstr "%(date)s 的報告"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s — %(report)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
-msgstr "您的身分驗證已過期。請先確認身分，再重新選取並上傳 CSV 報告。"
+msgid "Choose a CSV report of at most 10 MiB."
+msgstr "請選擇大小不超過 10 MiB 的 CSV 報告。"
 
 msgid "Could not store the encrypted upload. Try again."
 msgstr "無法儲存加密的上傳檔案，請再試一次。"
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr "請選擇大小不超過 10 MiB 的 CSV 報告。"
 
 msgid "Could not read the uploaded report. Upload it again."
 msgstr "無法讀取上傳的報告，請重新上傳。"
@@ -22457,6 +23042,132 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
 
+#~ msgid ""
+#~ "Manage code-hosting accounts connected to workspaces you administer. "
+#~ "These connections are separate from sign-in identities."
+#~ msgstr ""
+#~ "管理已連結至您所管理工作空間的程式碼代管帳號。這些連線與登入身分分開管理。"
+
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "您的 Weblate 正列在 weblate.org"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "只顯示出 %(count)s 個符合結果的一部分。"
+
+#~ msgid ""
+#~ "Pick a repository from a connected account. The component creation form "
+#~ "will be pre-filled with the clone URL, default branch, and matching VCS "
+#~ "driver."
+#~ msgstr ""
+#~ "從已連結的帳號選擇儲存庫。組件建立表單會預先填入 clone URL、預設分支及相符"
+#~ "的 VCS 驅動程式。"
+
+#~ msgid ""
+#~ "No repositories available yet. Connect a code-hosting account to make "
+#~ "repositories available here."
+#~ msgstr "尚無可用的儲存庫。連結程式碼代管帳號後，即可在此使用儲存庫。"
+
+#~ msgid ""
+#~ "No repositories are available from connected accounts for this project "
+#~ "workspace."
+#~ msgstr "此專案工作空間的已連結帳號沒有可用的儲存庫。"
+
+#~ msgid ""
+#~ "The exported Weblate repository can be shallow by default, so this "
+#~ "workflow works best from an up-to-date upstream checkout. Cloning from "
+#~ "the exported Weblate repository or using an outdated upstream checkout "
+#~ "can fail even when Weblate and upstream are in sync. See the FAQ below "
+#~ "for details."
+#~ msgstr ""
+#~ "預設情況下，匯出的 Weblate 儲存庫可能是淺層的，因此這個工作流程最適合在最"
+#~ "新的上游 checkout 下執行。即使 Weblate 和上游已經同步，從匯出的 Weblate 儲"
+#~ "存庫 clone 或使用過時的上游 checkout 可能會失敗。請參閱下方的 FAQ 以取得詳"
+#~ "細資訊。"
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr "開啟上游儲存庫的現有 checkout 或執行新的 checkout。"
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr "提交 Weblate 所有待提交的變更並鎖定翻譯組件。"
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "將 Weblate 已匯出的儲存庫作為遠端來源新增。"
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "合併 Weblate 的變更並解決衝突。"
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "合併（Rebase） Weblate 的變更並解決任何衝突。"
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "將變更推送至上游儲存庫。"
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr "Weblate 應該現在就能看到更新過的儲存庫，接著您就能解鎖該元件。"
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "請見常見問答集 FAQ 瞭解此問題的解決資訊。"
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr "未完成字串，包含評論的已轉換檔案。適合離線翻譯"
+
+#~ msgid ""
+#~ "You do not manage any workspaces. VCS accounts can be connected only to "
+#~ "workspaces you manage."
+#~ msgstr "您未管理任何工作空間。只能將 VCS 帳號連結至您所管理的工作空間。"
+
+#, python-format
+#~ msgid ""
+#~ "Connect code-hosting accounts to %(workspace)s. These accounts can then "
+#~ "be used when creating components from version control."
+#~ msgstr ""
+#~ "將程式碼代管帳號連結至 %(workspace)s。建立版本控制組件時即可使用這些帳號。"
+
+#~ msgid ""
+#~ "Connect code-hosting accounts to workspaces you manage. These accounts "
+#~ "can then be used when creating components from version control."
+#~ msgstr ""
+#~ "將程式碼代管帳號連結至您所管理的工作空間。建立版本控制組件時即可使用這些帳"
+#~ "號。"
+
+#~ msgid "Connect accounts"
+#~ msgstr "連結帳號"
+
+#~ msgid "Code-hosting integrations"
+#~ msgstr "程式碼託管整合"
+
+#~ msgid ""
+#~ "No connected accounts yet. Use the button above to connect an "
+#~ "organization or user account."
+#~ msgstr "尚未連結任何帳號。使用上方按鈕連結組織或使用者帳號。"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(user)s 在 %(time)s 對 %(translation)s %(action)s"
+
+#, python-format
+#~ msgid ""
+#~ "One component was not migrated because its repository is no longer "
+#~ "available."
+#~ msgid_plural ""
+#~ "%(count)d components were not migrated because their repositories are no "
+#~ "longer available."
+#~ msgstr[0] "%(count)d 個組件因其儲存庫已無法使用而未移轉。"
+
+#~ msgid ""
+#~ "Your identity verification has expired. Confirm your identity, then "
+#~ "select and upload the CSV report again."
+#~ msgstr "您的身分驗證已過期。請先確認身分，再重新選取並上傳 CSV 報告。"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "瀏覽 %(name)s 詞彙表"
@@ -22570,9 +23281,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Manage machinery"
 #~ msgstr "管理機器翻譯"
-
-#~ msgid "Preview component ID"
-#~ msgstr "預覽用組件 ID"
 
 #~ msgid "Preview change ID"
 #~ msgstr "預覽用變更 ID"
@@ -22800,9 +23508,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Skipped components:"
 #~ msgstr "已略過的組件:"
-
-#~ msgid "Permission required on:"
-#~ msgstr "需要權限的組件:"
 
 #~ msgid ""
 #~ "A repository was skipped because one or more of its components are not "
@@ -23123,13 +23828,6 @@ msgstr "工作空間已移除。"
 #~ msgstr "Weblate 配置"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "GitHub 星數"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "邀請"
@@ -23245,9 +23943,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Return to the component"
 #~ msgstr "回到組件"
-
-#~ msgid "View all alerts"
-#~ msgstr "檢視所有通知"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "檢閱社群在地化指導原則檢查清單。"
@@ -23906,11 +24601,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Glossary translation: %s"
 #~ msgstr "詞彙表翻譯：%s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s 個單字"
-
 #~ msgid "Choose primary e-mail from verified addresses."
 #~ msgstr "從已經驗證的郵件信箱地址中選擇主信箱。"
 
@@ -23975,9 +24665,6 @@ msgstr "工作空間已移除。"
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "有新字串可翻譯"
-
-#~ msgid "New contributor"
-#~ msgstr "有新貢獻者"
 
 #~ msgid "New announcement"
 #~ msgstr "新增公告"
@@ -24303,9 +24990,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Token value to use in API"
 #~ msgstr "要在 API 使用的代符值"
-
-#~ msgid "No string matched your search!"
-#~ msgstr "找不到您搜尋的字串！"
 
 #, python-format
 #~ msgid ""
@@ -24789,9 +25473,6 @@ msgstr "工作空間已移除。"
 #~ msgid "Translatable words"
 #~ msgstr "可翻譯的字詞"
 
-#~ msgid "Number of characters"
-#~ msgstr "字元數"
-
 #~ msgid "Number of source strings"
 #~ msgstr "來源字串數"
 
@@ -25032,9 +25713,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "公開可見，但只有選定的使用者可以翻譯"
-
-#~ msgid "Add a component message"
-#~ msgstr "新增組件訊息"
 
 #~ msgid "New whiteboard message on %(project)s"
 #~ msgstr "%(project)s 上有新的白板訊息"
@@ -27689,9 +28367,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Avatar for %s"
 #~ msgstr "%s 的圖示"
-
-#~ msgid "First name"
-#~ msgstr "名字"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-13 08:11+0000\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
+"PO-Revision-Date: 2026-11-27 02:47+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
@@ -36,6 +36,11 @@ msgstr "Κανένας"
 
 msgid "User avatar"
 msgstr "Άβαταρ χρήστη"
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "Αυτόματη μετάφραση σε εξέλιξη"
 
 msgid "No notification"
 msgstr "Καμία ειδοποίηση"
@@ -1563,11 +1568,6 @@ msgstr "Δωρεάν δοκιμή"
 msgid "Notification diagnostics for %(user)s"
 msgstr "Σίγαση ειδοποιήσεων για το %(object)s"
 
-#, fuzzy
-#| msgid "The source string cannot be edited."
-msgid "This user can not be edited."
-msgstr "Το κείμενο προέλευσης δεν μπορεί να επεξεργαστεί."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2401,6 +2401,18 @@ msgstr ""
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "Ενεργοποίηση αναθεωρήσεων της πηγής"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
 msgstr ""
 
 #, fuzzy
@@ -3420,6 +3432,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invited to {project} by {username}."
+msgid "Filter by username."
+msgstr "Πρόσκληση στο {project} από τον/την {username}."
+
 msgid "Allowed number of requests to perform"
 msgstr ""
 
@@ -3657,6 +3680,11 @@ msgid ""
 msgstr ""
 "Δεν ήταν δυνατή η λήψη του κλειδώματος %(scope)s για το %(origin)s για την "
 "εκτέλεση της λειτουργίας."
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "This user can not be edited."
+msgstr "Το κείμενο προέλευσης δεν μπορεί να επεξεργαστεί."
 
 msgid "Expected an object."
 msgstr ""
@@ -5182,7 +5210,7 @@ msgstr "Συμβάν χρέωσης"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "Έργα χωρίς εξαρτήματα"
 
 #, fuzzy
@@ -6460,6 +6488,14 @@ msgstr "Μη αλλαγμένη μετάφραση"
 msgid "Source and translation are identical."
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
+msgid "Saving string failed"
+msgstr "Η αποθήκευση κειμένου απέτυχε"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "The string could not be written to the translation file."
+msgstr "Εγκεκριμένη μετάφραση στο %(translation)s"
+
 msgid "Unpluralised"
 msgstr "Χωρίς πολυφωνία"
 
@@ -6652,6 +6688,11 @@ msgstr "XLIFF 1.1 με επεκτάσεις gettext"
 msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "Αρχείο μετάφρασης XLIFF 1.2"
+
 msgid "TBX"
 msgstr "TBX"
 
@@ -6692,6 +6733,11 @@ msgstr "Excel Open XML"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "Απέτυχε η ενημέρωση του αποθετηρίου."
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The workbook header row is empty."
+msgstr "Αρχείο προέλευσης .NET"
 
 #, python-format
 msgid ""
@@ -6991,6 +7037,10 @@ msgid "App store metadata files"
 msgstr "Αρχεία μεταδεδομένων καταστήματος εφαρμογών"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -8229,6 +8279,20 @@ msgstr "Το στοιχείο μετονομάστηκε"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "Προστέθηκε νέα γλώσσα στο %(component)s"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "Άρνηση Δικαιώματος"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+msgid "Translation context"
+msgstr "Μεταφραστικό πλαίσιο"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -9665,21 +9729,6 @@ msgstr ""
 "Το κλειδί API χρησιμοποιείται επίσης για τον έλεγχο ταυτότητας σε αποθετήρια "
 "Git που εξάγονται αυτόματα."
 
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "Φιλοξενούμενες μεταφράσεις"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "Εκκρεμείς προσκλήσεις"
-
 msgid "Pending invitation"
 msgstr "Εκκρεμεί πρόσκληση"
 
@@ -11078,13 +11127,29 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Add a component to keep Libre hosting"
+msgstr "Περιεχόμενα"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Add a project to get started"
+msgstr "Διαχειριζόμενα έργα"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "View affected components"
+msgstr "Δημιουργημένο στοιχείο"
 
 msgid "Customer"
 msgstr "Πελάτης"
@@ -11514,6 +11579,11 @@ msgstr "Διπλασιασμός στοιχείου"
 
 msgid "Share in projects"
 msgstr "Κοινή χρήση σε έργα"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "Ρωτήστε για ελεύθερη φιλοξενία"
 
 msgid "dismissed"
 msgstr "παραβλέφθηκε"
@@ -13420,8 +13490,10 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "Το Weblate σας είναι καταχωρημένο στο weblate.org"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Το Weblate σας δεν είναι καταχωρημένο στο weblate.org"
@@ -14334,6 +14406,19 @@ msgstr "Εισαγωγή μεταφραστικής μνήμης"
 msgid "Delete announcement"
 msgstr "Διαγραφή ανακοίνωσης"
 
+msgid "Contributors"
+msgstr "Συνεισφορείς"
+
+#, fuzzy
+#| msgid "Contributor agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "Η συμφωνία συνεισφοράς αφαιρέθηκε."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "Δεν βρέθηκαν πρόσφατες συνεισφορές."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -14421,6 +14506,16 @@ msgstr "Όνομα δημιουργού"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First name"
+msgid "First page"
+msgstr "Όνομα"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "Προηγούμενο"
+
 msgid "Click to edit position"
 msgstr "Κάντε κλικ για να επεξεργαστείτε τη θέση"
 
@@ -14438,6 +14533,16 @@ msgstr "Μετάβαση σε"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "Επόμενο"
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last page"
+msgstr "Τελευταία ενημέρωση"
 
 msgid "Labels"
 msgstr "Ετικέτες"
@@ -15147,6 +15252,11 @@ msgstr "Διάκριση πεζών-κεφαλαίων"
 msgid "Most active translators"
 msgstr "Πιο ενεργοί μεταφραστές"
 
+#, fuzzy
+#| msgid "New contributor"
+msgid "Browse contributors"
+msgstr "Νέες συνεισφορές"
+
 msgid "Browse all users"
 msgstr "Περιήγηση σε όλες τους χρήστες"
 
@@ -15225,9 +15335,6 @@ msgstr "Τάσεις των τελευταίων 30 ημερών"
 
 msgid "Quick numbers"
 msgstr "Γρήγοροι αριθμοί"
-
-msgid "Contributors"
-msgstr "Συνεισφορείς"
 
 msgid "Translations"
 msgstr "Μεταφράσεις"
@@ -15595,6 +15702,20 @@ msgid "Refresh results"
 msgstr "Αποθετήρια"
 
 #, fuzzy
+#| msgid "Personal info"
+msgid "Original file"
+msgstr "Προσωπικές πληροφορίες"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "Αρχείο στην αρχική του μορφή όπως μεταφράστηκε στο αποθετήριο"
+
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -15791,6 +15912,24 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "Η διεύθυνση IP αντιγράφηκε στο πρόχειρο."
 
+msgid "Strings"
+msgstr "Κείμενα"
+
+#, fuzzy, python-format
+#| msgid "%(count)s word"
+#| msgid_plural "%(count)s words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "%(count)s λέξη"
+msgstr[1] "%(count)s λέξεις"
+
+#, fuzzy, python-format
+#| msgid "Number of characters"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "Αριθμός χαρακτήρων"
+msgstr[1] "Αριθμός χαρακτήρων"
+
 msgid "Suggestion added"
 msgstr "Προστέθηκε πρόταση"
 
@@ -15858,9 +15997,6 @@ msgstr "Κείμενο προορισμού"
 
 msgid "Translation status"
 msgstr "Kατάσταση μετάφρασης"
-
-msgid "Strings"
-msgstr "Κείμενα"
 
 msgid "Words"
 msgstr "Λέξεις"
@@ -16054,9 +16190,6 @@ msgstr "Διαμόρφωση πρόσθετου"
 msgid "Weblate could not execute script add-on."
 msgstr "Το Weblate δεν μπόρεσε να εκτελέσει το πρόσθετο δέσμης ενεργειών."
 
-msgid "The following occurrences were found:"
-msgstr "Βρέθηκαν τα ακόλουθα περιστατικά:"
-
 msgid "Command"
 msgstr "Εντολή"
 
@@ -16076,6 +16209,9 @@ msgid ""
 "use the code of the individual language instead."
 msgstr ""
 
+msgid "The following occurrences were found:"
+msgstr "Βρέθηκαν τα ακόλουθα περιστατικά:"
+
 msgid "Suggested individual language codes"
 msgstr "Προτεινόμενοι μεμονωμένοι κωδικοί γλώσσας"
 
@@ -16093,6 +16229,16 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -16201,6 +16347,9 @@ msgstr ""
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
+msgstr ""
+
+msgid "Replace the expired SSH key in Azure DevOps"
 msgstr ""
 
 msgid ""
@@ -16459,7 +16608,10 @@ msgstr "Τα ακόλουθα αρχεία δεν υπάρχουν πλέον σ
 msgid "Template for new translations"
 msgstr "Πρότυπο για νέες μεταφράσεις"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "Το Weblate δεν μπόρεσε να συγχωνεύσει τις ανάντη αλλαγές κατά την ενημέρωση "
 "του αποθετηρίου."
@@ -16509,6 +16661,17 @@ msgid ""
 msgstr ""
 "Το στοιχείο μετάφρασης φαίνεται μονόγλωσσο, αλλά δεν έχει ρυθμιστεί έτσι."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
 "Προσθέστε ένα μονόγλωσσο αρχείο γλώσσας βάσης στις ρυθμίσεις του στοιχείου."
@@ -16548,12 +16711,16 @@ msgstr ""
 "Ελέγξτε αν η μάσκα αρχείου <code>%(filemask)s</code> ταιριάζει με τα αρχεία "
 "στο αποθετήριο του συστήματος ελέγχου εκδόσεων."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "Τελευταία εμφάνιση"
+msgstr[1] "Τελευταία εμφάνιση"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -16578,6 +16745,25 @@ msgstr "Το Weblate δεν μπόρεσε να προωθήσει τις αλλ
 msgid "Push the repository"
 msgstr "Ώθηση του αποθετηρίου"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"Το αποθετήριο VCS έχει πολλές αλλαγές σε σύγκριση με το ανάντη. Συγχωνεύστε "
+"τις αλλαγές χειροκίνητα ή ρυθμίστε την προώθηση για να το αυτοματοποιήσετε."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -16594,6 +16780,25 @@ msgstr "Απέτυχε η ενημέρωση του αποθετηρίου."
 #| msgid "Push the repository"
 msgid "Reset the repository"
 msgstr "Ώθηση του αποθετηρίου"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"Το αποθετήριο VCS δεν είναι ενημερωμένο με το ανάντη. Συγχωνεύστε τις "
+"αλλαγές χειροκίνητα ή ρυθμίστε τα άγκιστρα για αυτοματοποίηση."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -16629,6 +16834,18 @@ msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "Το στοιχείο δεν έχει λάβει μετάφραση εντός %(count)s ημέρας."
 msgstr[1] "Το στοιχείο δεν έχει λάβει μετάφραση εντός %(count)s ημερών."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "Η μετάφραση έχει αφαιρεθεί."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr ""
@@ -16833,38 +17050,13 @@ msgstr ""
 "Δημιουργήστε ένα αρχείο ZIP που περιέχει τυχόν υπάρχοντα αρχεία μετάφρασης "
 "που έχετε και %(link_start)sανεβάστε το%(link_end)s."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
 
 #, fuzzy
-#| msgid "Bad configuration"
-msgid "Add or configure account"
-msgstr "Κακή ρύθμιση"
-
-#, fuzzy
-#| msgid "Visibility changed"
-msgid "Visibility"
-msgstr "Η ορατότητα άλλαξε"
-
-msgid "Import"
-msgstr "Εισαγωγή"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "Εμφάνιση στοιχείων με συνδεδεμένα αποθετήρια"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16989,48 +17181,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "Τυπική ροή εργασίας για τη διόρθωση διενέξεων συγχώνευσης"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr ""
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"Κάντε όλες τις εκκρεμείς αλλαγές στο Weblate και κλειδώστε το στοιχείο "
-"μετάφρασης."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "Προσθήκη του εξαγόμενου αποθετηρίου του Weblate ως απομακρυσμένο."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Συγχώνευση των αλλαγών του Weblate και επίλυση τυχόν διενέξεων."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Αλλαγή βάσης με τις αλλαγές του Weblate πάνω από το ανάντι και επίλυση τυχόν "
-"διενέξεων."
-
-msgid "Push changes into upstream repository."
-msgstr "Προώθηση των αλλαγών στο ανάντη αποθετήριο."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"Το Weblate θα πρέπει τώρα να μπορεί να δει το ενημερωμένο αποθετήριο και να "
-"μπορείτε να το ξεκλειδώσετε."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "Δείτε τις ΣΕ για πληροφορίες σχετικά με την επίλυσή του."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
@@ -17143,6 +17308,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "Εκκαθάριση αρχείων μετάφρασης"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -17434,6 +17609,16 @@ msgstr "Προσθήκη στιγμιότυπου οθόνης"
 msgid "String information"
 msgstr "Πληροφορίες κειμένου"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "Μετάφραση στόχου"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "Εγκρίθηκε η μετάφραση"
+
 msgid "No explanation currently provided."
 msgstr "Δεν παρέχεται καμία επεξήγηση επί του παρόντος."
 
@@ -17579,19 +17764,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "Αρχείο στην αρχική του μορφή όπως μεταφράστηκε στο αποθετήριο"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Το μεταφορτωμένο αρχείο θα συγχωνευθεί με την τρέχουσα μετάφραση."
 
@@ -17606,78 +17778,6 @@ msgid ""
 msgstr ""
 "Το μήνυμα εμφανίζεται στη σελίδα μετάφρασης, μέχρι τη λήξη του ή τη διαγραφή "
 "του."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting app"
-msgstr "Φιλοξενούμενες μεταφράσεις"
-
-#, fuzzy
-#| msgid "Not yet measured"
-msgid "Not registered"
-msgstr "Δεν έχει ακόμη μετρηθεί"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connect accounts"
-msgstr "Απομάκρυνση λογαριασμού"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connected accounts"
-msgstr "Απομάκρυνση λογαριασμού"
-
-#, fuzzy
-#| msgid "Provider"
-msgid "Provider ID"
-msgstr "Πάροχος"
-
-msgid "Repositories"
-msgstr "Αποθετήρια"
-
-msgid "Refresh"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "No connected accounts yet."
-msgstr "Απομάκρυνση λογαριασμού"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting integrations"
-msgstr "Φιλοξενούμενες μεταφράσεις"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -17709,11 +17809,6 @@ msgstr "Διαγραφή αυτού του λογαριασμού"
 msgid "Refresh repositories"
 msgstr "Αποθετήρια"
 
-#, fuzzy
-#| msgid "Created component"
-msgid "Migrate selected components"
-msgstr "Δημιουργημένο στοιχείο"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -17734,6 +17829,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "Kατάσταση μετάφρασης"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "Νέα ειδοποίηση στο %(component)s"
+
+#, fuzzy
+#| msgctxt "Label on engage page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "Αστέρι GitHub"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -17744,8 +17851,18 @@ msgstr "Μόνο για ανάγνωση"
 msgid "Repository access needed"
 msgstr "Το αποθετήριο άλλαξε βάση"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "Δημιουργημένο στοιχείο"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "Φιλοξενούμενες μεταφράσεις"
 
 #, fuzzy
 #| msgid "Register in Weblate"
@@ -17818,11 +17935,128 @@ msgstr "Όνομα ομάδας"
 msgid "Continue to %(host)s"
 msgstr "Συνέχεια σε %(return_target)s"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate eligible components"
+msgstr "Δημιουργημένο στοιχείο"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate these components"
+msgstr "Δημιουργημένο στοιχείο"
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "No components are ready to migrate."
+msgstr "Στοιχείο για κατάργηση"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "Πίσω στις ρυθμίσεις λογαριασμού"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected accounts"
+msgstr "Απομάκρυνση λογαριασμού"
+
+#, fuzzy
+#| msgid "Provider"
+msgid "Provider ID"
+msgstr "Πάροχος"
+
+msgid "Repositories"
+msgstr "Αποθετήρια"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No connected accounts yet."
+msgstr "Απομάκρυνση λογαριασμού"
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Created user account {}."
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "Δημιουργήθηκε o λογαριασμός χρήστη {}."
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "Διαγραφή αυτού του λογαριασμού"
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Accounts from workspaces you own"
+msgstr "Κληρονομημένοι δείκτες"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "Άλλα εξαρτήματα"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "Παρακαλώ συμπληρώστε την εγγραφή για να αποδεχτείτε την πρόσκληση."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "Πιστοποίηση"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "Συνέχεια"
 
 #, fuzzy
 #| msgctxt "Label on engage page"
@@ -17844,6 +18078,11 @@ msgstr "Πρόσκληση στο %(project_name)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add or configure account"
+msgstr "Κακή ρύθμιση"
 
 #, python-format
 msgid ""
@@ -17869,6 +18108,14 @@ msgstr "Παρωχημένο αποθετήριο."
 msgid "Available Repositories"
 msgstr "Αποθετήρια"
 
+#, fuzzy
+#| msgid "Visibility changed"
+msgid "Visibility"
+msgstr "Η ορατότητα άλλαξε"
+
+msgid "Import"
+msgstr "Εισαγωγή"
+
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -17890,6 +18137,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "Καμία εφαρμογή πιστοποίησης δεν καταχωρήθηκε ακόμη."
 
 #, fuzzy
 #| msgid "Remove"
@@ -17918,10 +18170,22 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "Απομάκρυνση λογαριασμού"
+msgstr[1] "Απομάκρυνση λογαριασμού"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "View connections"
+msgstr "Φιλοξενούμενες μεταφράσεις"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "Προβολή όλων των ειδοποιήσεων"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -17932,6 +18196,19 @@ msgstr "Απομάκρυνση λογαριασμού"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "Απομάκρυνση λογαριασμού"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Repositories from these accounts"
+msgstr "Απομάκρυνση του λογαριασμού μου"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17945,9 +18222,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 #, fuzzy
@@ -17959,6 +18234,96 @@ msgstr "Συνολικός αριθμός καταχωρήσεων αυτή τη
 #| msgid "Push the repository"
 msgid "Try refreshing the repository list."
 msgstr "Ώθηση του αποθετηρίου"
+
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "Κατάσταση Weblate"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Find projects and workspaces"
+msgstr "Διαχειριζόμενα έργα"
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Projects moved to these workspaces:"
+msgstr "Αυτή η μετάφραση είναι προς το παρόν κλειδωμένη."
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Projects without a workspace"
+msgstr "Διαχειριζόμενα έργα"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to create terminology."
+msgid "You do not have permission to create workspaces."
+msgstr "Δεν έχετε δικαίωμα δημιουργίας ορολογίας."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "All protected projects"
+msgid "Move selected projects"
+msgstr "Όλα τα προστατευόμενα έργα"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No projects without a workspace match your search."
+msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
+
+#, fuzzy
+#| msgid "Revoke administration"
+msgid "Workspaces without a connection"
+msgstr "Ανάκληση της διαχείρισης"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No unconnected workspaces match your search."
+msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Connected workspaces"
+msgstr "Πλήκτρα weblate"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "Δημιουργία στοιχείου"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect another account"
+msgstr "Απομάκρυνση λογαριασμού"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No connected workspaces match your search."
+msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
+
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Migrate all eligible components across workspaces"
+msgstr "Όλα τα εξαρτήματα στο τρέχον έργο"
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "Εκκρεμείς προσκλήσεις"
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -17990,6 +18355,46 @@ msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "%(count)s κείμενο που χρειάζεται ενέργεια στο %(component)s"
 msgstr[1] "%(count)s κείμενα που χρειάζονται ενέργεια στο %(component)s"
+
+#, fuzzy
+#| msgid "Add new workspace"
+msgid "Find a workspace"
+msgstr "Προσθήκη νέου χώρου εργασίας"
+
+#, fuzzy
+#| msgid "No string matched your search!"
+msgid "No workspaces match your search."
+msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate all eligible components"
+msgstr "Δημιουργημένο στοιχείο"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting app"
+msgstr "Φιλοξενούμενες μεταφράσεις"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not registered"
+msgstr "Δεν έχει ακόμη μετρηθεί"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 msgid "Invitations"
 msgstr "Προσκλήσεις"
@@ -18650,9 +19055,6 @@ msgstr "Κατηγορία μετακινήθηκε"
 #| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
 msgstr "Το Weblate δεν μπόρεσε να εκτελέσει το πρόσθετο δέσμης ενεργειών."
-
-msgid "Saving string failed"
-msgstr "Η αποθήκευση κειμένου απέτυχε"
 
 #, fuzzy
 #| msgid "Source string added in the repository"
@@ -19360,6 +19762,25 @@ msgstr ""
 msgid "Could not validate screenshot: %(error)s"
 msgstr "Δεν ήταν δυνατή η επαναφορά του στιγμιοτύπου %(name)s: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "Προσθέστε το κείμενο στη γλώσσα προέλευσης."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -19381,6 +19802,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "Η κατηγορία δεν ανήκει σε αυτό το έργο."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -19414,6 +19843,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -19432,10 +19867,26 @@ msgstr "Ρυθμίσεις ελέγχου έκδοσης"
 msgid "File format parameters"
 msgstr "Παράμετροι μορφής αρχείου"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
 msgstr "Το τοπικό αποθετήριο έχει ενημερωθεί."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "Αφαίρεση όλων των επιλεγμένων καταχωρήσεων μεταφραστικής μνήμης"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -20227,8 +20678,19 @@ msgstr ""
 "Πρόσθετη επεξήγηση για την αποσαφήνιση του νοήματος ή της χρήσης του "
 "κειμένου."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "Επεξήγηση του κειμένου της πηγής"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -20693,6 +21155,21 @@ msgstr ""
 #| msgid "No matching user found."
 msgid "No matching workspace found."
 msgstr "Δεν βρέθηκε χρήστης που να ταιριάζει."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "Διπλότυπη μετάφραση."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "Αρχείο ZIP που περιέχει αντίγραφο ασφαλείας του έργου"
@@ -21380,11 +21857,6 @@ msgstr "Στοιχείο δημιουργήθηκε"
 #| msgid "Component created"
 msgid "Component created via document upload"
 msgstr "Στοιχείο δημιουργήθηκε"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -23938,6 +24410,12 @@ msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσε�
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "Δεν έχετε δικαίωμα να αλλάξετε τον έλεγχο πρόσβασης του έργου."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr ""
 
@@ -25151,6 +25629,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Could not lock the repository, another operation is in progress."
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -25287,6 +25779,40 @@ msgstr "Στοιχείο για κατάργηση"
 #| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
 msgstr "Επιλέξτε μια υπάρχουσα διαμόρφωση στοιχείου για αντιγραφή."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "Έργο για απομάκρυνση"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Create workspaces"
+msgstr "Πλήκτρα weblate"
+
+#, fuzzy
+#| msgid "Add new projects"
+msgid "One workspace per project"
+msgstr "Προσθήκη νέων έργων"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "One shared workspace"
+msgstr "Διαχείριση χρηστών"
+
+#, fuzzy
+#| msgid "Resource update"
+msgid "Shared workspace name"
+msgstr "Ενημέρωση προέλευσης"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "Εισάγετε ένα κλειδί JSON για το λογαριασμό υπηρεσίας."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -25775,8 +26301,10 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "GitHub did not return a valid installation ID."
+msgstr "Δεν ήταν δυνατή η ολοκλήρωση της εγγραφής."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -25784,24 +26312,31 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "You do not have permission to accept suggestions."
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσεις."
-
-#, fuzzy
-#| msgid "Could not complete registration."
-msgid "GitHub did not return a valid installation ID."
-msgstr "Δεν ήταν δυνατή η ολοκλήρωση της εγγραφής."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
+"Το Weblate δεν μπόρεσε να αναλύσει τα αρχεία μετάφρασης κατά την ενημέρωση "
+"των μεταφράσεων."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "Δεν έχετε άδεια να αποδεχτείτε προτάσεις."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
 msgstr ""
 
 msgid ""
@@ -25820,25 +26355,44 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Δημιουργήθηκε o λογαριασμός χρήστη {}."
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "Δεν ήταν δυνατή η λήψη του έργου GitLab (%(status)s): %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "Δεν ήταν δυνατή η ολοκλήρωση της εγγραφής."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Δεν ήταν δυνατή η ώθηση του %(component)s: %(error_text)s"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] ""
 msgstr[1] ""
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-msgstr[1] ""
-
 #, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Δεν ήταν δυνατή η ώθηση του %(component)s: %(error_text)s"
+#| msgid "All components are now locked for translation updates!"
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] ""
+"Όλα τα εξαρτήματα είναι τώρα κλειδωμένα για μεταφραστικές ενημερώσεις!"
+msgstr[1] ""
+"Όλα τα εξαρτήματα είναι τώρα κλειδωμένα για μεταφραστικές ενημερώσεις!"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -26167,18 +26721,13 @@ msgstr "Έγινε μέλος στις %(date)s"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s, κείμενο %(position)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "Δεν ήταν δυνατό το άνοιγμα ενός αιτήματος, δοκιμάστε ξανά αργότερα."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
@@ -26513,6 +27062,53 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Η προέλευση απομακρύνθηκε."
 
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "Το Weblate σας είναι καταχωρημένο στο weblate.org"
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "Κάντε όλες τις εκκρεμείς αλλαγές στο Weblate και κλειδώστε το στοιχείο "
+#~ "μετάφρασης."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "Προσθήκη του εξαγόμενου αποθετηρίου του Weblate ως απομακρυσμένο."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "Συγχώνευση των αλλαγών του Weblate και επίλυση τυχόν διενέξεων."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr ""
+#~ "Αλλαγή βάσης με τις αλλαγές του Weblate πάνω από το ανάντι και επίλυση "
+#~ "τυχόν διενέξεων."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "Προώθηση των αλλαγών στο ανάντη αποθετήριο."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "Το Weblate θα πρέπει τώρα να μπορεί να δει το ενημερωμένο αποθετήριο και "
+#~ "να μπορείτε να το ξεκλειδώσετε."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "Δείτε τις ΣΕ για πληροφορίες σχετικά με την επίλυσή του."
+
+#, fuzzy
+#~| msgid "Remove account"
+#~ msgid "Connect accounts"
+#~ msgstr "Απομάκρυνση λογαριασμού"
+
+#, fuzzy
+#~| msgid "Hosting translations"
+#~ msgid "Code-hosting integrations"
+#~ msgstr "Φιλοξενούμενες μεταφράσεις"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "Περιήγηση στο γλωσσάρι %(name)s"
@@ -26618,11 +27214,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Manage machinery"
 #~ msgstr "Διαχείριση μηχανημάτων"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "Δημιουργία στοιχείου"
 
 #, fuzzy
 #~| msgid "Recent changes"
@@ -26805,11 +27396,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "Άλλα εξαρτήματα"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "Άρνηση Δικαιώματος"
 
 #~ msgctxt "Anthropic model selection"
 #~ msgid "Claude Haiku 4.5"
@@ -27145,13 +27731,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgstr "Ρύθμιση του Weblate"
 
 #, fuzzy
-#~| msgctxt "Label on engage page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "Αστέρι GitHub"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "Προσκλήσεις"
@@ -27259,9 +27838,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Return to the component"
 #~ msgstr "Επιστροφή στο στοιχείο"
-
-#~ msgid "View all alerts"
-#~ msgstr "Προβολή όλων των ειδοποιήσεων"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
@@ -27958,12 +28534,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Glossary translation: %s"
 #~ msgstr "Μετάφραση στο γλωσσάρι: %s"
 
-#, python-format
-#~ msgid "%(count)s word"
-#~ msgid_plural "%(count)s words"
-#~ msgstr[0] "%(count)s λέξη"
-#~ msgstr[1] "%(count)s λέξεις"
-
 #~ msgid "Rename"
 #~ msgstr "Μετονομασία"
 
@@ -28019,9 +28589,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgctxt "Name of event in the history"
 #~ msgid "New string to translate"
 #~ msgstr "Νέο κείμενο προς μετάφραση"
-
-#~ msgid "New contributor"
-#~ msgstr "Νέες συνεισφορές"
 
 #~ msgid "New announcement"
 #~ msgstr "Νέα ανακοίνωση"
@@ -28369,9 +28936,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgstr ""
 #~ "Το URL ενός αποθετηρίου, χρησιμοποιήστε το weblate://project/subproject "
 #~ "για κοινή χρήση με άλλο περιεχόμενο."
-
-#~ msgid "No string matched your search!"
-#~ msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
 
 #, fuzzy, python-format
 #~| msgid ""
@@ -28851,9 +29415,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Translatable words"
 #~ msgstr "Μεταφράσιμες λέξεις"
 
-#~ msgid "Number of characters"
-#~ msgstr "Αριθμός χαρακτήρων"
-
 #~ msgid "Number of source strings"
 #~ msgstr "Αριθμός κειμένων προέλευσης"
 
@@ -29109,11 +29670,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~| msgid "Publicly visible, only translatable for selected users"
 #~ msgid "Publicly visible, only translatable for chosen users"
 #~ msgstr "Δημόσια ορατό, μεταφράσιμο μόνο για επιλεγμένους χρήστες"
-
-#, fuzzy
-#~| msgid "Components"
-#~ msgid "Add a component message"
-#~ msgstr "Περιεχόμενα"
 
 #, fuzzy
 #~| msgid "Whiteboard message"
@@ -31928,9 +32484,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Avatar for %s"
 #~ msgstr "Είδωλο για «%s»"
-
-#~ msgid "First name"
-#~ msgstr "Όνομα"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

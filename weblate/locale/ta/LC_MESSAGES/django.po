@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-11-19 18:05-0600\n"
-"PO-Revision-Date: 2026-11-13 10:38+0000\n"
+"POT-Creation-Date: 2026-11-26 19:18-0600\n"
+"PO-Revision-Date: 2026-11-27 02:48+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
@@ -32,6 +32,11 @@ msgstr "ஏதுமில்லை"
 
 msgid "User avatar"
 msgstr "பயனர் அவதாரம்"
+
+#, fuzzy
+#| msgid "Too many suggestions ({count}). Please contact an administrator."
+msgid "The saved submission could not be completed. Please submit it again."
+msgstr "பல பரிந்துரைகள் ({count}). நிர்வாகியைத் தொடர்பு கொள்ளவும்."
 
 msgid "No notification"
 msgstr "அறிவிப்புகள் இல்லை"
@@ -1531,11 +1536,6 @@ msgstr "இலவச சோதனை"
 msgid "Notification diagnostics for %(user)s"
 msgstr "%(object)s களுக்கான முடக்கு அறிவிப்புகள்"
 
-#, fuzzy
-#| msgid "The source string cannot be edited."
-msgid "This user can not be edited."
-msgstr "மூல சரத்தை திருத்த முடியாது."
-
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
@@ -2363,6 +2363,18 @@ msgid ""
 msgstr ""
 "இடையி கூடுதல் meson.build மற்றும் POTFILES அல்லது POTFILES.in உடன் இடையி உரைபெறு "
 "கோப்பகத்தை எதிர்பார்க்கிறது."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Excluded source directories"
+msgstr "மூல மதிப்புரைகளை இயக்கவும்"
+
+msgid ""
+"Repository-relative directories to skip during extraction, one per line."
+msgstr ""
+
+msgid "Enter a repository-relative directory path."
+msgstr ""
 
 #, fuzzy
 #| msgid "The component has to define a POT file for new translations."
@@ -3354,6 +3366,17 @@ msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
 
+msgid "List changes at or after this ISO 8601 timestamp."
+msgstr ""
+
+msgid "List changes at or before this ISO 8601 timestamp."
+msgstr ""
+
+#, fuzzy
+#| msgid "Triggered by {username}."
+msgid "Filter by username."
+msgstr "{username} ஆல் தூண்டப்பட்டது."
+
 msgid "Allowed number of requests to perform"
 msgstr "செய்ய அனுமதிக்கப்பட்ட கோரிக்கைகள்"
 
@@ -3575,6 +3598,11 @@ msgstr "செயல்பாட்டைச் செய்யக் கூற�
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "செயல்பாட்டைச் செய்ய %(origin)s க்கான %(scope)s பூட்டைப் பெற முடியவில்லை."
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "This user can not be edited."
+msgstr "மூல சரத்தை திருத்த முடியாது."
 
 msgid "Expected an object."
 msgstr ""
@@ -5052,7 +5080,7 @@ msgstr "பட்டியலிடல் நிகழ்வு"
 
 #, fuzzy
 #| msgid "Projects without components"
-msgid "Project has no components."
+msgid "Workspace has no components."
 msgstr "கூறுகள் இல்லாத திட்டங்கள்"
 
 #, fuzzy
@@ -6271,6 +6299,14 @@ msgstr "மாறாத மொழிபெயர்ப்பு"
 msgid "Source and translation are identical."
 msgstr "மூலமும் மொழிபெயர்ப்பும் ஒரே மாதிரியானவை."
 
+msgid "Saving string failed"
+msgstr "சரம் சேமிப்பது தோல்வியடைந்தது"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid "The string could not be written to the translation file."
+msgstr "ஏற்றுக் கொள்ளப்பட்ட மொழிபெயர்ப்புகள் மட்டுமே மொழிபெயர்ப்புக் கோப்பில் எழுதப்பட்டுள்ளன."
+
 msgid "Unpluralised"
 msgstr "பயப்படாதது"
 
@@ -6457,6 +6493,11 @@ msgstr "உரைபெறு நீட்டிப்புகளுடன் �
 msgid "XLIFF 1.1"
 msgstr "ஃலிப்ப் 1.1"
 
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 1.1 (plain text)"
+msgstr "ஃலிப்ப் 1.2 மொழிபெயர்ப்பு கோப்பு"
+
 msgid "TBX"
 msgstr "டிபிஎக்ச்"
 
@@ -6497,6 +6538,11 @@ msgstr "எக்செல் ஓபன் எக்ச்எம்எல்"
 #| msgid "Could not update the repository."
 msgid "Could not open the workbook archive."
 msgstr "களஞ்சியத்தை புதுப்பிக்க முடியவில்லை."
+
+#, fuzzy
+#| msgid ".NET resource file"
+msgid "The workbook header row is empty."
+msgstr "நெட் வள கோப்பு"
 
 #, python-format
 msgid ""
@@ -6792,6 +6838,10 @@ msgid "App store metadata files"
 msgstr "ஆப் கடை மேனிலை தரவு கோப்புகள்"
 
 msgid "File validation is required for directory-based formats."
+msgstr ""
+
+#, python-format
+msgid "Workbook header exceeds the maximum width of %d columns."
 msgstr ""
 
 #, python-format
@@ -8039,6 +8089,20 @@ msgstr "கூறு மூல மொழி"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
 msgstr "திட்டம் அல்லது கூறுகளில் வரையறுக்கப்பட்ட இரண்டாம் நிலை மொழி"
+
+msgid "Rephrasing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Rephrasing (requires Pro)"
+msgstr "இசைவு மறுக்கப்பட்டது"
+
+msgid "Rephrasing requires DeepL Pro."
+msgstr ""
+
+msgid "Translation context"
+msgstr "மொழிபெயர்ப்பு சூழல்"
 
 #, fuzzy
 #| msgid "Update with rebase"
@@ -9428,21 +9492,6 @@ msgid ""
 msgstr ""
 "தானாக ஏற்றுமதி செய்யப்பட்ட அறிவிலி களஞ்சியங்களை அங்கீகரிக்க பநிஇ விசை "
 "பயன்படுத்தப்படுகிறது."
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting connections"
-msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
-
-msgid ""
-"Manage code-hosting accounts connected to workspaces you administer. These "
-"connections are separate from sign-in identities."
-msgstr ""
-
-#, fuzzy
-#| msgid "Pending invitations"
-msgid "Manage code-hosting connections"
-msgstr "நிலுவையில் உள்ள அழைப்புகள்"
 
 msgid "Pending invitation"
 msgstr "அழைப்பிதழ் நிலுவையில் உள்ளது"
@@ -10837,13 +10886,27 @@ msgstr ""
 
 #, python-format
 msgid ""
-"Resolve the issues below by %(date)s to keep Libre hosting for your project."
+"Resolve the issues below by %(date)s to keep Libre hosting for your "
+"workspace."
 msgstr ""
 
 msgid ""
 "Weblate locks existing components for translation when it issues this "
 "warning. Project maintainers can unlock them."
 msgstr ""
+
+msgid "Add a component to keep Libre hosting"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Add a project to get started"
+msgstr "பணியிடத்தில் திட்டங்களைச் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "View affected components"
+msgstr "தடைசெய்யப்பட்ட கூறு"
 
 #, fuzzy
 #| msgid "Custom"
@@ -11281,6 +11344,11 @@ msgstr "இந்த கூறுகளை நகல்"
 
 msgid "Share in projects"
 msgstr "திட்டங்களில் பங்கு"
+
+#, fuzzy
+#| msgid "Ask for Libre hosting"
+msgid "May affect Libre hosting"
+msgstr "லிப்ரே ஓச்டிங் கேளுங்கள்"
 
 msgid "dismissed"
 msgstr "தள்ளுபடி செய்யப்பட்டது"
@@ -13147,8 +13215,10 @@ msgid ""
 "projects."
 msgstr ""
 
-msgid "Your Weblate is listed on weblate.org"
-msgstr "உங்கள் வலைபெயர்ப்பு weblate.org இல் பட்டியலிடப்பட்டுள்ளது"
+msgid ""
+"Discovery is enabled. New listings appear after weblate.org verifies this "
+"instance."
+msgstr ""
 
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "உங்கள் வலைபெயர்ப்பு weblate.org இல் பட்டியலிடப்படவில்லை"
@@ -14041,6 +14111,19 @@ msgstr "மொழிபெயர்ப்பு நினைவகத்தை �
 msgid "Delete announcement"
 msgstr "அறிவிப்பை நீக்கு"
 
+msgid "Contributors"
+msgstr "பங்களிப்பாளர்கள்"
+
+#, fuzzy
+#| msgid "Contributor license agreement was removed."
+msgid "Contributor rankings are being prepared."
+msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தம் அகற்றப்பட்டது."
+
+#, fuzzy
+#| msgid "No recent contributions found."
+msgid "No contributors found."
+msgstr "அண்மைக் கால பங்களிப்புகள் எதுவும் கிடைக்கவில்லை."
+
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
@@ -14127,6 +14210,16 @@ msgstr "ஆசிரியரின் பெயர்"
 msgid "Deny"
 msgstr ""
 
+#, fuzzy
+#| msgid "First"
+msgid "First page"
+msgstr "முதல்"
+
+#, fuzzy
+#| msgid "Previous"
+msgid "Previous page"
+msgstr "முந்தைய"
+
 msgid "Click to edit position"
 msgstr "நிலையைத் திருத்த சொடுக்கு செய்க"
 
@@ -14144,6 +14237,16 @@ msgstr "குதிக்கவும்"
 #, python-format
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
+
+#, fuzzy
+#| msgid "Next"
+msgid "Next page"
+msgstr "அடுத்தது"
+
+#, fuzzy
+#| msgid "Last updated"
+msgid "Last page"
+msgstr "கடைசியாக புதுப்பிக்கப்பட்டது"
 
 msgid "Labels"
 msgstr "சிட்டைகள்"
@@ -14847,6 +14950,11 @@ msgstr "வழக்கு உணர்திறன்"
 msgid "Most active translators"
 msgstr "மிகவும் செயலில் உள்ள மொழிபெயர்ப்பாளர்கள்"
 
+#, fuzzy
+#| msgid "Contributors"
+msgid "Browse contributors"
+msgstr "பங்களிப்பாளர்கள்"
+
 msgid "Browse all users"
 msgstr "அனைத்து பயனர்களையும் உலாவுக"
 
@@ -14925,9 +15033,6 @@ msgstr "கடந்த 30 நாட்களின் போக்குகள�
 
 msgid "Quick numbers"
 msgstr "விரைவான எண்கள்"
-
-msgid "Contributors"
-msgstr "பங்களிப்பாளர்கள்"
 
 msgid "Translations"
 msgstr "மொழிபெயர்ப்புகள்"
@@ -15292,6 +15397,26 @@ msgid "Refresh results"
 msgstr "களஞ்சியங்கள்"
 
 #, fuzzy
+#| msgid "Personal info"
+msgid "Original file"
+msgstr "தனிப்பட்ட செய்தி"
+
+#, fuzzy
+#| msgid "File in original format as translated in the repository"
+msgid "File in its original format, as stored in the repository."
+msgstr "களஞ்சியத்தில் மொழிபெயர்க்கப்பட்டபடி அசல் வடிவத்தில் கோப்பு"
+
+#, fuzzy
+#| msgid ""
+#| "All strings, converted files enriched with comments; suitable for offline "
+#| "translation"
+msgid ""
+"Converted files enriched with comments; suitable for offline translation."
+msgstr ""
+"அனைத்து சரங்களும், மாற்றப்பட்ட கோப்புகள் கருத்துகளால் செறிவூட்டப்பட்டவை; இணைப்பில்லாத "
+"மொழிபெயர்ப்புக்கு ஏற்றது"
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -15499,6 +15624,23 @@ msgstr ""
 msgid "IP address copied to clipboard."
 msgstr "ஐபி முகவரி இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது."
 
+msgid "Strings"
+msgstr "சரங்கள்"
+
+#, fuzzy, python-format
+#| msgid "Number of words"
+msgid "%(number)s word"
+msgid_plural "%(number)s words"
+msgstr[0] "சொற்களின் எண்ணிக்கை"
+msgstr[1] "சொற்களின் எண்ணிக்கை"
+
+#, fuzzy, python-format
+#| msgid "Insert tab character"
+msgid "%(number)s character"
+msgid_plural "%(number)s characters"
+msgstr[0] "தாவல் எழுத்தை செருகவும்"
+msgstr[1] "தாவல் எழுத்தை செருகவும்"
+
 msgid "Suggestion added"
 msgstr "பரிந்துரை சேர்க்கப்பட்டது"
 
@@ -15566,9 +15708,6 @@ msgstr "இலக்கு சரம்"
 
 msgid "Translation status"
 msgstr "மொழிபெயர்ப்பு நிலை"
-
-msgid "Strings"
-msgstr "சரங்கள்"
 
 msgid "Words"
 msgstr "சொற்கள்"
@@ -15742,9 +15881,6 @@ msgstr "துணை நிரலை உள்ளமைக்கவும்"
 msgid "Weblate could not execute script add-on."
 msgstr "வலைபெயர்ப்பு ச்கிரிப்ட் கூடுதல் இயக்க முடியவில்லை."
 
-msgid "The following occurrences were found:"
-msgstr "பின்வரும் நிகழ்வுகள் காணப்பட்டன:"
-
 msgid "Command"
 msgstr "கட்டளை"
 
@@ -15765,6 +15901,9 @@ msgstr ""
 "இந்த மொழிக் குறியீடுகள் ஒரு மேக்ரோலாங்கேசைக் குறிக்கின்றன, மேலும் அதற்கு பதிலாக தனிப்பட்ட "
 "மொழியின் குறியீட்டைப் பயன்படுத்துவது நல்லது."
 
+msgid "The following occurrences were found:"
+msgstr "பின்வரும் நிகழ்வுகள் காணப்பட்டன:"
+
 msgid "Suggested individual language codes"
 msgstr "பரிந்துரைக்கப்பட்ட தனிப்பட்ட மொழி குறியீடுகள்"
 
@@ -15782,6 +15921,16 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+
+#, python-format
+msgid ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entry has an empty source string and context that looks like source text."
+msgid_plural ""
+"In a sample from the base file <code>%(sampled_template)s</code>, %(count)s "
+"entries have empty source strings and context that looks like source text."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
@@ -15892,6 +16041,9 @@ msgid ""
 msgstr ""
 "மேலோடை களஞ்சியம் காணப்படவில்லை. இது இருக்கிறதா மற்றும் வலைபெயர்ப்புக்கு அணுக முடியுமா "
 "என்பதை சரிபார்க்கவும்."
+
+msgid "Replace the expired SSH key in Azure DevOps"
+msgstr ""
 
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
@@ -16172,7 +16324,10 @@ msgstr "பின்வரும் கோப்புகள் இனி கள
 msgid "Template for new translations"
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான வார்ப்புரு"
 
-msgid "Weblate could not merge upstream changes while updating the repository."
+#, fuzzy
+#| msgid ""
+#| "Weblate could not merge upstream changes while updating the repository."
+msgid "Weblate could not integrate upstream changes into its local repository."
 msgstr ""
 "களஞ்சியத்தை புதுப்பிக்கும்போது வலைபெயர்ப்பு மேலோடை மாற்றங்களை ஒன்றிணைக்க முடியவில்லை."
 
@@ -16224,6 +16379,17 @@ msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr "மொழிபெயர்ப்பு கூறு ஒருமொழி போல் தெரிகிறது, ஆனால் அது அமைக்கப்படவில்லை."
 
+#, python-format
+msgid ""
+"In <code>%(example_filename)s</code>, none of the source strings contain "
+"spaces, while some translated strings do."
+msgstr ""
+
+msgid ""
+"In one of the translations, none of the source strings contain spaces, while "
+"some translated strings do."
+msgstr ""
+
 msgid "Please add a monolingual base language file in the component settings."
 msgstr "கூறு அமைப்புகளில் ஒரு ஒருமொழி அடிப்படை மொழி கோப்பைச் சேர்க்கவும்."
 
@@ -16262,12 +16428,16 @@ msgstr ""
 "கோப்பு முகமூடி <code>%(filemask)s</code> உங்கள் பதிப்பு கட்டுப்பாட்டு கணினி "
 "களஞ்சியத்தில் உள்ள கோப்புகளுடன் பொருந்துமா என்பதை சரிபார்க்கவும்."
 
-#. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #, python-format
-msgid "Only some of the %(count)s occurrence is shown."
-msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "%(count)s நிகழ்வுகளில் சில மட்டுமே காட்டப்பட்டுள்ளன."
-msgstr[1] "சில %(count)s நிகழ்வுகள் மட்டுமே காட்டப்பட்டுள்ளன."
+msgid "Showing the first %(shown)s of %(total)s occurrences."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Last occurrence"
+msgid "%(total)s occurrence found."
+msgid_plural "%(total)s occurrences found."
+msgstr[0] "கடைசி நிகழ்வு"
+msgstr[1] "கடைசி நிகழ்வு"
 
 msgid ""
 "Weblate could not parse the translation files while updating the "
@@ -16292,6 +16462,25 @@ msgstr "வலைபெயர்ப்பு மாற்றங்களை ம�
 msgid "Push the repository"
 msgstr "களஞ்சியத்தை தள்ளுங்கள்"
 
+#, python-format
+msgid ""
+"The repository has %(count)s outgoing commit compared to the tracked "
+"upstream branch."
+msgid_plural ""
+"The repository has %(count)s outgoing commits compared to the tracked "
+"upstream branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository has many changes compared to the upstream. Please "
+#| "merge the changes manually or set up push to automate this."
+msgid "Please merge the changes manually or set up push to automate this."
+msgstr ""
+"வி.சி.எச் களஞ்சியத்தில் அப்ச்ட்ரீமுடன் ஒப்பிடும்போது பல மாற்றங்கள் உள்ளன. தயவுசெய்து "
+"மாற்றங்களை கைமுறையாக ஒன்றிணைக்கவும் அல்லது இதை தானியக்கமாக்க உந்துதலை அமைக்கவும்."
+
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
@@ -16308,6 +16497,25 @@ msgstr "களஞ்சியத்தை புதுப்பிக்க ம�
 #| msgid "Push the repository"
 msgid "Reset the repository"
 msgstr "களஞ்சியத்தை தள்ளுங்கள்"
+
+#, python-format
+msgid ""
+"The local repository is missing %(count)s commit from the tracked upstream "
+"branch."
+msgid_plural ""
+"The local repository is missing %(count)s commits from the tracked upstream "
+"branch."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid ""
+#| "The VCS repository is not up to date with the upstream one. Please merge "
+#| "changes manually or set up hooks to automate this."
+msgid "Please merge changes manually or set up hooks to automate this."
+msgstr ""
+"வி.சி.எச் களஞ்சியம் மேலோடை ஒன்றுடன் புதுப்பித்த நிலையில் இல்லை. தயவுசெய்து மாற்றங்களை "
+"கைமுறையாக ஒன்றிணைக்கவும் அல்லது இதை தானியக்கமாக்குவதற்கு கொக்கிகள் அமைக்கவும்."
 
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
@@ -16343,6 +16551,19 @@ msgid_plural ""
 "The component has not received any translation within %(count)s days."
 msgstr[0] "கூறு %(count)s நாளுக்குள் எந்த மொழிபெயர்ப்பையும் பெறவில்லை."
 msgstr[1] "கூறு %(count)s நாட்களுக்குள் எந்த மொழிபெயர்ப்பையும் பெறவில்லை."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "A request for a new translation has been sent to the project's "
+#| "maintainers."
+msgid "Most recent recorded translation change was on %(date)s."
+msgstr ""
+"புதிய மொழிபெயர்ப்புக்கான கோரிக்கை திட்டத்தின் பராமரிப்பாளர்களுக்கு அனுப்பப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "The translation has been removed."
+msgid "No translation changes have been recorded."
+msgstr "மொழிபெயர்ப்பு அகற்றப்பட்டது."
 
 msgid "Please consider removing the component if it is no longer useful."
 msgstr "கூறு இனி பயனுள்ளதாக இல்லாவிட்டால் அதை அகற்றுவதைக் கவனியுங்கள்."
@@ -16536,40 +16757,13 @@ msgstr ""
 "உங்களிடம் உள்ள எந்த மொழிபெயர்ப்பு கோப்புகளையும், %(link_start)s அதை %(link_end)s "
 "கொண்ட ஒரு சுருக்கு கோப்பை உருவாக்கவும்."
 
-msgid ""
-"Pick a repository from a connected account. The component creation form will "
-"be pre-filled with the clone URL, default branch, and matching VCS driver."
+msgid "Choose a connected repository to pre-fill the component creation form."
 msgstr ""
 
 #, fuzzy
-#| msgid "Bad configuration"
-msgid "Add or configure account"
-msgstr "மோசமான உள்ளமைவு"
-
-#, fuzzy
-#| msgid "Visibility changed"
-msgid "Visibility"
-msgstr "தெரிவுநிலை மாற்றப்பட்டது"
-
-#, fuzzy
-#| msgid "Report"
-msgid "Import"
-msgstr "அறிக்கை"
-
-msgid ""
-"No repositories available yet. Connect a code-hosting account to make "
-"repositories available here."
-msgstr ""
-
-msgid ""
-"No repositories are available from connected accounts for this project "
-"workspace."
-msgstr ""
-
-msgid ""
-"Select a project with a workspace to connect an account or import "
-"repositories from an existing connection."
-msgstr ""
+#| msgid "Show components with linked repositories"
+msgid "Browse connected repositories"
+msgstr "இணைக்கப்பட்ட களஞ்சியங்களுடன் கூறுகளைக் காட்டு"
 
 msgid ""
 "You will be able to edit more options in the component settings after "
@@ -16696,45 +16890,21 @@ msgid ""
 "You can configure missing translation files manually."
 msgstr ""
 
-msgid "Typical workflow for fixing merge conflicts"
+msgid ""
+"To keep changes from both repositories, use Lock and Commit in Repository "
+"maintenance. Merge the Weblate commits into an up-to-date upstream checkout "
+"and resolve the conflicting files there. Land the merge directly or through "
+"a pull request that preserves the Weblate commits. Then use Update and "
+"Unlock in Repository maintenance."
+msgstr ""
+
+msgid "How to resolve merge conflicts"
+msgstr ""
+
+#, fuzzy
+#| msgid "Typical workflow for fixing merge conflicts"
+msgid "How to avoid merge conflicts"
 msgstr "ஒன்றிணைக்கும் மோதல்களை சரிசெய்வதற்கான வழக்கமான பணிப்பாய்வு"
-
-msgid ""
-"The exported Weblate repository can be shallow by default, so this workflow "
-"works best from an up-to-date upstream checkout. Cloning from the exported "
-"Weblate repository or using an outdated upstream checkout can fail even when "
-"Weblate and upstream are in sync. See the FAQ below for details."
-msgstr ""
-
-msgid ""
-"Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr "மேலோடை களஞ்சியத்தின் ஏற்கனவே உள்ள சரிபார்ப்பைத் திற அல்லது புதிதாக ஒன்றைச் செய்."
-
-msgid ""
-"Commit all pending changes in Weblate and lock the translation component."
-msgstr ""
-"வலைபெயர்ப்புடில் நிலுவையில் உள்ள அனைத்து மாற்றங்களையும் செய்யுங்கள் மற்றும் மொழிபெயர்ப்பு "
-"கூறுகளை பூட்டவும்."
-
-msgid "Add Weblate exported repository as a remote."
-msgstr "வலைபெயர்ப்பு ஏற்றுமதி செய்யப்பட்ட களஞ்சியத்தை தொலைதூரமாக சேர்க்கவும்."
-
-msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "வலைபெயர்ப்பு மாற்றங்களை ஒன்றிணைத்து எந்த மோதல்களையும் தீர்க்கவும்."
-
-msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "அப்ச்ட்ரீமின் மேல் வலைபெயர்ப்பு மாற்றங்களை மீளவும், எந்தவொரு மோதல்களையும் தீர்க்கவும்."
-
-msgid "Push changes into upstream repository."
-msgstr "மாற்றங்களை மேலோடை களஞ்சியத்தில் தள்ளுங்கள்."
-
-msgid ""
-"Weblate should now be able to see updated repository and you can unlock it."
-msgstr ""
-"வலைபெயர்ப்பு இப்போது புதுப்பிக்கப்பட்ட களஞ்சியத்தைக் காண முடியும், அதை நீங்கள் திறக்கலாம்."
-
-msgid "Check the FAQ for info on how to resolve this."
-msgstr "இதை எவ்வாறு தீர்ப்பது என்பது குறித்த தகவலுக்கு கேள்விகளைச் சரிபார்க்கவும்."
 
 msgid "You can use Django templates markup in the commit messages."
 msgstr "உறுதிமொழி செய்திகளில் நீங்கள் சாங்கோ வார்ப்புருக்கள் மார்க்அப்பைப் பயன்படுத்தலாம்."
@@ -16845,6 +17015,16 @@ msgid ""
 "If the selected workspace's billing plan requires public content, the "
 "project and the following restricted components will be publicly accessible "
 "after import:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Conflicting translation files"
+msgstr "தூய்மைப்படுத்தும் மொழிபெயர்ப்பு கோப்புகள்"
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check the "
+"destination languages and SIMPLIFY_LANGUAGES to preserve every translation."
 msgstr ""
 
 msgid "Token copied to clipboard."
@@ -17127,6 +17307,16 @@ msgstr "திரை காட்சி சேர்"
 msgid "String information"
 msgstr "சரம் செய்தி"
 
+#, fuzzy
+#| msgid "Target translation"
+msgid "Last translator"
+msgstr "இலக்கு மொழிபெயர்ப்பு"
+
+#, fuzzy
+#| msgid "Translation approved"
+msgid "Last approver"
+msgstr "மொழிபெயர்ப்பு அங்கீகரிக்கப்பட்டது"
+
 msgid "No explanation currently provided."
 msgstr "தற்போது எந்த விளக்கமும் வழங்கப்படவில்லை."
 
@@ -17271,23 +17461,6 @@ msgid ""
 "permission. Use a generated export below for offline translation."
 msgstr ""
 
-msgid "File in original format as translated in the repository"
-msgstr "களஞ்சியத்தில் மொழிபெயர்க்கப்பட்டபடி அசல் வடிவத்தில் கோப்பு"
-
-msgid ""
-"All strings, converted files enriched with comments; suitable for offline "
-"translation"
-msgstr ""
-"அனைத்து சரங்களும், மாற்றப்பட்ட கோப்புகள் கருத்துகளால் செறிவூட்டப்பட்டவை; இணைப்பில்லாத "
-"மொழிபெயர்ப்புக்கு ஏற்றது"
-
-msgid ""
-"Unfinished strings, converted files enriched with comments; suitable for "
-"offline translation"
-msgstr ""
-"முடிக்கப்படாத சரங்கள், மாற்றப்பட்ட கோப்புகள் கருத்துகளால் செறிவூட்டப்பட்டவை; இணைப்பில்லாத "
-"மொழிபெயர்ப்புக்கு ஏற்றது"
-
 msgid "The uploaded file will be merged with the current translation."
 msgstr "பதிவேற்றிய கோப்பு தற்போதைய மொழிபெயர்ப்புடன் இணைக்கப்படும்."
 
@@ -17303,78 +17476,6 @@ msgid ""
 "deletion."
 msgstr ""
 "செய்தி மொழிபெயர்ப்பு பக்கத்தில், கொடுக்கப்பட்ட காலாவதி அல்லது நீக்குதல் வரை காட்டப்பட்டுள்ளது."
-
-msgid ""
-"You do not manage any workspaces. VCS accounts can be connected only to "
-"workspaces you manage."
-msgstr ""
-
-msgid ""
-"No code-hosting connections are available. A site administrator needs to "
-"register a code-hosting app first."
-msgstr ""
-
-#, python-format
-msgid ""
-"Connect code-hosting accounts to %(workspace)s. These accounts can then be "
-"used when creating components from version control."
-msgstr ""
-
-msgid ""
-"Connect code-hosting accounts to workspaces you manage. These accounts can "
-"then be used when creating components from version control."
-msgstr ""
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting app"
-msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
-
-#, fuzzy
-#| msgid "Not yet measured"
-msgid "Not registered"
-msgstr "இன்னும் அளவிடப்படவில்லை"
-
-#, python-format
-msgid ""
-"Code-hosting app credentials are not registered for %(hostname)s. Existing "
-"connected accounts can be removed, but new accounts cannot be connected "
-"until a site administrator registers the app again."
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connect accounts"
-msgstr "கணக்கை அகற்று"
-
-msgid "Connect GitHub account"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "Connected accounts"
-msgstr "கணக்கை அகற்று"
-
-#, fuzzy
-#| msgid "Provider"
-msgid "Provider ID"
-msgstr "வழங்குநர்"
-
-msgid "Repositories"
-msgstr "களஞ்சியங்கள்"
-
-msgid "Refresh"
-msgstr ""
-
-#, fuzzy
-#| msgid "Remove account"
-msgid "No connected accounts yet."
-msgstr "கணக்கை அகற்று"
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Code-hosting integrations"
-msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
@@ -17406,11 +17507,6 @@ msgstr "இந்த கணக்கை நீக்கு"
 msgid "Refresh repositories"
 msgstr "களஞ்சியங்கள்"
 
-#, fuzzy
-#| msgid "Restricted component"
-msgid "Migrate selected components"
-msgstr "தடைசெய்யப்பட்ட கூறு"
-
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
@@ -17431,6 +17527,18 @@ msgstr ""
 msgid "Migration status"
 msgstr "மொழிபெயர்ப்பு நிலை"
 
+#, fuzzy, python-format
+#| msgid "New alert on %(component)s"
+msgid "Select %(component)s"
+msgstr "%(component)s பற்றிய புதிய எச்சரிக்கை"
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "GitHub star"
+#| msgid_plural "GitHub stars"
+msgid "Using GitHub App"
+msgstr "அறிவிலிமையம் விண்மீன்"
+
 #, fuzzy
 #| msgid "Read-only"
 msgid "Ready"
@@ -17441,8 +17549,18 @@ msgstr "படிக்க மட்டும்"
 msgid "Repository access needed"
 msgstr "களஞ்சியம் மீண்டும் செய்யப்பட்டது"
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Migrate selected components"
+msgstr "தடைசெய்யப்பட்ட கூறு"
+
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting connections"
+msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
 
 #, fuzzy
 #| msgid "Register in Weblate"
@@ -17513,11 +17631,128 @@ msgstr "குழு பெயர்"
 msgid "Continue to %(host)s"
 msgstr "%(return_target)s தொடரவும்"
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Migrate eligible components"
+msgstr "தடைசெய்யப்பட்ட கூறு"
+
+#, python-format
+msgid ""
+"More than %(batch_size)s candidate components were found. Review migration "
+"in each connected workspace."
+msgstr ""
+
+msgid ""
+"The components below will use the GitHub App. Their repository URLs will be "
+"replaced with canonical HTTPS URLs, and separate push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"This batch contains %(batch_size)s components. Return here after migrating "
+"them to review the next batch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Migrate these components"
+msgstr "தடைசெய்யப்பட்ட கூறு"
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "No components are ready to migrate."
+msgstr "அகற்றுவதற்கான கூறு"
+
+#, fuzzy
+#| msgid "Back to account settings"
+msgid "Back to connections"
+msgstr "கணக்கு அமைப்புகளுக்குத் திரும்பு"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected accounts"
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Provider"
+msgid "Provider ID"
+msgstr "வழங்குநர்"
+
+msgid "Repositories"
+msgstr "களஞ்சியங்கள்"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No connected accounts yet."
+msgstr "கணக்கை அகற்று"
+
+msgid "Create a workspace before connecting a GitHub account."
+msgstr ""
+
+msgid ""
+"A site administrator needs to register a GitHub App for this host before an "
+"account can be connected."
+msgstr ""
+
+#, python-format
+msgid "Choose a workspace to connect on %(hostname)s"
+msgstr ""
+
+msgid "Connect GitHub account"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Delete this account"
+msgid "Connect a GitHub account to %(workspace)s"
+msgstr "இந்த கணக்கை நீக்கு"
+
+msgid ""
+"Choose an existing installation to give this workspace access to its "
+"selected repositories."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Install on another GitHub account"
+msgstr "இந்த கணக்கை நீக்கு"
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Accounts from workspaces you own"
+msgstr "பரம்பரை கொடிகள்"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Other accounts"
+msgstr "பிற கூறுகள்"
+
 msgid ""
 "GitHub only shows accounts where your GitHub user can install or request "
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please complete the registration to accept the invitation."
+msgid ""
+"GitHub rejected the authorization code. Authorize again to finish connecting "
+"this installation."
+msgstr "அழைப்பை ஏற்க பதிவை முடிக்கவும்."
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authorize again"
+msgstr "அங்கீகார"
+
+msgid ""
+"Choose the workspace that should have access to this installation’s "
+"repositories, then authorize Weblate on GitHub."
+msgstr ""
+
+#, fuzzy
+#| msgid "Continue"
+msgid "Authorize on GitHub"
+msgstr "தொடரவும்"
 
 #, fuzzy
 #| msgctxt "Label on donate page"
@@ -17539,6 +17774,11 @@ msgstr "%(project_name)s க்கு அழைப்பு"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Add or configure account"
+msgstr "மோசமான உள்ளமைவு"
 
 #, python-format
 msgid ""
@@ -17564,6 +17804,16 @@ msgstr "களஞ்சியம் காலாவதியானது."
 msgid "Available Repositories"
 msgstr "களஞ்சியங்கள்"
 
+#, fuzzy
+#| msgid "Visibility changed"
+msgid "Visibility"
+msgstr "தெரிவுநிலை மாற்றப்பட்டது"
+
+#, fuzzy
+#| msgid "Report"
+msgid "Import"
+msgstr "அறிக்கை"
+
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
@@ -17585,6 +17835,11 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+
+#, fuzzy
+#| msgid "No authenticator apps registered yet."
+msgid "No code-hosting app is registered yet."
+msgstr "அங்கீகார பயன்பாடுகள் இதுவரை பதிவு செய்யப்படவில்லை."
 
 #, fuzzy
 #| msgid "Remove"
@@ -17613,10 +17868,22 @@ msgid ""
 "if you no longer need it."
 msgstr ""
 
-msgid ""
-"No connected accounts yet. Use the button above to connect an organization "
-"or user account."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove account"
+msgid "One connected account"
+msgid_plural "%(count)s connected accounts"
+msgstr[0] "கணக்கை அகற்று"
+msgstr[1] "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "View connections"
+msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
+
+#, fuzzy
+#| msgid "View all alerts"
+msgid "View all connections"
+msgstr "எல்லா விழிப்பூட்டல்களையும் காண்க"
 
 #, fuzzy
 #| msgid "Remove account"
@@ -17627,6 +17894,19 @@ msgstr "கணக்கை அகற்று"
 #| msgid "Remove account"
 msgid "Import from connected account"
 msgstr "கணக்கை அகற்று"
+
+msgid ""
+"Select a project with a workspace before connecting an account. Code-hosting "
+"accounts are connected to workspaces."
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Repositories from these accounts"
+msgstr "எனது கணக்கை அகற்று"
 
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
@@ -17640,9 +17920,7 @@ msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 
-msgid ""
-"Select a project with a workspace before connecting an account. Code-hosting "
-"accounts are connected to workspaces."
+msgid "Ask a workspace owner to connect a GitHub account."
 msgstr ""
 
 #, fuzzy
@@ -17654,6 +17932,96 @@ msgstr "இந்த வலைபெயர்ப்பு நிகழ்வி�
 #| msgid "Push the repository"
 msgid "Try refreshing the repository list."
 msgstr "களஞ்சியத்தை தள்ளுங்கள்"
+
+#, fuzzy, python-format
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App on %(host)s"
+msgstr "வலைபெயர்ப்பு நிலை"
+
+msgid ""
+"Connect accounts and review components as a site administrator, or leave "
+"these steps to the project administrators. Connecting an account requires "
+"workspace management rights."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Find projects and workspaces"
+msgstr "பணியிடத்தில் திட்டங்களைச் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "Projects moved to these workspaces:"
+msgstr "இந்தக் கூறு ஏற்கனவே %s இல் பகிரப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Projects without a workspace"
+msgstr "பணியிடத்தில் திட்டங்களைச் சேர்க்கவும்"
+
+msgid "Workspace creation on this site is managed through billing."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to create terminology."
+msgid "You do not have permission to create workspaces."
+msgstr "சொற்களை உருவாக்க உங்களுக்கு இசைவு இல்லை."
+
+msgid ""
+"Project administrators become owners of their own project's new workspace. "
+"If you choose a shared workspace, you can delegate ownership after creating "
+"it. Owners can manage all GitHub connections in their workspace."
+msgstr ""
+
+#, fuzzy
+#| msgid "All protected projects"
+msgid "Move selected projects"
+msgstr "அனைத்து பாதுகாக்கப்பட்ட திட்டங்களும்"
+
+#, fuzzy
+#| msgid "Fetching VCS repository from %s is not allowed."
+msgid "No projects without a workspace match your search."
+msgstr "%s இலிருந்து பகஅ களஞ்சியத்தைப் பெறுவது அனுமதிக்கப்படாது."
+
+#, fuzzy
+#| msgid "Revoke administration"
+msgid "Workspaces without a connection"
+msgstr "நிர்வாகத்தை ரத்து செய்யுங்கள்"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No unconnected workspaces match your search."
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Connected workspaces"
+msgstr "வலைபெயர்ப்பு விசைகள்"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Review component migration"
+msgstr "கூறு உருவாக்கவும்"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect another account"
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "No connected workspaces match your search."
+msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Migrate all eligible components across workspaces"
+msgstr "தற்போதைய திட்டத்தில் உள்ள அனைத்து கூறுகளும்"
+
+#, fuzzy
+#| msgid "Pending invitations"
+msgid "Choose a workspace for code-hosting connections"
+msgstr "நிலுவையில் உள்ள அழைப்புகள்"
 
 #, fuzzy
 #| msgid "Remove my account"
@@ -17685,6 +18053,46 @@ msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
 msgstr[0] "%(count)s கருத்து"
 msgstr[1] "%(count)s கருத்துக்கள்"
+
+#, fuzzy
+#| msgid "Add new user"
+msgid "Find a workspace"
+msgstr "புதிய பயனரைச் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "No invoices found."
+msgid "No workspaces match your search."
+msgstr "விலைப்பட்டியல் எதுவும் கிடைக்கவில்லை."
+
+msgid "A site administrator needs to register a code-hosting app first."
+msgstr ""
+
+msgid ""
+"Use connected accounts to import repositories and migrate existing "
+"components."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Migrate all eligible components"
+msgstr "தடைசெய்யப்பட்ட கூறு"
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting app"
+msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
+
+#, fuzzy
+#| msgid "Not yet measured"
+msgid "Not registered"
+msgstr "இன்னும் அளவிடப்படவில்லை"
+
+#, python-format
+msgid ""
+"Code-hosting app credentials are not registered for %(hostname)s. Existing "
+"connected accounts can be removed, but new accounts cannot be connected "
+"until a site administrator registers the app again."
+msgstr ""
 
 msgid "Invitations"
 msgstr "அழைப்பிதழ்கள்"
@@ -18335,9 +18743,6 @@ msgstr "வகை நகர்த்தப்பட்டது"
 #| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
 msgstr "வலைபெயர்ப்பு ச்கிரிப்ட் கூடுதல் இயக்க முடியவில்லை."
-
-msgid "Saving string failed"
-msgstr "சரம் சேமிப்பது தோல்வியடைந்தது"
 
 #, fuzzy
 #| msgid "Source string added in the repository"
@@ -19049,6 +19454,25 @@ msgstr "பதிவேற்றிய கோப்பு மிகவும் 
 msgid "Could not validate screenshot: %(error)s"
 msgstr "ச்கிரீன்சாட்டை மீட்டெடுக்க முடியவில்லை %(name)s: %(error)s"
 
+#, fuzzy, python-format
+#| msgid "Add the string to the source language instead."
+msgid "Multiple files resolve to the source language %(language)s."
+msgstr "அதற்கு பதிலாக மூல மொழியில் சரத்தை சேர்க்கவும்."
+
+#, python-format
+msgid ""
+"Cannot determine which file the component will scan first for %(language)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(component)s: %(kept_code)s (%(kept_filename)s) and %(code)s (%(filename)s) "
+"resolve to %(language)s. Keeping %(kept_filename)s omits %(filename)s from "
+"Weblate (units: %(units)d, comments: %(comments)d, suggestions: "
+"%(suggestions)d, votes: %(votes)d, checks: %(checks)d, pending edits: "
+"%(pending)d, screenshots: %(screenshots)d)."
+msgstr ""
+
 #, fuzzy
 #| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
@@ -19070,6 +19494,14 @@ msgid "Repository data does not belong to a restored component."
 msgstr "வகை தேர்ந்தெடுக்கப்பட்ட திட்டத்திற்கு சொந்தமானது அல்ல."
 
 msgid "Repository-linked components can not contain repository data."
+msgstr ""
+
+msgid ""
+"Multiple backup languages resolve to one destination language. Check "
+"SIMPLIFY_LANGUAGES."
+msgstr ""
+
+msgid "Check the destination language definitions and SIMPLIFY_LANGUAGES."
 msgstr ""
 
 #, fuzzy
@@ -19103,6 +19535,12 @@ msgstr ""
 
 #, python-format
 msgid ""
+"Authorship for %(username)s was skipped because the local account conflicts "
+"with the internal bot definition."
+msgstr ""
+
+#, python-format
+msgid ""
 "Parameter %(parameter)s in %(family)s of %(component)s was skipped because "
 "it is unknown."
 msgstr ""
@@ -19121,10 +19559,26 @@ msgstr "பதிப்பு கட்டுப்பாட்டு அமை�
 msgid "File format parameters"
 msgstr "கோப்பு வடிவ அளவுருக்கள்"
 
+#, python-format
+msgid ""
+"No compatible plural rule for language %(language)s and plural source "
+"%(source)s."
+msgstr ""
+
+msgid ""
+"Repository scan order does not match the duplicate translations in the "
+"preview."
+msgstr ""
+
 #, fuzzy
 #| msgid "This string seems to already exist."
 msgid "The project repository directory already exists."
 msgstr "இந்த சரம் ஏற்கனவே இருப்பதாக தெரிகிறது."
+
+#, fuzzy
+#| msgid "Remove selected translation memory entries"
+msgid "Review the duplicate translations before importing."
+msgstr "தேர்ந்தெடுக்கப்பட்ட மொழிபெயர்ப்பு நினைவக உள்ளீடுகளை அகற்றவும்"
 
 #, fuzzy
 #| msgid "Invalid search query!"
@@ -19912,8 +20366,19 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "சரத்தின் பொருள் அல்லது பயன்பாட்டை தெளிவுபடுத்த கூடுதல் விளக்கம்."
 
+msgid "To propose an explanation change, leave a comment."
+msgstr ""
+
 msgid "Source string explanation"
 msgstr "மூல சரம் விளக்கம்"
+
+msgid ""
+"Suggestions can only change the translation. To suggest a translation, "
+"restore the original explanation."
+msgstr ""
+
+msgid "To save the explanation directly, use Save and stay."
+msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "இதற்கிடையில் மூல சரம் மாறிவிட்டது. உங்கள் மாற்றங்களைச் சரிபார்க்கவும்."
@@ -20367,6 +20832,21 @@ msgstr ""
 #| msgid "No matching strings found."
 msgid "No matching workspace found."
 msgstr "பொருந்தக்கூடிய சரங்கள் எதுவும் காணப்படவில்லை."
+
+#, fuzzy
+#| msgid "Duplicated translation."
+msgid "Skip duplicate target translations"
+msgstr "நகல் மொழிபெயர்ப்பு."
+
+msgid ""
+"The repository files are preserved. Weblate data listed for the skipped "
+"translations will be omitted."
+msgstr ""
+
+msgid ""
+"The conflicting translations changed. Reload this page to review the updated "
+"preview."
+msgstr ""
 
 msgid "ZIP file containing project backup"
 msgstr "திட்ட காப்புப்பிரதி கொண்ட சுருக்கு கோப்பு"
@@ -21022,11 +21502,6 @@ msgstr "சிப் பதிவேற்றம் வழியாக உரு
 
 msgid "Component created via document upload"
 msgstr "ஆவண பதிவேற்றம் வழியாக உருவாக்கப்பட்ட கூறு"
-
-#. Translators: condensed rendering of a change action in history
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(user)s பொழுதில் %(time)s அன்று %(translation)s ஆல் %(action)s"
 
 msgctxt "Change origin badge"
 msgid "API"
@@ -23551,6 +24026,12 @@ msgstr "பரிந்துரைகளை ஏற்க உங்களுக�
 msgid "You do not have permission to add projects to the target workspace."
 msgstr "திட்ட அணுகல் கட்டுப்பாட்டை மாற்ற உங்களுக்கு இசைவு இல்லை."
 
+#, python-format
+msgid ""
+"ADMINS entry %(index)d is not a valid SMTP recipient. Use a plain e-mail "
+"address or quote the display name."
+msgstr ""
+
 msgid "Borg completed with warnings without any output."
 msgstr ""
 
@@ -24749,6 +25230,20 @@ msgstr ""
 msgid "Repository has an interrupted Git %(operation)s operation."
 msgstr ""
 
+msgid ""
+"The Git checkout changed during the update. Check the active branch and "
+"retry."
+msgstr ""
+
+#, python-format
+msgid ""
+"The Git checkout has tracked changes. Commit or restore these paths before "
+"updating: %(paths)s"
+msgstr ""
+
+msgid "Resolve the interrupted Git update before creating a project backup."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "Could not obtain the lock to perform the operation."
 msgid "Could not recover interrupted Git %(operation)s operation."
@@ -24885,6 +25380,40 @@ msgstr "அகற்றுவதற்கான கூறு"
 #| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
 msgstr "நகலெடுக்க ஏற்கனவே உள்ள கூறு உள்ளமைவைத் தேர்ந்தெடுக்கவும்."
+
+#, fuzzy
+#| msgid "Project to remove"
+msgid "Projects to move"
+msgstr "அகற்ற திட்டம்"
+
+#, fuzzy
+#| msgid "Weblate keys"
+msgid "Create workspaces"
+msgstr "வலைபெயர்ப்பு விசைகள்"
+
+#, fuzzy
+#| msgid "Add new projects"
+msgid "One workspace per project"
+msgstr "புதிய திட்டங்களைச் சேர்"
+
+#, fuzzy
+#| msgid "Manage users"
+msgid "One shared workspace"
+msgstr "பயனர்களை நிர்வகி"
+
+#, fuzzy
+#| msgid "Workspace name"
+msgid "Shared workspace name"
+msgstr "பணியிடத்தின் பெயர்"
+
+msgid "Required when creating a shared workspace."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Google Cloud Translation configuration"
+#| msgid "Enter a JSON key for the service account."
+msgid "Enter a name for the shared workspace."
+msgstr "பணி கணக்கிற்கு சாதொபொகு விசையை உள்ளிடவும்."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -25348,8 +25877,10 @@ msgstr ""
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
 
-msgid "Connected GitHub account updated."
-msgstr ""
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "GitHub did not return a valid installation ID."
+msgstr "பதிவை முடிக்க முடியவில்லை."
 
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
@@ -25357,24 +25888,31 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#| msgid "You do not have permission to accept suggestions."
-msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
-
-#, fuzzy
-#| msgid "Could not complete registration."
-msgid "GitHub did not return a valid installation ID."
-msgstr "பதிவை முடிக்க முடியவில்லை."
-
-msgid ""
-"Too many GitHub account connection attempts. The GitHub installation was not "
-"connected and might still be pending. Try connecting the account again later."
+#| msgid ""
+#| "Weblate could not parse the translation files while updating the "
+#| "translations."
+msgid "Weblate could not verify the installation with GitHub. Try again later."
 msgstr ""
+"மொழிபெயர்ப்புகளைப் புதுப்பிக்கும்போது வலைபெயர்ப்பு மொழிபெயர்ப்பு கோப்புகளை அலச "
+"முடியவில்லை."
 
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
+msgstr ""
+
+msgid "Connected GitHub account updated."
+msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to connect GitHub to this workspace."
+msgstr "பரிந்துரைகளை ஏற்க உங்களுக்கு இசைவு இல்லை."
+
+msgid ""
+"Too many GitHub account connection attempts. The GitHub installation was not "
+"connected and might still be pending. Try connecting the account again later."
 msgstr ""
 
 msgid ""
@@ -25391,25 +25929,42 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr ""
 
+msgid "The project selection changed. Select the projects again."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not restore screenshot %(name)s: %(error)s"
+msgid "Could not move projects to %(workspace)s: %(error)s"
+msgstr "ச்கிரீன்சாட்டை மீட்டெடுக்க முடியவில்லை %(name)s: %(error)s"
+
+#, fuzzy
+#| msgid "Could not complete registration."
+msgid "Could not lock a component for migration."
+msgstr "பதிவை முடிக்க முடியவில்லை."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "%(component)s: %(error_text)s தள்ள முடியவில்லை"
+
 #, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
 msgstr[0] ""
 msgstr[1] ""
 
-#, python-format
-msgid ""
-"One component was not migrated because its repository is no longer available."
-msgid_plural ""
-"%(count)d components were not migrated because their repositories are no "
-"longer available."
-msgstr[0] ""
-msgstr[1] ""
-
 #, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
-msgid "Could not migrate %(component)s: %(error)s"
-msgstr "%(component)s: %(error_text)s தள்ள முடியவில்லை"
+#| msgid "All components are now locked for translation updates!"
+msgid "One component was no longer eligible for migration."
+msgid_plural "%(count)d components were no longer eligible for migration."
+msgstr[0] "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு பூட்டப்பட்டுள்ளன!"
+msgstr[1] "அனைத்து கூறுகளும் இப்போது மொழிபெயர்ப்பு புதுப்பிப்புகளுக்கு பூட்டப்பட்டுள்ளன!"
+
+msgid "The migration preview has expired. Open it again to continue."
+msgstr ""
+
+msgid "Some components in this preview are no longer eligible for migration."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -25738,18 +26293,13 @@ msgstr "%(date)s இல் இணைந்தன"
 msgid "%(filename)s — %(report)s"
 msgstr "%(filename)s, சரம் %(position)s"
 
-msgid ""
-"Your identity verification has expired. Confirm your identity, then select "
-"and upload the CSV report again."
+msgid "Choose a CSV report of at most 10 MiB."
 msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
 msgid "Could not store the encrypted upload. Try again."
 msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
-
-msgid "Choose a CSV report of at most 10 MiB."
-msgstr ""
 
 #, fuzzy
 #| msgid "Could not open a ticket, please try again later."
@@ -26067,6 +26617,69 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
+#~ msgid "Your Weblate is listed on weblate.org"
+#~ msgstr "உங்கள் வலைபெயர்ப்பு weblate.org இல் பட்டியலிடப்பட்டுள்ளது"
+
+#, python-format
+#~ msgid "Only some of the %(count)s occurrence is shown."
+#~ msgid_plural "Only some of the %(count)s occurrences are shown."
+#~ msgstr[0] "%(count)s நிகழ்வுகளில் சில மட்டுமே காட்டப்பட்டுள்ளன."
+#~ msgstr[1] "சில %(count)s நிகழ்வுகள் மட்டுமே காட்டப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Open an existing checkout of the upstream repository or perform a fresh "
+#~ "one."
+#~ msgstr ""
+#~ "மேலோடை களஞ்சியத்தின் ஏற்கனவே உள்ள சரிபார்ப்பைத் திற அல்லது புதிதாக ஒன்றைச் செய்."
+
+#~ msgid ""
+#~ "Commit all pending changes in Weblate and lock the translation component."
+#~ msgstr ""
+#~ "வலைபெயர்ப்புடில் நிலுவையில் உள்ள அனைத்து மாற்றங்களையும் செய்யுங்கள் மற்றும் மொழிபெயர்ப்பு "
+#~ "கூறுகளை பூட்டவும்."
+
+#~ msgid "Add Weblate exported repository as a remote."
+#~ msgstr "வலைபெயர்ப்பு ஏற்றுமதி செய்யப்பட்ட களஞ்சியத்தை தொலைதூரமாக சேர்க்கவும்."
+
+#~ msgid "Merge Weblate changes and resolve any conflicts."
+#~ msgstr "வலைபெயர்ப்பு மாற்றங்களை ஒன்றிணைத்து எந்த மோதல்களையும் தீர்க்கவும்."
+
+#~ msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
+#~ msgstr "அப்ச்ட்ரீமின் மேல் வலைபெயர்ப்பு மாற்றங்களை மீளவும், எந்தவொரு மோதல்களையும் தீர்க்கவும்."
+
+#~ msgid "Push changes into upstream repository."
+#~ msgstr "மாற்றங்களை மேலோடை களஞ்சியத்தில் தள்ளுங்கள்."
+
+#~ msgid ""
+#~ "Weblate should now be able to see updated repository and you can unlock "
+#~ "it."
+#~ msgstr ""
+#~ "வலைபெயர்ப்பு இப்போது புதுப்பிக்கப்பட்ட களஞ்சியத்தைக் காண முடியும், அதை நீங்கள் திறக்கலாம்."
+
+#~ msgid "Check the FAQ for info on how to resolve this."
+#~ msgstr "இதை எவ்வாறு தீர்ப்பது என்பது குறித்த தகவலுக்கு கேள்விகளைச் சரிபார்க்கவும்."
+
+#~ msgid ""
+#~ "Unfinished strings, converted files enriched with comments; suitable for "
+#~ "offline translation"
+#~ msgstr ""
+#~ "முடிக்கப்படாத சரங்கள், மாற்றப்பட்ட கோப்புகள் கருத்துகளால் செறிவூட்டப்பட்டவை; இணைப்பில்லாத "
+#~ "மொழிபெயர்ப்புக்கு ஏற்றது"
+
+#, fuzzy
+#~| msgid "Remove account"
+#~ msgid "Connect accounts"
+#~ msgstr "கணக்கை அகற்று"
+
+#, fuzzy
+#~| msgid "Hosting translations"
+#~ msgid "Code-hosting integrations"
+#~ msgstr "ஓச்டிங் மொழிபெயர்ப்புகள்"
+
+#, python-format
+#~ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+#~ msgstr "%(user)s பொழுதில் %(time)s அன்று %(translation)s ஆல் %(action)s"
+
 #, python-format
 #~ msgid "Browse glossary %(name)s"
 #~ msgstr "குளோசரி %(name)s உலாவுக"
@@ -26171,11 +26784,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "Manage machinery"
 #~ msgstr "இயந்திரங்களை நிர்வகி"
-
-#, fuzzy
-#~| msgid "Create component"
-#~ msgid "Preview component ID"
-#~ msgstr "கூறு உருவாக்கவும்"
 
 #, fuzzy
 #~| msgid "Recent changes"
@@ -26402,11 +27010,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "பிற கூறுகள்"
-
-#, fuzzy
-#~| msgid "Permission Denied"
-#~ msgid "Permission required on:"
-#~ msgstr "இசைவு மறுக்கப்பட்டது"
 
 #~ msgid ""
 #~ "While Weblate remains free for all users, its development requires "
@@ -26755,13 +27358,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgstr "சோதனை சென்ட்ரி ஒருங்கிணைப்பு"
 
 #, fuzzy
-#~| msgctxt "Label on donate page"
-#~| msgid "GitHub star"
-#~| msgid_plural "GitHub stars"
-#~ msgid "GitHub App"
-#~ msgstr "அறிவிலிமையம் விண்மீன்"
-
-#, fuzzy
 #~| msgid "Invitations"
 #~ msgid "VCS Installations"
 #~ msgstr "அழைப்பிதழ்கள்"
@@ -26882,9 +27478,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "Return to the component"
 #~ msgstr "கூறுக்கு திரும்பவும்"
-
-#~ msgid "View all alerts"
-#~ msgstr "எல்லா விழிப்பூட்டல்களையும் காண்க"
 
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
