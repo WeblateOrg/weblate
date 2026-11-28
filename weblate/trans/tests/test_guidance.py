@@ -23,7 +23,7 @@ from django.utils.functional import cached_property
 from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.addons.gettext import XgettextAddon
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.tasks import check_unused_screenshots
 from weblate.trans.actions import ActionEvents
@@ -423,6 +423,24 @@ class ExtractorGuidanceAlertTest(ReusableViewTestCase):
 
         self.project.add_user(self.user, "Administration")
         self.assert_repository_error_notifications_alert(False)
+
+    def test_repository_error_notifications_query_count(self) -> None:
+        for index in range(5):
+            user = User.objects.create_user(
+                f"watcher{index}", f"watcher{index}@example.org", "x"
+            )
+            user.profile.watched.add(self.project)
+            for notification in ("NewAlertNotificaton", "MergeFailureNotification"):
+                user.subscription_set.create(
+                    notification=notification,
+                    scope=NotificationScope.SCOPE_WATCHED,
+                    frequency=NotificationFrequency.FREQ_INSTANT,
+                )
+        component = self.project.component_set.get(pk=self.component.pk)
+
+        # The number of queries must not grow with subscribers who cannot act
+        with self.assertNumQueries(9):
+            self.assertFalse(MissingRepositoryErrorNotifications.is_passing(component))
 
     def mute_repository_error_notifications(self, component: Component) -> None:
         for notification in ("NewAlertNotificaton", "MergeFailureNotification"):

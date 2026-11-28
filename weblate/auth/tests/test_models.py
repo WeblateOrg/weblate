@@ -429,6 +429,29 @@ class ModelTest(FixtureComponentTestCase):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
 
+    def test_prefetch_permissions(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Administration"))
+        blocked = User.objects.create_user("blocked", "blocked@example.org", "x")
+        outsider = User.objects.create_user("outsider", "outsider@example.org", "x")
+        self.user.groups.add(self.group)
+        blocked.groups.add(self.group)
+        UserBlock.objects.create(user=blocked, project=self.project)
+
+        users = {
+            user.username: user
+            for user in User.objects.filter(
+                pk__in=[self.user.pk, blocked.pk, outsider.pk]
+            )
+        }
+        with self.assertNumQueries(5):
+            User.objects.prefetch_permissions(users.values())
+        with self.assertNumQueries(0):
+            self.assertTrue(
+                users[self.user.username].has_perm("project.edit", self.project)
+            )
+            self.assertFalse(users["blocked"].has_perm("project.edit", self.project))
+            self.assertFalse(users["outsider"].can_access_project(self.project))
+
     def test_cached_memberships_are_materialized(self) -> None:
         self.group.projects.remove(self.project)
         power_user = Role.objects.get(name="Power user")

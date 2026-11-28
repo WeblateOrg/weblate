@@ -5,12 +5,14 @@
 from __future__ import annotations
 
 import os
+from collections import defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
@@ -24,6 +26,8 @@ from weblate.trans.alerts.vcs import MergeFailure
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.notifications import Notification
@@ -228,38 +232,59 @@ class MissingRepositoryErrorNotifications(ChecklistAlert):
     @classmethod
     def is_passing(cls, component: Component) -> bool:
         # Notifications import models, which import the alert registry.
-        from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.notifications import (
             MergeFailureNotification,
             NewAlertNotificaton,
         )
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         # Repository failure alerts are also raised on linked components, and
         # their subscribers are notified there when they miss the main one.
         alert_targets = [component, *component.linked_children]
-        return cls.has_subscriber(
-            NewAlertNotificaton([]), alert_targets
-        ) or cls.has_subscriber(MergeFailureNotification([]), [component])
+        candidates: defaultdict[int, list[tuple[Notification, Component]]] = (
+            defaultdict(list)
+        )
+        for handler, targets in (
+            (NewAlertNotificaton([]), alert_targets),
+            (MergeFailureNotification([]), [component]),
+        ):
+            for user_id, target in cls.get_subscribers(handler, targets):
+                candidates[user_id].append((handler, target))
+
+        # Load the users once so that both notifications share cached permissions
+        users = list(User.objects.filter(pk__in=candidates))
+        User.objects.prefetch_permissions(users)
+        return any(
+            handler.can_access_target(user, target.project, target)
+            and MergeFailure.can_user_act_for(user, target, {})
+            for user in users
+            for handler, target in candidates[user.pk]
+        )
 
     @staticmethod
-    def has_subscriber(handler: Notification, targets: list[Component]) -> bool:
+    def get_subscribers(
+        handler: Notification, targets: list[Component]
+    ) -> Iterator[tuple[int, Component]]:
+        """Yield IDs of users subscribed to the notification for each target."""
+        project_targets: defaultdict[int, list[Component]] = defaultdict(list)
         for target in targets:
-            last_user_id = None
-            for subscription in handler.get_scope_subscriptions(
-                None, target.project, target, None, None
-            ):
-                # Only the highest priority subscription of each user applies
-                if subscription.user_id == last_user_id:
-                    continue
-                last_user_id = subscription.user_id
-                if (
-                    subscription.frequency != NotificationFrequency.FREQ_NONE
-                    and handler.can_access_target(
-                        subscription.user, target.project, target
-                    )
-                    and MergeFailure.can_user_act_for(subscription.user, target, {})
-                ):
-                    return True
-        return False
+            project_targets[target.project_id].append(target)
+        for components in project_targets.values():
+            subscriptions = list(
+                handler.get_subscriptions_queryset(components[0].project)
+                .filter(Q(component=None) | Q(component__in=components))
+                .values_list("user_id", "component_id", "frequency")
+            )
+            for target in components:
+                seen: set[int] = set()
+                for user_id, component_id, frequency in subscriptions:
+                    if user_id in seen or component_id not in {None, target.pk}:
+                        continue
+                    # Only the highest priority subscription of each user applies
+                    seen.add(user_id)
+                    if frequency != NotificationFrequency.FREQ_NONE:
+                        yield user_id, target
 
     @classmethod
     def get_url(cls, component: Component) -> str:
