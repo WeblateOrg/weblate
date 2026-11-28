@@ -951,6 +951,8 @@ class UserManager(BaseUserManager["User"]):
         This avoids repeating the membership and block queries for each user
         when checking permissions of several of them.
         """
+        from weblate.accounts.models import Profile  # ruff: ignore[import-outside-top-level]
+
         users = list(users)
         if not users:
             return
@@ -960,6 +962,10 @@ class UserManager(BaseUserManager["User"]):
         for user in users:
             user.__dict__["cached_memberships"] = memberships[user.pk]
         prefetch_related_objects(users, "userblock_set")
+        # Permissions from teams enforcing 2FA depend on the second factors
+        enforced = [user for user in users if user.group_enforces_2fa()]
+        prefetch_related_objects(enforced, "profile")
+        Profile.prefetch_second_factors(user.profile for user in enforced)
 
 
 class UserQuerySet(models.QuerySet["User", "User"]):

@@ -1658,17 +1658,32 @@ class Profile(models.Model):
             settings.PRIVATE_COMMIT_NAME_TEMPLATE, self.user.username, self.user.pk
         )
 
-    def _get_second_factors(self) -> Iterable[Device]:
+    @staticmethod
+    def _get_second_factors(user_ids: Iterable[int]) -> Iterable[Device]:
         backend: type[Device]
         for backend in (StaticDevice, TOTPDevice, WebAuthnCredential):
-            devices = backend.objects.filter(user=self.user)
+            devices = backend.objects.filter(user_id__in=user_ids)
             if backend is TOTPDevice:
                 devices = devices.filter(confirmed=True)
             yield from devices
 
     @cached_property
     def second_factors(self) -> list[Device]:
-        return list(self._get_second_factors())
+        return list(self._get_second_factors([self.user_id]))
+
+    @classmethod
+    def prefetch_second_factors(cls, profiles: Iterable[Profile]) -> None:
+        """Prefetch second factors for multiple profiles at once."""
+        profiles = list(profiles)
+        if not profiles:
+            return
+        second_factors: dict[int, list[Device]] = {
+            profile.user_id: [] for profile in profiles
+        }
+        for device in cls._get_second_factors(second_factors):
+            second_factors[device.user_id].append(device)
+        for profile in profiles:
+            profile.__dict__["second_factors"] = second_factors[profile.user_id]
 
     @cached_property
     def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:

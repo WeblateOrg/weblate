@@ -182,7 +182,7 @@ class Notification:
     def get_subscriptions_queryset(
         self, project: Project | None, *, include_ineligible: bool = False
     ) -> QuerySet[Subscription]:
-        """Return subscriptions for a project ordered by descending priority."""
+        """Return subscriptions for a project, grouped by user in descending priority."""
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import Subscription
 
