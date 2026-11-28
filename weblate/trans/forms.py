@@ -957,8 +957,17 @@ class TranslationForm(UnitForm):
             initial_state is not None
             and self.user_can_edit
             and "suggest" not in self.data
+            and state_changed
         ):
-            unit.validate_review_state(initial_state)
+            # Allow repeated edits by the same author, matching the
+            # translationsum exemption above: when the user's own save
+            # changed the review state, tolerate the stale initial_state
+            # from a browser-cached form.
+            last_author = unit.get_last_content_change()[0]
+            if last_author == self.user:
+                self.cleaned_data["initial_state"] = unit.state
+            else:
+                unit.validate_review_state(initial_state)
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 

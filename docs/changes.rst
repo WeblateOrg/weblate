@@ -129,6 +129,7 @@ Weblate 2026.12
 
 .. rubric:: Bug fixes
 
+* Fixed a false review-state conflict when saving your own edit again after using the browser's Back button in the translation editor.
 * Generate a valid Android resource directory for Valencian by using the BCP 47 ``b+ca+valencia`` form instead of the unsupported ``values-ca@valencia``.
 * Show template validation errors when :ref:`creating a component <adding-projects>`.
 * Restored Git-tracked executable bits and empty submodule directories when importing a :ref:`project backup <projectbackup>`.

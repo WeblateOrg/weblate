@@ -2900,7 +2900,7 @@ class SeleniumTests(
         component = fixture.create_po(project=project)
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.get(source="Hello, world!\n")
-        user = self.do_login(superuser=True)
+        self.do_login(superuser=True)
         zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{zen_url}")
@@ -2932,8 +2932,11 @@ class SeleniumTests(
             unit.refresh_from_db()
             self.assertEqual(unit.target, f"{target}\n")
 
-        # A state-only change in another tab must leave the draft unsaved.
-        unit.translate(user, unit.target, STATE_FUZZY, propagate=False)
+        # A state-only change by another user must leave the draft unsaved.
+        other_user = User.objects.create_user(
+            username="other-reviewer", email="other@example.org"
+        )
+        unit.translate(other_user, unit.target, STATE_FUZZY, propagate=False)
         edit("Unsaved draft")
         WebDriverWait(self.driver, 15).until(
             lambda driver: driver.execute_script(
