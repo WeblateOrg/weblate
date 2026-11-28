@@ -7897,7 +7897,10 @@ class DiscoveryTest(ReusableViewTestCase):
     def test_creation(self) -> None:
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
-        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+        with (
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             addon = DiscoveryAddon.create(
                 acting_user=get_test_actor(self),
                 component=self.component,
@@ -7918,7 +7921,10 @@ class DiscoveryTest(ReusableViewTestCase):
         )
         self.assertTrue(history.exists())
         self.assertFalse(history.exclude(user=addon.user).exists())
-        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+        with (
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             addon.post_update(self.component, "", False, [])
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
@@ -8145,7 +8151,9 @@ class DiscoveryTest(ReusableViewTestCase):
             "The regular expression must define a named group for component. "
             "Also define a named group for language when matching translation files. "
             "When the file mask is set, omit language and match the "
-            "monolingual base or new base file instead.",
+            "monolingual base or new base file instead. "
+            "An optional category named group places newly discovered "
+            "components into that category path.",
         )
 
     def test_form_filemask_template_requires_new_base(self) -> None:

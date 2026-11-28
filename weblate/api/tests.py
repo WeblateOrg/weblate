@@ -24548,7 +24548,8 @@ class AddonAPITest(APIBaseTest):
             "remove": False,
         }
         self.assertEqual(Component.objects.all().count(), 2)
-        self.create_addon(name="weblate.discovery.discovery", configuration=initial)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.create_addon(name="weblate.discovery.discovery", configuration=initial)
 
         self.assertEqual(self.component.addon_set.get().configuration, initial)
         self.assertEqual(Component.objects.all().count(), 6)
