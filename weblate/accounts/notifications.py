@@ -179,9 +179,10 @@ class Notification:
     def get_periodic_actions(cls) -> Iterable[int]:
         return cls.actions
 
-    def filter_subscriptions(
+    def get_subscriptions_queryset(
         self, project: Project | None, *, include_ineligible: bool = False
-    ) -> list[Subscription]:
+    ) -> QuerySet[Subscription]:
+        """Return subscriptions for a project, grouped by user in descending priority."""
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import Subscription
 
@@ -208,11 +209,20 @@ class Notification:
             )
         if not include_ineligible:
             result = result.filter(user__is_bot=False, user__is_active=True)
-        return list(
+        return (
             result.filter(query)
             # The watched-project join can repeat subscriptions from other scopes.
             .distinct()
             .order_by("user", "-scope")
+        )
+
+    def filter_subscriptions(
+        self, project: Project | None, *, include_ineligible: bool = False
+    ) -> list[Subscription]:
+        return list(
+            self.get_subscriptions_queryset(
+                project, include_ineligible=include_ineligible
+            )
             .select_related("user", "user__profile")
             .prefetch_related("user__profile__languages")
         )

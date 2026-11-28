@@ -5,25 +5,32 @@
 from __future__ import annotations
 
 import os
+from collections import defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
+from weblate.accounts.data import NotificationFrequency
 from weblate.addons.models import ADDONS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertCategory, AlertSeverity, BaseAlert
 from weblate.trans.alerts.registry import register
+from weblate.trans.alerts.vcs import MergeFailure
 from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from django_stubs_ext import StrOrPromise
 
+    from weblate.accounts.notifications import Notification
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
 
@@ -201,6 +208,99 @@ class MissingPushURL(RemoteRepositoryChecklistAlert):
     @classmethod
     def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
         return get_doc_url("admin/continuous", "push-changes", user=user)
+
+
+@register
+class MissingRepositoryErrorNotifications(ChecklistAlert):
+    verbose = gettext_lazy(
+        "Nobody who can resolve repository errors receives notifications about "
+        "them. Subscribe a maintainer to repository failure notifications."
+    )
+
+    @classmethod
+    def is_relevant(cls, component: Component) -> bool:
+        # Repository errors of linked components are reported on the main one
+        return not component.is_repo_link
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        # Repository maintainers can fix this in their own notification settings
+        return MergeFailure.can_user_act_for(user, component, details)
+
+    @classmethod
+    def is_passing(cls, component: Component) -> bool:
+        # Notifications import models, which import the alert registry.
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.notifications import (
+            MergeFailureNotification,
+            NewAlertNotificaton,
+        )
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+        # Repository failure alerts are also raised on linked components, and
+        # their subscribers are notified there when they miss the main one.
+        alert_targets = [component, *component.linked_children]
+        candidates: defaultdict[int, list[tuple[Notification, Component]]] = (
+            defaultdict(list)
+        )
+        for handler, targets in (
+            (NewAlertNotificaton([]), alert_targets),
+            (MergeFailureNotification([]), [component]),
+        ):
+            for user_id, target in cls.get_subscribers(handler, targets):
+                candidates[user_id].append((handler, target))
+
+        # Load the users once so that both notifications share cached permissions
+        users = list(User.objects.filter(pk__in=candidates))
+        User.objects.prefetch_permissions(users)
+        return any(
+            handler.can_access_target(user, target.project, target)
+            and MergeFailure.can_user_act_for(user, target, {})
+            for user in users
+            for handler, target in candidates[user.pk]
+        )
+
+    @staticmethod
+    def get_subscribers(
+        handler: Notification, targets: list[Component]
+    ) -> Iterator[tuple[int, Component]]:
+        """Yield IDs of users subscribed to the notification for each target."""
+        project_targets: defaultdict[int, list[Component]] = defaultdict(list)
+        for target in targets:
+            project_targets[target.project_id].append(target)
+        for components in project_targets.values():
+            subscriptions = list(
+                handler.get_subscriptions_queryset(components[0].project)
+                .filter(Q(component=None) | Q(component__in=components))
+                .values_list("user_id", "component_id", "frequency")
+            )
+            for target in components:
+                seen: set[int] = set()
+                for user_id, component_id, frequency in subscriptions:
+                    if user_id in seen or component_id not in {None, target.pk}:
+                        continue
+                    # Only the highest priority subscription of each user applies
+                    seen.add(user_id)
+                    if frequency != NotificationFrequency.FREQ_NONE:
+                        yield user_id, target
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        return f"{reverse('profile')}?notify_component={component.pk}#notifications"
+
+    @classmethod
+    def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
+        return get_doc_url("user/profile", "notifications", user=user)
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        can_configure = self.can_user_act_for(user, component, {})
+        result["configure_url"] = self.get_url(component) if can_configure else ""
+        result["can_configure"] = can_configure
+        return result
 
 
 @register

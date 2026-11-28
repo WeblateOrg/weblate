@@ -24,7 +24,15 @@ from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
 from django.db import connections, models, router, transaction
-from django.db.models import Count, Exists, F, OuterRef, Q, UniqueConstraint
+from django.db.models import (
+    Count,
+    Exists,
+    F,
+    OuterRef,
+    Q,
+    UniqueConstraint,
+    prefetch_related_objects,
+)
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
@@ -936,6 +944,29 @@ class UserManager(BaseUserManager["User"]):
             cached[username] = user
             return user
 
+    def prefetch_permissions(self, users: Iterable[User]) -> None:
+        """
+        Prefetch permissions for multiple users in a fixed number of queries.
+
+        This avoids repeating the membership and block queries for each user
+        when checking permissions of several of them.
+        """
+        from weblate.accounts.models import Profile  # ruff: ignore[import-outside-top-level]
+
+        users = list(users)
+        if not users:
+            return
+        memberships = User.fetch_cached_memberships(
+            (user.pk for user in users), using=self.db
+        )
+        for user in users:
+            user.__dict__["cached_memberships"] = memberships[user.pk]
+        prefetch_related_objects(users, "userblock_set")
+        # Permissions from teams enforcing 2FA depend on the second factors
+        enforced = [user for user in users if user.group_enforces_2fa()]
+        prefetch_related_objects(enforced, "profile")
+        Profile.prefetch_second_factors(user.profile for user in enforced)
+
 
 class UserQuerySet(models.QuerySet["User", "User"]):
     def having_perm(self, perm: str, project: Project) -> Self:
@@ -1663,13 +1694,22 @@ class User(AbstractBaseUser):
 
     @cached_property
     def cached_memberships(self) -> list[CachedPermissionMembership]:
+        return self.fetch_cached_memberships([self.pk], using=self._state.db)[self.pk]
+
+    @staticmethod
+    def fetch_cached_memberships(
+        user_ids: Iterable[int], using: str | None = None
+    ) -> defaultdict[int, list[CachedPermissionMembership]]:
+        """Fetch permission memberships of several users at once."""
         limit_languages = TeamMembership.limit_languages.through
         group_componentlists = Group.componentlists.through
         group_components = Group.components.through
         group_projects = Group.projects.through
 
         membership_rows = list(
-            self.team_memberships.annotate(
+            TeamMembership.objects.using(using)
+            .filter(user_id__in=set(user_ids))
+            .annotate(
                 has_limit_languages=models.Exists(
                     limit_languages.objects.filter(
                         teammembership_id=models.OuterRef("pk")
@@ -1691,6 +1731,7 @@ class User(AbstractBaseUser):
             )
             .values(
                 "id",
+                "user_id",
                 "group_id",
                 "group__defining_project_id",
                 "group__defining_workspace_id",
@@ -1704,8 +1745,9 @@ class User(AbstractBaseUser):
             )
             .order_by("group_id")
         )
+        result: defaultdict[int, list[CachedPermissionMembership]] = defaultdict(list)
         if not membership_rows:
-            return []
+            return result
 
         group_ids = [row["group_id"] for row in membership_rows]
         limited_membership_ids = [
@@ -1731,21 +1773,21 @@ class User(AbstractBaseUser):
             "teammembership_id",
             "language_id",
             limited_membership_ids,
-            using=self._state.db,
+            using=using,
         )
         group_language_ids = _fetch_relation_ids(
             Group.languages.through,
             "group_id",
             "language_id",
             manual_language_group_ids,
-            using=self._state.db,
+            using=using,
         )
         group_role_ids = _fetch_relation_ids(
-            Group.roles.through, "group_id", "role_id", group_ids, using=self._state.db
+            Group.roles.through, "group_id", "role_id", group_ids, using=using
         )
         role_permissions = _fetch_role_permissions(
             (role_id for role_ids in group_role_ids.values() for role_id in role_ids),
-            using=self._state.db,
+            using=using,
         )
         group_permission_codenames: defaultdict[int, set[str]] = defaultdict(set)
         for group_id, role_ids in group_role_ids.items():
@@ -1757,7 +1799,7 @@ class User(AbstractBaseUser):
             "group_id",
             "componentlist_id",
             componentlist_group_ids,
-            using=self._state.db,
+            using=using,
         )
         componentlist_component_values = _fetch_component_values(
             ComponentList.components.through,
@@ -1767,13 +1809,13 @@ class User(AbstractBaseUser):
                 for componentlist_ids in group_componentlist_ids.values()
                 for componentlist_id in componentlist_ids
             ),
-            using=self._state.db,
+            using=using,
         )
         group_component_values = _fetch_component_values(
             Group.components.through,
             "group_id",
             component_group_ids,
-            using=self._state.db,
+            using=using,
         )
 
         group_componentlist_component_values: defaultdict[int, set[tuple[int, int]]] = (
@@ -1790,29 +1832,30 @@ class User(AbstractBaseUser):
             "group_id",
             "project_id",
             project_group_ids,
-            using=self._state.db,
+            using=using,
         )
 
-        return [
-            CachedPermissionMembership(
-                defining_project_id=row["group__defining_project_id"],
-                defining_workspace_id=row["group__defining_workspace_id"],
-                project_selection=row["group__project_selection"],
-                language_selection=row["group__language_selection"],
-                enforced_2fa=row["group__enforced_2fa"],
-                limit_language_ids=limit_language_ids[row["id"]],
-                language_ids=group_language_ids[row["group_id"]],
-                permission_codenames=group_permission_codenames[row["group_id"]],
-                componentlist_component_values=group_componentlist_component_values[
-                    row["group_id"]
-                ],
-                has_componentlists=bool(group_componentlist_ids[row["group_id"]]),
-                has_components=row["has_components"],
-                component_values=group_component_values[row["group_id"]],
-                project_ids=group_project_ids[row["group_id"]],
+        for row in membership_rows:
+            result[row["user_id"]].append(
+                CachedPermissionMembership(
+                    defining_project_id=row["group__defining_project_id"],
+                    defining_workspace_id=row["group__defining_workspace_id"],
+                    project_selection=row["group__project_selection"],
+                    language_selection=row["group__language_selection"],
+                    enforced_2fa=row["group__enforced_2fa"],
+                    limit_language_ids=limit_language_ids[row["id"]],
+                    language_ids=group_language_ids[row["group_id"]],
+                    permission_codenames=group_permission_codenames[row["group_id"]],
+                    componentlist_component_values=group_componentlist_component_values[
+                        row["group_id"]
+                    ],
+                    has_componentlists=bool(group_componentlist_ids[row["group_id"]]),
+                    has_components=row["has_components"],
+                    component_values=group_component_values[row["group_id"]],
+                    project_ids=group_project_ids[row["group_id"]],
+                )
             )
-            for row in membership_rows
-        ]
+        return result
 
     def group_enforces_2fa(self) -> bool:
         return any(membership.enforced_2fa for membership in self.cached_memberships)

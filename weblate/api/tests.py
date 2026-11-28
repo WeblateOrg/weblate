@@ -11852,7 +11852,7 @@ class ComponentAPITest(APIBaseTest):
         update_alerts(self.component, {"UnusedScreenshot"})
 
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 25)
+        self.assertEqual(request.data["count"], 26)
         latest_change = request.data["results"][0]
         self.assertEqual(latest_change["action"], ActionEvents.ALERT)
         self.assertEqual(latest_change["details"]["alert"], "UnusedScreenshot")

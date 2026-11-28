@@ -14,6 +14,7 @@ from django.core.exceptions import ValidationError
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.auth import permissions as auth_permissions
 from weblate.auth.bots import InternalBot
@@ -428,6 +429,50 @@ class ModelTest(FixtureComponentTestCase):
         with self.assertNumQueries(4):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
+
+    def test_prefetch_permissions(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Administration"))
+        blocked = User.objects.create_user("blocked", "blocked@example.org", "x")
+        outsider = User.objects.create_user("outsider", "outsider@example.org", "x")
+        self.user.groups.add(self.group)
+        blocked.groups.add(self.group)
+        UserBlock.objects.create(user=blocked, project=self.project)
+
+        users = {
+            user.username: user
+            for user in User.objects.filter(
+                pk__in=[self.user.pk, blocked.pk, outsider.pk]
+            )
+        }
+        with self.assertNumQueries(5):
+            User.objects.prefetch_permissions(users.values())
+        with self.assertNumQueries(0):
+            self.assertTrue(
+                users[self.user.username].has_perm("project.edit", self.project)
+            )
+            self.assertFalse(users["blocked"].has_perm("project.edit", self.project))
+            self.assertFalse(users["outsider"].can_access_project(self.project))
+
+    def test_prefetch_permissions_enforced_2fa(self) -> None:
+        self.group.roles.add(Role.objects.get(name="Administration"))
+        self.group.enforced_2fa = True
+        self.group.save(update_fields=["enforced_2fa"])
+        verified = User.objects.create_user("verified", "verified@example.org", "x")
+        TOTPDevice.objects.create(user=verified)
+        for user in (self.user, verified):
+            user.groups.add(self.group)
+
+        users = {
+            user.username: user
+            for user in User.objects.filter(pk__in=[self.user.pk, verified.pk])
+        }
+        with self.assertNumQueries(9):
+            User.objects.prefetch_permissions(users.values())
+        with self.assertNumQueries(0):
+            self.assertTrue(users["verified"].has_perm("project.edit", self.project))
+            self.assertFalse(
+                users[self.user.username].has_perm("project.edit", self.project)
+            )
 
     def test_cached_memberships_are_materialized(self) -> None:
         self.group.projects.remove(self.project)

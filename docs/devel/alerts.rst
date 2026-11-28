@@ -29,6 +29,7 @@ Currently the following is covered:
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
 * Unused glossary languages
 * Disabled string management in local glossaries or glossaries containing terminology
+* Nobody who can resolve repository errors receives :ref:`notifications` about them
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
