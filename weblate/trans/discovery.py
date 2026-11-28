@@ -715,6 +715,9 @@ class ComponentDiscovery:
         self._category_chain_cache: dict[
             tuple[int | None, tuple[str, ...]], Category
         ] = {}
+        self._category_validation_cache: dict[
+            tuple[int | None, tuple[str, ...]], str | None
+        ] = {}
 
     def _require_component(self) -> Component:
         if self.component is None:
@@ -1447,9 +1450,11 @@ class ComponentDiscovery:
             category.full_clean()
             category.save()
 
-            level_slugs, level_names = identifier_cache.setdefault(
-                parent_id, self._level_identifiers(project, parent_id)
-            )
+            if parent_id not in identifier_cache:
+                identifier_cache[parent_id] = self._level_identifiers(
+                    project, parent_id
+                )
+            level_slugs, level_names = identifier_cache[parent_id]
             level_slugs.add(category.slug.lower())
             level_names.add(category.name.lower())
             identifier_cache[category.pk] = (set(), set())
@@ -1468,7 +1473,12 @@ class ComponentDiscovery:
         segments = match["category_path"]
         if not segments:
             return None
-        return self._validate_category_segments(main, segments)
+        cache_key = (main.category_id, segments)
+        if cache_key in self._category_validation_cache:
+            return self._category_validation_cache[cache_key]
+        reason = self._validate_category_segments(main, segments)
+        self._category_validation_cache[cache_key] = reason
+        return reason
 
     def cleanup(self, main, processed, preview=False):
         with acting_user_context(self.user):
@@ -1537,6 +1547,7 @@ class ComponentDiscovery:
             identifier_cache: dict[int | None, tuple[set[str], set[str]]] = {}
             # category_id to tuple of (slugs, names)
             self._category_chain_cache = {}
+            self._category_validation_cache = {}
 
             for match in discovered.values():
                 skip_reason = self.get_skip_reason(match)
